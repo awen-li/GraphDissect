@@ -14,7 +14,6 @@ int main (int argc, char** argv)
         {
             case 'b':
             {
-                dynsch_genFidMap (optarg);
                 break;
             }
             default:

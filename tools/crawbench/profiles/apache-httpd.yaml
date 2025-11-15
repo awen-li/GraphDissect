@@ -1,0 +1,6 @@
+project: apache-httpd
+oss_fuzz_project_dir: projects/apache-httpd
+main_repo: https://github.com/apache/httpd
+language: c
+domain: ''
+loc: null

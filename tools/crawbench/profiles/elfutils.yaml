@@ -1,0 +1,6 @@
+project: elfutils
+oss_fuzz_project_dir: projects/elfutils
+main_repo: https://sourceware.org/git/elfutils.git
+language: c++
+domain: ''
+loc: null

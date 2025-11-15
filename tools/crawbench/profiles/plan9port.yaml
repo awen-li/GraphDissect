@@ -1,0 +1,6 @@
+project: plan9port
+oss_fuzz_project_dir: projects/plan9port
+main_repo: https://github.com/9fans/plan9port
+language: c
+domain: ''
+loc: null

@@ -1,0 +1,6 @@
+project: numactl
+oss_fuzz_project_dir: projects/numactl
+main_repo: https://github.com/numactl/numactl
+language: c
+domain: ''
+loc: null

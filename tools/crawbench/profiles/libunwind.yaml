@@ -1,0 +1,6 @@
+project: libunwind
+oss_fuzz_project_dir: projects/libunwind
+main_repo: https://github.com/libunwind/libunwind
+language: c
+domain: ''
+loc: null

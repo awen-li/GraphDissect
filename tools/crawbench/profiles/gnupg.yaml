@@ -1,0 +1,6 @@
+project: gnupg
+oss_fuzz_project_dir: projects/gnupg
+main_repo: git://git.gnupg.org/gnupg.git
+language: c++
+domain: ''
+loc: null

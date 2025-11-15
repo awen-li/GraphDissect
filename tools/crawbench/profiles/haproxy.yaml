@@ -1,0 +1,6 @@
+project: haproxy
+oss_fuzz_project_dir: projects/haproxy
+main_repo: https://github.com/haproxy/haproxy
+language: c++
+domain: ''
+loc: null

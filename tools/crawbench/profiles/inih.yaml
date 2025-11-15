@@ -1,0 +1,6 @@
+project: inih
+oss_fuzz_project_dir: projects/inih
+main_repo: https://github.com/benhoyt/inih
+language: c
+domain: ''
+loc: null

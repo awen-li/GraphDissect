@@ -1,0 +1,6 @@
+project: quiche
+oss_fuzz_project_dir: projects/quiche
+main_repo: https://github.com/google/quiche
+language: c++
+domain: ''
+loc: null

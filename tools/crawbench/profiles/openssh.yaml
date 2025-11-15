@@ -1,0 +1,6 @@
+project: openssh
+oss_fuzz_project_dir: projects/openssh
+main_repo: https://github.com/openssh/openssh-portable
+language: c++
+domain: ''
+loc: null

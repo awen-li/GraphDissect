@@ -1,0 +1,6 @@
+project: cpuinfo
+oss_fuzz_project_dir: projects/cpuinfo
+main_repo: https://github.com/pytorch/cpuinfo
+language: c
+domain: ''
+loc: null

@@ -1,0 +1,6 @@
+project: libyaml
+oss_fuzz_project_dir: projects/libyaml
+main_repo: https://github.com/yaml/libyaml
+language: c++
+domain: ''
+loc: null

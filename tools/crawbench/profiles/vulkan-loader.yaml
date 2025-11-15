@@ -1,0 +1,6 @@
+project: vulkan-loader
+oss_fuzz_project_dir: projects/vulkan-loader
+main_repo: https://github.com/khronosgroup/Vulkan-Loader.git
+language: c
+domain: ''
+loc: null

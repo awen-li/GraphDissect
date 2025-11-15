@@ -1,0 +1,6 @@
+project: protobuf-c
+oss_fuzz_project_dir: projects/protobuf-c
+main_repo: https://github.com/protobuf-c/protobuf-c.git
+language: c
+domain: ''
+loc: null

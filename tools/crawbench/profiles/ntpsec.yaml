@@ -1,0 +1,6 @@
+project: ntpsec
+oss_fuzz_project_dir: projects/ntpsec
+main_repo: https://gitlab.com/NTPsec/ntpsec
+language: c
+domain: ''
+loc: null

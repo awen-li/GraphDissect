@@ -1,0 +1,6 @@
+project: libiec61850
+oss_fuzz_project_dir: projects/libiec61850
+main_repo: https://github.com/mz-automation/libiec61850
+language: c
+domain: ''
+loc: null

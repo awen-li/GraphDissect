@@ -1,0 +1,6 @@
+project: libucl
+oss_fuzz_project_dir: projects/libucl
+main_repo: https://github.com/vstakhov/libucl
+language: c
+domain: ''
+loc: null

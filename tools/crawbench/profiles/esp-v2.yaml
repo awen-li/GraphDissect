@@ -1,0 +1,6 @@
+project: esp-v2
+oss_fuzz_project_dir: projects/esp-v2
+main_repo: https://github.com/GoogleCloudPlatform/esp-v2.git
+language: c++
+domain: ''
+loc: null

@@ -1,0 +1,6 @@
+project: bzip2
+oss_fuzz_project_dir: projects/bzip2
+main_repo: null
+language: c++
+domain: ''
+loc: null

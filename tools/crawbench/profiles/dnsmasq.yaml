@@ -1,0 +1,6 @@
+project: dnsmasq
+oss_fuzz_project_dir: projects/dnsmasq
+main_repo: git://thekelleys.org.uk/dnsmasq.git
+language: c
+domain: ''
+loc: null

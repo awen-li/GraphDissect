@@ -1,0 +1,6 @@
+project: skcms
+oss_fuzz_project_dir: projects/skcms
+main_repo: https://skia.googlesource.com/skcms.git
+language: c++
+domain: ''
+loc: null

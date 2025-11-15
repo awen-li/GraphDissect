@@ -1,0 +1,6 @@
+project: opusfile
+oss_fuzz_project_dir: projects/opusfile
+main_repo: https://gitlab.xiph.org/xiph/opusfile.git
+language: c
+domain: ''
+loc: null

@@ -1,0 +1,6 @@
+project: lighttpd
+oss_fuzz_project_dir: projects/lighttpd
+main_repo: https://github.com/lighttpd/lighttpd1.4
+language: c
+domain: ''
+loc: null

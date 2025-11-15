@@ -1,0 +1,6 @@
+project: brotli
+oss_fuzz_project_dir: projects/brotli
+main_repo: https://github.com/google/brotli.git
+language: c++
+domain: ''
+loc: null

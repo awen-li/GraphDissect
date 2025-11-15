@@ -1,0 +1,6 @@
+project: pacemaker
+oss_fuzz_project_dir: projects/pacemaker
+main_repo: https://github.com/ClusterLabs/pacemaker
+language: c
+domain: ''
+loc: null

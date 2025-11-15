@@ -1,0 +1,6 @@
+project: lzo
+oss_fuzz_project_dir: projects/lzo
+main_repo: null
+language: c++
+domain: ''
+loc: null

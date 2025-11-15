@@ -1,0 +1,6 @@
+project: tensorflow-serving
+oss_fuzz_project_dir: projects/tensorflow-serving
+main_repo: https://github.com/tensorflow/serving
+language: c++
+domain: ''
+loc: null

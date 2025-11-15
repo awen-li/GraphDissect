@@ -1,0 +1,6 @@
+project: wasm3
+oss_fuzz_project_dir: projects/wasm3
+main_repo: https://github.com/wasm3/wasm3
+language: c
+domain: ''
+loc: null

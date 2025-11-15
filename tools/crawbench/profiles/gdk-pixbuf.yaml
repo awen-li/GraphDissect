@@ -1,0 +1,6 @@
+project: gdk-pixbuf
+oss_fuzz_project_dir: projects/gdk-pixbuf
+main_repo: https://gitlab.gnome.org/GNOME/gdk-pixbuf.git
+language: c
+domain: ''
+loc: null

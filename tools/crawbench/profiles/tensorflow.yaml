@@ -1,0 +1,6 @@
+project: tensorflow
+oss_fuzz_project_dir: projects/tensorflow
+main_repo: https://github.com/tensorflow/tensorflow
+language: c++
+domain: ''
+loc: null

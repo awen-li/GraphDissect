@@ -1,0 +1,6 @@
+project: md4c
+oss_fuzz_project_dir: projects/md4c
+main_repo: https://github.com/mity/md4c
+language: c
+domain: ''
+loc: null

@@ -1,0 +1,6 @@
+project: binutils
+oss_fuzz_project_dir: projects/binutils
+main_repo: https://github.com/bminor/binutils-gdb
+language: c++
+domain: ''
+loc: null

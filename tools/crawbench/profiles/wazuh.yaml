@@ -1,0 +1,6 @@
+project: wazuh
+oss_fuzz_project_dir: projects/wazuh
+main_repo: https://github.com/wazuh/wazuh
+language: c
+domain: ''
+loc: null

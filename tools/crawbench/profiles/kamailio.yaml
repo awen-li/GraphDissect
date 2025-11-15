@@ -1,0 +1,6 @@
+project: kamailio
+oss_fuzz_project_dir: projects/kamailio
+main_repo: https://github.com/kamailio/kamailio
+language: c
+domain: ''
+loc: null

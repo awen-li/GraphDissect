@@ -1,0 +1,6 @@
+project: cmark
+oss_fuzz_project_dir: projects/cmark
+main_repo: https://github.com/commonmark/cmark.git
+language: c++
+domain: ''
+loc: null

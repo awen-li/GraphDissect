@@ -1,0 +1,6 @@
+project: memcached
+oss_fuzz_project_dir: projects/memcached
+main_repo: https://github.com/memcached/memcached
+language: c
+domain: ''
+loc: null

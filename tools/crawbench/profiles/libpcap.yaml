@@ -1,0 +1,6 @@
+project: libpcap
+oss_fuzz_project_dir: projects/libpcap
+main_repo: https://github.com/the-tcpdump-group/libpcap.git
+language: c++
+domain: ''
+loc: null

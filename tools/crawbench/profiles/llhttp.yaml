@@ -1,0 +1,6 @@
+project: llhttp
+oss_fuzz_project_dir: projects/llhttp
+main_repo: https://github.com/nodejs/llhttp
+language: c
+domain: ''
+loc: null

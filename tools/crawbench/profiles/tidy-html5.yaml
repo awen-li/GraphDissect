@@ -1,0 +1,6 @@
+project: tidy-html5
+oss_fuzz_project_dir: projects/tidy-html5
+main_repo: https://github.com/htacg/tidy-html5.git
+language: c++
+domain: ''
+loc: null

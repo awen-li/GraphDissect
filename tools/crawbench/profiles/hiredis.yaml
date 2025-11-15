@@ -1,0 +1,6 @@
+project: hiredis
+oss_fuzz_project_dir: projects/hiredis
+main_repo: https://github.com/redis/hiredis
+language: c
+domain: ''
+loc: null

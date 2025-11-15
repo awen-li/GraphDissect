@@ -1,0 +1,6 @@
+project: hwloc
+oss_fuzz_project_dir: projects/hwloc
+main_repo: https://github.com/open-mpi/hwloc
+language: c
+domain: ''
+loc: null

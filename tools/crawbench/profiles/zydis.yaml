@@ -1,0 +1,6 @@
+project: zydis
+oss_fuzz_project_dir: projects/zydis
+main_repo: https://github.com/zyantific/zydis.git
+language: c
+domain: ''
+loc: null

@@ -1,0 +1,6 @@
+project: w3m
+oss_fuzz_project_dir: projects/w3m
+main_repo: https://github.com/tats/w3m
+language: c
+domain: ''
+loc: null

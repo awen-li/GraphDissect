@@ -3,4 +3,4 @@ oss_fuzz_project_dir: projects/envoy
 main_repo: https://github.com/envoyproxy/envoy.git
 language: c++
 domain: proxy/load-balancer
-loc: 2351292
+loc: 2351818

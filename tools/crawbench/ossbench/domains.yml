@@ -1,0 +1,93 @@
+domains:
+  - id: toolchain
+    name: Compiler and Toolchain Utilities
+    description: >
+      Binaries that analyze, transform, or inspect object files, executables,
+      or symbol information, including disassemblers, object analyzers, and
+      linkage utilities.
+    examples:
+      - binutils-objdump
+      - binutils-readelf
+      - binutils-nm
+      - addr2line
+      - cxxfilt
+
+  - id: media
+    name: Media Processing Tools
+    description: >
+      Tools that process audio, video, or image data, including codecs,
+      transcoders, filters, and metadata processors.
+    examples:
+      - ffmpeg
+      - avconv
+      - libpng-tools
+      - libjpeg-tools
+
+  - id: document
+    name: Structured Document and Markup Parsers
+    description: >
+      Programs that parse or convert structured document formats such as PDF,
+      XML, HTML, JSON, or related markup and text-based formats.
+    examples:
+      - xpdf
+      - pdftops
+      - libxml2-utils
+      - json-c-tools
+
+  - id: archive
+    name: Archiving and Compression Utilities
+    description: >
+      Tools that create, extract, compress, or decompress archives and
+      compressed data.
+    examples:
+      - tar
+      - cpio
+      - zip
+      - unzip
+      - gzip
+      - bzip2
+      - xz
+
+  - id: crypto
+    name: Cryptographic and Hashing Utilities
+    description: >
+      Utilities that compute hashes, checksums, signatures, or perform other
+      cryptographic transformations.
+    examples:
+      - sha1sum
+      - md5sum
+      - openssl-cli
+
+  - id: network
+    name: Networking and Protocol Utilities
+    description: >
+      Binaries that generate, parse, or transform network traffic or protocol
+      messages, including client tools and protocol-specific utilities.
+    examples:
+      - curl-like-tools
+      - ftp-client
+      - dnsutils-dig
+      - dnsutils-host
+
+  - id: conversion
+    name: Data Conversion and Format Transformers
+    description: >
+      Programs whose primary purpose is to convert data between encodings or
+      formats, without heavy semantic interpretation.
+    examples:
+      - iconv
+      - base64
+      - csv2json
+      - xml2json
+
+  - id: metadata
+    name: File Metadata and System Utilities
+    description: >
+      Utilities that inspect or manipulate file metadata, simple descriptors,
+      or system-level information, often used as helper tools in larger
+      workflows.
+    examples:
+      - exiv2
+      - file
+      - stat-like-tools
+

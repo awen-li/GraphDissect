@@ -1,0 +1,6 @@
+project: libavif
+oss_fuzz_project_dir: projects/libavif
+main_repo: https://github.com/AOMediaCodec/libavif.git
+language: c++
+domain: unknown
+loc: 99810

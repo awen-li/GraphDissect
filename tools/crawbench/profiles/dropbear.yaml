@@ -1,0 +1,6 @@
+project: dropbear
+oss_fuzz_project_dir: projects/dropbear
+main_repo: https://github.com/mkj/dropbear
+language: c++
+domain: unknown
+loc: 259868

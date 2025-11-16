@@ -1,0 +1,6 @@
+project: ffms2
+oss_fuzz_project_dir: projects/ffms2
+main_repo: https://github.com/FFMS/ffms2
+language: c++
+domain: unknown
+loc: 19000

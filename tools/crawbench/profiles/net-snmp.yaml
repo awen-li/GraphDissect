@@ -1,0 +1,6 @@
+project: net-snmp
+oss_fuzz_project_dir: projects/net-snmp
+main_repo: git://git.code.sf.net/p/net-snmp/code
+language: c++
+domain: unknown
+loc: 734104

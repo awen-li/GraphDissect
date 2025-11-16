@@ -1,0 +1,6 @@
+project: cryptsetup
+oss_fuzz_project_dir: projects/cryptsetup
+main_repo: https://gitlab.com/cryptsetup/cryptsetup.git
+language: c
+domain: unknown
+loc: 262856

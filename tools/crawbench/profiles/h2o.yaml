@@ -1,0 +1,6 @@
+project: h2o
+oss_fuzz_project_dir: projects/h2o
+main_repo: https://github.com/h2o/h2o
+language: c++
+domain: unknown
+loc: 779258

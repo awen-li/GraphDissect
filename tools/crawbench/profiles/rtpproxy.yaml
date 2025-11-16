@@ -1,0 +1,6 @@
+project: rtpproxy
+oss_fuzz_project_dir: projects/rtpproxy
+main_repo: https://github.com/sippy/rtpproxy
+language: c
+domain: unknown
+loc: 458096

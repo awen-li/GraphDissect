@@ -1,0 +1,6 @@
+project: jsoncpp
+oss_fuzz_project_dir: projects/jsoncpp
+main_repo: https://github.com/open-source-parsers/jsoncpp
+language: c++
+domain: unknown
+loc: 24606

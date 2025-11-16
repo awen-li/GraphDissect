@@ -1,0 +1,6 @@
+project: powerdns
+oss_fuzz_project_dir: projects/powerdns
+main_repo: https://github.com/PowerDNS/pdns.git
+language: c++
+domain: unknown
+loc: 713692

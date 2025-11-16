@@ -1,0 +1,6 @@
+project: pcl
+oss_fuzz_project_dir: projects/pcl
+main_repo: https://github.com/pointcloudlibrary/pcl
+language: c++
+domain: unknown
+loc: 1210722

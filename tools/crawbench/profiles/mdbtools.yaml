@@ -1,0 +1,6 @@
+project: mdbtools
+oss_fuzz_project_dir: projects/mdbtools
+main_repo: https://github.com/mdbtools/mdbtools
+language: c
+domain: unknown
+loc: 36032

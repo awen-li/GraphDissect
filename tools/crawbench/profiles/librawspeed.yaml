@@ -1,0 +1,6 @@
+project: librawspeed
+oss_fuzz_project_dir: projects/librawspeed
+main_repo: https://github.com/darktable-org/rawspeed.git
+language: c++
+domain: unknown
+loc: 123352

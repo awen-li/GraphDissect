@@ -1,0 +1,6 @@
+project: circl
+oss_fuzz_project_dir: projects/circl
+main_repo: https://github.com/cloudflare/circl.git
+language: c++
+domain: unknown
+loc: 182420

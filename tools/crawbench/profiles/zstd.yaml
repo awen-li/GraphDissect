@@ -1,0 +1,6 @@
+project: zstd
+oss_fuzz_project_dir: projects/zstd
+main_repo: https://github.com/facebook/zstd
+language: c++
+domain: unknown
+loc: 231018

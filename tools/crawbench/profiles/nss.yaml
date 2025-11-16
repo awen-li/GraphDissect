@@ -1,0 +1,6 @@
+project: nss
+oss_fuzz_project_dir: projects/nss
+main_repo: https://hg.mozilla.org/projects/nss
+language: c++
+domain: ''
+loc: null

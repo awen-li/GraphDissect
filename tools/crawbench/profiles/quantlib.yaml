@@ -1,0 +1,6 @@
+project: quantlib
+oss_fuzz_project_dir: projects/quantlib
+main_repo: https://github.com/lballabio/QuantLib.git
+language: c++
+domain: unknown
+loc: 821840

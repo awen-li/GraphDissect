@@ -1,0 +1,6 @@
+project: trafficserver
+oss_fuzz_project_dir: projects/trafficserver
+main_repo: https://github.com/apache/trafficserver
+language: c++
+domain: unknown
+loc: 1695742

@@ -1,0 +1,6 @@
+project: libphonenumber
+oss_fuzz_project_dir: projects/libphonenumber
+main_repo: https://github.com/google/libphonenumber
+language: c++
+domain: unknown
+loc: 346168

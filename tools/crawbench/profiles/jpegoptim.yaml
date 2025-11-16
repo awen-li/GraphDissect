@@ -1,0 +1,6 @@
+project: jpegoptim
+oss_fuzz_project_dir: projects/jpegoptim
+main_repo: https://github.com/tjko/jpegoptim.git
+language: c
+domain: unknown
+loc: 22440

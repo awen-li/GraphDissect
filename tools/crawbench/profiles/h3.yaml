@@ -2,5 +2,5 @@ project: h3
 oss_fuzz_project_dir: projects/h3
 main_repo: https://github.com/uber/h3
 language: c
-domain: ''
-loc: null
+domain: http/http3
+loc: 52680

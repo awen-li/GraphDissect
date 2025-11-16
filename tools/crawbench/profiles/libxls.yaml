@@ -1,0 +1,6 @@
+project: libxls
+oss_fuzz_project_dir: projects/libxls
+main_repo: https://github.com/libxls/libxls
+language: c++
+domain: unknown
+loc: 12088

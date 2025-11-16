@@ -1,0 +1,6 @@
+project: stb
+oss_fuzz_project_dir: projects/stb
+main_repo: https://github.com/nothings/stb.git
+language: c++
+domain: unknown
+loc: 164620

@@ -1,0 +1,6 @@
+project: tarantool
+oss_fuzz_project_dir: projects/tarantool
+main_repo: https://github.com/tarantool/tarantool
+language: c
+domain: unknown
+loc: 1386144

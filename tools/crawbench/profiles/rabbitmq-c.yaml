@@ -1,0 +1,6 @@
+project: rabbitmq-c
+oss_fuzz_project_dir: projects/rabbitmq-c
+main_repo: https://github.com/alanxz/rabbitmq-c
+language: c
+domain: unknown
+loc: 28016

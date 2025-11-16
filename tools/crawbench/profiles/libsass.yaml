@@ -1,0 +1,6 @@
+project: libsass
+oss_fuzz_project_dir: projects/libsass
+main_repo: https://github.com/sass/libsass.git
+language: c++
+domain: unknown
+loc: 70422

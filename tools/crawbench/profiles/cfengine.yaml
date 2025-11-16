@@ -2,5 +2,5 @@ project: cfengine
 oss_fuzz_project_dir: projects/cfengine
 main_repo: https://github.com/cfengine/core
 language: c++
-domain: ''
-loc: null
+domain: configuration-management
+loc: 457922

@@ -1,0 +1,6 @@
+project: varnish
+oss_fuzz_project_dir: projects/varnish
+main_repo: https://github.com/varnishcache/varnish-cache
+language: c
+domain: unknown
+loc: 218742

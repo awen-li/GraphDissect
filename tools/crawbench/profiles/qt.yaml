@@ -1,0 +1,6 @@
+project: qt
+oss_fuzz_project_dir: projects/qt
+main_repo: git://code.qt.io/qt/qt5.git
+language: c++
+domain: unknown
+loc: 49108

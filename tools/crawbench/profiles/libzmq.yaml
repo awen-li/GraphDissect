@@ -1,0 +1,6 @@
+project: libzmq
+oss_fuzz_project_dir: projects/libzmq
+main_repo: https://github.com/zeromq/libzmq.git
+language: c++
+domain: unknown
+loc: 146006

@@ -1,0 +1,6 @@
+project: tmux
+oss_fuzz_project_dir: projects/tmux
+main_repo: https://github.com/tmux/tmux.git
+language: c
+domain: unknown
+loc: 155022

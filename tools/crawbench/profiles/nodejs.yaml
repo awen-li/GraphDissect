@@ -1,0 +1,6 @@
+project: nodejs
+oss_fuzz_project_dir: projects/nodejs
+main_repo: https://github.com/nodejs/node
+language: c++
+domain: unknown
+loc: 18998558

@@ -1,0 +1,6 @@
+project: fuzztest-example
+oss_fuzz_project_dir: projects/fuzztest-example
+main_repo: https://github.com/google/fuzztest
+language: c++
+domain: unknown
+loc: 146376

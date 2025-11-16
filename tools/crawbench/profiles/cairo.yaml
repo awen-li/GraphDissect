@@ -2,5 +2,5 @@ project: cairo
 oss_fuzz_project_dir: projects/cairo
 main_repo: https://gitlab.freedesktop.org/cairo/cairo.git
 language: c
-domain: ''
-loc: null
+domain: graphics
+loc: 452090

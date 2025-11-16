@@ -1,0 +1,6 @@
+project: muduo
+oss_fuzz_project_dir: projects/muduo
+main_repo: https://github.com/chenshuo/muduo
+language: c++
+domain: unknown
+loc: 59256

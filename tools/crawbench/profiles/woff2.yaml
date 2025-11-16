@@ -1,0 +1,6 @@
+project: woff2
+oss_fuzz_project_dir: projects/woff2
+main_repo: https://github.com/google/woff2
+language: c++
+domain: unknown
+loc: 8106

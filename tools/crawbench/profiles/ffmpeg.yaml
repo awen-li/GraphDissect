@@ -1,0 +1,6 @@
+project: ffmpeg
+oss_fuzz_project_dir: projects/ffmpeg
+main_repo: https://github.com/FFmpeg/FFmpeg
+language: c++
+domain: unknown
+loc: 3044872

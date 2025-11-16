@@ -1,0 +1,6 @@
+project: espeak-ng
+oss_fuzz_project_dir: projects/espeak-ng
+main_repo: https://github.com/espeak-ng/espeak-ng
+language: c++
+domain: unknown
+loc: 124514

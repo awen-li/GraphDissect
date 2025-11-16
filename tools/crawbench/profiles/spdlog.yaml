@@ -1,0 +1,6 @@
+project: spdlog
+oss_fuzz_project_dir: projects/spdlog
+main_repo: https://github.com/gabime/spdlog.git
+language: c++
+domain: unknown
+loc: 50708

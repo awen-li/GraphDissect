@@ -1,0 +1,6 @@
+project: llamacpp
+oss_fuzz_project_dir: projects/llamacpp
+main_repo: https://github.com/ggerganov/llama.cpp
+language: c++
+domain: unknown
+loc: 1007994

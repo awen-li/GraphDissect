@@ -1,0 +1,6 @@
+project: yaml-cpp
+oss_fuzz_project_dir: projects/yaml-cpp
+main_repo: https://github.com/jbeder/yaml-cpp
+language: c++
+domain: unknown
+loc: 192778

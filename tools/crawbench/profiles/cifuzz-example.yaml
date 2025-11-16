@@ -1,0 +1,6 @@
+project: cifuzz-example
+oss_fuzz_project_dir: projects/cifuzz-example
+main_repo: https://github.com/jonathanmetzman/cifuzz-example.git
+language: c++
+domain: unknown
+loc: 342

@@ -1,0 +1,6 @@
+project: fio
+oss_fuzz_project_dir: projects/fio
+main_repo: https://github.com/axboe/fio.git
+language: c++
+domain: unknown
+loc: 200868

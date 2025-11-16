@@ -1,0 +1,6 @@
+project: freeradius
+oss_fuzz_project_dir: projects/freeradius
+main_repo: https://github.com/FreeRADIUS/freeradius-server.git
+language: c++
+domain: unknown
+loc: 910458

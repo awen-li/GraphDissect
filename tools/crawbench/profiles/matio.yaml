@@ -1,0 +1,6 @@
+project: matio
+oss_fuzz_project_dir: projects/matio
+main_repo: https://github.com/tbeu/matio
+language: c++
+domain: unknown
+loc: 73768

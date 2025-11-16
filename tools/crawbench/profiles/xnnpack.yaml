@@ -1,0 +1,6 @@
+project: xnnpack
+oss_fuzz_project_dir: projects/xnnpack
+main_repo: https://github.com/google/XNNPACK
+language: c++
+domain: unknown
+loc: 4806004

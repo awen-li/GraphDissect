@@ -1,0 +1,6 @@
+project: pffft
+oss_fuzz_project_dir: projects/pffft
+main_repo: https://bitbucket.org/jpommier/pffft.git
+language: c++
+domain: unknown
+loc: 9556

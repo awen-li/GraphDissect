@@ -1,0 +1,6 @@
+project: libmicrohttpd2
+oss_fuzz_project_dir: projects/libmicrohttpd2
+main_repo: https://git.gnunet.org/libmicrohttpd2.git
+language: c++
+domain: unknown
+loc: 156224

@@ -1,0 +1,6 @@
+project: tpm2-tss
+oss_fuzz_project_dir: projects/tpm2-tss
+main_repo: https://github.com/tstruk/tpm2-tss.git
+language: c++
+domain: unknown
+loc: 323976

@@ -2,5 +2,5 @@ project: usrsctp
 oss_fuzz_project_dir: projects/usrsctp
 main_repo: https://github.com/sctplab/usrsctp
 language: c++
-domain: ''
-loc: null
+domain: transport/sctp
+loc: 169836

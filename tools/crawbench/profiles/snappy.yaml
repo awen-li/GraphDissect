@@ -1,0 +1,6 @@
+project: snappy
+oss_fuzz_project_dir: projects/snappy
+main_repo: https://github.com/google/snappy
+language: c++
+domain: unknown
+loc: 10622

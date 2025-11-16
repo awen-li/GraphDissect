@@ -1,0 +1,6 @@
+project: brunsli
+oss_fuzz_project_dir: projects/brunsli
+main_repo: https://github.com/google/brunsli.git
+language: c++
+domain: unknown
+loc: 28798

@@ -1,0 +1,6 @@
+project: readstat
+oss_fuzz_project_dir: projects/readstat
+main_repo: https://github.com/WizardMac/ReadStat
+language: c++
+domain: unknown
+loc: 68952

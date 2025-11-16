@@ -1,0 +1,6 @@
+project: jsonnet
+oss_fuzz_project_dir: projects/jsonnet
+main_repo: https://github.com/google/jsonnet.git
+language: c++
+domain: unknown
+loc: 548824

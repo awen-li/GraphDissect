@@ -1,0 +1,6 @@
+project: htslib
+oss_fuzz_project_dir: projects/htslib
+main_repo: https://github.com/samtools/htslib.git
+language: c++
+domain: unknown
+loc: 163552

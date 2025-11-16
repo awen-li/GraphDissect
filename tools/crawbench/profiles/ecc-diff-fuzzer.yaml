@@ -1,0 +1,6 @@
+project: ecc-diff-fuzzer
+oss_fuzz_project_dir: projects/ecc-diff-fuzzer
+main_repo: https://github.com/catenacyber/elliptic-curve-differential-fuzzer
+language: c++
+domain: unknown
+loc: 3490

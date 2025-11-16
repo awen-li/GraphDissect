@@ -2,5 +2,5 @@ project: mariadb
 oss_fuzz_project_dir: projects/mariadb
 main_repo: https://github.com/MariaDB/server
 language: c++
-domain: ''
-loc: null
+domain: database/sql
+loc: 3935688

@@ -1,0 +1,6 @@
+project: gdbm
+oss_fuzz_project_dir: projects/gdbm
+main_repo: https://git.gnu.org.ua/gdbm.git
+language: c
+domain: unknown
+loc: 39494

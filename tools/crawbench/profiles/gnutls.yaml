@@ -1,0 +1,6 @@
+project: gnutls
+oss_fuzz_project_dir: projects/gnutls
+main_repo: https://gitlab.com/gnutls/gnutls.git
+language: c++
+domain: unknown
+loc: 919540

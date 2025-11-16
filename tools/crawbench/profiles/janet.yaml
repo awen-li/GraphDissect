@@ -1,0 +1,6 @@
+project: janet
+oss_fuzz_project_dir: projects/janet
+main_repo: https://github.com/janet-lang/janet
+language: c++
+domain: unknown
+loc: 72652

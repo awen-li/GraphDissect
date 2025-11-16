@@ -1,0 +1,6 @@
+project: wolfssl
+oss_fuzz_project_dir: projects/wolfssl
+main_repo: https://github.com/wolfssl/wolfssl
+language: c++
+domain: unknown
+loc: 4239488

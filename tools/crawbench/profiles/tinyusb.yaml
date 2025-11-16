@@ -1,0 +1,6 @@
+project: tinyusb
+oss_fuzz_project_dir: projects/tinyusb
+main_repo: https://github.com/hathach/tinyusb.git
+language: c++
+domain: unknown
+loc: 396170

@@ -1,0 +1,6 @@
+project: mercurial
+oss_fuzz_project_dir: projects/mercurial
+main_repo: https://www.mercurial-scm.org/repo/hg
+language: c++
+domain: ''
+loc: null

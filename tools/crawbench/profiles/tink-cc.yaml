@@ -1,0 +1,6 @@
+project: tink-cc
+oss_fuzz_project_dir: projects/tink-cc
+main_repo: https://github.com/google/tink
+language: c++
+domain: unknown
+loc: 777666

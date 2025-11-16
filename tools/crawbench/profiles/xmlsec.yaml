@@ -2,5 +2,5 @@ project: xmlsec
 oss_fuzz_project_dir: projects/xmlsec
 main_repo: https://github.com/lsh123/xmlsec
 language: c++
-domain: ''
-loc: null
+domain: xml/security
+loc: 410882

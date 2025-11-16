@@ -2,5 +2,5 @@ project: gpac
 oss_fuzz_project_dir: projects/gpac
 main_repo: https://github.com/gpac/gpac
 language: c
-domain: ''
-loc: null
+domain: multimedia/container
+loc: 1711378

@@ -1,0 +1,6 @@
+project: lodepng
+oss_fuzz_project_dir: projects/lodepng
+main_repo: https://github.com/lvandeve/lodepng.git
+language: c++
+domain: unknown
+loc: 25668

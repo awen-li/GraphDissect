@@ -1,0 +1,6 @@
+project: draco
+oss_fuzz_project_dir: projects/draco
+main_repo: https://github.com/google/draco
+language: c++
+domain: unknown
+loc: 134776

@@ -1,0 +1,6 @@
+project: libxlsxwriter
+oss_fuzz_project_dir: projects/libxlsxwriter
+main_repo: https://github.com/jmcnamara/libxlsxwriter.git
+language: c
+domain: unknown
+loc: 143086

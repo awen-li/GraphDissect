@@ -1,0 +1,6 @@
+project: nanopb
+oss_fuzz_project_dir: projects/nanopb
+main_repo: https://github.com/nanopb/nanopb
+language: c++
+domain: unknown
+loc: 49640

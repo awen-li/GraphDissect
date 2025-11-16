@@ -1,0 +1,6 @@
+project: neomutt
+oss_fuzz_project_dir: projects/neomutt
+main_repo: https://github.com/neomutt/neomutt
+language: c++
+domain: unknown
+loc: 677460

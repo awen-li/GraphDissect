@@ -1,0 +1,6 @@
+project: libsndfile
+oss_fuzz_project_dir: projects/libsndfile
+main_repo: https://github.com/libsndfile/libsndfile.git
+language: c
+domain: unknown
+loc: 132422

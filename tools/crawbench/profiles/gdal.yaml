@@ -1,0 +1,6 @@
+project: gdal
+oss_fuzz_project_dir: projects/gdal
+main_repo: https://github.com/OSGeo/gdal
+language: c++
+domain: unknown
+loc: 3853642

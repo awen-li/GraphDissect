@@ -1,0 +1,6 @@
+project: libssh2
+oss_fuzz_project_dir: projects/libssh2
+main_repo: https://github.com/libssh2/libssh2.git
+language: c++
+domain: unknown
+loc: 124088

@@ -1,0 +1,6 @@
+project: tinygltf
+oss_fuzz_project_dir: projects/tinygltf
+main_repo: https://github.com/syoyo/tinygltf.git
+language: c++
+domain: unknown
+loc: 569824

@@ -1,0 +1,6 @@
+project: jsoncons
+oss_fuzz_project_dir: projects/jsoncons
+main_repo: https://github.com/danielaparker/jsoncons
+language: c++
+domain: unknown
+loc: 524620

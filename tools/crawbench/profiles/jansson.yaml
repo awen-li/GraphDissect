@@ -1,0 +1,6 @@
+project: jansson
+oss_fuzz_project_dir: projects/jansson
+main_repo: https://github.com/akheron/jansson.git
+language: c++
+domain: unknown
+loc: 31712

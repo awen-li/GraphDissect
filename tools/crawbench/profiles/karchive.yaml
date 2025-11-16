@@ -1,0 +1,6 @@
+project: karchive
+oss_fuzz_project_dir: projects/karchive
+main_repo: https://invent.kde.org/frameworks/karchive.git
+language: c++
+domain: unknown
+loc: 51104

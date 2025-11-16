@@ -1,0 +1,6 @@
+project: libtasn1
+oss_fuzz_project_dir: projects/libtasn1
+main_repo: https://gitlab.com/gnutls/libtasn1.git
+language: c++
+domain: unknown
+loc: 35554

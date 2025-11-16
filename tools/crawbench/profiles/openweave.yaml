@@ -1,0 +1,6 @@
+project: openweave
+oss_fuzz_project_dir: projects/openweave
+main_repo: https://github.com/openweave/openweave-core
+language: c++
+domain: unknown
+loc: 2929212

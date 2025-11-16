@@ -1,0 +1,6 @@
+project: libraw
+oss_fuzz_project_dir: projects/libraw
+main_repo: https://github.com/libraw/libraw
+language: c++
+domain: unknown
+loc: 125088

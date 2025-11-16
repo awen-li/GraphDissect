@@ -1,0 +1,6 @@
+project: wabt
+oss_fuzz_project_dir: projects/wabt
+main_repo: https://github.com/WebAssembly/wabt
+language: c++
+domain: unknown
+loc: 157992

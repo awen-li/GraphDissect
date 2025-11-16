@@ -2,5 +2,5 @@ project: git
 oss_fuzz_project_dir: projects/git
 main_repo: https://github.com/git/git
 language: c++
-domain: ''
-loc: null
+domain: version-control
+loc: 1974230

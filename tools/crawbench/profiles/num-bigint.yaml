@@ -1,0 +1,6 @@
+project: num-bigint
+oss_fuzz_project_dir: projects/num-bigint
+main_repo: https://github.com/rust-num/num-bigint.git
+language: c++
+domain: unknown
+loc: 27206

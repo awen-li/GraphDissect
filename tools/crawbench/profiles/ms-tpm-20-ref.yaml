@@ -1,0 +1,6 @@
+project: ms-tpm-20-ref
+oss_fuzz_project_dir: projects/ms-tpm-20-ref
+main_repo: https://github.com/microsoft/ms-tpm-20-ref
+language: c
+domain: unknown
+loc: 128310

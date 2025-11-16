@@ -1,0 +1,6 @@
+project: hunspell
+oss_fuzz_project_dir: projects/hunspell
+main_repo: https://github.com/hunspell/hunspell.git
+language: c++
+domain: unknown
+loc: 219480

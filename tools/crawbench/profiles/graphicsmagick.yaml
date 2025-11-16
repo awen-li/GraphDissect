@@ -1,0 +1,6 @@
+project: graphicsmagick
+oss_fuzz_project_dir: projects/graphicsmagick
+main_repo: https://foss.heptapod.net/graphicsmagick/graphicsmagick
+language: c++
+domain: ''
+loc: null

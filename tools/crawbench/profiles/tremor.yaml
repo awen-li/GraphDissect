@@ -1,0 +1,6 @@
+project: tremor
+oss_fuzz_project_dir: projects/tremor
+main_repo: https://gitlab.xiph.org/xiph/tremor.git
+language: c++
+domain: unknown
+loc: 25456

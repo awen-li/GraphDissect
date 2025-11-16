@@ -1,0 +1,6 @@
+project: dav1d
+oss_fuzz_project_dir: projects/dav1d
+main_repo: https://code.videolan.org/videolan/dav1d.git
+language: c++
+domain: unknown
+loc: 574740

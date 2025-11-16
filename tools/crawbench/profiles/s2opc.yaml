@@ -1,0 +1,6 @@
+project: s2opc
+oss_fuzz_project_dir: projects/s2opc
+main_repo: https://gitlab.com/systerel/S2OPC
+language: c++
+domain: unknown
+loc: 2943384

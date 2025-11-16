@@ -1,0 +1,6 @@
+project: mosquitto
+oss_fuzz_project_dir: projects/mosquitto
+main_repo: https://github.com/eclipse/mosquitto
+language: c
+domain: unknown
+loc: 207132

@@ -1,0 +1,6 @@
+project: libigl
+oss_fuzz_project_dir: projects/libigl
+main_repo: https://github.com/libigl/libigl
+language: c++
+domain: unknown
+loc: 238358

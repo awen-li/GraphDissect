@@ -1,0 +1,6 @@
+project: mosh
+oss_fuzz_project_dir: projects/mosh
+main_repo: https://github.com/mobile-shell/mosh.git
+language: c++
+domain: unknown
+loc: 32726

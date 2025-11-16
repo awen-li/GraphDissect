@@ -1,0 +1,6 @@
+project: cel-cpp
+oss_fuzz_project_dir: projects/cel-cpp
+main_repo: https://github.com/google/cel-cpp
+language: c++
+domain: unknown
+loc: 338614

@@ -2,5 +2,5 @@ project: gpsd
 oss_fuzz_project_dir: projects/gpsd
 main_repo: https://gitlab.com/gpsd/gpsd
 language: c
-domain: ''
-loc: null
+domain: gps
+loc: 192872

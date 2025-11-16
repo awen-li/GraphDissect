@@ -1,0 +1,6 @@
+project: libxml2
+oss_fuzz_project_dir: projects/libxml2
+main_repo: https://gitlab.gnome.org/GNOME/libxml2.git
+language: c++
+domain: unknown
+loc: 484014

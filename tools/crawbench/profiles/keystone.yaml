@@ -2,5 +2,5 @@ project: keystone
 oss_fuzz_project_dir: projects/keystone
 main_repo: https://github.com/keystone-engine/keystone.git
 language: c++
-domain: ''
-loc: null
+domain: assembler
+loc: 255366

@@ -1,0 +1,6 @@
+project: wamr
+oss_fuzz_project_dir: projects/wamr
+main_repo: https://github.com/bytecodealliance/wasm-micro-runtime.git
+language: c
+domain: unknown
+loc: 521022

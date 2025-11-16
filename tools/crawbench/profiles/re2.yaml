@@ -1,0 +1,6 @@
+project: re2
+oss_fuzz_project_dir: projects/re2
+main_repo: https://github.com/google/re2
+language: c++
+domain: unknown
+loc: 64054

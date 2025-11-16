@@ -1,0 +1,6 @@
+project: dovecot
+oss_fuzz_project_dir: projects/dovecot
+main_repo: https://github.com/dovecot/core
+language: c
+domain: unknown
+loc: 1066144

@@ -1,0 +1,6 @@
+project: simdutf
+oss_fuzz_project_dir: projects/simdutf
+main_repo: https://github.com/simdutf/simdutf
+language: c++
+domain: unknown
+loc: 235882

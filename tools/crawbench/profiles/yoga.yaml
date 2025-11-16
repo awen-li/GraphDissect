@@ -1,0 +1,6 @@
+project: yoga
+oss_fuzz_project_dir: projects/yoga
+main_repo: https://github.com/facebook/yoga
+language: c++
+domain: unknown
+loc: 384776

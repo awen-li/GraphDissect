@@ -1,0 +1,6 @@
+project: rapidjson
+oss_fuzz_project_dir: projects/rapidjson
+main_repo: https://github.com/Tencent/rapidjson.git
+language: c++
+domain: unknown
+loc: 90890

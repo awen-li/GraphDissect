@@ -1,0 +1,6 @@
+project: util-linux
+oss_fuzz_project_dir: projects/util-linux
+main_repo: https://github.com/util-linux/util-linux
+language: c
+domain: unknown
+loc: 2035482

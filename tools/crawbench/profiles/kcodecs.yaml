@@ -1,0 +1,6 @@
+project: kcodecs
+oss_fuzz_project_dir: projects/kcodecs
+main_repo: https://invent.kde.org/frameworks/kcodecs.git
+language: c++
+domain: unknown
+loc: 114714

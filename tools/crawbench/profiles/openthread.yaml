@@ -1,0 +1,6 @@
+project: openthread
+oss_fuzz_project_dir: projects/openthread
+main_repo: https://github.com/openthread/openthread
+language: c++
+domain: unknown
+loc: 666020

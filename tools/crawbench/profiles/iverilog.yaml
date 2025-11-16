@@ -1,0 +1,6 @@
+project: iverilog
+oss_fuzz_project_dir: projects/iverilog
+main_repo: https://github.com/steveicarus/iverilog
+language: c++
+domain: unknown
+loc: 651316

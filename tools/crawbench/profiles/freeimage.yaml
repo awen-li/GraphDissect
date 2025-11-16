@@ -1,0 +1,6 @@
+project: freeimage
+oss_fuzz_project_dir: projects/freeimage
+main_repo: https://svn.code.sf.net/p/freeimage/svn/
+language: c++
+domain: ''
+loc: null

@@ -1,0 +1,6 @@
+project: bitcoin-core
+oss_fuzz_project_dir: projects/bitcoin-core
+main_repo: https://github.com/bitcoin/bitcoin.git
+language: c++
+domain: unknown
+loc: 1434904

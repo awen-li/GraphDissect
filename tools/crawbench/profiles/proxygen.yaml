@@ -1,0 +1,6 @@
+project: proxygen
+oss_fuzz_project_dir: projects/proxygen
+main_repo: https://github.com/facebook/proxygen.git
+language: c++
+domain: unknown
+loc: 318320

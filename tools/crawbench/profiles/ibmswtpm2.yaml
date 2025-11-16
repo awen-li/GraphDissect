@@ -1,0 +1,6 @@
+project: ibmswtpm2
+oss_fuzz_project_dir: projects/ibmswtpm2
+main_repo: https://git.code.sf.net/p/ibmswtpm2/tpm2
+language: c++
+domain: unknown
+loc: 110574

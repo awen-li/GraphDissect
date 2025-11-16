@@ -2,5 +2,5 @@ project: librdkafka
 oss_fuzz_project_dir: projects/librdkafka
 main_repo: https://github.com/edenhill/librdkafka
 language: c++
-domain: ''
-loc: null
+domain: messaging/streaming
+loc: 348926

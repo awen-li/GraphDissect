@@ -1,0 +1,6 @@
+project: file
+oss_fuzz_project_dir: projects/file
+main_repo: https://github.com/file/file.git
+language: c++
+domain: unknown
+loc: 39152

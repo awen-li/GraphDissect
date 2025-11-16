@@ -1,0 +1,6 @@
+project: nestegg
+oss_fuzz_project_dir: projects/nestegg
+main_repo: https://github.com/kinetiknz/nestegg.git
+language: c++
+domain: unknown
+loc: 8488

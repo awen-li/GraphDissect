@@ -1,0 +1,6 @@
+project: fast_float
+oss_fuzz_project_dir: projects/fast_float
+main_repo: https://github.com/fastfloat/fast_float.git
+language: c++
+domain: unknown
+loc: 25736

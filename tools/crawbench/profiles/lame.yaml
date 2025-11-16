@@ -1,0 +1,6 @@
+project: lame
+oss_fuzz_project_dir: projects/lame
+main_repo: https://svn.code.sf.net/p/lame/svn/trunk/lame
+language: c++
+domain: ''
+loc: null

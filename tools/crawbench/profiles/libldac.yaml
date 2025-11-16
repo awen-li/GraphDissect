@@ -2,5 +2,5 @@ project: libldac
 oss_fuzz_project_dir: projects/libldac
 main_repo: https://android.googlesource.com/platform/external/libldac
 language: c++
-domain: ''
-loc: null
+domain: audio/bluetooth
+loc: 12150

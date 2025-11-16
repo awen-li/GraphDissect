@@ -1,0 +1,6 @@
+project: libheif
+oss_fuzz_project_dir: projects/libheif
+main_repo: https://github.com/strukturag/libheif.git
+language: c++
+domain: unknown
+loc: 188942

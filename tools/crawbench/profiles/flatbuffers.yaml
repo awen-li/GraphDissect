@@ -1,0 +1,6 @@
+project: flatbuffers
+oss_fuzz_project_dir: projects/flatbuffers
+main_repo: https://github.com/google/flatbuffers
+language: c++
+domain: unknown
+loc: 489916

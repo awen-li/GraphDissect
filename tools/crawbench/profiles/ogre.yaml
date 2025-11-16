@@ -1,0 +1,6 @@
+project: ogre
+oss_fuzz_project_dir: projects/ogre
+main_repo: https://github.com/OGRECave/ogre
+language: c++
+domain: unknown
+loc: 827246

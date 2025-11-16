@@ -1,0 +1,6 @@
+project: libcoap
+oss_fuzz_project_dir: projects/libcoap
+main_repo: https://github.com/obgm/libcoap.git
+language: c++
+domain: unknown
+loc: 141508

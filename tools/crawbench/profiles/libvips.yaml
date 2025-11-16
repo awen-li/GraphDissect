@@ -1,0 +1,6 @@
+project: libvips
+oss_fuzz_project_dir: projects/libvips
+main_repo: https://github.com/libvips/libvips
+language: c++
+domain: unknown
+loc: 407716

@@ -1,0 +1,6 @@
+project: boost-beast
+oss_fuzz_project_dir: projects/boost-beast
+main_repo: https://github.com/boostorg/beast.git
+language: c++
+domain: unknown
+loc: 239294

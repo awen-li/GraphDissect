@@ -1,0 +1,6 @@
+project: libical
+oss_fuzz_project_dir: projects/libical
+main_repo: https://github.com/libical/libical.git
+language: c++
+domain: unknown
+loc: 150750

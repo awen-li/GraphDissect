@@ -1,0 +1,6 @@
+project: janus-gateway
+oss_fuzz_project_dir: projects/janus-gateway
+main_repo: https://github.com/meetecho/janus-gateway.git
+language: c++
+domain: unknown
+loc: 237624

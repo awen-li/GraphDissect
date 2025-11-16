@@ -1,0 +1,6 @@
+project: iroha
+oss_fuzz_project_dir: projects/iroha
+main_repo: https://github.com/hyperledger/iroha.git
+language: c++
+domain: unknown
+loc: 200564

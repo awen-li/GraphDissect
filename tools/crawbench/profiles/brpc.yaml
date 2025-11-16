@@ -1,0 +1,6 @@
+project: brpc
+oss_fuzz_project_dir: projects/brpc
+main_repo: https://github.com/apache/incubator-brpc
+language: c++
+domain: unknown
+loc: 476904

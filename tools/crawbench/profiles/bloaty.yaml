@@ -1,0 +1,6 @@
+project: bloaty
+oss_fuzz_project_dir: projects/bloaty
+main_repo: https://github.com/google/bloaty.git
+language: c++
+domain: unknown
+loc: 28954

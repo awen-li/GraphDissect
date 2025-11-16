@@ -1,0 +1,6 @@
+project: libass
+oss_fuzz_project_dir: projects/libass
+main_repo: https://github.com/libass/libass.git
+language: c++
+domain: unknown
+loc: 53266

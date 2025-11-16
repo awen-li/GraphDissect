@@ -2,5 +2,5 @@ project: mpg123
 oss_fuzz_project_dir: projects/mpg123
 main_repo: https://github.com/dreamerc/mpg123
 language: c++
-domain: ''
-loc: null
+domain: audio/decoder
+loc: 153274

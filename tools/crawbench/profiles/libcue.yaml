@@ -1,0 +1,6 @@
+project: libcue
+oss_fuzz_project_dir: projects/libcue
+main_repo: https://github.com/lipnitsk/libcue.git
+language: c
+domain: unknown
+loc: 3934

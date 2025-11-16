@@ -1,0 +1,6 @@
+project: shaderc
+oss_fuzz_project_dir: projects/shaderc
+main_repo: https://github.com/google/shaderc.git
+language: c++
+domain: unknown
+loc: 32494

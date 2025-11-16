@@ -1,0 +1,6 @@
+project: tinyobjloader
+oss_fuzz_project_dir: projects/tinyobjloader
+main_repo: https://github.com/tinyobjloader/tinyobjloader
+language: c++
+domain: unknown
+loc: 42698

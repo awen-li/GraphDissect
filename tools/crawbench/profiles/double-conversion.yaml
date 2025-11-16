@@ -1,0 +1,6 @@
+project: double-conversion
+oss_fuzz_project_dir: projects/double-conversion
+main_repo: https://github.com/google/double-conversion.git
+language: c++
+domain: unknown
+loc: 646284

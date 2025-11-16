@@ -1,0 +1,6 @@
+project: spirv-cross
+oss_fuzz_project_dir: projects/spirv-cross
+main_repo: https://github.com/KhronosGroup/SPIRV-Cross.git
+language: c++
+domain: unknown
+loc: 495928

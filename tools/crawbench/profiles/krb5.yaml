@@ -1,0 +1,6 @@
+project: krb5
+oss_fuzz_project_dir: projects/krb5
+main_repo: https://github.com/krb5/krb5
+language: c
+domain: unknown
+loc: 699226

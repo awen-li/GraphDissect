@@ -1,0 +1,6 @@
+project: hostap
+oss_fuzz_project_dir: projects/hostap
+main_repo: git://w1.fi/srv/git/hostap.git
+language: c++
+domain: ''
+loc: null

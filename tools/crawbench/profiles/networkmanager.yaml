@@ -1,0 +1,6 @@
+project: networkmanager
+oss_fuzz_project_dir: projects/networkmanager
+main_repo: https://gitlab.freedesktop.org/NetworkManager/NetworkManager.git
+language: c
+domain: unknown
+loc: 2216674

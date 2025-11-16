@@ -1,0 +1,6 @@
+project: libsoup
+oss_fuzz_project_dir: projects/libsoup
+main_repo: https://gitlab.gnome.org/GNOME/libsoup.git
+language: c++
+domain: unknown
+loc: 142220

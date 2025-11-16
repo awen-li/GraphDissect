@@ -1,0 +1,6 @@
+project: boost
+oss_fuzz_project_dir: projects/boost
+main_repo: https://github.com/boostorg/boost.git
+language: c++
+domain: unknown
+loc: 33302

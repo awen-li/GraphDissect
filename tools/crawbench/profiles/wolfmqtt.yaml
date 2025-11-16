@@ -1,0 +1,6 @@
+project: wolfmqtt
+oss_fuzz_project_dir: projects/wolfmqtt
+main_repo: https://github.com/wolfSSL/wolfMQTT
+language: c
+domain: unknown
+loc: 68794

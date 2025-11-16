@@ -2,5 +2,5 @@ project: quickjs
 oss_fuzz_project_dir: projects/quickjs
 main_repo: https://github.com/bellard/quickjs
 language: c
-domain: ''
-loc: null
+domain: language-runtime/js
+loc: 165208

@@ -1,0 +1,6 @@
+project: lwan
+oss_fuzz_project_dir: projects/lwan
+main_repo: https://github.com/lpereira/lwan.git
+language: c++
+domain: unknown
+loc: 74650

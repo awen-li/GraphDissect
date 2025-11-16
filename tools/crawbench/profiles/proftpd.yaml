@@ -1,0 +1,6 @@
+project: proftpd
+oss_fuzz_project_dir: projects/proftpd
+main_repo: https://github.com/proftpd/proftpd
+language: c
+domain: unknown
+loc: 1392308

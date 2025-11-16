@@ -1,0 +1,6 @@
+project: open5gs
+oss_fuzz_project_dir: projects/open5gs
+main_repo: https://github.com/open5gs/open5gs
+language: c
+domain: unknown
+loc: 2673620

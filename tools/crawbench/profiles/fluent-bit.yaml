@@ -1,0 +1,6 @@
+project: fluent-bit
+oss_fuzz_project_dir: projects/fluent-bit
+main_repo: https://github.com/fluent/fluent-bit/
+language: c++
+domain: unknown
+loc: 4972054

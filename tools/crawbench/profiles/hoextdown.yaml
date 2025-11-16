@@ -2,5 +2,5 @@ project: hoextdown
 oss_fuzz_project_dir: projects/hoextdown
 main_repo: https://github.com/kjdev/hoextdown.git
 language: c++
-domain: ''
-loc: null
+domain: markup/markdown
+loc: 22502

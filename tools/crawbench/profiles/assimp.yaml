@@ -1,0 +1,6 @@
+project: assimp
+oss_fuzz_project_dir: projects/assimp
+main_repo: https://github.com/assimp/assimp.git
+language: c++
+domain: unknown
+loc: 1102730

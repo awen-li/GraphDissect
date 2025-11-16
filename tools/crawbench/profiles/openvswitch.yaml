@@ -1,0 +1,6 @@
+project: openvswitch
+oss_fuzz_project_dir: projects/openvswitch
+main_repo: https://github.com/openvswitch/ovs.git
+language: c++
+domain: unknown
+loc: 744354

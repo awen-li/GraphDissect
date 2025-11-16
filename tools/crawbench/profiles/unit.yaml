@@ -1,0 +1,6 @@
+project: unit
+oss_fuzz_project_dir: projects/unit
+main_repo: https://github.com/nginx/unit
+language: c
+domain: unknown
+loc: 284562

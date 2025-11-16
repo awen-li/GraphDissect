@@ -1,0 +1,6 @@
+project: aspell
+oss_fuzz_project_dir: projects/aspell
+main_repo: https://github.com/gnuaspell/aspell.git
+language: c++
+domain: unknown
+loc: 116714

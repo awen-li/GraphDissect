@@ -1,0 +1,6 @@
+project: libvnc
+oss_fuzz_project_dir: projects/libvnc
+main_repo: https://github.com/LibVNC/libvncserver.git
+language: c++
+domain: unknown
+loc: 91268

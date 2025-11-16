@@ -1,0 +1,6 @@
+project: pngquant
+oss_fuzz_project_dir: projects/pngquant
+main_repo: https://github.com/kornelski/pngquant
+language: c
+domain: unknown
+loc: 4224

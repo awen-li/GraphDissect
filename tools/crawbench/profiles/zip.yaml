@@ -1,0 +1,6 @@
+project: zip
+oss_fuzz_project_dir: projects/zip
+main_repo: https://github.com/kuba--/zip.git
+language: c
+domain: unknown
+loc: 24318

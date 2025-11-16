@@ -1,0 +1,6 @@
+project: apache-logging-log4cxx
+oss_fuzz_project_dir: projects/apache-logging-log4cxx
+main_repo: https://github.com/apache/logging-log4cxx
+language: c++
+domain: unknown
+loc: 127792

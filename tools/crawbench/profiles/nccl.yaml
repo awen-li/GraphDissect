@@ -1,0 +1,6 @@
+project: nccl
+oss_fuzz_project_dir: projects/nccl
+main_repo: https://github.com/NVIDIA/nccl
+language: c++
+domain: unknown
+loc: 180706

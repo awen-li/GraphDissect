@@ -1,0 +1,6 @@
+project: libjpeg-turbo
+oss_fuzz_project_dir: projects/libjpeg-turbo
+main_repo: https://github.com/libjpeg-turbo/libjpeg-turbo
+language: c
+domain: unknown
+loc: 276434

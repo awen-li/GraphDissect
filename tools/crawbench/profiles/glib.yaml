@@ -1,0 +1,6 @@
+project: glib
+oss_fuzz_project_dir: projects/glib
+main_repo: https://gitlab.gnome.org/GNOME/glib
+language: c++
+domain: unknown
+loc: 1779452

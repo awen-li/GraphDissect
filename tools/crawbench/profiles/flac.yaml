@@ -1,0 +1,6 @@
+project: flac
+oss_fuzz_project_dir: projects/flac
+main_repo: https://github.com/xiph/flac.git
+language: c++
+domain: unknown
+loc: 142724

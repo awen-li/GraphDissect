@@ -2,5 +2,5 @@ project: lua
 oss_fuzz_project_dir: projects/lua
 main_repo: https://github.com/lua/lua
 language: c
-domain: ''
-loc: null
+domain: language-runtime/lua
+loc: 69698

@@ -1,0 +1,6 @@
+project: libidn
+oss_fuzz_project_dir: projects/libidn
+main_repo: https://git.savannah.gnu.org/git/libidn.git
+language: c++
+domain: unknown
+loc: 58804

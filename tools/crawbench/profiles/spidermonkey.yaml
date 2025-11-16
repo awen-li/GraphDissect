@@ -1,0 +1,6 @@
+project: spidermonkey
+oss_fuzz_project_dir: projects/spidermonkey
+main_repo: https://hg.mozilla.org/mozilla-central/
+language: c++
+domain: ''
+loc: null

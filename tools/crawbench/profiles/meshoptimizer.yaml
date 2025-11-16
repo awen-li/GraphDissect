@@ -1,0 +1,6 @@
+project: meshoptimizer
+oss_fuzz_project_dir: projects/meshoptimizer
+main_repo: https://github.com/zeux/meshoptimizer
+language: c++
+domain: unknown
+loc: 70318

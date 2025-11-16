@@ -1,0 +1,6 @@
+project: resiprocate
+oss_fuzz_project_dir: projects/resiprocate
+main_repo: https://github.com/resiprocate/resiprocate.git
+language: c++
+domain: unknown
+loc: 2581026

@@ -1,0 +1,6 @@
+project: tinysparql
+oss_fuzz_project_dir: projects/tinysparql
+main_repo: https://gitlab.gnome.org/GNOME/tinysparql
+language: c
+domain: unknown
+loc: 253424

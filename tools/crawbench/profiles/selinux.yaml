@@ -1,0 +1,6 @@
+project: selinux
+oss_fuzz_project_dir: projects/selinux
+main_repo: https://github.com/SELinuxProject/selinux
+language: c
+domain: unknown
+loc: 1038124

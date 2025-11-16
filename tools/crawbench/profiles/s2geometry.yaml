@@ -1,0 +1,6 @@
+project: s2geometry
+oss_fuzz_project_dir: projects/s2geometry
+main_repo: https://github.com/google/s2geometry
+language: c++
+domain: unknown
+loc: 164502

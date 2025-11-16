@@ -1,0 +1,6 @@
+project: e2fsprogs
+oss_fuzz_project_dir: projects/e2fsprogs
+main_repo: https://github.com/tytso/e2fsprogs
+language: c
+domain: unknown
+loc: 585382

@@ -2,5 +2,5 @@ project: hdf5
 oss_fuzz_project_dir: projects/hdf5
 main_repo: https://github.com/HDFGroup/hdf5
 language: c
-domain: ''
-loc: null
+domain: scientific-io
+loc: 1983904

@@ -1,0 +1,6 @@
+project: libproxy
+oss_fuzz_project_dir: projects/libproxy
+main_repo: https://github.com/libproxy/libproxy
+language: c
+domain: unknown
+loc: 9606

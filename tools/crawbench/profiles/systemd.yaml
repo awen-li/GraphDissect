@@ -1,0 +1,6 @@
+project: systemd
+oss_fuzz_project_dir: projects/systemd
+main_repo: https://github.com/systemd/systemd
+language: c++
+domain: unknown
+loc: 1941762

@@ -2,5 +2,5 @@ project: clib
 oss_fuzz_project_dir: projects/clib
 main_repo: https://github.com/clibs/clib
 language: c
-domain: ''
-loc: null
+domain: utility-library
+loc: 44724

@@ -1,0 +1,6 @@
+project: cura-engine
+oss_fuzz_project_dir: projects/cura-engine
+main_repo: https://github.com/Ultimaker/CuraEngine.git
+language: c++
+domain: unknown
+loc: 131730

@@ -1,0 +1,6 @@
+project: liblouis
+oss_fuzz_project_dir: projects/liblouis
+main_repo: https://github.com/liblouis/liblouis
+language: c
+domain: unknown
+loc: 2993820

@@ -1,0 +1,6 @@
+project: geos
+oss_fuzz_project_dir: projects/geos
+main_repo: https://git.osgeo.org/gitea/geos/geos.git
+language: c++
+domain: unknown
+loc: 538016

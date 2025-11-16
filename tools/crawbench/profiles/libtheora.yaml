@@ -1,0 +1,6 @@
+project: libtheora
+oss_fuzz_project_dir: projects/libtheora
+main_repo: https://git.xiph.org/theora.git
+language: c++
+domain: ''
+loc: null

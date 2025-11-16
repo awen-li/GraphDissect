@@ -2,5 +2,5 @@ project: hpn-ssh
 oss_fuzz_project_dir: projects/hpn-ssh
 main_repo: https://github.com/rapier1/hpn-ssh.git
 language: c++
-domain: ''
-loc: null
+domain: ssh
+loc: 330388

@@ -2,5 +2,5 @@ project: jq
 oss_fuzz_project_dir: projects/jq
 main_repo: https://github.com/jqlang/jq
 language: c
-domain: ''
-loc: null
+domain: json/cli
+loc: 107120

@@ -2,5 +2,5 @@ project: gss-ntlmssp
 oss_fuzz_project_dir: projects/gss-ntlmssp
 main_repo: https://github.com/gssapi/gss-ntlmssp
 language: c
-domain: ''
-loc: null
+domain: auth/protocol
+loc: 27162

@@ -1,0 +1,6 @@
+project: libjxl
+oss_fuzz_project_dir: projects/libjxl
+main_repo: https://github.com/libjxl/libjxl.git
+language: c++
+domain: unknown
+loc: 307268

@@ -2,5 +2,5 @@ project: c-ares
 oss_fuzz_project_dir: projects/c-ares
 main_repo: https://github.com/c-ares/c-ares.git
 language: c++
-domain: ''
-loc: null
+domain: dns
+loc: 104090

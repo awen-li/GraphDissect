@@ -1,0 +1,6 @@
+project: leptonica
+oss_fuzz_project_dir: projects/leptonica
+main_repo: https://github.com/DanBloomberg/leptonica.git
+language: c++
+domain: unknown
+loc: 395890

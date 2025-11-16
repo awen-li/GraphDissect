@@ -1,0 +1,6 @@
+project: abseil-cpp
+oss_fuzz_project_dir: projects/abseil-cpp
+main_repo: https://github.com/abseil/abseil-cpp.git
+language: c++
+domain: unknown
+loc: 367688

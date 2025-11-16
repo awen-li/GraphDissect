@@ -1,0 +1,6 @@
+project: igraph
+oss_fuzz_project_dir: projects/igraph
+main_repo: https://github.com/igraph/igraph
+language: c
+domain: unknown
+loc: 622874

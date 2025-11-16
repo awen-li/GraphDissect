@@ -1,0 +1,6 @@
+project: coturn
+oss_fuzz_project_dir: projects/coturn
+main_repo: https://github.com/coturn/coturn
+language: c
+domain: unknown
+loc: 94208

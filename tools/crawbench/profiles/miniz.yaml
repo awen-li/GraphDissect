@@ -1,0 +1,6 @@
+project: miniz
+oss_fuzz_project_dir: projects/miniz
+main_repo: https://github.com/richgel999/miniz.git
+language: c
+domain: unknown
+loc: 57146

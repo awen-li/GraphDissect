@@ -1,0 +1,6 @@
+project: alembic
+oss_fuzz_project_dir: projects/alembic
+main_repo: https://github.com/alembic/alembic
+language: c++
+domain: unknown
+loc: 198266

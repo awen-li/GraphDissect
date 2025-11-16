@@ -1,0 +1,6 @@
+project: easywsclient
+oss_fuzz_project_dir: projects/easywsclient
+main_repo: https://github.com/dhbaird/easywsclient
+language: c++
+domain: unknown
+loc: 2034

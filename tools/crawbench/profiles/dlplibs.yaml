@@ -1,0 +1,6 @@
+project: dlplibs
+oss_fuzz_project_dir: projects/dlplibs
+main_repo: null
+language: c++
+domain: ''
+loc: null

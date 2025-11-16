@@ -1,0 +1,6 @@
+project: libconfig
+oss_fuzz_project_dir: projects/libconfig
+main_repo: https://github.com/hyperrealm/libconfig.git
+language: c
+domain: unknown
+loc: 98844

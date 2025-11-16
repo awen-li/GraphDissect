@@ -1,0 +1,6 @@
+project: libspectre
+oss_fuzz_project_dir: projects/libspectre
+main_repo: https://gitlab.freedesktop.org/libspectre/libspectre.git
+language: c++
+domain: unknown
+loc: 10742

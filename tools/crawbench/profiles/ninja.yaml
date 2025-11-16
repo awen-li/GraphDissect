@@ -1,0 +1,6 @@
+project: ninja
+oss_fuzz_project_dir: projects/ninja
+main_repo: https://github.com/ninja-build/ninja
+language: c++
+domain: unknown
+loc: 52722

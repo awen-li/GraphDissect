@@ -1,0 +1,6 @@
+project: kde-thumbnailers
+oss_fuzz_project_dir: projects/kde-thumbnailers
+main_repo: https://invent.kde.org/network/kio-extras.git
+language: c++
+domain: unknown
+loc: 371564

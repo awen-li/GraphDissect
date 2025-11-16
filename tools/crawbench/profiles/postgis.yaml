@@ -1,0 +1,6 @@
+project: postgis
+oss_fuzz_project_dir: projects/postgis
+main_repo: https://git.osgeo.org/gitea/postgis/postgis.git
+language: c++
+domain: unknown
+loc: 1758692

@@ -2,5 +2,5 @@ project: wuffs
 oss_fuzz_project_dir: projects/wuffs
 main_repo: https://github.com/google/wuffs.git
 language: c++
-domain: ''
-loc: null
+domain: image-processing
+loc: 609270

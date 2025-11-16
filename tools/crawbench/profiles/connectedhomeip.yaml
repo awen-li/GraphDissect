@@ -1,0 +1,6 @@
+project: connectedhomeip
+oss_fuzz_project_dir: projects/connectedhomeip
+main_repo: https://github.com/project-chip/connectedhomeip.git
+language: c++
+domain: unknown
+loc: 5863988

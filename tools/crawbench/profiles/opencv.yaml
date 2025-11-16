@@ -1,0 +1,6 @@
+project: opencv
+oss_fuzz_project_dir: projects/opencv
+main_repo: https://github.com/opencv/opencv.git
+language: c++
+domain: unknown
+loc: 4822540

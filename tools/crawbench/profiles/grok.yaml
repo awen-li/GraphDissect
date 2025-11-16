@@ -1,0 +1,6 @@
+project: grok
+oss_fuzz_project_dir: projects/grok
+main_repo: https://github.com/GrokImageCompression/grok.git
+language: c++
+domain: unknown
+loc: 1033740

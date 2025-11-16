@@ -1,0 +1,6 @@
+project: libspdm
+oss_fuzz_project_dir: projects/libspdm
+main_repo: https://github.com/DMTF/libspdm.git
+language: c
+domain: unknown
+loc: 473720

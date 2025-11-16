@@ -1,0 +1,6 @@
+project: imagemagick
+oss_fuzz_project_dir: projects/imagemagick
+main_repo: https://github.com/imagemagick/imagemagick
+language: c++
+domain: unknown
+loc: 1361480

@@ -1,0 +1,6 @@
+project: libredwg
+oss_fuzz_project_dir: projects/libredwg
+main_repo: https://github.com/LibreDWG/libredwg
+language: c
+domain: unknown
+loc: 1786660

@@ -1,0 +1,6 @@
+project: gstreamer
+oss_fuzz_project_dir: projects/gstreamer
+main_repo: https://gitlab.freedesktop.org/gstreamer/gstreamer.git
+language: c++
+domain: unknown
+loc: 6350136

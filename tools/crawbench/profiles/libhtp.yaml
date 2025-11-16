@@ -2,5 +2,5 @@ project: libhtp
 oss_fuzz_project_dir: projects/libhtp
 main_repo: https://github.com/OISF/libhtp.git
 language: c
-domain: ''
-loc: null
+domain: http/parser
+loc: 81662

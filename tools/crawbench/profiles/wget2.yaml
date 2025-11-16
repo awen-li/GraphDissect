@@ -1,0 +1,6 @@
+project: wget2
+oss_fuzz_project_dir: projects/wget2
+main_repo: https://gitlab.com/gnuwget/wget2.git
+language: c++
+domain: unknown
+loc: 107026

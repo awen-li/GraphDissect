@@ -1,0 +1,6 @@
+project: json-c
+oss_fuzz_project_dir: projects/json-c
+main_repo: https://github.com/json-c/json-c.git
+language: c++
+domain: unknown
+loc: 25914

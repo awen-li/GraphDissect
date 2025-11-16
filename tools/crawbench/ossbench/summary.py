@@ -1,22 +1,49 @@
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 import yaml
 
-from .profiles import iter_profiles
+from .profiles import iter_profiles, ProjectProfile
+
+
+def _sorted_projects_by_loc(profiles: List[ProjectProfile]) -> List[Dict[str, Any]]:
+    """
+    Return a list of dicts {project, loc, domain} sorted by LOC (desc),
+    with projects missing loc at the end.
+    """
+    def sort_key(p: ProjectProfile):
+        # None -> -1 so that they go to the end when reversed=False,
+        # but we will sort with reverse=True, so: use 0 for None and
+        # rely on reverse to push them to the end.
+        return p.loc if p.loc is not None else -1
+
+    sorted_profiles = sorted(profiles, key=sort_key, reverse=True)
+
+    result: List[Dict[str, Any]] = []
+    for p in sorted_profiles:
+        result.append({
+            "project": p.project,
+            "loc": p.loc,
+            "domain": p.domain or "unknown",
+        })
+    return result
 
 
 def compute_summary(profiles_dir: Path) -> Dict[str, Any]:
     """
-    Compute a simple overview: total projects, LOC stats, domain counts.
+    Compute an overview:
+      - total_projects
+      - per-domain counts
+      - LOC stats (total/min/max/avg)
+      - projects_by_loc: list of {project, loc, domain}, sorted by LOC desc
     """
-    total_projects = 0
-    loc_values = []
+    profiles: List[ProjectProfile] = list(iter_profiles(profiles_dir))
+
+    total_projects = len(profiles)
+    loc_values: List[int] = []
     domain_counts: Dict[str, int] = {}
 
-    for profile in iter_profiles(profiles_dir):
-        total_projects += 1
-
+    for profile in profiles:
         if profile.loc is not None:
             loc_values.append(profile.loc)
 
@@ -39,6 +66,9 @@ def compute_summary(profiles_dir: Path) -> Dict[str, Any]:
         summary["loc_max"] = None
         summary["loc_avg"] = None
 
+    # Add ordered project list
+    summary["projects_by_loc"] = _sorted_projects_by_loc(profiles)
+
     return summary
 
 
@@ -51,4 +81,3 @@ def write_summary(profiles_dir: Path, output_path: Path) -> Dict[str, Any]:
     with output_path.open("w", encoding="utf-8") as f:
         yaml.safe_dump(summary, f, sort_keys=False)
     return summary
-

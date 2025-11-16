@@ -6,10 +6,19 @@ from .profiles import ProjectProfile
 
 def _looks_like_c_project(proj_dir: Path) -> bool:
     """
-    Heuristic:
-      - If build.sh or Dockerfile mention .c files in a compile command.
-      - Or there are any .c files inside the project directory.
+    Heuristic for native (C / C++) projects:
+      - If build.sh or Dockerfile mention .c/.cc/.cpp/.cxx files in a compile command.
+      - Or there are any .c/.cc/.cpp/.cxx files inside the project directory.
+      - Or project.yaml explicitly says language: c / c++ / cpp / c++17 / etc.
     """
+    # First, check project.yaml language hint.
+    proj_yaml = proj_dir / "project.yaml"
+    lang = _extract_field_from_project_yaml(proj_yaml, "language")
+    if lang:
+        lang_lower = lang.strip().lower()
+        if any(k in lang_lower for k in ["c++", "cpp", "c "]) or lang_lower == "c":
+            return True
+
     texts: List[str] = []
 
     build_sh = proj_dir / "build.sh"
@@ -24,23 +33,53 @@ def _looks_like_c_project(proj_dir: Path) -> bool:
 
     text = "\n".join(texts)
 
-    c_markers = [
+    # Extensions we care about for native code
+    src_markers = [
         ".c ",
         ".c\\\n",
         ".c\"",
         ".c'",
         ".c)",
         ".c;",
+        ".cc ",
+        ".cc\\\n",
+        ".cc\"",
+        ".cc'",
+        ".cc)",
+        ".cc;",
+        ".cpp ",
+        ".cpp\\\n",
+        ".cpp\"",
+        ".cpp'",
+        ".cpp)",
+        ".cpp;",
+        ".cxx ",
+        ".cxx\\\n",
+        ".cxx\"",
+        ".cxx'",
+        ".cxx)",
+        ".cxx;",
     ]
-    compiler_markers = ["clang ", "clang\n", "gcc ", "gcc\n", "$CC ", "$CC\n"]
 
-    has_c_in_build = any(m in text for m in c_markers) and any(
+    # Compiler markers for both C and C++
+    compiler_markers = [
+        "clang ", "clang\n",
+        "clang++ ", "clang++\n",
+        "gcc ", "gcc\n",
+        "g++ ", "g++\n",
+        "$CC ", "$CC\n",
+        "$CXX ", "$CXX\n",
+    ]
+
+    has_native_in_build = any(m in text for m in src_markers) and any(
         cc in text for cc in compiler_markers
     )
 
-    has_local_c = any(p.suffix == ".c" for p in proj_dir.rglob("*.c"))
+    # Fallback: search for any C/C++ files in the project dir itself
+    native_exts = {".c", ".cc", ".cpp", ".cxx"}
+    has_local_native = any(p.suffix in native_exts for p in proj_dir.rglob("*"))
 
-    return has_c_in_build or has_local_c
+    return has_native_in_build or has_local_native
 
 
 def _extract_field_from_project_yaml(yaml_path: Path, field: str) -> Optional[str]:

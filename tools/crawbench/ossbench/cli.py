@@ -58,18 +58,49 @@ def cmd_augment(args: argparse.Namespace) -> None:
     summary = write_summary(profiles_dir, summary_path)
 
     print(f"[augment] summary written to {summary_path}")
-    print(f"[augment] overview: total={summary['total_projects']}, "
-          f"loc_total={summary['loc_total']}")
+
+    # Data size overview
+    print("[augment] benchmark data size:")
+    print(f"  total_projects: {summary['total_projects']}")
+    print(f"  loc_total:      {summary['loc_total']}")
+    print(f"  loc_min:        {summary['loc_min']}")
+    print(f"  loc_max:        {summary['loc_max']}")
+    print(f"  loc_avg:        {summary['loc_avg']:.2f}"
+          if summary['loc_avg'] is not None else "  loc_avg:        None")
+
+    # Show top-N largest projects by LOC
+    projects_by_loc = summary.get("projects_by_loc", [])
+    top_n = min(10, len(projects_by_loc))
+    if top_n > 0:
+        print(f"  top {top_n} projects by LOC:")
+        for entry in projects_by_loc[:top_n]:
+            print(f"    {entry['project']}: loc={entry['loc']}, domain={entry['domain']}")
 
 
 def cmd_summary(args: argparse.Namespace) -> None:
     profiles_dir = args.profiles_dir.resolve()
     summary_path = args.output.resolve()
     summary = write_summary(profiles_dir, summary_path)
+
     print(f"[summary] written to {summary_path}")
-    print(f"[summary] total_projects={summary['total_projects']}")
+
+    print("[summary] benchmark data size:")
+    print(f"  total_projects: {summary['total_projects']}")
+    print(f"  loc_total:      {summary['loc_total']}")
+    print(f"  loc_min:        {summary['loc_min']}")
+    print(f"  loc_max:        {summary['loc_max']}")
+    print(f"  loc_avg:        {summary['loc_avg']:.2f}"
+          if summary['loc_avg'] is not None else "  loc_avg:        None")
+
+    print("[summary] domains:")
     for dom, count in summary["domains"].items():
-        print(f"  domain {dom}: {count}")
+        print(f"  {dom}: {count}")
+
+    projects_by_loc = summary.get("projects_by_loc", [])
+    if projects_by_loc:
+        print("[summary] projects ordered by LOC (desc):")
+        for entry in projects_by_loc:
+            print(f"  {entry['project']}: loc={entry['loc']}, domain={entry['domain']}")
 
 
 def build_parser() -> argparse.ArgumentParser:

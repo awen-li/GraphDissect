@@ -2,5 +2,5 @@ project: zeek
 oss_fuzz_project_dir: projects/zeek
 main_repo: https://github.com/zeek/zeek
 language: c++
-domain: metadata
+domain: network
 loc: 309641

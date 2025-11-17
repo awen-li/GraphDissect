@@ -2,5 +2,5 @@ project: libreoffice
 oss_fuzz_project_dir: projects/libreoffice
 main_repo: https://git.libreoffice.org/core
 language: c++
-domain: metadata
+domain: document
 loc: 5114922

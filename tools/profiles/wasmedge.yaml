@@ -2,5 +2,5 @@ project: wasmedge
 oss_fuzz_project_dir: projects/wasmedge
 main_repo: https://github.com/WasmEdge/WasmEdge.git
 language: c++
-domain: metadata
+domain: runtime
 loc: 164186

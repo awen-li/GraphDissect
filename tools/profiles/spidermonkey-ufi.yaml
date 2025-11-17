@@ -2,5 +2,5 @@ project: spidermonkey-ufi
 oss_fuzz_project_dir: projects/spidermonkey-ufi
 main_repo: https://hg.mozilla.org/mozilla-central/
 language: c++
-domain: metadata
+domain: runtime
 loc: 0

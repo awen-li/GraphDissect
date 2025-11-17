@@ -2,5 +2,5 @@ project: python3-libraries
 oss_fuzz_project_dir: projects/python3-libraries
 main_repo: https://github.com/python/cpython
 language: c
-domain: metadata
+domain: runtime
 loc: 763720

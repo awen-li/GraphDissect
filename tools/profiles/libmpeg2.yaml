@@ -2,5 +2,5 @@ project: libmpeg2
 oss_fuzz_project_dir: projects/libmpeg2
 main_repo: https://github.com/ittiam-systems/libmpeg2.git
 language: c++
-domain: metadata
+domain: media
 loc: 17923

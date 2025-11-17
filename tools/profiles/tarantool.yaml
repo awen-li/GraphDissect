@@ -2,5 +2,5 @@ project: tarantool
 oss_fuzz_project_dir: projects/tarantool
 main_repo: https://github.com/tarantool/tarantool
 language: c
-domain: metadata
+domain: archive
 loc: 274435

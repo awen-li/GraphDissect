@@ -2,5 +2,5 @@ project: suricata
 oss_fuzz_project_dir: projects/suricata
 main_repo: https://github.com/OISF/suricata.git
 language: rust
-domain: metadata
+domain: network
 loc: 304383

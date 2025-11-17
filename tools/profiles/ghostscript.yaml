@@ -2,5 +2,5 @@ project: ghostscript
 oss_fuzz_project_dir: projects/ghostscript
 main_repo: git://git.ghostscript.com/ghostpdl.git
 language: c++
-domain: metadata
+domain: document
 loc: 1467900

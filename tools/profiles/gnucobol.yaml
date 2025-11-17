@@ -2,5 +2,5 @@ project: gnucobol
 oss_fuzz_project_dir: projects/gnucobol
 main_repo: https://svn.code.sf.net/p/gnucobol/code/branches/gnucobol-3.x
 language: c
-domain: metadata
+domain: runtime
 loc: 0

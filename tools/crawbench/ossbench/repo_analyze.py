@@ -127,6 +127,7 @@ KNOWN_DOMAIN_OVERRIDES = {
     "file": "filesystem",          # maps to coarse 'metadata'
     "e2fsprogs": "filesystem",
     "unicorn": "binary-tools",
+    "lldb-eval": "debug-info",
 
     # media (image/audio/video/graphics)
     "ffmpeg": "multimedia",
@@ -143,6 +144,7 @@ KNOWN_DOMAIN_OVERRIDES = {
     "opus": "audio/codec",
     "wavpack": "audio/codec",
     "faad2": "audio/codec",
+    "libmpeg2": "video/codec",
 
     # document / markup / PDF / XML / JSON
     "xpdf": "document",            # coarse: document
@@ -184,11 +186,10 @@ KNOWN_DOMAIN_OVERRIDES = {
     "wget2": "http",
     "nghttp2": "http",
     "trafficserver": "proxy/load-balancer",
-    "haproxy": "proxy/load-balancer",  # already above
     "varnish": "proxy/load-balancer",
     "wireshark": "network/capture",
     "pcapplusplus": "network/capture",
-    "systemd": "network",          # mixed, but okay for coarse
+    "systemd": "network",
     "networkmanager": "network",
     "openvswitch": "network",
     "osquery": "network",
@@ -196,7 +197,6 @@ KNOWN_DOMAIN_OVERRIDES = {
     # database / storage
     "duckdb": "database/sql",
     "mysql-server": "database/sql",
-    "mariadb": "database/sql",     # already above
     "rocksdb": "database/storage",
 
     # ML / numeric / scientific
@@ -877,6 +877,8 @@ class ProfileAugmentWorker:
         total = len(self.paths)
         for idx, path in enumerate(self.paths, start=1):
             profile = load_profile(path)
+            #if not "tensorflow" in profile.project.lower():
+            #    continue
             print(f"[worker] {path.name} ({idx}/{total})")
             profile = augmenter.augment(profile)
             save_profile(profile, path)

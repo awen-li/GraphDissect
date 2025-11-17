@@ -2,5 +2,5 @@ project: xs
 oss_fuzz_project_dir: projects/xs
 main_repo: https://github.com/Moddable-OpenSource/moddable.git
 language: c
-domain: metadata
+domain: runtime
 loc: 299360

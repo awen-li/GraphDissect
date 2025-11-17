@@ -2,5 +2,5 @@ project: serenity
 oss_fuzz_project_dir: projects/serenity
 main_repo: https://github.com/SerenityOS/serenity
 language: c++
-domain: metadata
+domain: os_system
 loc: 927371

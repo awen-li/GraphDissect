@@ -2,5 +2,5 @@ project: qpdf
 oss_fuzz_project_dir: projects/qpdf
 main_repo: https://github.com/qpdf/qpdf.git
 language: c++
-domain: metadata
+domain: document
 loc: 64845

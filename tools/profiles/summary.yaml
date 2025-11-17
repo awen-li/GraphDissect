@@ -1,12 +1,15 @@
 total_projects: 556
 domains:
-  metadata: 286
-  network: 75
-  media: 89
-  document: 29
-  archive: 21
+  metadata: 239
+  network: 79
+  media: 90
+  document: 38
+  archive: 23
   crypto: 42
   toolchain: 13
+  runtime: 23
+  ml: 6
+  os_system: 2
   unknown: 1
 loc_total: 177823572
 loc_min: 0
@@ -14,24 +17,10 @@ loc_max: 9542759
 loc_avg: 319826.5683453237
 known_domain_projects:
   metadata:
-  - project: jsc
-    loc: 7942901
   - project: libstdcpp
     loc: 6812567
   - project: mysql-server
     loc: 6064439
-  - project: libreoffice
-    loc: 5114922
-  - project: nodejs
-    loc: 4113269
-  - project: tensorflow
-    loc: 3171446
-  - project: hermes
-    loc: 2761567
-  - project: xnnpack
-    loc: 2196799
-  - project: v8
-    loc: 2043693
   - project: samba
     loc: 1995074
   - project: fluent-bit
@@ -44,12 +33,8 @@ known_domain_projects:
     loc: 1513579
   - project: gdal
     loc: 1478548
-  - project: ghostscript
-    loc: 1467900
   - project: connectedhomeip
     loc: 1334554
-  - project: php
-    loc: 1316093
   - project: edk2
     loc: 1209213
   - project: resiprocate
@@ -60,10 +45,6 @@ known_domain_projects:
     loc: 1036428
   - project: icu
     loc: 988735
-  - project: onednn
-    loc: 932747
-  - project: serenity
-    loc: 927371
   - project: kamailio
     loc: 884635
   - project: wxwidgets
@@ -74,10 +55,6 @@ known_domain_projects:
     loc: 798116
   - project: poco
     loc: 796378
-  - project: cpython3
-    loc: 763720
-  - project: python3-libraries
-    loc: 763720
   - project: hdf5
     loc: 739404
   - project: cmake
@@ -86,8 +63,6 @@ known_domain_projects:
     loc: 674186
   - project: openweave
     loc: 619245
-  - project: dart
-    loc: 602700
   - project: glib
     loc: 543312
   - project: rocksdb
@@ -102,8 +77,6 @@ known_domain_projects:
     loc: 528398
   - project: dovecot
     loc: 520053
-  - project: mupdf
-    loc: 492913
   - project: opensips
     loc: 464818
   - project: pigweed
@@ -126,28 +99,18 @@ known_domain_projects:
     loc: 393709
   - project: libpg_query
     loc: 374062
-  - project: snort3
-    loc: 367102
   - project: quiche
     loc: 361102
-  - project: llamacpp
-    loc: 354581
   - project: double-conversion
     loc: 322759
-  - project: zeek
-    loc: 309641
   - project: git
     loc: 306971
-  - project: suricata
-    loc: 304383
   - project: openbabel
     loc: 304057
   - project: krb5
     loc: 303027
   - project: cpuinfo
     loc: 299851
-  - project: xs
-    loc: 299360
   - project: perfetto
     loc: 297656
   - project: netcdf
@@ -158,8 +121,6 @@ known_domain_projects:
     loc: 284623
   - project: cppcheck
     loc: 278379
-  - project: tarantool
-    loc: 274435
   - project: fwupd
     loc: 270802
   - project: mapserver
@@ -170,8 +131,6 @@ known_domain_projects:
     loc: 264714
   - project: cyclonedds
     loc: 261243
-  - project: proftpd
-    loc: 245489
   - project: eigen
     loc: 238632
   - project: openthread
@@ -188,10 +147,6 @@ known_domain_projects:
     loc: 215183
   - project: brpc
     loc: 211717
-  - project: poppler
-    loc: 209223
-  - project: wamr
-    loc: 209115
   - project: geos
     loc: 204857
   - project: sentencepiece
@@ -224,8 +179,6 @@ known_domain_projects:
     loc: 166319
   - project: libtorrent
     loc: 166028
-  - project: wasmedge
-    loc: 164186
   - project: inchi
     loc: 162278
   - project: librdkafka
@@ -258,10 +211,6 @@ known_domain_projects:
     loc: 127763
   - project: thrift
     loc: 125308
-  - project: njs
-    loc: 124685
-  - project: jerryscript
-    loc: 121452
   - project: fuzzing-puzzles
     loc: 118859
   - project: wpantund
@@ -274,8 +223,6 @@ known_domain_projects:
     loc: 97538
   - project: janus-gateway
     loc: 93065
-  - project: spicy
-    loc: 85701
   - project: flatbuffers
     loc: 84438
   - project: lzma
@@ -284,22 +231,16 @@ known_domain_projects:
     loc: 83881
   - project: fio
     loc: 82012
-  - project: nccl
-    loc: 79715
   - project: qpid-proton
     loc: 79568
   - project: s2geometry
     loc: 79481
   - project: exiv2
     loc: 78250
-  - project: quickjs
-    loc: 76321
   - project: htslib
     loc: 74727
   - project: behaviortreecpp
     loc: 73525
-  - project: mruby
-    loc: 72860
   - project: gpsd
     loc: 72509
   - project: tmux
@@ -320,10 +261,6 @@ known_domain_projects:
     loc: 66805
   - project: ostree
     loc: 66537
-  - project: libxlsxwriter
-    loc: 65699
-  - project: qpdf
-    loc: 64845
   - project: libcoap
     loc: 64782
   - project: irssi
@@ -338,8 +275,6 @@ known_domain_projects:
     loc: 61946
   - project: libzmq
     loc: 61538
-  - project: wabt
-    loc: 60216
   - project: hwloc
     loc: 60005
   - project: opendnp3
@@ -352,8 +287,6 @@ known_domain_projects:
     loc: 52558
   - project: libical
     loc: 52443
-  - project: tensorflow-serving
-    loc: 52330
   - project: exprtk
     loc: 48755
   - project: pistache
@@ -390,8 +323,6 @@ known_domain_projects:
     loc: 34953
   - project: fftw3
     loc: 34260
-  - project: janet
-    loc: 33610
   - project: xbps
     loc: 33253
   - project: readstat
@@ -420,14 +351,10 @@ known_domain_projects:
     loc: 23235
   - project: ninja
     loc: 23220
-  - project: wasm3
-    loc: 22387
   - project: opennavsurf-bag
     loc: 22292
   - project: phmap
     loc: 21721
-  - project: lua
-    loc: 21260
   - project: leveldb
     loc: 21207
   - project: clib
@@ -446,8 +373,6 @@ known_domain_projects:
     loc: 18424
   - project: file
     loc: 17951
-  - project: libmpeg2
-    loc: 17923
   - project: ots
     loc: 17734
   - project: gdbm
@@ -466,8 +391,6 @@ known_domain_projects:
     loc: 14078
   - project: libexif
     loc: 14021
-  - project: xnu
-    loc: 13698
   - project: nanopb
     loc: 12973
   - project: cups-filters
@@ -482,8 +405,6 @@ known_domain_projects:
     loc: 11313
   - project: cppitertools
     loc: 11242
-  - project: karchive
-    loc: 11213
   - project: libtsm
     loc: 11027
   - project: fast_float
@@ -522,14 +443,10 @@ known_domain_projects:
     loc: 6617
   - project: jwt-verify-lib
     loc: 5887
-  - project: libxls
-    loc: 5703
   - project: freetype2
     loc: 5670
   - project: libmodbus
     loc: 5471
-  - project: libspectre
-    loc: 4690
   - project: pffft
     loc: 4516
   - project: bios-bmc-smm-error-logger
@@ -560,8 +477,6 @@ known_domain_projects:
     loc: 0
   - project: firefox
     loc: 0
-  - project: gnucobol
-    loc: 0
   - project: libteken
     loc: 0
   - project: mercurial
@@ -578,13 +493,7 @@ known_domain_projects:
     loc: 0
   - project: qubes-os
     loc: 0
-  - project: spidermonkey-ufi
-    loc: 0
-  - project: spidermonkey
-    loc: 0
   - project: sqlite3
-    loc: 0
-  - project: xpdf
     loc: 0
   network:
   - project: wireshark
@@ -611,16 +520,24 @@ known_domain_projects:
     loc: 484285
   - project: strongswan
     loc: 409225
+  - project: snort3
+    loc: 367102
   - project: tor
     loc: 322433
   - project: libwebsockets
     loc: 318485
   - project: openvswitch
     loc: 312724
+  - project: zeek
+    loc: 309641
+  - project: suricata
+    loc: 304383
   - project: bind9
     loc: 297089
   - project: haproxy
     loc: 272587
+  - project: proftpd
+    loc: 245489
   - project: h2o
     loc: 244614
   - project: apache-httpd
@@ -866,6 +783,8 @@ known_domain_projects:
     loc: 26211
   - project: speex
     loc: 23934
+  - project: libmpeg2
+    loc: 17923
   - project: openslide
     loc: 17422
   - project: tinyobjloader
@@ -917,8 +836,16 @@ known_domain_projects:
   - project: piex
     loc: 0
   document:
+  - project: libreoffice
+    loc: 5114922
+  - project: ghostscript
+    loc: 1467900
+  - project: mupdf
+    loc: 492913
   - project: spotify-json
     loc: 330320
+  - project: poppler
+    loc: 209223
   - project: simdjson
     loc: 190704
   - project: jsoncons
@@ -931,6 +858,10 @@ known_domain_projects:
     loc: 86056
   - project: yaml-cpp
     loc: 80477
+  - project: libxlsxwriter
+    loc: 65699
+  - project: qpdf
+    loc: 64845
   - project: jsonnet
     loc: 48888
   - project: nokogiri
@@ -971,11 +902,19 @@ known_domain_projects:
     loc: 7130
   - project: tinyxml2
     loc: 5858
+  - project: libxls
+    loc: 5703
+  - project: libspectre
+    loc: 4690
   - project: yajl-ruby
     loc: 3072
   - project: xerces-c
     loc: 0
+  - project: xpdf
+    loc: 0
   archive:
+  - project: tarantool
+    loc: 274435
   - project: libarchive
     loc: 168922
   - project: upx
@@ -1008,6 +947,8 @@ known_domain_projects:
     loc: 14624
   - project: brunsli
     loc: 13381
+  - project: karchive
+    loc: 11213
   - project: zip
     loc: 11049
   - project: zopfli
@@ -1130,5 +1071,70 @@ known_domain_projects:
     loc: 12149
   - project: myanmar-tools
     loc: 436
+  runtime:
+  - project: jsc
+    loc: 7942901
+  - project: nodejs
+    loc: 4113269
+  - project: hermes
+    loc: 2761567
+  - project: v8
+    loc: 2043693
+  - project: php
+    loc: 1316093
+  - project: cpython3
+    loc: 763720
+  - project: python3-libraries
+    loc: 763720
+  - project: dart
+    loc: 602700
+  - project: xs
+    loc: 299360
+  - project: wamr
+    loc: 209115
+  - project: wasmedge
+    loc: 164186
+  - project: njs
+    loc: 124685
+  - project: jerryscript
+    loc: 121452
+  - project: spicy
+    loc: 85701
+  - project: quickjs
+    loc: 76321
+  - project: mruby
+    loc: 72860
+  - project: wabt
+    loc: 60216
+  - project: janet
+    loc: 33610
+  - project: wasm3
+    loc: 22387
+  - project: lua
+    loc: 21260
+  - project: gnucobol
+    loc: 0
+  - project: spidermonkey-ufi
+    loc: 0
+  - project: spidermonkey
+    loc: 0
+  ml:
+  - project: tensorflow
+    loc: 3171446
+  - project: xnnpack
+    loc: 2196799
+  - project: onednn
+    loc: 932747
+  - project: llamacpp
+    loc: 354581
+  - project: nccl
+    loc: 79715
+  - project: tensorflow-serving
+    loc: 52330
+  os_system:
+  - project: serenity
+    loc: 927371
+  - project: xnu
+    loc: 13698
 unknown_domain_projects:
 - ''

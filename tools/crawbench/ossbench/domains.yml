@@ -81,27 +81,77 @@ domains:
       - xml2json
 
   - id: metadata
-    name: File Metadata and System Utilities
+    name: File Metadata, Indexing, and Lightweight System Utilities
     description: >
       Utilities that inspect or manipulate file metadata, simple descriptors,
-      or system-level information, often used as helper tools in larger
-      workflows.
+      or lightweight system information, often used as helper tools in larger
+      workflows. They do not primarily implement OS kernels, device stacks,
+      or core system daemons.
     examples:
       - exiv2
       - file
       - stat-like-tools
+
+  - id: runtime
+    name: Language Runtimes and Virtual Machines
+    description: >
+      Language runtimes, interpreters, virtual machines, or bytecode engines
+      that execute user programs (e.g., JavaScript engines, Python runtimes,
+      WebAssembly VMs).
+    examples:
+      - cpython
+      - v8
+      - quickjs
+      - wasm3
+      - wasmedge
+
+  - id: os_system
+    name: Operating System and System Infrastructure
+    description: >
+      Core OS and system infrastructure components, including kernels,
+      init/system daemons, storage and filesystem tools, device and USB
+      stacks, hypervisors, eBPF helpers, and low-level system services.
+    examples:
+      - libbpf
+      - util-linux
+      - e2fsprogs
+      - xen
+      - spdk
+      - systemd
+      - lxc
+      - tdengine
+
+  - id: ml
+    name: Machine Learning Frameworks and Serving Systems
+    description: >
+      Machine learning frameworks, inference engines, and model-serving
+      systems that execute or host ML workloads (training or inference).
+    examples:
+      - tensorflow
+      - tensorflow-serving
+      - xgboost
+      - onnxruntime
+
 
 coarse_map:
   # toolchain / binary analysis
   binary-tools: toolchain
   disassembly: toolchain
   assembler: toolchain
+  debug-info: toolchain
+  linkage: toolchain
+  symbol-analysis: toolchain
 
   # archiving / compression
   compression: archive
   zlib: archive
   brotli: archive
   bzip2: archive
+  lzma: archive
+  xz: archive
+  lz4: archive
+  zstd: archive
+  archiving: archive
 
   # media (audio/video/image/graphics)
   image-processing: media
@@ -109,6 +159,9 @@ coarse_map:
   audio: media
   video: media
   graphics: media
+  codec: media
+  transcoding: media
+
 
   # documents / markup / structured data
   json: document
@@ -116,6 +169,10 @@ coarse_map:
   html: document
   markup: document
   yaml: document
+  document: document
+  pdf: document
+  text-format: document
+
 
   # networking / protocols / servers
   dns: network
@@ -132,6 +189,21 @@ coarse_map:
   network: network
   transport: network
   network/capture: network
+  ids/ips: network
+  ftp: network
+  mail: network
+  chat/protocol: network
+  p2p/protocol: network
+
+  # runtime / language tools
+  language-runtime: runtime
+  language-runtime/python: runtime
+  language-runtime/js: runtime
+  language-runtime/wasm: runtime
+  language-runtime/java: runtime
+  language-runtime/ruby: runtime
+  language-runtime/php: runtime
+  language-runtime/perl: runtime
 
   # crypto & security
   crypto: crypto
@@ -139,11 +211,36 @@ coarse_map:
   crypto/pgp: crypto
   xml/security: crypto
   auth/protocol: crypto
+  hash/checksum: crypto
+  password-tool: crypto
 
-  # metadata / misc system-ish tools
-  filesystem: metadata
-  system-info: metadata
-  system-topology: metadata
+
+  # OS / system infrastructure
+  os/system: os_system
+  os/kernel: os_system
+  os/ebpf: os_system
+  os/filesystem: os_system
+  os/storage: os_system
+  os/hypervisor: os_system
+  os/virtualization: os_system
+  os/container: os_system
+  os/daemon: os_system
+  os/device: os_system
+  os/usb: os_system
+  os/process: os_system
+  init-system: os_system
+  service-manager: os_system
+  logging-system: os_system
+  monitoring-system: os_system
+  database-system: os_system
+  time-series-db: os_system
+  kv-store: os_system
+  search-engine: os_system
+
+  # metadata / misc helper tools
+  filesystem: metadata        # high-level file walkers/indexers (not core fs)
+  system-info: metadata       # lightweight system info reporters
+  system-topology: metadata   # topology / hw inventory tools
   terminal: metadata
   config: metadata
   config-parser: metadata
@@ -152,4 +249,14 @@ coarse_map:
   cache: metadata
   logging: metadata
 
+  # machine learning frameworks / serving
+  ml: ml
+  ml/framework: ml
+  ml/serving: ml
+  ml/runtime: ml
+  ml/optimization: ml
+  ml/inference: ml
+  
+
+  # fallback
   other: metadata

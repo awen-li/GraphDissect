@@ -2,5 +2,5 @@ project: mruby
 oss_fuzz_project_dir: projects/mruby
 main_repo: https://github.com/mruby/mruby
 language: c++
-domain: metadata
+domain: runtime
 loc: 72860

@@ -2,5 +2,5 @@ project: php
 oss_fuzz_project_dir: projects/php
 main_repo: https://github.com/php/php-src.git
 language: c++
-domain: metadata
+domain: runtime
 loc: 1316093

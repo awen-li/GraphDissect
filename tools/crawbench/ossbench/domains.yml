@@ -91,3 +91,65 @@ domains:
       - file
       - stat-like-tools
 
+coarse_map:
+  # toolchain / binary analysis
+  binary-tools: toolchain
+  disassembly: toolchain
+  assembler: toolchain
+
+  # archiving / compression
+  compression: archive
+  zlib: archive
+  brotli: archive
+  bzip2: archive
+
+  # media (audio/video/image/graphics)
+  image-processing: media
+  multimedia: media
+  audio: media
+  video: media
+  graphics: media
+
+  # documents / markup / structured data
+  json: document
+  xml: document
+  html: document
+  markup: document
+  yaml: document
+
+  # networking / protocols / servers
+  dns: network
+  dns/dhcp: network
+  http: network
+  http/parser: network
+  http/http3: network
+  web-server: network
+  web-server/embedded: network
+  proxy/load-balancer: network
+  proxy/api-gateway: network
+  ssh: network
+  vpn: network
+  network: network
+  transport: network
+  network/capture: network
+
+  # crypto & security
+  crypto: crypto
+  crypto/tls: crypto
+  crypto/pgp: crypto
+  xml/security: crypto
+  auth/protocol: crypto
+
+  # metadata / misc system-ish tools
+  filesystem: metadata
+  system-info: metadata
+  system-topology: metadata
+  terminal: metadata
+  config: metadata
+  config-parser: metadata
+  debug-info: metadata
+  scientific-io: metadata
+  cache: metadata
+  logging: metadata
+
+  other: metadata

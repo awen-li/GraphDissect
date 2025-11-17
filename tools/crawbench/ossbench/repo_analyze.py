@@ -1,11 +1,13 @@
 import json
 import subprocess
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List, Tuple
 
-from .profiles import ProjectProfile
+import yaml
+from .profiles import ProjectProfile, iter_profiles
+from .task_distributer import TaskDistributer
 
-# You can extend or refine these domain labels as you go
+
 KNOWN_DOMAIN_OVERRIDES = {
     "apache-httpd": "web-server",
     "binutils": "binary-tools",
@@ -115,106 +117,471 @@ KNOWN_DOMAIN_OVERRIDES = {
     "yajl-ruby": "json/binding",
     "zlib": "compression",
     "zydis": "disassembly",
+
+    # toolchain / binary utilities
+    "llvm": "binary-tools",
+    "llvm_libcxx": "binary-tools",
+    "llvm_libcxxabi": "binary-tools",
+    "radare2": "binary-tools",
+    "capstone": "disassembly",
+    "file": "filesystem",          # maps to coarse 'metadata'
+    "e2fsprogs": "filesystem",
+    "unicorn": "binary-tools",
+
+    # media (image/audio/video/graphics)
+    "ffmpeg": "multimedia",
+    "vlc": "multimedia/player",    # already above, just keep that
+    "imagemagick": "image-processing",
+    "graphicsmagick": "image-processing",
+    "libpng": "image-processing",
+    "libjpeg-turbo": "image-processing",
+    "libtiff": "image-processing",
+    "libwebp": "image-processing",
+    "libheif": "image-processing",
+    "flac": "audio/codec",
+    "vorbis": "audio/codec",
+    "opus": "audio/codec",
+    "wavpack": "audio/codec",
+    "faad2": "audio/codec",
+
+    # document / markup / PDF / XML / JSON
+    "xpdf": "document",            # coarse: document
+    "poppler": "document",
+    "mupdf": "document",
+    "libxml2": "xml",
+    "expat": "xml",
+    "yaml-cpp": "yaml",
+    "json-c": "json",
+    "jsoncpp": "json",
+    "jsoncons": "json",
+    "pugixml": "xml",
+    "tidy-html5": "html/parser",   # already present above
+
+    # archive / compression
+    "libarchive": "compression",
+    "xz": "compression",
+    "zstd": "compression",
+    "zip": "compression",
+    "unrar": "compression",
+    "upx": "compression",
+
+    # crypto / hash / security
+    "openssl": "crypto/tls",
+    "boringssl": "crypto/tls",
+    "gnutls": "crypto/tls",
+    "wolfssl": "crypto/tls",
+    "bearssl": "crypto/tls",
+    "libsodium": "crypto",
+    "mbedtls": "crypto/tls",
+    "wolfmqtt": "crypto",          # secure messaging-ish
+    "rnp": "crypto/pgp",
+    "tpm2": "crypto",
+    "tpm2-tss": "crypto",
+
+    # network / protocol / servers / clients
+    "curl": "http",                # coarse: network
+    "wget": "http",
+    "wget2": "http",
+    "nghttp2": "http",
+    "trafficserver": "proxy/load-balancer",
+    "haproxy": "proxy/load-balancer",  # already above
+    "varnish": "proxy/load-balancer",
+    "wireshark": "network/capture",
+    "pcapplusplus": "network/capture",
+    "systemd": "network",          # mixed, but okay for coarse
+    "networkmanager": "network",
+    "openvswitch": "network",
+    "osquery": "network",
+
+    # database / storage
+    "duckdb": "database/sql",
+    "mysql-server": "database/sql",
+    "mariadb": "database/sql",     # already above
+    "rocksdb": "database/storage",
+
+    # ML / numeric / scientific
+    "tensorflow": "ml/framework",
+    "xnnpack": "ml/framework",
+    "eigen": "scientific-io",
+
+    # metadata / helper utilities
+    "exiv2": "filesystem",         # file metadata → coarse metadata
+    "libexif": "filesystem",
+    "libvips": "image-processing",
+    "sleuthkit": "filesystem",
 }
 
 
-def clone_repo_if_needed(main_repo: str, target_dir: Path) -> None:
-    if target_dir.is_dir():
-        return
-    target_dir.parent.mkdir(parents=True, exist_ok=True)
-    print(f"[clone] git clone {main_repo} -> {target_dir}")
-    try:
-        subprocess.run(
-            ["git", "clone", "--depth", "1", main_repo, str(target_dir)],
-            check=True,
-        )
-    except subprocess.CalledProcessError as e:
-        print(f"[clone] WARNING: git clone failed for {main_repo}: {e}")
+DOMAINS_YAML = Path(__file__).with_name("domains.yml")
+
+# Only C / C++ source + headers
+C_LANG_WHITELIST = {
+    "C",
+    "C++",
+    "C/C++ Header",
+}
 
 
-def _compute_loc_with_cloc(repo_dir: Path) -> Optional[int]:
-    try:
-        proc = subprocess.run(
-            ["cloc", "--json", "."],
-            cwd=str(repo_dir),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=True,
-        )
-        data = json.loads(proc.stdout)
-        total = 0
-        for lang, info in data.items():
-            if not isinstance(info, dict):
-                continue
-            code = info.get("code")
-            if isinstance(code, int):
-                total += code
-        return total
-    except Exception as e:
-        print(f"[loc] cloc failed in {repo_dir}: {e}")
+class DomainMapper:
+    """
+    Handles domain mapping and inference for OSS-Fuzz projects.
+    """
+
+    def __init__(
+        self,
+        domains_yaml: Path = DOMAINS_YAML,
+        overrides: Optional[dict] = None,
+    ) -> None:
+        self.domains_yaml = domains_yaml
+        self.overrides = overrides or KNOWN_DOMAIN_OVERRIDES
+        self._coarse_map_cache: Optional[dict] = None
+
+    # --- Coarse map loading / lookup ------------------------------------
+    def load_coarse_map(self) -> dict:
+        if self._coarse_map_cache is not None:
+            return self._coarse_map_cache
+
+        try:
+            with self.domains_yaml.open("r") as f:
+                data = yaml.safe_load(f) or {}
+            self._coarse_map_cache = data.get("coarse_map", {})
+        except Exception as e:
+            print(f"[domain] WARNING: failed to load {self.domains_yaml}: {e}")
+            self._coarse_map_cache = {}
+
+        return self._coarse_map_cache
+
+    def map_fine_to_coarse(self, fine_label: str) -> str:
+        """
+        Map a fine-grained label like 'http/parser' or 'compression'
+        to a coarse domain id like 'network', 'archive', etc.
+        """
+        if not fine_label:
+            return "unknown"
+
+        coarse_map = self.load_coarse_map()
+
+        # Exact match
+        if fine_label in coarse_map:
+            return coarse_map[fine_label]
+
+        # Prefix match (before '/')
+        prefix = fine_label.split("/", 1)[0]
+        if prefix in coarse_map:
+            return coarse_map[prefix]
+
+        # Fallback bucket
+        return coarse_map.get("other", "unknown")
+
+    # --- Heuristics for fine labels --------------------------------------
+
+    def guess_fine_label_from_name(self, project: str) -> Optional[str]:
+        """
+        Infer a fine_label from the OSS-Fuzz project name using simple string rules.
+        This is where we cover the *rest* of the 557 projects.
+        """
+        name = project.lower()
+
+        # --- toolchain / compilers / linkers ---
+        if any(x in name for x in ["binutils", "objdump", "nm", "addr2line", "readelf"]):
+            return "binary-tools"
+        if "llvm" in name or "clang" in name:
+            return "binary-tools"
+        if "assembler" in name or "keystone" in name:
+            return "assembler"
+        if any(x in name for x in ["gdb", "lldb"]):
+            return "debug-info"
+
+        # --- media / image / audio / video ---
+        if any(x in name for x in ["png", "jpeg", "tiff", "gif", "image", "magick", "pixbuf", "webp"]):
+            return "image-processing"
+        if any(x in name for x in ["ffmpeg", "xvid", "vorbis", "opus", "flac", "wavpack", "mpg123", "audio", "codec"]):
+            return "audio/codec"
+        if "gstreamer" in name or "vlc" in name:
+            return "multimedia/player"
+        if "gpac" in name:
+            return "multimedia/container"
+        if any(x in name for x in ["cairo", "skia", "vulkan", "opengl"]):
+            return "graphics"
+
+        # --- document / markup / json / xml / pdf ---
+        if "libxml2" in name or "xmlsec" in name or "xml" in name:
+            return "xml/parser"
+        if any(x in name for x in ["json", "yajl", "rapidjson", "jsoncpp", "jsonnet"]):
+            return "json/parser"
+        if any(x in name for x in ["markdown", "cmark", "md4c"]):
+            return "markup/markdown"
+        if any(x in name for x in ["pdf", "poppler", "xpdf", "ghostscript"]):
+            return "pdf/parser"
+        if "html" in name or "tidy-html5" in name:
+            return "html/parser"
+
+        # --- archive / compression ---
+        if any(x in name for x in ["zlib", "zstd", "lz4", "xz", "bzip2", "brotli", "zip", "unzip", "minizip"]):
+            return "compression"
+        if "archive" in name or "tar" in name or "cpio" in name:
+            return "archiving"
+
+        # --- crypto / hashing / tls ---
+        if any(x in name for x in ["openssl", "boringssl", "libressl", "gnutls", "mbedtls", "wolfssl"]):
+            return "crypto/tls"
+        if any(x in name for x in ["crypto", "hash", "sha", "md5", "blake", "sodium", "libsodium", "bearssl"]):
+            return "crypto"
+        if "gnupg" in name or "pgp" in name:
+            return "crypto/pgp"
+
+        # --- network / dns / http / ssh / vpn / protocols ---
+        if any(x in name for x in ["curl", "wget", "nghttp2", "http", "h2o", "envoy"]):
+            return "http/client"
+        if any(x in name for x in ["bind", "unbound", "dnsmasq", "dns"]):
+            return "dns"
+        if any(x in name for x in ["ssh", "openssh", "dropbear", "libssh"]):
+            return "ssh"
+        if "openvpn" in name or "wireguard" in name:
+            return "vpn"
+        if any(x in name for x in ["quic", "h3", "quiche", "msquic"]):
+            return "quic/http3"
+        if "suricata" in name or "snort" in name:
+            return "ids/ips"
+        if "pcap" in name or "libpcap" in name:
+            return "network/capture"
+
+        # --- databases / storage ---
+        if any(x in name for x in ["sqlite", "postgres", "mariadb", "mysql", "duckdb", "rocksdb", "leveldb"]):
+            return "database/sql"
+
+        # --- metadata / file-info ---
+        if "exiv2" in name or "libexif" in name or name == "file":
+            return "metadata/file-info"
+
+        # --- ML / scientific ---
+        if "tensorflow" in name or "onnx" in name:
+            return "ml/framework"
+        if any(x in name for x in ["hdf5", "netcdf", "gdal", "matio"]):
+            return "scientific-io"
+
+        # fallback: unknown
         return None
 
+    # --- High-level domain inference ------------------------------------
+    def infer_domain(self, profile: ProjectProfile) -> tuple[str, Optional[str]]:
+        """
+        Infer (coarse_domain, fine_label) for this project.
+        fine_label is what overrides / heuristics produce.
+        coarse_domain is mapped via domains.yml coarse_map.
+        """
+        # 1) Explicit override wins
+        fine_label = self.overrides.get(profile.project)
 
-def _compute_loc_fallback(repo_dir: Path) -> int:
-    exts = {".c", ".h", ".cc", ".cpp", ".cxx", ".hpp", ".hh", ".hxx"}
-    total = 0
-    for p in repo_dir.rglob("*"):
-        if p.is_file() and p.suffix in exts:
-            try:
-                with p.open("r", errors="ignore") as f:
-                    for _ in f:
-                        total += 1
-            except Exception:
-                continue
-    return total
+        # 2) If no override, try heuristic from project name
+        if not fine_label:
+            fine_label = self.guess_fine_label_from_name(profile.project)
+
+        # 3) If still nothing, fall back to existing profile.domain (if any)
+        if not fine_label and profile.domain and profile.domain.lower() not in ("unknown", "null"):
+            fine_label = profile.domain
+
+        # 4) If still unknown, return unknown
+        if not fine_label:
+            return "unknown", None
+
+        # 5) Map fine -> coarse using domains.yml
+        coarse = self.map_fine_to_coarse(fine_label)
+        return coarse, fine_label
+
+
+_DEFAULT_DOMAIN_MAPPER: Optional[DomainMapper] = None
+
+
+def _get_default_domain_mapper() -> DomainMapper:
+    global _DEFAULT_DOMAIN_MAPPER
+    if _DEFAULT_DOMAIN_MAPPER is None:
+        _DEFAULT_DOMAIN_MAPPER = DomainMapper(domains_yaml=DOMAINS_YAML, overrides=KNOWN_DOMAIN_OVERRIDES)
+    return _DEFAULT_DOMAIN_MAPPER
+
+
+class ProfileAugmenter:
+    """
+    Handles repository cloning, LOC computation, and profile augmentation.
+    """
+
+    def __init__(self, clone_root: Path, domain_mapper: Optional[DomainMapper] = None) -> None:
+        self.clone_root = clone_root
+        self.domain_mapper = domain_mapper or _get_default_domain_mapper()
+
+    # --- Repo management -------------------------------------------------
+    def clone_repo_if_needed(self, main_repo: str, target_dir: Path) -> None:
+        if target_dir.is_dir():
+            return
+        target_dir.parent.mkdir(parents=True, exist_ok=True)
+        print(f"[clone] git clone {main_repo} -> {target_dir}")
+        try:
+            subprocess.run(
+                ["git", "clone", "--depth", "1", main_repo, str(target_dir)],
+                check=True,
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"[clone] WARNING: git clone failed for {main_repo}: {e}")
+
+    # --- LOC computation using cloc -------------------------------------
+    def _compute_loc_with_cloc(self, repo_dir: Path) -> Optional[int]:
+        """
+        Use cloc to compute LOC for C/C++ sources and headers only.
+        Returns total LOC (int) or None if cloc fails.
+        """
+        try:
+            proc = subprocess.run(
+                [
+                    "cloc",
+                    "--json",
+                    "--include-lang=C,C++,C/C++ Header",
+                    ".",
+                ],
+                cwd=str(repo_dir),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True,
+            )
+            data = json.loads(proc.stdout)
+
+            total = 0
+            for lang, info in data.items():
+                # cloc metadata keys are not dicts; skip those
+                if not isinstance(info, dict):
+                    continue
+                if lang not in C_LANG_WHITELIST:
+                    continue
+                code = info.get("code")
+                if isinstance(code, int):
+                    total += code
+
+            return total
+        except Exception as e:
+            print(f"[loc] cloc failed in {repo_dir}: {e}")
+            return None
+
+    def compute_loc(self, repo_dir: Path) -> int:
+        """
+        Compute C/C++ LOC using cloc only.
+        If cloc fails, return 0 (no slow Python fallback).
+        """
+        loc = self._compute_loc_with_cloc(repo_dir)
+        if loc is None:
+            return 0
+        return loc
+
+    # --- High-level profile augmentation --------------------------------
+    def augment(self, profile: ProjectProfile) -> ProjectProfile:
+        if not profile.main_repo or profile.main_repo.lower().startswith("null"):
+            print(f"[augment] Skipping {profile.project}: no main_repo")
+            return profile
+
+        repo_dir = self.clone_root / profile.project
+        self.clone_repo_if_needed(profile.main_repo, repo_dir)
+
+        if not repo_dir.is_dir():
+            print(f"[augment] Skipping {profile.project}: repo directory not found")
+            return profile
+
+        loc_val = self.compute_loc(repo_dir)
+        coarse_domain, fine_label = self.domain_mapper.infer_domain(profile)
+
+        profile.loc = loc_val
+        profile.domain = coarse_domain
+        if hasattr(profile, "domain_label"):
+            profile.domain_label = fine_label
+
+        print(
+            f"[augment] {profile.project}: loc={loc_val}, "
+            f"domain={coarse_domain}, fine_label={fine_label}"
+        )
+        return profile
+
+
+# ----------------------------------------------------------------------
+# Backwards-compatible functional API
+# ----------------------------------------------------------------------
+
+def load_coarse_map() -> dict:
+    return _get_default_domain_mapper().load_coarse_map()
+
+
+def map_fine_to_coarse(fine_label: str) -> str:
+    return _get_default_domain_mapper().map_fine_to_coarse(fine_label)
+
+
+def guess_fine_label_from_name(project: str) -> Optional[str]:
+    return _get_default_domain_mapper().guess_fine_label_from_name(project)
+
+
+def infer_domain(profile: ProjectProfile) -> tuple[str, Optional[str]]:
+    return _get_default_domain_mapper().infer_domain(profile)
+
+
+def clone_repo_if_needed(main_repo: str, target_dir: Path) -> None:
+    augmenter = ProfileAugmenter(clone_root=target_dir.parent, domain_mapper=_get_default_domain_mapper())
+    augmenter.clone_repo_if_needed(main_repo, target_dir)
 
 
 def compute_loc(repo_dir: Path) -> int:
-    loc = _compute_loc_with_cloc(repo_dir)
-    if loc is not None:
-        return loc
-    return _compute_loc_fallback(repo_dir)
-
-
-def infer_domain(profile: ProjectProfile) -> str:
-    # If already set (non-empty), keep it
-    if profile.domain and profile.domain.lower() not in ("unknown", "null"):
-        return profile.domain
-
-    # Try overrides by project name
-    if profile.project in KNOWN_DOMAIN_OVERRIDES:
-        return KNOWN_DOMAIN_OVERRIDES[profile.project]
-
-    # Fall back on language if useful later (e.g., "c" -> "systems")
-    # For now, just "unknown"
-    return "unknown"
+    augmenter = ProfileAugmenter(clone_root=repo_dir, domain_mapper=_get_default_domain_mapper())
+    return augmenter.compute_loc(repo_dir)
 
 
 def augment_profile(
     profile: ProjectProfile,
     clone_root: Path,
 ) -> ProjectProfile:
+    augmenter = ProfileAugmenter(clone_root=clone_root, domain_mapper=_get_default_domain_mapper())
+    return augmenter.augment(profile)
+
+
+class ProfileAugmentWorker:
     """
-    Clone the upstream repo, compute LOC, and update domain.
+    Worker object executed in a subprocess.
+    It processes a slice of profile paths and augments each profile.
     """
-    if not profile.main_repo or profile.main_repo.lower().startswith("null"):
-        print(f"[augment] Skipping {profile.project}: no main_repo")
-        return profile
 
-    repo_dir = clone_root / profile.project
-    clone_repo_if_needed(profile.main_repo, repo_dir)
+    def __init__(self, paths: List[Path], clone_root: Path) -> None:
+        self.paths = paths
+        self.clone_root = clone_root
 
-    if not repo_dir.is_dir():
-        print(f"[augment] Skipping {profile.project}: repo directory not found")
-        return profile
+    def StartRun(self) -> None:
+        from .profiles import load_profile, save_profile  # import inside process
+        augmenter = ProfileAugmenter(clone_root=self.clone_root)
 
-    loc_val = compute_loc(repo_dir)
-    domain_val = infer_domain(profile)
+        total = len(self.paths)
+        for idx, path in enumerate(self.paths, start=1):
+            profile = load_profile(path)
+            print(f"[worker] {path.name} ({idx}/{total})")
+            profile = augmenter.augment(profile)
+            save_profile(profile, path)
 
-    profile.loc = loc_val
-    profile.domain = domain_val
 
-    print(f"[augment] {profile.project}: loc={loc_val}, domain={domain_val}")
-    return profile
+class AugmentTaskDistributer(TaskDistributer):
+    """
+    TaskDistributer specialization for profile augmentation.
+    Splits the list of profile paths into ranges and spawns workers.
+    """
+
+    def __init__(
+        self,
+        task_name: str,
+        paths: List[Path],
+        clone_root: Path,
+        task_num: int = 4,
+    ) -> None:
+        super().__init__(task_name, ItemSize=len(paths), TaskNum=task_num)
+        self.paths = paths
+        self.clone_root = clone_root
+
+    def InitObject(self, StartNo: int, EndNo: int) -> ProfileAugmentWorker:
+        # EndNo is inclusive in your TaskDistributer
+        slice_paths = self.paths[StartNo : EndNo + 1]
+        return ProfileAugmentWorker(slice_paths, self.clone_root)
+
+    def Final(self) -> None:
+        # Called once after all tasks join
+        print("[augment] all worker processes finished.")
 

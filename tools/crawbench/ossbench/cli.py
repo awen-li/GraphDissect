@@ -1,13 +1,16 @@
 import argparse
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
-from .profiles import save_profile, iter_profiles, list_profile_paths
-from .ossfuzz_scan import discover_c_projects
-from .repo_analyze import augment_profile
-from .summary import write_summary
+from .profiles import save_profile, list_profile_paths
+from .ossfuzz_scan import CProjectDiscoverer  
+from .repo_analyze import ProfileAugmenter, ProfileAugmentWorker, AugmentTaskDistributer    
+from .summary import ProfilesSummary          
 
 
+# ----------------------------------------------------------------------
+# CLI commands
+# ----------------------------------------------------------------------
 def _load_project_list(path: Optional[Path]) -> Optional[List[str]]:
     if path is None:
         return None
@@ -26,7 +29,11 @@ def cmd_generate(args: argparse.Namespace) -> None:
     profiles_dir = args.profiles_dir.resolve()
     project_list = _load_project_list(args.project_list)
 
-    profiles = discover_c_projects(root, project_list)
+    discoverer = CProjectDiscoverer(
+        oss_fuzz_root=root,
+        project_whitelist=project_list,
+    )
+    profiles = discoverer.discover()
 
     profiles_dir.mkdir(parents=True, exist_ok=True)
     for p in profiles:
@@ -40,23 +47,30 @@ def cmd_generate(args: argparse.Namespace) -> None:
 def cmd_augment(args: argparse.Namespace) -> None:
     profiles_dir = args.profiles_dir.resolve()
     clone_root = args.clone_root.resolve()
+    jobs = args.jobs
 
     paths = list_profile_paths(profiles_dir)
     if not paths:
         print(f"[augment] no profiles found in {profiles_dir}")
         return
 
-    from .profiles import load_profile, save_profile  # local import to avoid cycles
+    paths = sorted(paths)  # deterministic ordering
 
-    for path in paths:
-        profile = load_profile(path)
-        profile = augment_profile(profile, clone_root)
-        save_profile(profile, path)
+    print(
+        f"[augment] augmenting {len(paths)} profiles with {jobs} "
+        f"parallel worker(s)…"
+    )
 
-    # After augment, also emit a summary
+    dist = AugmentTaskDistributer(
+        task_name="augment-profiles",
+        paths=paths,
+        clone_root=clone_root,
+        task_num=jobs,
+    )
+    dist.Distributer()
+
     summary_path = profiles_dir / "summary.yaml"
-    summary = write_summary(profiles_dir, summary_path)
-
+    summary = ProfilesSummary(profiles_dir).write(summary_path)
     print(f"[augment] summary written to {summary_path}")
 
     # Data size overview
@@ -65,22 +79,44 @@ def cmd_augment(args: argparse.Namespace) -> None:
     print(f"  loc_total:      {summary['loc_total']}")
     print(f"  loc_min:        {summary['loc_min']}")
     print(f"  loc_max:        {summary['loc_max']}")
-    print(f"  loc_avg:        {summary['loc_avg']:.2f}"
-          if summary['loc_avg'] is not None else "  loc_avg:        None")
+    print(
+        f"  loc_avg:        {summary['loc_avg']:.2f}"
+        if summary['loc_avg'] is not None
+        else "  loc_avg:        None"
+    )
 
-    # Show top-N largest projects by LOC
-    projects_by_loc = summary.get("projects_by_loc", [])
+    # Show top-N largest projects by LOC (flatten from known_domain_projects)
+    projects_by_loc: List[Dict[str, Any]] = []
+    for domain, plist in summary.get("known_domain_projects", {}).items():
+        for entry in plist:
+            projects_by_loc.append(
+                {
+                    "project": entry["project"],
+                    "loc": entry["loc"],
+                    "domain": domain,
+                }
+            )
+
+    projects_by_loc.sort(
+        key=lambda e: e["loc"] if isinstance(e.get("loc"), int) else -1,
+        reverse=True,
+    )
+
     top_n = min(10, len(projects_by_loc))
     if top_n > 0:
         print(f"  top {top_n} projects by LOC:")
         for entry in projects_by_loc[:top_n]:
-            print(f"    {entry['project']}: loc={entry['loc']}, domain={entry['domain']}")
+            print(
+                f"    {entry['project']}: "
+                f"loc={entry['loc']}, domain={entry['domain']}"
+            )
 
 
 def cmd_summary(args: argparse.Namespace) -> None:
     profiles_dir = args.profiles_dir.resolve()
     summary_path = args.output.resolve()
-    summary = write_summary(profiles_dir, summary_path)
+
+    summary = ProfilesSummary(profiles_dir).write(summary_path)
 
     print(f"[summary] written to {summary_path}")
 
@@ -89,18 +125,40 @@ def cmd_summary(args: argparse.Namespace) -> None:
     print(f"  loc_total:      {summary['loc_total']}")
     print(f"  loc_min:        {summary['loc_min']}")
     print(f"  loc_max:        {summary['loc_max']}")
-    print(f"  loc_avg:        {summary['loc_avg']:.2f}"
-          if summary['loc_avg'] is not None else "  loc_avg:        None")
+    print(
+        f"  loc_avg:        {summary['loc_avg']:.2f}"
+        if summary['loc_avg'] is not None
+        else "  loc_avg:        None"
+    )
 
     print("[summary] domains:")
     for dom, count in summary["domains"].items():
         print(f"  {dom}: {count}")
 
-    projects_by_loc = summary.get("projects_by_loc", [])
+    # Global projects-by-LOC view (flatten from known_domain_projects)
+    projects_by_loc: List[Dict[str, Any]] = []
+    for domain, plist in summary.get("known_domain_projects", {}).items():
+        for entry in plist:
+            projects_by_loc.append(
+                {
+                    "project": entry["project"],
+                    "loc": entry["loc"],
+                    "domain": domain,
+                }
+            )
+
+    projects_by_loc.sort(
+        key=lambda e: e["loc"] if isinstance(e.get("loc"), int) else -1,
+        reverse=True,
+    )
+
     if projects_by_loc:
         print("[summary] projects ordered by LOC (desc):")
         for entry in projects_by_loc:
-            print(f"  {entry['project']}: loc={entry['loc']}, domain={entry['domain']}")
+            print(
+                f"  {entry['project']}: "
+                f"loc={entry['loc']}, domain={entry['domain']}"
+            )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -145,6 +203,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("bench_repos"),
         help="Root directory where upstream repos are cloned (default: bench_repos/).",
     )
+    p_aug.add_argument(
+        "-j",
+        "--jobs",
+        type=int,
+        default=4,
+        help="Number of parallel worker processes (default: 4).",
+    )
     p_aug.set_defaults(func=cmd_augment)
 
     # summary
@@ -166,4 +231,3 @@ def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
     args.func(args)
-

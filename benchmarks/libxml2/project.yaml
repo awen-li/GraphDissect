@@ -1,7 +1,0 @@
-project:
-  name: "libxml2"
-  description: "an XML toolkit"
-  github: "https://github.com/GNOME/libxml2"
-  format: "*.xml, *.html, *.xhtml, *.xsl, *.xslt, *.dtd"
-  encoding: "plain text"
-  cmdline: "{bin} {opts} {input}"

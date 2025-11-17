@@ -2,5 +2,5 @@ project: libecc
 oss_fuzz_project_dir: projects/libecc
 main_repo: https://github.com/ANSSI-FR/libecc.git
 language: c++
-domain: unknown
-loc: 1795010
+domain: crypto
+loc: 891905

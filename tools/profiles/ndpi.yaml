@@ -2,5 +2,5 @@ project: ndpi
 oss_fuzz_project_dir: projects/ndpi
 main_repo: https://github.com/ntop/nDPI.git
 language: c++
-domain: unknown
-loc: 284872
+domain: network
+loc: 124636

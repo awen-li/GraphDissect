@@ -2,5 +2,5 @@ project: pupnp
 oss_fuzz_project_dir: projects/pupnp
 main_repo: https://github.com/pupnp/pupnp
 language: c
-domain: unknown
-loc: 88828
+domain: network
+loc: 38512

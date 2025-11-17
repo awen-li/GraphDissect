@@ -2,5 +2,5 @@ project: libprotobuf-mutator
 oss_fuzz_project_dir: projects/libprotobuf-mutator
 main_repo: https://github.com/google/libprotobuf-mutator.git
 language: c++
-domain: unknown
-loc: 8022
+domain: metadata
+loc: 2956

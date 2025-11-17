@@ -2,5 +2,5 @@ project: kea
 oss_fuzz_project_dir: projects/kea
 main_repo: https://gitlab.isc.org/isc-projects/kea
 language: c++
-domain: unknown
-loc: 1418634
+domain: network
+loc: 669083

@@ -2,5 +2,5 @@ project: phmap
 oss_fuzz_project_dir: projects/phmap
 main_repo: https://github.com/greg7mdp/parallel-hashmap
 language: c++
-domain: unknown
-loc: 77472
+domain: metadata
+loc: 21721

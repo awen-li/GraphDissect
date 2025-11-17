@@ -2,5 +2,5 @@ project: qpid-proton
 oss_fuzz_project_dir: projects/qpid-proton
 main_repo: https://github.com/apache/qpid-proton.git
 language: c++
-domain: unknown
-loc: 227300
+domain: metadata
+loc: 79568

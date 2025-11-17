@@ -2,5 +2,5 @@ project: openvpn
 oss_fuzz_project_dir: projects/openvpn
 main_repo: https://github.com/OpenVPN/openvpn
 language: c
-domain: vpn
-loc: 219488
+domain: network
+loc: 102160

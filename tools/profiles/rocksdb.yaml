@@ -2,5 +2,5 @@ project: rocksdb
 oss_fuzz_project_dir: projects/rocksdb
 main_repo: https://github.com/facebook/rocksdb
 language: c++
-domain: unknown
-loc: 1254030
+domain: metadata
+loc: 541059

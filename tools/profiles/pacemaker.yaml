@@ -2,5 +2,5 @@ project: pacemaker
 oss_fuzz_project_dir: projects/pacemaker
 main_repo: https://github.com/ClusterLabs/pacemaker
 language: c
-domain: cluster-management
-loc: 988624
+domain: metadata
+loc: 144869

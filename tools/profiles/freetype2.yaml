@@ -2,5 +2,5 @@ project: freetype2
 oss_fuzz_project_dir: projects/freetype2
 main_repo: https://github.com/freetype/freetype2-testing.git
 language: c++
-domain: unknown
-loc: 14744
+domain: metadata
+loc: 5670

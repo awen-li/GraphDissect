@@ -2,5 +2,5 @@ project: graphicsfuzz-spirv
 oss_fuzz_project_dir: projects/graphicsfuzz-spirv
 main_repo: https://github.com/google/graphicsfuzz
 language: c++
-domain: unknown
-loc: 447554
+domain: media
+loc: 3172

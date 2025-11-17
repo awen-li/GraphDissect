@@ -2,5 +2,5 @@ project: http-pattern-matcher
 oss_fuzz_project_dir: projects/http-pattern-matcher
 main_repo: https://github.com/google/http_pattern_matcher.git
 language: c++
-domain: unknown
-loc: 3822
+domain: network
+loc: 1867

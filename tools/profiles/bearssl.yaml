@@ -2,5 +2,5 @@ project: bearssl
 oss_fuzz_project_dir: projects/bearssl
 main_repo: https://www.bearssl.org/git/BearSSL
 language: c++
-domain: unknown
-loc: 129700
+domain: crypto
+loc: 59281

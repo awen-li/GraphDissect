@@ -2,5 +2,5 @@ project: bc-gh
 oss_fuzz_project_dir: projects/bc-gh
 main_repo: https://github.com/gavinhoward/bc
 language: c
-domain: unknown
-loc: 143196
+domain: metadata
+loc: 19125

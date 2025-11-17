@@ -2,5 +2,5 @@ project: v8
 oss_fuzz_project_dir: projects/v8
 main_repo: https://chromium.googlesource.com/v8/v8
 language: c++
-domain: unknown
-loc: 5780902
+domain: metadata
+loc: 2043693

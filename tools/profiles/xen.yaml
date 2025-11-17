@@ -2,5 +2,5 @@ project: xen
 oss_fuzz_project_dir: projects/xen
 main_repo: https://xenbits.xen.org/git-http/xen.git
 language: c
-domain: unknown
-loc: 1248720
+domain: metadata
+loc: 540070

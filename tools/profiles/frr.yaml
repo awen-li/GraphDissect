@@ -2,5 +2,5 @@ project: frr
 oss_fuzz_project_dir: projects/frr
 main_repo: https://github.com/FRRouting/frr
 language: c++
-domain: unknown
-loc: 2093396
+domain: network
+loc: 689669

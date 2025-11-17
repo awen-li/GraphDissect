@@ -2,5 +2,5 @@ project: xnu
 oss_fuzz_project_dir: projects/xnu
 main_repo: https://github.com/googleprojectzero/SockFuzzer
 language: c
-domain: unknown
-loc: 35274
+domain: metadata
+loc: 13698

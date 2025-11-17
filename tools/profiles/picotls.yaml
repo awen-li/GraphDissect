@@ -2,5 +2,5 @@ project: picotls
 oss_fuzz_project_dir: projects/picotls
 main_repo: https://github.com/h2o/picotls
 language: c++
-domain: unknown
-loc: 77808
+domain: crypto
+loc: 33151

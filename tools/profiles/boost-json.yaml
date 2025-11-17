@@ -2,5 +2,5 @@ project: boost-json
 oss_fuzz_project_dir: projects/boost-json
 main_repo: https://github.com/boostorg/json.git
 language: c++
-domain: unknown
-loc: 618850
+domain: document
+loc: 45625

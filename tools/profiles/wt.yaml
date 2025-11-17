@@ -2,5 +2,5 @@ project: wt
 oss_fuzz_project_dir: projects/wt
 main_repo: https://github.com/emweb/wt
 language: c++
-domain: unknown
-loc: 993206
+domain: metadata
+loc: 394417

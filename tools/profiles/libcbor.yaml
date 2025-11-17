@@ -2,5 +2,5 @@ project: libcbor
 oss_fuzz_project_dir: projects/libcbor
 main_repo: https://github.com/PJK/libcbor
 language: c++
-domain: unknown
-loc: 22450
+domain: metadata
+loc: 9442

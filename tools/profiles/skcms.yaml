@@ -2,5 +2,5 @@ project: skcms
 oss_fuzz_project_dir: projects/skcms
 main_repo: https://skia.googlesource.com/skcms.git
 language: c++
-domain: color-management
-loc: 15920
+domain: metadata
+loc: 7020

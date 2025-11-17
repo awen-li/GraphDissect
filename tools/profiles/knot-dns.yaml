@@ -2,5 +2,5 @@ project: knot-dns
 oss_fuzz_project_dir: projects/knot-dns
 main_repo: https://gitlab.nic.cz/knot/knot-dns.git
 language: c++
-domain: unknown
-loc: 347654
+domain: network
+loc: 150714

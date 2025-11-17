@@ -2,5 +2,5 @@ project: bluez
 oss_fuzz_project_dir: projects/bluez
 main_repo: https://github.com/bluez/bluez
 language: c
-domain: bluetooth
-loc: 803074
+domain: metadata
+loc: 393709

@@ -2,5 +2,5 @@ project: libpsl
 oss_fuzz_project_dir: projects/libpsl
 main_repo: https://github.com/rockdaboot/libpsl.git
 language: c++
-domain: unknown
-loc: 9892
+domain: network
+loc: 2440

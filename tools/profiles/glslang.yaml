@@ -2,5 +2,5 @@ project: glslang
 oss_fuzz_project_dir: projects/glslang
 main_repo: https://github.com/khronosgroup/glslang
 language: c++
-domain: unknown
-loc: 327636
+domain: media
+loc: 101950

@@ -2,5 +2,5 @@ project: mpv
 oss_fuzz_project_dir: projects/mpv
 main_repo: https://github.com/mpv-player/mpv
 language: c
-domain: unknown
-loc: 357284
+domain: media
+loc: 155356

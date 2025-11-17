@@ -2,5 +2,5 @@ project: tcmalloc
 oss_fuzz_project_dir: projects/tcmalloc
 main_repo: https://github.com/google/tcmalloc
 language: c++
-domain: unknown
-loc: 131606
+domain: metadata
+loc: 61946

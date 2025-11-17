@@ -2,5 +2,5 @@ project: cgif
 oss_fuzz_project_dir: projects/cgif
 main_repo: https://github.com/dloebl/cgif.git
 language: c
-domain: unknown
-loc: 10350
+domain: media
+loc: 4686

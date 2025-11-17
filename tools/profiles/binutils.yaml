@@ -2,5 +2,5 @@ project: binutils
 oss_fuzz_project_dir: projects/binutils
 main_repo: https://github.com/bminor/binutils-gdb
 language: c++
-domain: binary-tools
-loc: 14766082
+domain: toolchain
+loc: 3134902

@@ -2,5 +2,5 @@ project: libyuv
 oss_fuzz_project_dir: projects/libyuv
 main_repo: https://chromium.googlesource.com/libyuv/libyuv
 language: c++
-domain: unknown
-loc: 236650
+domain: media
+loc: 115885

@@ -2,5 +2,5 @@ project: poppler
 oss_fuzz_project_dir: projects/poppler
 main_repo: https://anongit.freedesktop.org/git/poppler/poppler.git
 language: c++
-domain: unknown
-loc: 429616
+domain: metadata
+loc: 209223

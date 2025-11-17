@@ -2,5 +2,5 @@ project: mupdf
 oss_fuzz_project_dir: projects/mupdf
 main_repo: git://git.ghostscript.com/mupdf.git
 language: c++
-domain: unknown
-loc: 1052078
+domain: metadata
+loc: 492913

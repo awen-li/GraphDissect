@@ -2,5 +2,5 @@ project: vorbis
 oss_fuzz_project_dir: projects/vorbis
 main_repo: https://gitlab.xiph.org/xiph/vorbis.git
 language: c++
-domain: unknown
-loc: 177086
+domain: media
+loc: 54840

@@ -2,5 +2,5 @@ project: faad2
 oss_fuzz_project_dir: projects/faad2
 main_repo: https://github.com/knik0/faad2
 language: c
-domain: unknown
-loc: 113466
+domain: media
+loc: 56396

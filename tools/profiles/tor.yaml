@@ -2,5 +2,5 @@ project: tor
 oss_fuzz_project_dir: projects/tor
 main_repo: https://git.torproject.org/tor.git
 language: c++
-domain: unknown
-loc: 694020
+domain: network
+loc: 322433

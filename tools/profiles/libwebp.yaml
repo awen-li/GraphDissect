@@ -2,5 +2,5 @@ project: libwebp
 oss_fuzz_project_dir: projects/libwebp
 main_repo: https://chromium.googlesource.com/webm/libwebp
 language: c++
-domain: unknown
-loc: 181750
+domain: media
+loc: 84328

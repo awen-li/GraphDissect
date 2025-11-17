@@ -2,5 +2,5 @@ project: cyclonedds
 oss_fuzz_project_dir: projects/cyclonedds
 main_repo: https://github.com/eclipse-cyclonedds/cyclonedds.git
 language: c
-domain: unknown
-loc: 570466
+domain: metadata
+loc: 261243

@@ -2,5 +2,5 @@ project: libyal
 oss_fuzz_project_dir: projects/libyal
 main_repo: https://github.com/libyal/libfplist.git
 language: c
-domain: unknown
-loc: 41324
+domain: metadata
+loc: 10914

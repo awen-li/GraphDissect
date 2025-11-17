@@ -2,5 +2,5 @@ project: cjson
 oss_fuzz_project_dir: projects/cjson
 main_repo: https://github.com/DaveGamble/cJSON.git
 language: c++
-domain: unknown
-loc: 50410
+domain: document
+loc: 16596

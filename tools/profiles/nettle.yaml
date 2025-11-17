@@ -2,5 +2,5 @@ project: nettle
 oss_fuzz_project_dir: projects/nettle
 main_repo: https://git.lysator.liu.se/nettle/nettle
 language: c++
-domain: unknown
-loc: 204150
+domain: crypto
+loc: 70532

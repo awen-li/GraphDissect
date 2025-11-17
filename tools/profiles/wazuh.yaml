@@ -2,5 +2,5 @@ project: wazuh
 oss_fuzz_project_dir: projects/wazuh
 main_repo: https://github.com/wazuh/wazuh
 language: c
-domain: security/siem
-loc: 3227932
+domain: metadata
+loc: 531633

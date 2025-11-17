@@ -2,5 +2,5 @@ project: openjpeg
 oss_fuzz_project_dir: projects/openjpeg
 main_repo: https://github.com/uclouvain/openjpeg
 language: c++
-domain: unknown
-loc: 371990
+domain: media
+loc: 178503

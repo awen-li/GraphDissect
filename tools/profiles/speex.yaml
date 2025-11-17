@@ -2,5 +2,5 @@ project: speex
 oss_fuzz_project_dir: projects/speex
 main_repo: https://gitlab.xiph.org/xiph/speex.git
 language: c++
-domain: unknown
-loc: 69534
+domain: media
+loc: 23934

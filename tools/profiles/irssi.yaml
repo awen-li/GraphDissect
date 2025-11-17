@@ -2,5 +2,5 @@ project: irssi
 oss_fuzz_project_dir: projects/irssi
 main_repo: https://github.com/irssi/irssi
 language: c++
-domain: unknown
-loc: 141328
+domain: metadata
+loc: 64203

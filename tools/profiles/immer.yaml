@@ -2,5 +2,5 @@ project: immer
 oss_fuzz_project_dir: projects/immer
 main_repo: https://github.com/arximboldi/immer.git
 language: c++
-domain: unknown
-loc: 99880
+domain: metadata
+loc: 39636

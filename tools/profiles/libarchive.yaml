@@ -2,5 +2,5 @@ project: libarchive
 oss_fuzz_project_dir: projects/libarchive
 main_repo: https://github.com/libarchive/libarchive.git
 language: c++
-domain: unknown
-loc: 359992
+domain: archive
+loc: 168922

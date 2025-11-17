@@ -2,5 +2,5 @@ project: fast-dds
 oss_fuzz_project_dir: projects/fast-dds
 main_repo: https://github.com/eProsima/Fast-DDS.git
 language: c++
-domain: unknown
-loc: 2276668
+domain: metadata
+loc: 1073083

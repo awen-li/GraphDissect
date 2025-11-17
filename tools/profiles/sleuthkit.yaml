@@ -2,5 +2,5 @@ project: sleuthkit
 oss_fuzz_project_dir: projects/sleuthkit
 main_repo: https://github.com/sleuthkit/sleuthkit
 language: c++
-domain: unknown
-loc: 667878
+domain: metadata
+loc: 284623

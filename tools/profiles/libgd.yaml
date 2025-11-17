@@ -2,5 +2,5 @@ project: libgd
 oss_fuzz_project_dir: projects/libgd
 main_repo: https://github.com/libgd/libgd
 language: c++
-domain: unknown
-loc: 116518
+domain: media
+loc: 51019

@@ -2,5 +2,5 @@ project: ostree
 oss_fuzz_project_dir: projects/ostree
 main_repo: https://github.com/ostreedev/ostree
 language: c
-domain: system/update
-loc: 213790
+domain: metadata
+loc: 66537

@@ -2,5 +2,5 @@ project: dng_sdk
 oss_fuzz_project_dir: projects/dng_sdk
 main_repo: https://android.googlesource.com/platform/external/dng_sdk/
 language: c++
-domain: unknown
-loc: 121778
+domain: media
+loc: 60851

@@ -2,5 +2,5 @@ project: hwloc
 oss_fuzz_project_dir: projects/hwloc
 main_repo: https://github.com/open-mpi/hwloc
 language: c
-domain: system-topology
-loc: 202496
+domain: metadata
+loc: 60005

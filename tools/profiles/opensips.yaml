@@ -2,5 +2,5 @@ project: opensips
 oss_fuzz_project_dir: projects/opensips
 main_repo: https://github.com/OpenSIPS/opensips
 language: c
-domain: unknown
-loc: 1282518
+domain: metadata
+loc: 464818

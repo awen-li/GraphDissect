@@ -2,5 +2,5 @@ project: sudoers
 oss_fuzz_project_dir: projects/sudoers
 main_repo: https://github.com/sudo-project/sudo
 language: c
-domain: unknown
-loc: 585726
+domain: metadata
+loc: 131598

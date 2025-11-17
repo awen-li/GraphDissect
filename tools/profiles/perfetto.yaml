@@ -2,5 +2,5 @@ project: perfetto
 oss_fuzz_project_dir: projects/perfetto
 main_repo: https://android.googlesource.com/platform/external/perfetto/
 language: c++
-domain: unknown
-loc: 1041002
+domain: metadata
+loc: 297656

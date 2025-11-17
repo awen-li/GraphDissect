@@ -2,5 +2,5 @@ project: njs
 oss_fuzz_project_dir: projects/njs
 main_repo: https://github.com/nginx/njs.git
 language: c++
-domain: unknown
-loc: 284278
+domain: metadata
+loc: 124685

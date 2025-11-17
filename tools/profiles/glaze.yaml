@@ -2,5 +2,5 @@ project: glaze
 oss_fuzz_project_dir: projects/glaze
 main_repo: https://github.com/stephenberry/glaze.git
 language: c++
-domain: unknown
-loc: 200154
+domain: document
+loc: 86056

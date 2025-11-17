@@ -2,5 +2,5 @@ project: tdengine
 oss_fuzz_project_dir: projects/tdengine
 main_repo: https://github.com/taosdata/TDengine
 language: c
-domain: unknown
-loc: 2941824
+domain: metadata
+loc: 798116

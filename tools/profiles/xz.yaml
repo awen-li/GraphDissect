@@ -2,5 +2,5 @@ project: xz
 oss_fuzz_project_dir: projects/xz
 main_repo: https://github.com/tukaani-project/xz.git
 language: c++
-domain: unknown
-loc: 147002
+domain: archive
+loc: 34427

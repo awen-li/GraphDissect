@@ -2,5 +2,5 @@ project: spirv-tools
 oss_fuzz_project_dir: projects/spirv-tools
 main_repo: https://github.com/KhronosGroup/SPIRV-Tools.git
 language: c++
-domain: unknown
-loc: 1074936
+domain: media
+loc: 482683

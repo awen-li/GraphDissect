@@ -2,5 +2,5 @@ project: solidity
 oss_fuzz_project_dir: projects/solidity
 main_repo: https://github.com/ethereum/solidity.git
 language: c++
-domain: unknown
-loc: 662310
+domain: crypto
+loc: 166613

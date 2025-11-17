@@ -2,5 +2,5 @@ project: apache-doris
 oss_fuzz_project_dir: projects/apache-doris
 main_repo: https://github.com/apache/doris.git
 language: c++
-domain: unknown
-loc: 5870612
+domain: network
+loc: 770777

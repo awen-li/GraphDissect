@@ -2,5 +2,5 @@ project: vulkan-loader
 oss_fuzz_project_dir: projects/vulkan-loader
 main_repo: https://github.com/khronosgroup/Vulkan-Loader.git
 language: c
-domain: graphics/gpu
-loc: 170266
+domain: media
+loc: 68748

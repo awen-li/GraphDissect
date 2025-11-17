@@ -2,5 +2,5 @@ project: capstone
 oss_fuzz_project_dir: projects/capstone
 main_repo: https://github.com/capstone-engine/capstone.git
 language: c++
-domain: unknown
-loc: 2510164
+domain: toolchain
+loc: 124155

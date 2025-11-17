@@ -2,5 +2,5 @@ project: qemu
 oss_fuzz_project_dir: projects/qemu
 main_repo: https://git.qemu.org/git/qemu.git
 language: c
-domain: unknown
-loc: 4025822
+domain: metadata
+loc: 1709083

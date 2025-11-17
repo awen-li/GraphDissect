@@ -2,5 +2,5 @@ project: spice-usbredir
 oss_fuzz_project_dir: projects/spice-usbredir
 main_repo: https://gitlab.freedesktop.org/spice/usbredir.git
 language: c++
-domain: unknown
-loc: 16684
+domain: metadata
+loc: 6617

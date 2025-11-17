@@ -2,5 +2,5 @@ project: crow
 oss_fuzz_project_dir: projects/crow
 main_repo: https://github.com/CrowCpp/Crow
 language: c++
-domain: unknown
-loc: 41340
+domain: metadata
+loc: 16594

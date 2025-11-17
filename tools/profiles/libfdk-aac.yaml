@@ -2,5 +2,5 @@ project: libfdk-aac
 oss_fuzz_project_dir: projects/libfdk-aac
 main_repo: https://android.googlesource.com/platform/external/aac/
 language: c++
-domain: unknown
-loc: 256224
+domain: metadata
+loc: 127763

@@ -2,5 +2,5 @@ project: arrow
 oss_fuzz_project_dir: projects/arrow
 main_repo: https://github.com/apache/arrow.git
 language: c++
-domain: unknown
-loc: 1822942
+domain: metadata
+loc: 674186

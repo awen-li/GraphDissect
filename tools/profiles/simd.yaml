@@ -2,5 +2,5 @@ project: simd
 oss_fuzz_project_dir: projects/simd
 main_repo: https://github.com/ermig1979/Simd
 language: c++
-domain: unknown
-loc: 888972
+domain: media
+loc: 313289

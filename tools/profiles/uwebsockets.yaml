@@ -2,5 +2,5 @@ project: uwebsockets
 oss_fuzz_project_dir: projects/uwebsockets
 main_repo: https://github.com/uNetworking/uWebSockets.git
 language: c++
-domain: unknown
-loc: 18750
+domain: network
+loc: 8824

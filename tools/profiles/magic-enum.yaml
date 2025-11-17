@@ -2,5 +2,5 @@ project: magic-enum
 oss_fuzz_project_dir: projects/magic-enum
 main_repo: https://github.com/Neargye/magic_enum.git
 language: c++
-domain: unknown
-loc: 42402
+domain: metadata
+loc: 19227

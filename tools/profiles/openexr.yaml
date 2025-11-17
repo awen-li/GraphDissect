@@ -2,5 +2,5 @@ project: openexr
 oss_fuzz_project_dir: projects/openexr
 main_repo: https://github.com/AcademySoftwareFoundation/openexr
 language: c++
-domain: unknown
-loc: 433114
+domain: media
+loc: 201607

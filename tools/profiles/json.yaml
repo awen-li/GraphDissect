@@ -2,5 +2,5 @@ project: json
 oss_fuzz_project_dir: projects/json
 main_repo: https://github.com/nlohmann/json.git
 language: c++
-domain: unknown
-loc: 265690
+domain: document
+loc: 107166

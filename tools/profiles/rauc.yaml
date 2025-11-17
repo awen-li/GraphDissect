@@ -2,5 +2,5 @@ project: rauc
 oss_fuzz_project_dir: projects/rauc
 main_repo: https://github.com/rauc/rauc.git
 language: c
-domain: unknown
-loc: 87818
+domain: metadata
+loc: 36931

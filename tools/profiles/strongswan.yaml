@@ -2,5 +2,5 @@ project: strongswan
 oss_fuzz_project_dir: projects/strongswan
 main_repo: https://github.com/strongswan/strongswan.git
 language: c++
-domain: unknown
-loc: 916792
+domain: network
+loc: 409225

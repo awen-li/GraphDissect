@@ -2,5 +2,5 @@ project: duckdb
 oss_fuzz_project_dir: projects/duckdb
 main_repo: https://github.com/duckdb/duckdb/
 language: c++
-domain: unknown
-loc: 2269748
+domain: metadata
+loc: 1036428

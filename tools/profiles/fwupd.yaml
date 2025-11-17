@@ -2,5 +2,5 @@ project: fwupd
 oss_fuzz_project_dir: projects/fwupd
 main_repo: https://github.com/fwupd/fwupd
 language: c
-domain: unknown
-loc: 769266
+domain: metadata
+loc: 270802

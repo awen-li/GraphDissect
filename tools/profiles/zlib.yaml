@@ -2,5 +2,5 @@ project: zlib
 oss_fuzz_project_dir: projects/zlib
 main_repo: https://github.com/madler/zlib.git
 language: c++
-domain: compression
-loc: 84968
+domain: archive
+loc: 30026

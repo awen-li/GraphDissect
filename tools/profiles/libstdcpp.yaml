@@ -2,5 +2,5 @@ project: libstdcpp
 oss_fuzz_project_dir: projects/libstdcpp
 main_repo: git://gcc.gnu.org/git/gcc.git
 language: c++
-domain: unknown
-loc: 25142380
+domain: metadata
+loc: 6812567

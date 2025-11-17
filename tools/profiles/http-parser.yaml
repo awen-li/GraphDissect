@@ -2,5 +2,5 @@ project: http-parser
 oss_fuzz_project_dir: projects/http-parser
 main_repo: https://github.com/nodejs/http-parser
 language: c++
-domain: http/parser
-loc: 13064
+domain: network
+loc: 6220

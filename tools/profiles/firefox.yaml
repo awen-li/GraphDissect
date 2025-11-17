@@ -2,5 +2,5 @@ project: firefox
 oss_fuzz_project_dir: projects/firefox
 main_repo: https://hg.mozilla.org/mozilla-central/
 language: c++
-domain: ''
-loc: null
+domain: metadata
+loc: 0

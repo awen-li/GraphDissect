@@ -2,5 +2,5 @@ project: avahi
 oss_fuzz_project_dir: projects/avahi
 main_repo: https://github.com/avahi/avahi
 language: c++
-domain: unknown
-loc: 155870
+domain: network
+loc: 41762

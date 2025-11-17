@@ -2,5 +2,5 @@ project: wavpack
 oss_fuzz_project_dir: projects/wavpack
 main_repo: https://github.com/dbry/WavPack.git
 language: c++
-domain: unknown
-loc: 96082
+domain: media
+loc: 35547

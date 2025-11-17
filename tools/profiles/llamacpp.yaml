@@ -2,5 +2,5 @@ project: llamacpp
 oss_fuzz_project_dir: projects/llamacpp
 main_repo: https://github.com/ggerganov/llama.cpp
 language: c++
-domain: unknown
-loc: 1007994
+domain: metadata
+loc: 354581

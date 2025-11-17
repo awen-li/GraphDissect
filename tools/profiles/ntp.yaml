@@ -2,5 +2,5 @@ project: ntp
 oss_fuzz_project_dir: projects/ntp
 main_repo: https://bitbucket.nwtime.org/scm/websites/ntpwww.git
 language: c++
-domain: ''
-loc: null
+domain: metadata
+loc: 0

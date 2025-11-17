@@ -2,5 +2,5 @@ project: libspng
 oss_fuzz_project_dir: projects/libspng
 main_repo: https://github.com/randy408/libspng.git
 language: c++
-domain: unknown
-loc: 20052
+domain: media
+loc: 7831

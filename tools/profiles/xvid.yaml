@@ -1,6 +1,0 @@
-project: xvid
-oss_fuzz_project_dir: projects/xvid
-main_repo: http://svn.xvid.org/trunk
-language: c++
-domain: ''
-loc: null

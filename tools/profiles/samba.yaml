@@ -2,5 +2,5 @@ project: samba
 oss_fuzz_project_dir: projects/samba
 main_repo: https://git.samba.org/samba.git
 language: c
-domain: unknown
-loc: 5095168
+domain: metadata
+loc: 1995074

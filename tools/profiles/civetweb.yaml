@@ -2,5 +2,5 @@ project: civetweb
 oss_fuzz_project_dir: projects/civetweb
 main_repo: https://github.com/civetweb/civetweb
 language: c
-domain: unknown
-loc: 1326484
+domain: network
+loc: 592031

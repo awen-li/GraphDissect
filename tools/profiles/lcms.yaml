@@ -2,5 +2,5 @@ project: lcms
 oss_fuzz_project_dir: projects/lcms
 main_repo: https://github.com/mm2/Little-CMS
 language: c++
-domain: color-management
-loc: 181364
+domain: metadata
+loc: 45497

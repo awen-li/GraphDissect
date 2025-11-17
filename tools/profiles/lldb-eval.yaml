@@ -2,5 +2,5 @@ project: lldb-eval
 oss_fuzz_project_dir: projects/lldb-eval
 main_repo: https://github.com/google/lldb-eval
 language: c++
-domain: unknown
-loc: 36046
+domain: metadata
+loc: 17272

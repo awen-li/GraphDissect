@@ -2,5 +2,5 @@ project: relic
 oss_fuzz_project_dir: projects/relic
 main_repo: https://github.com/relic-toolkit/relic
 language: c++
-domain: unknown
-loc: 345168
+domain: crypto
+loc: 145353

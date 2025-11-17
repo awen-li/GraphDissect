@@ -2,5 +2,5 @@ project: cppitertools
 oss_fuzz_project_dir: projects/cppitertools
 main_repo: https://github.com/ryanhaining/cppitertools
 language: c++
-domain: unknown
-loc: 24604
+domain: metadata
+loc: 11242

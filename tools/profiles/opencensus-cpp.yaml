@@ -2,5 +2,5 @@ project: opencensus-cpp
 oss_fuzz_project_dir: projects/opencensus-cpp
 main_repo: https://github.com/census-instrumentation/opencensus-cpp
 language: c++
-domain: unknown
-loc: 34998
+domain: metadata
+loc: 15010

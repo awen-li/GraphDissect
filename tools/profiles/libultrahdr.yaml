@@ -2,5 +2,5 @@ project: libultrahdr
 oss_fuzz_project_dir: projects/libultrahdr
 main_repo: https://github.com/google/libultrahdr.git
 language: c++
-domain: unknown
-loc: 59428
+domain: media
+loc: 26211

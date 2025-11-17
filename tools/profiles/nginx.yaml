@@ -2,5 +2,5 @@ project: nginx
 oss_fuzz_project_dir: projects/nginx
 main_repo: https://github.com/nginx/nginx
 language: c
-domain: web-server
-loc: 400668
+domain: network
+loc: 170325

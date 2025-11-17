@@ -2,5 +2,5 @@ project: mfcmapi
 oss_fuzz_project_dir: projects/mfcmapi
 main_repo: https://github.com/microsoft/mfcmapi.git
 language: c++
-domain: unknown
-loc: 148648
+domain: metadata
+loc: 70366

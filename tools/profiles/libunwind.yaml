@@ -2,5 +2,5 @@ project: libunwind
 oss_fuzz_project_dir: projects/libunwind
 main_repo: https://github.com/libunwind/libunwind
 language: c
-domain: debug-info
-loc: 105652
+domain: metadata
+loc: 44366

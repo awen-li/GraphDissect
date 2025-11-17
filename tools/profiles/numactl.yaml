@@ -2,5 +2,5 @@ project: numactl
 oss_fuzz_project_dir: projects/numactl
 main_repo: https://github.com/numactl/numactl
 language: c
-domain: system/numa
-loc: 41818
+domain: metadata
+loc: 7416

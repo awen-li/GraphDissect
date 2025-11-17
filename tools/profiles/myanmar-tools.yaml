@@ -2,5 +2,5 @@ project: myanmar-tools
 oss_fuzz_project_dir: projects/myanmar-tools
 main_repo: https://github.com/google/myanmar-tools.git
 language: c++
-domain: unknown
-loc: 31542
+domain: toolchain
+loc: 436

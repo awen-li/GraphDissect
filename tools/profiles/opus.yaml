@@ -2,5 +2,5 @@ project: opus
 oss_fuzz_project_dir: projects/opus
 main_repo: https://gitlab.xiph.org/xiph/opus.git
 language: c++
-domain: unknown
-loc: 231624
+domain: media
+loc: 78255

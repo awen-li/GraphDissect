@@ -2,5 +2,5 @@ project: eigen
 oss_fuzz_project_dir: projects/eigen
 main_repo: https://gitlab.com/libeigen/eigen.git
 language: c++
-domain: unknown
-loc: 564654
+domain: metadata
+loc: 238632

@@ -2,5 +2,5 @@ project: bazel-rules-fuzzing-test
 oss_fuzz_project_dir: projects/bazel-rules-fuzzing-test
 main_repo: https://github.com/bazelbuild/rules_fuzzing
 language: c++
-domain: unknown
-loc: 4308
+domain: metadata
+loc: 766

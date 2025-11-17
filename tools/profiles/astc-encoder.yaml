@@ -2,5 +2,5 @@ project: astc-encoder
 oss_fuzz_project_dir: projects/astc-encoder
 main_repo: https://github.com/ARM-software/astc-encoder
 language: c++
-domain: unknown
-loc: 182422
+domain: media
+loc: 84224

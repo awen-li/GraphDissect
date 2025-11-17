@@ -2,5 +2,5 @@ project: wget
 oss_fuzz_project_dir: projects/wget
 main_repo: https://git.savannah.gnu.org/git/wget.git
 language: c++
-domain: unknown
-loc: 104748
+domain: network
+loc: 35510

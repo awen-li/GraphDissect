@@ -2,5 +2,5 @@ project: flex
 oss_fuzz_project_dir: projects/flex
 main_repo: https://github.com/westes/flex
 language: c
-domain: parser-generator
-loc: 57452
+domain: metadata
+loc: 7159

@@ -2,5 +2,5 @@ project: jerryscript
 oss_fuzz_project_dir: projects/jerryscript
 main_repo: https://github.com/jerryscript-project/jerryscript
 language: c
-domain: unknown
-loc: 404474
+domain: metadata
+loc: 121452

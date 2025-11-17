@@ -2,5 +2,5 @@ project: kamailio
 oss_fuzz_project_dir: projects/kamailio
 main_repo: https://github.com/kamailio/kamailio
 language: c
-domain: voip/sip
-loc: 2298894
+domain: metadata
+loc: 884635

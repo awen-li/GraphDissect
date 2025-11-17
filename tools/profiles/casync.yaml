@@ -2,5 +2,5 @@ project: casync
 oss_fuzz_project_dir: projects/casync
 main_repo: https://github.com/systemd/casync
 language: c++
-domain: unknown
-loc: 64312
+domain: metadata
+loc: 31245

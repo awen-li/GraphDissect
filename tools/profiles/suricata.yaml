@@ -2,5 +2,5 @@ project: suricata
 oss_fuzz_project_dir: projects/suricata
 main_repo: https://github.com/OISF/suricata.git
 language: rust
-domain: ids/ips
-loc: 857138
+domain: metadata
+loc: 304383

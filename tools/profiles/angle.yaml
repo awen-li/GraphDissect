@@ -2,5 +2,5 @@ project: angle
 oss_fuzz_project_dir: projects/angle
 main_repo: https://chromium.googlesource.com/angle/angle
 language: c++
-domain: unknown
-loc: 2467342
+domain: media
+loc: 1095870

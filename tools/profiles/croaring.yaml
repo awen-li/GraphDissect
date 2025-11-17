@@ -2,5 +2,5 @@ project: croaring
 oss_fuzz_project_dir: projects/croaring
 main_repo: https://github.com/RoaringBitmap/CRoaring
 language: c
-domain: unknown
-loc: 91308
+domain: metadata
+loc: 42818

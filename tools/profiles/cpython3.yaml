@@ -2,5 +2,5 @@ project: cpython3
 oss_fuzz_project_dir: projects/cpython3
 main_repo: https://github.com/python/cpython
 language: c++
-domain: language-runtime/python
-loc: 3279416
+domain: metadata
+loc: 763720

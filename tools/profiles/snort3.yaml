@@ -2,5 +2,5 @@ project: snort3
 oss_fuzz_project_dir: projects/snort3
 main_repo: https://github.com/snort3/snort3.git
 language: c++
-domain: unknown
-loc: 770886
+domain: metadata
+loc: 367102

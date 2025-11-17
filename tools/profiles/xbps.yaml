@@ -2,5 +2,5 @@ project: xbps
 oss_fuzz_project_dir: projects/xbps
 main_repo: https://github.com/void-linux/xbps
 language: c
-domain: unknown
-loc: 87942
+domain: metadata
+loc: 33253

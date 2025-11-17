@@ -2,5 +2,5 @@ project: zopfli
 oss_fuzz_project_dir: projects/zopfli
 main_repo: https://github.com/google/zopfli
 language: c++
-domain: unknown
-loc: 21450
+domain: archive
+loc: 10384

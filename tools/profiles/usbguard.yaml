@@ -2,5 +2,5 @@ project: usbguard
 oss_fuzz_project_dir: projects/usbguard
 main_repo: https://github.com/USBGuard/usbguard
 language: c++
-domain: unknown
-loc: 257182
+domain: metadata
+loc: 18424

@@ -2,5 +2,5 @@ project: msquic
 oss_fuzz_project_dir: projects/msquic
 main_repo: https://github.com/microsoft/msquic.git
 language: c
-domain: unknown
-loc: 437828
+domain: metadata
+loc: 168489

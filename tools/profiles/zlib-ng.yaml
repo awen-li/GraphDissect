@@ -2,5 +2,5 @@ project: zlib-ng
 oss_fuzz_project_dir: projects/zlib-ng
 main_repo: https://github.com/zlib-ng/zlib-ng.git
 language: c++
-domain: unknown
-loc: 81656
+domain: archive
+loc: 31977

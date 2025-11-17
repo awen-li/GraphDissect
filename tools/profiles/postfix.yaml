@@ -2,5 +2,5 @@ project: postfix
 oss_fuzz_project_dir: projects/postfix
 main_repo: https://github.com/vdukhovni/postfix
 language: c
-domain: email/smtp
-loc: 497502
+domain: metadata
+loc: 136745

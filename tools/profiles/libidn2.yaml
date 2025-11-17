@@ -2,5 +2,5 @@ project: libidn2
 oss_fuzz_project_dir: projects/libidn2
 main_repo: https://gitlab.com/libidn/libidn2.git
 language: c++
-domain: unknown
-loc: 20844
+domain: network
+loc: 5991

@@ -2,5 +2,5 @@ project: vlc
 oss_fuzz_project_dir: projects/vlc
 main_repo: https://github.com/videolan/vlc
 language: c
-domain: multimedia/player
-loc: 5171504
+domain: media
+loc: 653164

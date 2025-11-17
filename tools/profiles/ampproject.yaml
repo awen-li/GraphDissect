@@ -2,5 +2,5 @@ project: ampproject
 oss_fuzz_project_dir: projects/ampproject
 main_repo: https://github.com/ampproject/amphtml
 language: c++
-domain: unknown
-loc: 1758084
+domain: metadata
+loc: 37667

@@ -2,5 +2,5 @@ project: tensorflow
 oss_fuzz_project_dir: projects/tensorflow
 main_repo: https://github.com/tensorflow/tensorflow
 language: c++
-domain: ml/framework
-loc: 8918106
+domain: metadata
+loc: 3171446

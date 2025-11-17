@@ -2,5 +2,5 @@ project: giflib
 oss_fuzz_project_dir: projects/giflib
 main_repo: https://git.code.sf.net/p/giflib/code
 language: c++
-domain: image-processing
-loc: 30946
+domain: media
+loc: 7259

@@ -2,5 +2,5 @@ project: znc
 oss_fuzz_project_dir: projects/znc
 main_repo: https://github.com/znc/znc
 language: c++
-domain: unknown
-loc: 287980
+domain: metadata
+loc: 44197

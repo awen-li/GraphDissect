@@ -2,5 +2,5 @@ project: opendds
 oss_fuzz_project_dir: projects/opendds
 main_repo: https://github.com/objectcomputing/OpenDDS.git
 language: c
-domain: unknown
-loc: 1130990
+domain: metadata
+loc: 398098

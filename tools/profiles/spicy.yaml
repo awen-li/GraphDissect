@@ -2,5 +2,5 @@ project: spicy
 oss_fuzz_project_dir: projects/spicy
 main_repo: https://github.com/zeek/spicy
 language: c++
-domain: unknown
-loc: 182328
+domain: metadata
+loc: 85701

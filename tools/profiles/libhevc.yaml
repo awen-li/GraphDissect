@@ -2,5 +2,5 @@ project: libhevc
 oss_fuzz_project_dir: projects/libhevc
 main_repo: https://github.com/ittiam-systems/libhevc.git
 language: c++
-domain: unknown
-loc: 496346
+domain: media
+loc: 208851

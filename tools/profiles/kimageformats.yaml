@@ -2,5 +2,5 @@ project: kimageformats
 oss_fuzz_project_dir: projects/kimageformats
 main_repo: https://invent.kde.org/frameworks/kimageformats.git
 language: c++
-domain: unknown
-loc: 61418
+domain: media
+loc: 27879

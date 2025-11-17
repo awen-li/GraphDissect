@@ -2,5 +2,5 @@ project: jsc
 oss_fuzz_project_dir: projects/jsc
 main_repo: https://github.com/WebKit/WebKit.git
 language: c++
-domain: unknown
-loc: 54594388
+domain: metadata
+loc: 7942901

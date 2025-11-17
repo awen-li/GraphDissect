@@ -2,5 +2,5 @@ project: uriparser
 oss_fuzz_project_dir: projects/uriparser
 main_repo: https://github.com/uriparser/uriparser
 language: c++
-domain: unknown
-loc: 42596
+domain: network
+loc: 13418

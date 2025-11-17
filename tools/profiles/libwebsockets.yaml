@@ -2,5 +2,5 @@ project: libwebsockets
 oss_fuzz_project_dir: projects/libwebsockets
 main_repo: https://libwebsockets.org/repo/libwebsockets
 language: c
-domain: unknown
-loc: 707438
+domain: network
+loc: 318485

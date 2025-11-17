@@ -2,5 +2,5 @@ project: capnproto
 oss_fuzz_project_dir: projects/capnproto
 main_repo: https://github.com/capnproto/capnproto
 language: c++
-domain: unknown
-loc: 333002
+domain: metadata
+loc: 155246

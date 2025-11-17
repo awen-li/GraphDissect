@@ -2,5 +2,5 @@ project: xerces-c
 oss_fuzz_project_dir: projects/xerces-c
 main_repo: https://svn.apache.org/repos/asf/xerces/c/trunk
 language: c++
-domain: ''
-loc: null
+domain: document
+loc: 0

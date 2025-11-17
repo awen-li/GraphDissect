@@ -2,5 +2,5 @@ project: dbus-broker
 oss_fuzz_project_dir: projects/dbus-broker
 main_repo: https://github.com/bus1/dbus-broker
 language: c
-domain: ipc/message-bus
-loc: 56250
+domain: metadata
+loc: 24862

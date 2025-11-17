@@ -2,5 +2,5 @@ project: valijson
 oss_fuzz_project_dir: projects/valijson
 main_repo: https://github.com/tristanpenman/valijson
 language: c++
-domain: unknown
-loc: 41800
+domain: document
+loc: 18998

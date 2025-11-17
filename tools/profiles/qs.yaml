@@ -2,5 +2,5 @@ project: qs
 oss_fuzz_project_dir: projects/qs
 main_repo: https://github.com/ljharb/qs.git
 language: c++
-domain: unknown
-loc: 9968
+domain: network
+loc: 0

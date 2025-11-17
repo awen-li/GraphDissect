@@ -2,5 +2,5 @@ project: c-blosc
 oss_fuzz_project_dir: projects/c-blosc
 main_repo: https://github.com/Blosc/c-blosc.git
 language: c++
-domain: unknown
-loc: 203936
+domain: archive
+loc: 88766

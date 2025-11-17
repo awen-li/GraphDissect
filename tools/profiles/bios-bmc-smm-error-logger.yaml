@@ -2,5 +2,5 @@ project: bios-bmc-smm-error-logger
 oss_fuzz_project_dir: projects/bios-bmc-smm-error-logger
 main_repo: https://github.com/javanlacerda/bios-bmc-smm-error-logger
 language: c++
-domain: unknown
-loc: 7972
+domain: metadata
+loc: 3824

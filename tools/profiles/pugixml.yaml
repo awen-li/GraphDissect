@@ -2,5 +2,5 @@ project: pugixml
 oss_fuzz_project_dir: projects/pugixml
 main_repo: https://github.com/zeux/pugixml
 language: c++
-domain: unknown
-loc: 69394
+domain: document
+loc: 24743

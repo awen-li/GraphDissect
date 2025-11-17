@@ -2,5 +2,5 @@ project: piex
 oss_fuzz_project_dir: projects/piex
 main_repo: https://github.com/guidovranken/piex.git
 language: c++
-domain: ''
-loc: null
+domain: media
+loc: 0

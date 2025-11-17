@@ -2,5 +2,5 @@ project: thrift
 oss_fuzz_project_dir: projects/thrift
 main_repo: https://github.com/apache/thrift
 language: c++
-domain: unknown
-loc: 683734
+domain: metadata
+loc: 125308

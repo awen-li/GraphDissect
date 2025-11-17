@@ -2,5 +2,5 @@ project: minizip
 oss_fuzz_project_dir: projects/minizip
 main_repo: https://github.com/zlib-ng/minizip-ng
 language: c++
-domain: unknown
-loc: 40154
+domain: archive
+loc: 14624

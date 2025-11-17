@@ -2,5 +2,5 @@ project: arduinojson
 oss_fuzz_project_dir: projects/arduinojson
 main_repo: https://github.com/bblanchon/ArduinoJson.git
 language: c++
-domain: unknown
-loc: 85214
+domain: document
+loc: 39499

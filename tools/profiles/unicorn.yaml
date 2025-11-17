@@ -2,5 +2,5 @@ project: unicorn
 oss_fuzz_project_dir: projects/unicorn
 main_repo: https://github.com/unicorn-engine/unicorn.git
 language: c++
-domain: unknown
-loc: 864200
+domain: toolchain
+loc: 374053

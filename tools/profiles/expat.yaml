@@ -2,5 +2,5 @@ project: expat
 oss_fuzz_project_dir: projects/expat
 main_repo: https://github.com/libexpat/libexpat
 language: c++
-domain: unknown
-loc: 1296322
+domain: document
+loc: 29811

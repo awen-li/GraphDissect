@@ -2,5 +2,5 @@ project: libxaac
 oss_fuzz_project_dir: projects/libxaac
 main_repo: https://github.com/ittiam-systems/libxaac.git
 language: c++
-domain: unknown
-loc: 492028
+domain: metadata
+loc: 227844

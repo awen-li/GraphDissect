@@ -2,5 +2,5 @@ project: gfwx
 oss_fuzz_project_dir: projects/gfwx
 main_repo: https://github.com/kalcutter/gfwx
 language: c++
-domain: unknown
-loc: 1886
+domain: metadata
+loc: 920

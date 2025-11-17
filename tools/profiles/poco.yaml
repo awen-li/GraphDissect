@@ -2,5 +2,5 @@ project: poco
 oss_fuzz_project_dir: projects/poco
 main_repo: https://github.com/pocoproject/poco
 language: c++
-domain: unknown
-loc: 1868218
+domain: metadata
+loc: 796378

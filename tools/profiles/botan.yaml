@@ -2,5 +2,5 @@ project: botan
 oss_fuzz_project_dir: projects/botan
 main_repo: https://github.com/randombit/botan.git
 language: c++
-domain: unknown
-loc: 424812
+domain: crypto
+loc: 196196

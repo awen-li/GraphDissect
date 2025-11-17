@@ -2,5 +2,5 @@ project: upx
 oss_fuzz_project_dir: projects/upx
 main_repo: https://github.com/upx/upx.git
 language: c++
-domain: unknown
-loc: 363858
+domain: archive
+loc: 144306

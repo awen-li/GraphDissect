@@ -2,5 +2,5 @@ project: rnp
 oss_fuzz_project_dir: projects/rnp
 main_repo: https://github.com/rnpgp/rnp.git
 language: c++
-domain: unknown
-loc: 183224
+domain: crypto
+loc: 79650

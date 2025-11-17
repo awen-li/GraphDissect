@@ -2,5 +2,5 @@ project: lz4
 oss_fuzz_project_dir: projects/lz4
 main_repo: https://github.com/lz4/lz4.git
 language: c++
-domain: unknown
-loc: 52290
+domain: archive
+loc: 19060

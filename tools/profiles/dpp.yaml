@@ -2,5 +2,5 @@ project: dpp
 oss_fuzz_project_dir: projects/dpp
 main_repo: https://github.com/brainboxdotcc/DPP.git
 language: c++
-domain: unknown
-loc: 231182
+domain: metadata
+loc: 97538

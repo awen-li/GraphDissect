@@ -2,5 +2,5 @@ project: opensc
 oss_fuzz_project_dir: projects/opensc
 main_repo: https://github.com/OpenSC/OpenSC
 language: c++
-domain: unknown
-loc: 436772
+domain: metadata
+loc: 181145

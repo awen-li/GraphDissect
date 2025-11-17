@@ -2,5 +2,5 @@ project: spotify-json
 oss_fuzz_project_dir: projects/spotify-json
 main_repo: https://github.com/spotify/spotify-json
 language: c++
-domain: unknown
-loc: 664110
+domain: document
+loc: 330320

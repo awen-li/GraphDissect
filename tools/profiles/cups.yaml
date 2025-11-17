@@ -2,5 +2,5 @@ project: cups
 oss_fuzz_project_dir: projects/cups
 main_repo: https://github.com/OpenPrinting/cups
 language: c
-domain: unknown
-loc: 840242
+domain: metadata
+loc: 172421

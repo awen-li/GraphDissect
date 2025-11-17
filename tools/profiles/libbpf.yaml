@@ -2,5 +2,5 @@ project: libbpf
 oss_fuzz_project_dir: projects/libbpf
 main_repo: https://github.com/libbpf/libbpf
 language: c
-domain: unknown
-loc: 271360
+domain: metadata
+loc: 134004

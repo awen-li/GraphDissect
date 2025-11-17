@@ -2,5 +2,5 @@ project: libxslt
 oss_fuzz_project_dir: projects/libxslt
 main_repo: https://gitlab.gnome.org/GNOME/libxslt.git
 language: c++
-domain: unknown
-loc: 368110
+domain: document
+loc: 35778

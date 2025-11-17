@@ -2,5 +2,5 @@ project: rdkit
 oss_fuzz_project_dir: projects/rdkit
 main_repo: https://github.com/rdkit/rdkit.git
 language: c++
-domain: unknown
-loc: 1605622
+domain: metadata
+loc: 442382

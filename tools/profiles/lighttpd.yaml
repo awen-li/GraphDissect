@@ -2,5 +2,5 @@ project: lighttpd
 oss_fuzz_project_dir: projects/lighttpd
 main_repo: https://github.com/lighttpd/lighttpd1.4
 language: c
-domain: web-server
-loc: 219818
+domain: network
+loc: 100914

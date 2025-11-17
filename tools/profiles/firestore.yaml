@@ -2,5 +2,5 @@ project: firestore
 oss_fuzz_project_dir: projects/firestore
 main_repo: https://github.com/firebase/firebase-ios-sdk.git
 language: c++
-domain: unknown
-loc: 1556368
+domain: metadata
+loc: 195245

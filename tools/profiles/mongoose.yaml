@@ -2,5 +2,5 @@ project: mongoose
 oss_fuzz_project_dir: projects/mongoose
 main_repo: https://github.com/cesanta/mongoose
 language: c++
-domain: web-server/embedded
-loc: 1791674
+domain: network
+loc: 880916

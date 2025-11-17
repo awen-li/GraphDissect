@@ -2,5 +2,5 @@ project: skia
 oss_fuzz_project_dir: projects/skia
 main_repo: https://skia.googlesource.com/skia.git
 language: c++
-domain: unknown
-loc: 3081342
+domain: media
+loc: 909514

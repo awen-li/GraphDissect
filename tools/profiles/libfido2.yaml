@@ -2,5 +2,5 @@ project: libfido2
 oss_fuzz_project_dir: projects/libfido2
 main_repo: https://github.com/Yubico/libfido2
 language: c++
-domain: unknown
-loc: 75876
+domain: metadata
+loc: 34953

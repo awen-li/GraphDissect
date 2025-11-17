@@ -2,5 +2,5 @@ project: inchi
 oss_fuzz_project_dir: projects/inchi
 main_repo: https://github.com/IUPAC-InChI/InChI
 language: c
-domain: cheminformatics
-loc: 346088
+domain: metadata
+loc: 162278

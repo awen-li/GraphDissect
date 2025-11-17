@@ -2,5 +2,5 @@ project: unrar
 oss_fuzz_project_dir: projects/unrar
 main_repo: https://github.com/aawc/unrar.git
 language: c++
-domain: unknown
-loc: 51602
+domain: archive
+loc: 25699

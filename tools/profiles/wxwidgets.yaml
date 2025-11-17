@@ -2,5 +2,5 @@ project: wxwidgets
 oss_fuzz_project_dir: projects/wxwidgets
 main_repo: https://github.com/wxWidgets/wxWidgets.git
 language: c++
-domain: unknown
-loc: 2464136
+domain: metadata
+loc: 880182

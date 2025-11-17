@@ -2,5 +2,5 @@ project: libzip
 oss_fuzz_project_dir: projects/libzip
 main_repo: https://github.com/nih-at/libzip.git
 language: c++
-domain: unknown
-loc: 64616
+domain: archive
+loc: 17248

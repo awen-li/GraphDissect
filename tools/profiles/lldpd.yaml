@@ -2,5 +2,5 @@ project: lldpd
 oss_fuzz_project_dir: projects/lldpd
 main_repo: https://github.com/lldpd/lldpd
 language: c
-domain: unknown
-loc: 82650
+domain: network
+loc: 34312

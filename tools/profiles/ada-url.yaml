@@ -2,5 +2,5 @@ project: ada-url
 oss_fuzz_project_dir: projects/ada-url
 main_repo: https://github.com/ada-url/ada.git
 language: c++
-domain: unknown
-loc: 126434
+domain: network
+loc: 28666

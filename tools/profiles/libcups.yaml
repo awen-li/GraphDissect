@@ -2,5 +2,5 @@ project: libcups
 oss_fuzz_project_dir: projects/libcups
 main_repo: https://github.com/OpenPrinting/libcups.git
 language: c++
-domain: unknown
-loc: 274332
+domain: metadata
+loc: 106154

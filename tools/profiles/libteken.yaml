@@ -2,5 +2,5 @@ project: libteken
 oss_fuzz_project_dir: projects/libteken
 main_repo: http://svn.freebsd.org/base/head/sys/teken/
 language: c++
-domain: ''
-loc: null
+domain: metadata
+loc: 0

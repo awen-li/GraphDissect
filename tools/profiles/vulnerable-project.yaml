@@ -2,5 +2,5 @@ project: vulnerable-project
 oss_fuzz_project_dir: projects/vulnerable-project
 main_repo: https://github.com/google/oss-fuzz
 language: c++
-domain: unknown
-loc: 385798
+domain: metadata
+loc: 37373

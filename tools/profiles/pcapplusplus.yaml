@@ -2,5 +2,5 @@ project: pcapplusplus
 oss_fuzz_project_dir: projects/pcapplusplus
 main_repo: https://github.com/seladb/PcapPlusPlus
 language: c++
-domain: unknown
-loc: 512096
+domain: network
+loc: 111814

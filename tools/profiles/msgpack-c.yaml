@@ -2,5 +2,5 @@ project: msgpack-c
 oss_fuzz_project_dir: projects/msgpack-c
 main_repo: https://github.com/msgpack/msgpack-c.git
 language: c++
-domain: unknown
-loc: 738
+domain: media
+loc: 0

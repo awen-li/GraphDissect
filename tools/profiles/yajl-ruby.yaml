@@ -2,5 +2,5 @@ project: yajl-ruby
 oss_fuzz_project_dir: projects/yajl-ruby
 main_repo: https://github.com/brianmario/yajl-ruby
 language: c++
-domain: json/binding
-loc: 25676
+domain: document
+loc: 3072

@@ -2,5 +2,5 @@ project: pffft
 oss_fuzz_project_dir: projects/pffft
 main_repo: https://bitbucket.org/jpommier/pffft.git
 language: c++
-domain: unknown
-loc: 9556
+domain: metadata
+loc: 4516

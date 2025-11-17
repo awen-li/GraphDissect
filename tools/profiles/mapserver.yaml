@@ -2,5 +2,5 @@ project: mapserver
 oss_fuzz_project_dir: projects/mapserver
 main_repo: https://github.com/MapServer/MapServer
 language: c++
-domain: unknown
-loc: 737742
+domain: metadata
+loc: 270451

@@ -2,5 +2,5 @@ project: osquery
 oss_fuzz_project_dir: projects/osquery
 main_repo: https://github.com/osquery/osquery
 language: c++
-domain: unknown
-loc: 475884
+domain: network
+loc: 193325

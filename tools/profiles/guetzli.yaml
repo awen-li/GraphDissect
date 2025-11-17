@@ -2,5 +2,5 @@ project: guetzli
 oss_fuzz_project_dir: projects/guetzli
 main_repo: https://github.com/google/guetzli
 language: c++
-domain: unknown
-loc: 17038
+domain: media
+loc: 8029

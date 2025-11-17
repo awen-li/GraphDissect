@@ -2,5 +2,5 @@ project: llvm_libcxx
 oss_fuzz_project_dir: projects/llvm_libcxx
 main_repo: https://github.com/llvm/llvm-project.git
 language: c++
-domain: unknown
-loc: 24165130
+domain: toolchain
+loc: 9542759

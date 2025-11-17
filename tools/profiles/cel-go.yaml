@@ -2,5 +2,5 @@ project: cel-go
 oss_fuzz_project_dir: projects/cel-go
 main_repo: https://github.com/google/cel-go
 language: go
-domain: unknown
-loc: 353556
+domain: metadata
+loc: 0

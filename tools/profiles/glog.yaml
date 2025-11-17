@@ -2,5 +2,5 @@ project: glog
 oss_fuzz_project_dir: projects/glog
 main_repo: https://github.com/google/glog
 language: c++
-domain: unknown
-loc: 25084
+domain: metadata
+loc: 9796

@@ -2,5 +2,5 @@ project: clickhouse
 oss_fuzz_project_dir: projects/clickhouse
 main_repo: https://github.com/ClickHouse/ClickHouse.git
 language: c++
-domain: unknown
-loc: 4903234
+domain: metadata
+loc: 1513579

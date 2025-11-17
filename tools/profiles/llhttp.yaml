@@ -2,5 +2,5 @@ project: llhttp
 oss_fuzz_project_dir: projects/llhttp
 main_repo: https://github.com/nodejs/llhttp
 language: c
-domain: http/parser
-loc: 27926
+domain: network
+loc: 973

@@ -2,5 +2,5 @@ project: halide
 oss_fuzz_project_dir: projects/halide
 main_repo: https://github.com/halide/Halide
 language: c++
-domain: unknown
-loc: 694110
+domain: media
+loc: 315667

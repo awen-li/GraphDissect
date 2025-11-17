@@ -2,5 +2,5 @@ project: simdjson
 oss_fuzz_project_dir: projects/simdjson
 main_repo: https://github.com/simdjson/simdjson.git
 language: c++
-domain: unknown
-loc: 539116
+domain: document
+loc: 190704

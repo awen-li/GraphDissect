@@ -2,5 +2,5 @@ project: sound-open-firmware
 oss_fuzz_project_dir: projects/sound-open-firmware
 main_repo: https://github.com/thesofproject/sof
 language: c
-domain: audio/firmware
-loc: 843958
+domain: media
+loc: 337436

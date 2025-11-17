@@ -2,5 +2,5 @@ project: cpp-httplib
 oss_fuzz_project_dir: projects/cpp-httplib
 main_repo: https://github.com/yhirose/cpp-httplib.git
 language: c++
-domain: unknown
-loc: 92994
+domain: network
+loc: 44064

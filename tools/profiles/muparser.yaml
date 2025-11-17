@@ -2,5 +2,5 @@ project: muparser
 oss_fuzz_project_dir: projects/muparser
 main_repo: https://github.com/beltoforion/muparser.git
 language: c++
-domain: unknown
-loc: 16538
+domain: metadata
+loc: 7994

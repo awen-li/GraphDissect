@@ -2,5 +2,5 @@ project: llvm_libcxxabi
 oss_fuzz_project_dir: projects/llvm_libcxxabi
 main_repo: https://github.com/llvm/llvm-project
 language: c++
-domain: unknown
-loc: 24165126
+domain: toolchain
+loc: 9542759

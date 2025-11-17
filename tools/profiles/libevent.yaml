@@ -2,5 +2,5 @@ project: libevent
 oss_fuzz_project_dir: projects/libevent
 main_repo: https://github.com/libevent/libevent.git
 language: c++
-domain: network/event-loop
-loc: 153456
+domain: network
+loc: 67915

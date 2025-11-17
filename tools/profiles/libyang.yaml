@@ -2,5 +2,5 @@ project: libyang
 oss_fuzz_project_dir: projects/libyang
 main_repo: https://github.com/CESNET/libyang
 language: c
-domain: network/config
-loc: 274426
+domain: network
+loc: 123084

@@ -2,5 +2,5 @@ project: fftw3
 oss_fuzz_project_dir: projects/fftw3
 main_repo: https://github.com/fftw/fftw3.git
 language: c++
-domain: unknown
-loc: 89216
+domain: metadata
+loc: 34260

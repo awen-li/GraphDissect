@@ -2,5 +2,5 @@ project: qubes-os
 oss_fuzz_project_dir: projects/qubes-os
 main_repo: https://github.com/QubesOS
 language: c++
-domain: ''
-loc: null
+domain: metadata
+loc: 0

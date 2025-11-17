@@ -2,5 +2,5 @@ project: mbedtls
 oss_fuzz_project_dir: projects/mbedtls
 main_repo: https://github.com/Mbed-TLS/mbedtls.git
 language: c++
-domain: unknown
-loc: 210738
+domain: crypto
+loc: 72529

@@ -2,5 +2,5 @@ project: libdwarf
 oss_fuzz_project_dir: projects/libdwarf
 main_repo: https://github.com/davea42/libdwarf-code
 language: c
-domain: debug-info
-loc: 326640
+domain: metadata
+loc: 129411

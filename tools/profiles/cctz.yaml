@@ -2,5 +2,5 @@ project: cctz
 oss_fuzz_project_dir: projects/cctz
 main_repo: https://github.com/google/cctz
 language: c++
-domain: unknown
-loc: 16862
+domain: metadata
+loc: 7784

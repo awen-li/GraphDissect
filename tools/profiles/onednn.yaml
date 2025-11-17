@@ -2,5 +2,5 @@ project: onednn
 oss_fuzz_project_dir: projects/onednn
 main_repo: https://github.com/uxlfoundation/oneDNN
 language: c++
-domain: unknown
-loc: 2117536
+domain: metadata
+loc: 932747

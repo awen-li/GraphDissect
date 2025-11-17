@@ -2,5 +2,5 @@ project: ots
 oss_fuzz_project_dir: projects/ots
 main_repo: https://github.com/khaledhosny/ots.git
 language: c++
-domain: unknown
-loc: 38288
+domain: metadata
+loc: 17734

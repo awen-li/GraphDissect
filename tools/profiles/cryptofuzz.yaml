@@ -2,5 +2,5 @@ project: cryptofuzz
 oss_fuzz_project_dir: projects/cryptofuzz
 main_repo: https://github.com/guidovranken/cryptofuzz
 language: c++
-domain: ''
-loc: null
+domain: crypto
+loc: 0

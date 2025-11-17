@@ -2,5 +2,5 @@ project: nokogiri
 oss_fuzz_project_dir: projects/nokogiri
 main_repo: https://github.com/sparklemotion/nokogiri.git
 language: c
-domain: unknown
-loc: 255724
+domain: document
+loc: 47085

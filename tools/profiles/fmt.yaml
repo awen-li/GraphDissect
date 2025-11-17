@@ -2,5 +2,5 @@ project: fmt
 oss_fuzz_project_dir: projects/fmt
 main_repo: https://github.com/fmtlib/fmt.git
 language: c++
-domain: unknown
-loc: 110014
+domain: metadata
+loc: 45209

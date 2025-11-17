@@ -2,5 +2,5 @@ project: bls-signatures
 oss_fuzz_project_dir: projects/bls-signatures
 main_repo: https://github.com/supranational/blst.git
 language: c++
-domain: unknown
-loc: 286368
+domain: crypto
+loc: 10694

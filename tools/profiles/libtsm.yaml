@@ -2,5 +2,5 @@ project: libtsm
 oss_fuzz_project_dir: projects/libtsm
 main_repo: git://people.freedesktop.org/~dvdhrm/libtsm
 language: c++
-domain: terminal
-loc: 22784
+domain: metadata
+loc: 11027

@@ -2,5 +2,5 @@ project: hermes
 oss_fuzz_project_dir: projects/hermes
 main_repo: https://github.com/facebook/hermes.git
 language: c++
-domain: unknown
-loc: 6844342
+domain: metadata
+loc: 2761567

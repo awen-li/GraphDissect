@@ -2,5 +2,5 @@ project: dart
 oss_fuzz_project_dir: projects/dart
 main_repo: https://github.com/dart-lang/sdk.git
 language: c++
-domain: unknown
-loc: 9797806
+domain: metadata
+loc: 602700

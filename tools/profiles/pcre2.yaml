@@ -2,5 +2,5 @@ project: pcre2
 oss_fuzz_project_dir: projects/pcre2
 main_repo: https://github.com/PCRE2Project/pcre2
 language: c++
-domain: unknown
-loc: 194372
+domain: metadata
+loc: 62694

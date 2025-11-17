@@ -2,5 +2,5 @@ project: libaom
 oss_fuzz_project_dir: projects/libaom
 main_repo: https://aomedia.googlesource.com/aom
 language: c++
-domain: unknown
-loc: 1307610
+domain: media
+loc: 627164

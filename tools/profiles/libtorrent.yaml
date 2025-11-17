@@ -2,5 +2,5 @@ project: libtorrent
 oss_fuzz_project_dir: projects/libtorrent
 main_repo: https://github.com/arvidn/libtorrent.git
 language: c++
-domain: unknown
-loc: 357804
+domain: metadata
+loc: 166028

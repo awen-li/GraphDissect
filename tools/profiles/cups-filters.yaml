@@ -2,5 +2,5 @@ project: cups-filters
 oss_fuzz_project_dir: projects/cups-filters
 main_repo: https://github.com/OpenPrinting/cups-filters.git
 language: c++
-domain: unknown
-loc: 39052
+domain: metadata
+loc: 12611

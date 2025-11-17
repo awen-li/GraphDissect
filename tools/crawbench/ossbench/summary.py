@@ -22,14 +22,12 @@ class ProfilesSummary:
         self._profiles: List[ProjectProfile] = []
 
     # -------- Internal helpers --------
-
     def _load_profiles(self) -> List[ProjectProfile]:
         if not self._profiles:
             self._profiles = list(iter_profiles(self.profiles_dir))
         return self._profiles
 
     # -------- Public API --------
-
     def compute(self) -> Dict[str, Any]:
         profiles = self._load_profiles()
 

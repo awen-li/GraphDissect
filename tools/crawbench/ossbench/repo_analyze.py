@@ -236,7 +236,6 @@ KNOWN_DOMAIN_OVERRIDES = {
     "botan": "crypto",
     "brpc": "rpc/framework",
     "brunsli": "compression",
-    "bzip2": "compression",
     "c-blosc": "compression",
     "c-blosc2": "compression",
     "capnproto": "serialization",
@@ -794,18 +793,21 @@ class ProfileAugmenter:
 
     # --- High-level profile augmentation --------------------------------
     def augment(self, profile: ProjectProfile) -> ProjectProfile:
-        if not profile.main_repo or profile.main_repo.lower().startswith("null"):
-            print(f"[augment] Skipping {profile.project}: no main_repo")
-            return profile
+        main_repo = profile.main_repo
+        has_repo = bool(main_repo) and str(main_repo).lower() not in ("null", "")
 
-        repo_dir = self.clone_root / profile.project
-        self.clone_repo_if_needed(profile.main_repo, repo_dir)
+        # --- LOC: only compute if missing or clearly invalid ---
+        if has_repo:
+            repo_dir = self.clone_root / profile.project
+            self.clone_repo_if_needed(profile.main_repo, repo_dir)
 
-        if not repo_dir.is_dir():
-            print(f"[augment] Skipping {profile.project}: repo directory not found")
-            return profile
-
-        loc_val = self.compute_loc(repo_dir)
+            loc_val = profile.loc
+            if loc_val is None or (isinstance(loc_val, int) and loc_val <= 0):
+                loc_val = self.compute_loc(repo_dir)
+        else:
+            loc_val = 0
+        
+        # --- Domain inference (this already respects existing domain) ---
         coarse_domain, fine_label = self.domain_mapper.infer_domain(profile)
 
         profile.loc = loc_val

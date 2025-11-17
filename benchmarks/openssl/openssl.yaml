@@ -1,0 +1,6 @@
+project: openssl
+oss_fuzz_project_dir: projects/openssl
+main_repo: https://github.com/openssl/openssl.git
+language: c++
+domain: crypto
+loc: 659491

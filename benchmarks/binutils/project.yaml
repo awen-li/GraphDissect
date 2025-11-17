@@ -1,0 +1,7 @@
+project:
+  name: "binutils"
+  description: "A collection of binary tools including objdump, readelf, nm, and more"
+  github: "https://github.com/bminor/binutils-gdb"
+  format: "*.o, *.elf, *.so, *.bin, *.a, *.exe"
+  encoding: "binary"
+  cmdline: "{bin} {opts} {input}"

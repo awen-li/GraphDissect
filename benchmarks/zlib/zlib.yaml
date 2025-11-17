@@ -1,0 +1,6 @@
+project: zlib
+oss_fuzz_project_dir: projects/zlib
+main_repo: https://github.com/madler/zlib.git
+language: c++
+domain: archive
+loc: 30026

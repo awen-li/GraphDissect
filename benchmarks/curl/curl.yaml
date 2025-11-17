@@ -1,0 +1,6 @@
+project: curl
+oss_fuzz_project_dir: projects/curl
+main_repo: https://github.com/curl/curl.git
+language: c++
+domain: network
+loc: 188903

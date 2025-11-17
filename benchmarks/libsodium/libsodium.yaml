@@ -1,0 +1,6 @@
+project: libsodium
+oss_fuzz_project_dir: projects/libsodium
+main_repo: https://github.com/jedisct1/libsodium.git
+language: c++
+domain: crypto
+loc: 52020

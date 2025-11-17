@@ -1,0 +1,6 @@
+project: libpng
+oss_fuzz_project_dir: projects/libpng
+main_repo: https://github.com/pnggroup/libpng.git
+language: c++
+domain: media
+loc: 57597

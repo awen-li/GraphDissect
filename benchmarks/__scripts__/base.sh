@@ -13,10 +13,10 @@ function handle_executable()
     executables=$2
 
 
-    if [ ! -d "seeds" ]; then
-		mkdir seeds
-		tar -xvf seeds.tar -C seeds
-	fi
+    #if [ ! -d "seeds" ]; then
+	#	mkdir seeds
+	#	tar -xvf seeds.tar -C seeds
+	#fi
 
     for exe in "${executables[@]}"; do
         executable=$exe
@@ -25,38 +25,25 @@ function handle_executable()
         if [ ! -d "$benchpath" ]; then
             mkdir "$benchpath"
         fi
-
-		if [ ! -f "$benchpath/project.yaml" ]; then
-			cp project.yaml "$benchpath"
-		fi
         
         # Generate bc
 		extract-bc $executable_path/$executable && cp $executable_path/$executable.bc ./
-		cp $executable_path/$executable $benchpath/pg_$executable
-		cp $executable_path/$executable $benchpath/$executable
+		#cp $executable_path/$executable $benchpath/pg_$executable
+		#cp $executable_path/$executable $benchpath/$executable
 
         # Whole-program callgraph construction
-        if [ ! -f "$benchpath/callgraph_final.dot" ]; then
-			export ONLY_CG="true"
-		    wpa -fspta  -dump-callgraph $executable.bc
-		    mv callgraph_final.dot "$benchpath/"
-		fi
-        rm *.bc
+        #if [ ! -f "$benchpath/callgraph_final.dot" ]; then
+			#export ONLY_CG="true"
+		    #wpa -fspta  -dump-callgraph $executable.bc
+		    #mv callgraph_final.dot "$benchpath/"
+		#fi
+        #rm *.bc
 
 		# Copy initial seed directory
-        cp -rf seeds "$benchpath/"
+        #cp -rf seeds "$benchpath/"
 
 		# generate driver
-		python -m driverscope $benchpath --binary $benchpath/$executable
-
-		# Move generated stats files to executable directory
-		if [ -f "global_driver_stats.txt" ]; then
-		    mv global_driver_stats.txt "$benchpath/"
-		fi
-
-		if [ -f "per_driver_stats.txt" ]; then
-		    mv per_driver_stats.txt "$benchpath/"
-		fi
+		#python -m driverscope $benchpath --binary $benchpath/$executable
     done
 }
 
@@ -77,7 +64,6 @@ function copy_executable ()
 		nm $benchpath/$executable > "$benchpath/$FUNC_ADDR_MAP"
 
 		# Generate function address to ID mappingAdd commentMore actions
-        python -m driverscope --faddr "$benchpath"
 	done
 }
 
@@ -142,7 +128,7 @@ function compile ()
 		# Compile for fuzzing
 		hfuzz_compile	
 
-		copy_driver $executables
+		$copy_driver $executables
 		
 	elif [ "$Action" == "static" ]; then
 		# Only compile for static analysis
@@ -152,7 +138,7 @@ function compile ()
 		# Default: compile for fuzzing only
 		hfuzz_compile
 
-		copy_driver $executables
+		$copy_driver $executables
 	fi
 }
 

@@ -141,6 +141,7 @@ coarse_map:
   debug-info: toolchain
   linkage: toolchain
   symbol-analysis: toolchain
+  os/utils: toolchain
 
   # archiving / compression
   compression: archive
@@ -204,6 +205,7 @@ coarse_map:
   language-runtime/ruby: runtime
   language-runtime/php: runtime
   language-runtime/perl: runtime
+  utility-library: runtime
 
   # crypto & security
   crypto: crypto
@@ -244,7 +246,6 @@ coarse_map:
   terminal: metadata
   config: metadata
   config-parser: metadata
-  debug-info: metadata
   scientific-io: metadata
   cache: metadata
   logging: metadata
@@ -256,7 +257,7 @@ coarse_map:
   ml/runtime: ml
   ml/optimization: ml
   ml/inference: ml
-  
+
 
   # fallback
   other: metadata

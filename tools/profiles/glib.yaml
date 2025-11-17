@@ -2,5 +2,5 @@ project: glib
 oss_fuzz_project_dir: projects/glib
 main_repo: https://gitlab.gnome.org/GNOME/glib
 language: c++
-domain: metadata
+domain: runtime
 loc: 543312

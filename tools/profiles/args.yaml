@@ -2,5 +2,5 @@ project: args
 oss_fuzz_project_dir: projects/args
 main_repo: https://github.com/Taywee/args
 language: c++
-domain: metadata
+domain: runtime
 loc: 18495

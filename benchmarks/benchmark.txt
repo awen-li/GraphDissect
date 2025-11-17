@@ -1,0 +1,135 @@
+selected_benchmarks:
+  runtime:
+    # Large (> ~1M LOC)
+    large:
+      - jsc              # 7.94M JS engine
+      - nodejs           # 4.11M JS runtime/server
+      - php              # 1.32M PHP interpreter
+    # Medium (~150K–800K LOC)
+    medium:
+      - poco             # 796K C++ framework (classified as runtime here)
+      - cpython3         # 764K CPython core
+      - dart             # 603K Dart SDK/runtime
+    # Small (< ~150K LOC)
+    small:
+      - quickjs          # 76K small JS engine
+      - mruby            # 73K lightweight Ruby
+      - lua              # 21K Lua interpreter
+
+  network:
+    large:
+      - wireshark        # 4.78M packet analyzer
+      - open5gs          # 1.06M 5G core
+      - envoy            # 1.03M L7 proxy
+    medium:
+      - nginx            # 170K HTTP server / reverse proxy
+      - curl             # 189K network client
+      - openvpn          # 102K VPN tunneling
+    small:
+      - http-parser      # 6.2K HTTP parser core
+      - libpsl           # 2.4K public suffix utilities
+      - llhttp           # 973 HTTP parser
+
+  media:
+    large:
+      - gstreamer        # 2.24M multimedia framework
+      - opencv           # 1.51M CV / image processing
+      - ffmpeg           # 1.35M A/V transcoder
+    medium:
+      - imagemagick      # 396K general image tools
+      - libvpx           # 365K VP8/VP9 codec
+      - libtiff          # 91.9K TIFF tools
+    small:
+      - libpng           # 57.6K PNG codec
+      - opus             # 78.3K audio codec
+      - giflib           # 7.3K GIF library/tools
+
+  metadata:
+    large:
+      - mysql-server     # 6.06M DB server
+      - qemu             # 1.71M system emulator
+      - clickhouse       # 1.51M analytical DB
+    medium:
+      - hdf5             # 739K scientific data format
+      - cmake            # 733K build system
+      - rocksdb          # 541K key-value store
+    small:
+      - file             # 17.9K file-type inspector
+      - libyaml          # 10.6K YAML parser
+      - libconfig        # 11.9K config parser
+
+  document:
+    large:
+      - libreoffice      # 5.11M office suite
+      - ghostscript      # 1.47M PS/PDF interpreter
+      - mupdf            # 493K PDF/XPS renderer
+    medium:
+      - simdjson         # 191K JSON parser
+      - libxml2          # 139K XML toolkit
+      - yaml-cpp         # 80.5K YAML parser
+    small:
+      - json-c           # 9.4K JSON C library
+      - jsoncpp          # 9.9K JSON C++ library
+      - tinyxml2         # 5.9K XML library
+
+  archive:
+    large:
+      - tarantool        # 274K DB w/ snapshot/log archives
+      - libarchive       # 169K multi-format archiver
+      - zstd             # 91.3K compressor
+    medium:
+      - c-blosc2         # 113K compressed blocks
+      - c-blosc          # 88.8K Blosc compressor
+      - xz               # 34.4K LZMA compressor
+    small:
+      - zlib             # 30.0K compression library
+      - minizip          # 14.6K ZIP utilities
+      - snappy           # 4.6K fast compressor
+
+  crypto:
+    large:
+      - wolfssl          # 1.58M TLS/crypto library
+      - libecc           # 892K ECC crypto
+      - openssl          # 659K TLS/crypto toolkit
+    medium:
+      - gnutls           # 298K TLS library
+      - bitcoin-core     # 282K cryptocurrency node
+      - botan            # 196K crypto library
+    small:
+      - libsodium        # 52.0K modern crypto
+      - libressl         # 4.9K OpenSSL fork (in this tree)
+      - circl            # 1.3K Go crypto (small harness)
+
+  toolchain:
+    large:
+      - llvm             # 9.54M compiler infrastructure
+      - binutils         # 3.13M binary utilities
+      - radare2          # 804K RE framework
+    medium:
+      - unicorn          # 374K CPU emulator
+      - elfutils         # 116K ELF utilities
+      - capstone         # 124K disassembly framework
+    small:
+      - zydis            # 21.3K disassembler
+      - bloaty           # 12.1K size profiler
+      - myanmar-tools    # 436 small text tool
+
+  ml:
+    # Only 6 ML projects available → 2/2/2
+    large:
+      - tensorflow       # 3.17M ML framework
+      - xnnpack          # 2.20M NN kernels
+    medium:
+      - onednn           # 933K DL primitives
+      - llamacpp         # 355K LLM inference
+    small:
+      - nccl             # 79.7K GPU comms
+      - tensorflow-serving # 52.3K model serving
+
+  os_system:
+    # Only 2 OS/system projects available
+    large:
+      - serenity         # 927K SerenityOS
+    medium:
+      - xnu              # 13.7K XNU slice in this tree
+    small: []

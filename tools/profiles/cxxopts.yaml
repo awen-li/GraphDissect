@@ -2,5 +2,5 @@ project: cxxopts
 oss_fuzz_project_dir: projects/cxxopts
 main_repo: https://github.com/jarro2783/cxxopts
 language: c++
-domain: metadata
+domain: runtime
 loc: 17292

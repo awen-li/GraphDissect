@@ -52,12 +52,10 @@ function wllvm_compile ()
 	export CXXFLAGS="$COMMON_FLAGS"
 	export LDFLAGS="-static"
 	
-	if [ -d "build" ]; then
-		rm -rf build
-	fi
-	mkdir build
+	build_dir="build-wllvm"
+    rm -rf "$build_dir" && mkdir "$build_dir"
 
-	cd build
+    cd "$build_dir"
 	../$target/configure --disable-gprofng --disable-nls --disable-gdb --disable-gdbserver --disable-sim
 	make -j4
 	cd ..
@@ -74,14 +72,11 @@ function hfuzz_compile ()
 	export CFLAGS="$COMMON_FLAGS"
 	export CXXFLAGS="-std=c++17 $COMMON_FLAGS"
 
-	if [ -d "build" ]; then
-		rm -rf build
-	fi
-	mkdir build
+	build_dir="build-hfuzz"
+    rm -rf "$build_dir" && mkdir "$build_dir"
 
-	cd build
+    cd "$build_dir"
 	../$target/configure --disable-gprofng --disable-nls --disable-gdb --disable-gdbserver --disable-sim
-
 	make -j4
 	cd -
 }

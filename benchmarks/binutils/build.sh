@@ -1,7 +1,7 @@
 
 
 export ROOT=`pwd`
-export target=binutils-2.44
+export target=binutils-gdb
 
 Action=$1
 executables=("objdump" "readelf" "addr2line" "nm-new" "ranlib" "strings" "strip-new" "elfedit")
@@ -13,12 +13,14 @@ source ../__scripts__/base.sh
 function initialize ()
 {
 	export PKG_CONFIG_PATH=/root/anaconda3/lib/pkgconfig:$PKG_CONFIG_PATH
+
+	apt-get install texinfo
 	
 	if [ ! -d "$target" ]; then
-		tar -xvf $target.tar.xz
+		git clone https://github.com/bminor/binutils-gdb
 	fi
 
-	cd binutils-2.44/libiberty
+	cd $target/libiberty
 
 	# Backup original file
 	cp pex-unix.c pex-unix.c.bak
@@ -35,9 +37,19 @@ function initialize ()
 
 function wllvm_compile ()
 {
-	export CC="wllvm -pg -g -O2 -save-temps=obj -fno-discard-value-names -fno-inline-functions -fno-inline-functions-called-once -mllvm -inline-threshold=0 -w"
-	export CXX="wllvm++ -pg -g -O2 -save-temps=obj -fno-discard-value-names -fno-inline-functions -fno-inline-functions-called-once -mllvm -inline-threshold=0 -w"
-	export CPPFLAGS="-D_GNU_SOURCE -DLONG_MIN=-9223372036854775808"
+	export CC=wllvm
+	export CXX=wllvm++
+
+	COMMON_FLAGS="-pg -g -O2 -save-temps=obj \
+				-fno-discard-value-names \
+				-fno-inline-functions \
+				-fno-inline-functions-called-once \
+				-mllvm -inline-threshold=0 \
+				-w \
+				-D_GNU_SOURCE -DLONG_MIN=-9223372036854775808"
+
+	export CFLAGS="$COMMON_FLAGS"
+	export CXXFLAGS="$COMMON_FLAGS"
 	export LDFLAGS="-static"
 	
 	if [ -d "build" ]; then
@@ -46,17 +58,21 @@ function wllvm_compile ()
 	mkdir build
 
 	cd build
-	../$target/configure
+	../$target/configure --disable-gprofng --disable-nls --disable-gdb --disable-gdbserver --disable-sim
 	make -j4
 	cd ..
-
-	handle_executable build/binutils $executables
 }
 
 function hfuzz_compile ()
 {
-	export CC="hfuzz-clang -fsanitize-coverage=trace-pc-guard -finstrument-functions"
-	export CXX="hfuzz-clang++ -fsanitize-coverage=trace-pc-guard -finstrument-functions"
+	export CC=hfuzz-clang
+	export CXX=hfuzz-clang++
+
+	export COMMON_FLAGS="-fsanitize-coverage=trace-pc-guard -finstrument-functions -w \
+						-D_GNU_SOURCE -DLONG_MIN=-9223372036854775808"
+
+	export CFLAGS="$COMMON_FLAGS"
+	export CXXFLAGS="-std=c++17 $COMMON_FLAGS"
 
 	if [ -d "build" ]; then
 		rm -rf build
@@ -64,11 +80,10 @@ function hfuzz_compile ()
 	mkdir build
 
 	cd build
-	../$target/configure
+	../$target/configure --disable-gprofng --disable-nls --disable-gdb --disable-gdbserver --disable-sim
+
 	make -j4
 	cd -
-
-	copy_executable build/binutils $executables
 }
 
 

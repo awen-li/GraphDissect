@@ -8,51 +8,49 @@ selected_benchmarks:
     # Medium (~150K–800K LOC)
     medium:
       - poco             # 796K C++ framework (classified as runtime here)
-      - cpython3         # 764K CPython core
+      - cpython3         # 764K CPython core ----------- done
       - dart             # 603K Dart SDK/runtime
     # Small (< ~150K LOC)
     small:
-      - quickjs          # 76K small JS engine
+      - quickjs          # 76K small JS engine  ------------- done
       - mruby            # 73K lightweight Ruby
-      - lua              # 21K Lua interpreter
+      - lua              # 21K Lua interpreter  -------------- done
 
-  network:
-    large:
-      - wireshark        # 4.78M packet analyzer
-      - open5gs          # 1.06M 5G core
-      - envoy            # 1.03M L7 proxy
-    medium:
-      - nginx            # 170K HTTP server / reverse proxy
-      - curl             # 189K network client
-      - openvpn          # 102K VPN tunneling
-    small:
-      - http-parser      # 6.2K HTTP parser core
-      - libpsl           # 2.4K public suffix utilities
-      - llhttp           # 973 HTTP parser
+ network:
+  large:
+    - wireshark        # 4.78M packet analyzer
+    - trafficserver    # 582K HTTP proxy/cache (Envoy replacement)
+  medium:
+    - curl             # 189K network client
+    - nginx            # 170K HTTP server / reverse proxy
+    - openvpn          # 102K VPN tunneling
+  small:
+    - http-parser      # 6.2K HTTP parser core
+    - libpsl           # 2.4K public suffix utilities
 
   media:
     large:
       - gstreamer        # 2.24M multimedia framework
       - opencv           # 1.51M CV / image processing
-      - ffmpeg           # 1.35M A/V transcoder
+      - ffmpeg           # 1.35M A/V transcoder  -------------
     medium:
       - imagemagick      # 396K general image tools
-      - libvpx           # 365K VP8/VP9 codec
+      - libvpx           # 365K VP8/VP9 codec -------------
       - libtiff          # 91.9K TIFF tools
     small:
-      - libpng           # 57.6K PNG codec
+      - libpng           # 57.6K PNG codec  -------------
       - opus             # 78.3K audio codec
       - giflib           # 7.3K GIF library/tools
 
   metadata:
     large:
-      - mysql-server     # 6.06M DB server
+      - mysql-server     # 6.06M DB server ------------
       - qemu             # 1.71M system emulator
       - clickhouse       # 1.51M analytical DB
     medium:
       - hdf5             # 739K scientific data format
       - cmake            # 733K build system
-      - rocksdb          # 541K key-value store
+      - rocksdb          # 541K key-value store -------------
     small:
       - file             # 17.9K file-type inspector
       - libyaml          # 10.6K YAML parser
@@ -62,27 +60,27 @@ selected_benchmarks:
     large:
       - libreoffice      # 5.11M office suite
       - ghostscript      # 1.47M PS/PDF interpreter
-      - mupdf            # 493K PDF/XPS renderer
+      - mupdf            # 493K PDF/XPS renderer  ----------------
     medium:
       - simdjson         # 191K JSON parser
-      - libxml2          # 139K XML toolkit
+      - libxml2          # 139K XML toolkit  --------------- done
       - yaml-cpp         # 80.5K YAML parser
     small:
       - json-c           # 9.4K JSON C library
-      - jsoncpp          # 9.9K JSON C++ library
+      - jsoncpp          # 9.9K JSON C++ library  ----------------
       - tinyxml2         # 5.9K XML library
 
   archive:
     large:
       - tarantool        # 274K DB w/ snapshot/log archives
-      - libarchive       # 169K multi-format archiver
+      - libarchive       # 169K multi-format archiver  --------------
       - zstd             # 91.3K compressor
     medium:
       - c-blosc2         # 113K compressed blocks
-      - c-blosc          # 88.8K Blosc compressor
+      - c-blosc          # 88.8K Blosc compressor ---------------
       - xz               # 34.4K LZMA compressor
     small:
-      - zlib             # 30.0K compression library
+      - zlib             # 30.0K compression library --------------
       - minizip          # 14.6K ZIP utilities
       - snappy           # 4.6K fast compressor
 
@@ -90,27 +88,27 @@ selected_benchmarks:
     large:
       - wolfssl          # 1.58M TLS/crypto library
       - libecc           # 892K ECC crypto
-      - openssl          # 659K TLS/crypto toolkit
+      - openssl          # 659K TLS/crypto toolkit --------------
     medium:
-      - gnutls           # 298K TLS library
+      - gnutls           # 298K TLS library  ---------------
       - bitcoin-core     # 282K cryptocurrency node
       - botan            # 196K crypto library
     small:
-      - libsodium        # 52.0K modern crypto
+      - libsodium        # 52.0K modern crypto  --------------
       - libressl         # 4.9K OpenSSL fork (in this tree)
       - circl            # 1.3K Go crypto (small harness)
 
   toolchain:
     large:
       - llvm             # 9.54M compiler infrastructure
-      - binutils         # 3.13M binary utilities
+      - binutils         # 3.13M binary utilities -------------- done
       - radare2          # 804K RE framework
     medium:
       - unicorn          # 374K CPU emulator
-      - elfutils         # 116K ELF utilities
+      - elfutils         # 116K ELF utilities  ----------------
       - capstone         # 124K disassembly framework
     small:
-      - zydis            # 21.3K disassembler
+      - zydis            # 21.3K disassembler ---------------
       - bloaty           # 12.1K size profiler
       - myanmar-tools    # 436 small text tool
 

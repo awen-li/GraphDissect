@@ -1,0 +1,6 @@
+project: wireshark
+oss_fuzz_project_dir: projects/wireshark
+main_repo: https://gitlab.com/wireshark/wireshark
+language: c++
+domain: network
+loc: 4777197

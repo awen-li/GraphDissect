@@ -45,8 +45,7 @@ hfuzz_compile() {
     export CC="hfuzz-clang"
     export CXX="hfuzz-clang++"
 
-    COMMON_FLAGS="-fsanitize-coverage=trace-pc-guard \
-                  -finstrument-functions"
+    COMMON_FLAGS="-fsanitize-coverage=trace-pc-guard -finstrument-functions"
 
     export CFLAGS="$COMMON_FLAGS"
     export CXXFLAGS="$COMMON_FLAGS"

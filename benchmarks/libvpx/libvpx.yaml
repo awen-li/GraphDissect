@@ -1,6 +1,0 @@
-project: libvpx
-oss_fuzz_project_dir: projects/libvpx
-main_repo: https://chromium.googlesource.com/webm/libvpx
-language: c++
-domain: media
-loc: 364566

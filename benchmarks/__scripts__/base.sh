@@ -138,7 +138,7 @@ function compile ()
 		# Default: compile for fuzzing only
 		hfuzz_compile
 
-		$copy_driver $executables
+		#copy_driver $executables
 	fi
 }
 

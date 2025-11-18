@@ -8,7 +8,7 @@ selected_benchmarks:
     # Medium (~150K–800K LOC)
     medium:
       - poco             # 796K C++ framework (classified as runtime here)
-      - cpython3         # 764K CPython core ----------- done
+      - cpython3         # 764K CPython core    ----------- done
       - dart             # 603K Dart SDK/runtime
     # Small (< ~150K LOC)
     small:
@@ -18,14 +18,14 @@ selected_benchmarks:
 
  network:
   large:
-    - wireshark        # 4.78M packet analyzer
+    - wireshark        # 4.78M packet analyzer ------------- done
     - trafficserver    # 582K HTTP proxy/cache (Envoy replacement)
   medium:
-    - curl             # 189K network client
+    - curl             # 189K network client   ------------- done
     - nginx            # 170K HTTP server / reverse proxy
     - openvpn          # 102K VPN tunneling
   small:
-    - http-parser      # 6.2K HTTP parser core
+    - http-parser      # 6.2K HTTP parser core ------------- done
     - libpsl           # 2.4K public suffix utilities
 
   media:

@@ -1,0 +1,6 @@
+project: xpdf
+oss_fuzz_project_dir: projects/xpdf
+main_repo: null
+language: c++
+domain: document
+loc: 0

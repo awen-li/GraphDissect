@@ -18,8 +18,7 @@ selected_benchmarks:
 
  network:
   large:
-    - wireshark        # 4.78M packet analyzer ------------- done
-    - trafficserver    # 582K HTTP proxy/cache (Envoy replacement)
+    - trafficserver    # 582K HTTP proxy/cache (Envoy replacement) ------------- done
   medium:
     - curl             # 189K network client   ------------- done
     - nginx            # 170K HTTP server / reverse proxy

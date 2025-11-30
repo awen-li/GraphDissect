@@ -31,11 +31,11 @@ selected_benchmarks:
     large:
       - gstreamer        # 2.24M multimedia framework
       - opencv           # 1.51M CV / image processing
-      - ffmpeg           # 1.35M A/V transcoder  -------------
+      - ffmpeg           # 1.35M A/V transcoder  ------------- done
     medium:
       - imagemagick      # 396K general image tools
-      - libvpx           # 365K VP8/VP9 codec -------------
-      - libtiff          # 91.9K TIFF tools
+      - libvpx           # 365K VP8/VP9 codec 
+      - libtiff          # 91.9K TIFF tools -------------
     small:
       - libpng           # 57.6K PNG codec  -------------
       - opus             # 78.3K audio codec

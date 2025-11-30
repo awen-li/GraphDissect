@@ -2,57 +2,33 @@
 
 export ROOT="$(pwd)"
 export target="libpng"
+# CMake puts the tools in the build/ dir
 executables=("pngfix" "pngimage" "pngtest" "pngunknown" "pngvalid")
 
 Action="$1"
 
 source ../__scripts__/base.sh
 
-ensure_configure() {
-    if [ ! -f "$target/configure" ]; then
-        echo "[libpng] 'configure' missing in $target, trying autoreconf/autogen..."
-        if [ -x "$target/autogen.sh" ]; then
-            ( cd "$target" && ./autogen.sh )
-        else
-            ( cd "$target" && autoreconf -fi || true )
-        fi
-        if [ ! -f "$target/configure" ]; then
-            echo "[libpng] ERROR: configure script still missing in $target"
-            exit 1
-        fi
-    fi
-}
+LIBPNG_REPO="https://github.com/pnggroup/libpng.git"
 
 initialize() {
-
+    # Always pull the latest code from the repository
     if [ -d "$target" ]; then
         rm -rf "$target"
     fi
-    git clone --depth 1 https://github.com/pnggroup/libpng.git "$target"
-
-    ensure_configure()
-    {
-        if [ ! -f "$target/configure" ]; then
-            echo "[libpng] 'configure' missing in $target, trying autoreconf/autogen..."
-            if [ -x "$target/autogen.sh" ]; then
-                ( cd "$target" && ./autogen.sh )
-            else
-                ( cd "$target" && autoreconf -fi || true )
-            fi
-            if [ ! -f "$target/configure" ]; then
-                echo "[libpng] ERROR: configure script still missing in $target"
-                exit 1
-            fi
-        fi
+    git clone --depth 1 "${LIBPNG_REPO}" "$target" || {
+        echo "[libpng] ERROR: git clone failed"
+        exit 1
     }
-    ensure_configure
+
+    apt-get install -y gawk
 }
 
-
-wllvm_compile() {
+wllvm_compile() 
+{
+    initialize
 
     export LLVM_COMPILER=clang
-
     export CC="wllvm"
     export CXX="wllvm++"
 
@@ -65,34 +41,48 @@ wllvm_compile() {
     export CFLAGS="${COMMON_FLAGS}"
     export CXXFLAGS="${COMMON_FLAGS}"
 
-    cd $target
-    make distclean >/dev/null 2>&1 || true
-    ./configure \
-        --enable-static \
-        --disable-shared
-    make -j8
-    cd $ROOT
+    cd "$target"
+    rm -rf build
+    cmake -S . -B build \
+        -DCMAKE_C_COMPILER="$CC" \
+        -DCMAKE_CXX_COMPILER="$CXX" \
+        -DCMAKE_C_FLAGS="$CFLAGS" \
+        -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+        -DPNG_TESTS=ON \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    cmake --build build -j8
+    cd "$ROOT"
 
-    handle_executable "$target" "${executables[@]}"
+    handle_executable "$target/build" "${executables[@]}"
 }
 
-
 hfuzz_compile() {
+    initialize
 
-    export CC="hfuzz-clang -fsanitize-coverage=trace-pc-guard -finstrument-functions"
-    export CXX="hfuzz-clang++ -fsanitize-coverage=trace-pc-guard -finstrument-functions"
+    export CC="hfuzz-clang"
+    export CXX="hfuzz-clang++"
 
+    COMMON_FLAGS="-fsanitize-coverage=trace-pc-guard -finstrument-functions"
+
+    export CFLAGS="$COMMON_FLAGS"
+    export CXXFLAGS="$COMMON_FLAGS"
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}
 
     cd "$target"
-    make distclean >/dev/null 2>&1 || true
-    ./configure \
-        --enable-static \
-        --disable-shared
-    make -j8
+
+    rm -rf build
+    cmake -S . -B build \
+        -DCMAKE_C_COMPILER="$CC" \
+        -DCMAKE_CXX_COMPILER="$CXX" \
+        -DCMAKE_C_FLAGS="$CFLAGS" \
+        -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+        -DPNG_TESTS=ON \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+    cmake --build build -j8
+
     cd "$ROOT"
 }
-
 
 if [ "${Action}" == "clean" ]; then
     clean

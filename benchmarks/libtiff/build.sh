@@ -2,27 +2,26 @@
 
 export ROOT="$(pwd)"
 export target="libtiff"
-executables=("tiffcp" "tiffinfo" "tiffdump" "tiffcrop")
+executables=("tiff2bw" "tiffcrop" "tiffcp" "tiff2pdf" "tiff2ps" "tiff2rgba" "tiffinfo" "fax2tiff" "fax2ps" "pal2rgb" "ppm2tiff" "raw2tiff")
 
 Action=$1
 
 source ../__scripts__/base.sh
 
 ensure_configure() {
+    if [ -x "$target/autogen.sh" ]; then
+	( cd "$target" && ./autogen.sh )
+    fi
+    
     if [ ! -f "$target/configure" ]; then
-        echo "[libtiff] 'configure' missing in $target, trying autogen.sh..."
-        if [ -x "$target/autogen.sh" ]; then
-            ( cd "$target" && ./autogen.sh )
-        fi
-        if [ ! -f "$target/configure" ]; then
-            echo "[libtiff] ERROR: configure script still missing in $target"
-            exit 1
-        fi
+	echo "[libtiff] ERROR:  configure script missing in $target"
+	exit 1
     fi
 }
 
 initialize() {
-    if [ ! -d "$target" ]; then
+	export ACLOCAL_PATH=/usr/share/aclocal:${ACLOCAL_PATH}
+	if [ ! -d "$target" ]; then
         echo "[libtiff] cloning upstream repo..."
         git clone --depth 1 https://gitlab.com/libtiff/libtiff.git "$target"
     fi
@@ -41,7 +40,7 @@ wllvm_compile() {
     export CC="wllvm"
     export CXX="wllvm++"
 
-    COMMON_FLAGS="-g -O2 \
+    COMMON_FLAGS="-g -O2 -pg\
                   -fno-discard-value-names \
                   -fno-inline-functions \
                   -fno-inline-functions-called-once \
@@ -59,8 +58,7 @@ wllvm_compile() {
     make -j8
     cd $ROOT
 
-
-    handle_executable "$target/tools" "${executables[@]}"
+    #handle_executable "$target/tools" "${executables[@]}"
 }
 
 
@@ -81,6 +79,8 @@ hfuzz_compile() {
         --disable-dependency-tracking
     make -j8
     cd "$ROOT"
+
+    #copy_executable "$target/tools" "${executables[@]}"
 }
 
 

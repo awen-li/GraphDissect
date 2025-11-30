@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export ROOT="$(pwd)"
-export target="xpdf-4.05"
+export target="xpdf-4.06"
 
 Action="$1"
 executables=("pdfdetach" "pdfimages" "pdftohtml" "pdftoppm" "pdftotext" "pdffonts" "pdfinfo" "pdftopng" "pdftops")
@@ -13,7 +13,7 @@ initialize() {
     export PKG_CONFIG_PATH=/root/anaconda3/lib/pkgconfig:$PKG_CONFIG_PATH
 
     if [ ! -d "$target" ]; then
-        tar -xvf xpdf-4.05.tar.gz
+        tar -xvf xpdf-4.06.tar.gz
     fi
 }
 

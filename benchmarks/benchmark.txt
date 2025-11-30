@@ -35,9 +35,9 @@ selected_benchmarks:
     medium:
       - imagemagick      # 396K general image tools
       - libvpx           # 365K VP8/VP9 codec 
-      - libtiff          # 91.9K TIFF tools -------------
+      - libtiff          # 91.9K TIFF tools ------------- done
     small:
-      - libpng           # 57.6K PNG codec  -------------
+      - libpng           # 57.6K PNG codec  ------------- done
       - opus             # 78.3K audio codec
       - giflib           # 7.3K GIF library/tools
 
@@ -49,7 +49,7 @@ selected_benchmarks:
     medium:
       - hdf5             # 739K scientific data format
       - cmake            # 733K build system
-      - rocksdb          # 541K key-value store -------------
+      - rocksdb          # 541K key-value store ------------- done
     small:
       - file             # 17.9K file-type inspector
       - libyaml          # 10.6K YAML parser
@@ -59,14 +59,14 @@ selected_benchmarks:
     large:
       - libreoffice      # 5.11M office suite
       - ghostscript      # 1.47M PS/PDF interpreter
-      - mupdf            # 493K PDF/XPS renderer  ----------------
+      - xpdf            # 493K PDF/XPS renderer  ---------------- done
     medium:
       - simdjson         # 191K JSON parser
       - libxml2          # 139K XML toolkit  --------------- done
       - yaml-cpp         # 80.5K YAML parser
     small:
       - json-c           # 9.4K JSON C library
-      - jsoncpp          # 9.9K JSON C++ library  ----------------
+      - jsoncpp          # 9.9K JSON C++ library  ---------------- done
       - tinyxml2         # 5.9K XML library
 
   archive:
@@ -104,10 +104,10 @@ selected_benchmarks:
       - radare2          # 804K RE framework
     medium:
       - unicorn          # 374K CPU emulator
-      - elfutils         # 116K ELF utilities  ----------------
-      - capstone         # 124K disassembly framework
+      - elfutils         # 116K ELF utilities
+      - capstone         # 124K disassembly framework ---------------- done
     small:
-      - zydis            # 21.3K disassembler ---------------
+      - zydis            # 21.3K disassembler --------------- done
       - bloaty           # 12.1K size profiler
       - myanmar-tools    # 436 small text tool
 

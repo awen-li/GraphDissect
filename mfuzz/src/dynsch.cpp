@@ -109,7 +109,7 @@ std::vector<unsigned> dynsch_getCoveredFuncs()
 
     unsigned maxFuncId = sch->getGraphNodeNum() + 32;
     for (unsigned i = 1; i <= maxFuncId; i++) {
-        unsigned hitNum = fcov_getFuncHitNum(i);
+        unsigned hitNum = fcov_getNodeHitNum(i);
         if (hitNum != 0) {
             covered_list.push_back(i);
         }

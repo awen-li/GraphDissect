@@ -1,58 +1,147 @@
+#include <cmath>
 #include "scheduler.h"
-#include "fcov.h"
 
-vector<NodeFeature> Scheduler::getNodeFeatures(unsigned driverId) {
+void Scheduler::getGraphFeatures(unsigned driverId, 
+                          vector<NodeFeature>& nFeatures, 
+                          vector<pair<unsigned, unsigned>>& edgeList,
+                          unsigned& totalBlocks)
+{
+    set<CGNode*> subgraph;
+    cgmk->getDriverGraph(driverId, subgraph);
+
+    nFeatures   = getNodeFeatures(driverId, subgraph);
+    edgeList    = getSubgraphEdges(subgraph);
+    totalBlocks = getNodeBlockNum(subgraph);
+
+    return;
+}
+
+vector<NodeFeature> Scheduler::getNodeFeatures(unsigned driverId, set<CGNode*> subgraph) 
+{
     vector<NodeFeature> features;
 
-    if (subg.driverId != driverId) {
-        subg.subgraph.clear();
-         cgmk->getDriverGraph(driverId, subg.subgraph);
-         subg.driverId = driverId;
+    if (subgraph.empty()) {
+        return features;
     }
-    const set<CGNode*>& subgraph = subg.subgraph;
 
-    for (const auto& node : subgraph) {
-        NodeFeature nf;
+    // 1) Compute maxDepth for normalization
+    unsigned maxDepth = 0;
+    for (CGNode* node : subgraph) {
+        if (node->Depth > maxDepth) {
+            maxDepth = node->Depth;
+        }
+    }
 
-        nf.funcId      = node->GetId();
+    // 2) Build features per node
+    for (CGNode* node : subgraph) {
+        NodeFeature nf{};
+        unsigned nodeId = node->GetId();
 
-        nf.coverCount  = node->HitNum;
-        nf.callDepth   = node->Depth;
+        nf.funcId   = nodeId;
+        unsigned inDeg  = node->GetIncomingEdgeNum();
+        unsigned outDeg = node->GetOutgoingEdgeNum();
 
-        nf.inDegree    = node->GetIncomingEdgeNum();
-        nf.outDegree   = node->GetOutgoingEdgeNum();
+        // Static
+        nf.inDegree  = static_cast<float>(inDeg);
+        nf.outDegree = static_cast<float>(outDeg);
+        nf.depthNorm = (maxDepth ? static_cast<float>(node->Depth) /
+                                   static_cast<float>(maxDepth)
+                                 : 0.0f);
 
-        nf.isExclusive = (node->GetDriverIdMask().count() == 1 && node->HasDriverId(driverId)) ? 1 : 0;
+        // Dynamic accumulators
+        unsigned inCovered      = 0;
+        unsigned outCovered     = 0;
+        uint64_t inHitSum       = 0;
+        uint64_t outHitSum      = 0;
+        unsigned newIncident    = 0;
 
-        
-        unsigned frontierCount = 0;
-        if (firstRun == false) {
-            for (auto itr = node->OutEdgeBegin(); itr != node->OutEdgeEnd(); itr++) {
-                CGNode* dstNode = (*itr)->GetDstNode();
+        // Incoming edges: u -> node
+        for (auto it = node->InEdgeBegin(); it != node->InEdgeEnd(); ++it) {
+            CGEdge* edge = *it;
+            unsigned prevHit = edge->HitNum;
+            unsigned curHit  = fcov_getEdgeHitNum(edge->Key);
+            edge->HitNum     = curHit;  // cache current for next round
 
-                if (fcov_getFuncHitNum(dstNode->GetId()) == 0) {
-                    ++frontierCount;
+            if (curHit > 0) {
+                ++inCovered;
+                inHitSum += curHit;
+                if (!firstRun && prevHit == 0) {
+                    ++newIncident;
                 }
             }
         }
-        nf.isFrontier = frontierCount;
+
+        // Outgoing edges: node -> w
+        for (auto it = node->OutEdgeBegin(); it != node->OutEdgeEnd(); ++it) {
+            CGEdge* edge = *it;
+            unsigned prevHit = edge->HitNum;
+            unsigned curHit  = fcov_getEdgeHitNum(edge->Key);
+            edge->HitNum     = curHit;
+
+            if (curHit > 0) {
+                ++outCovered;
+                outHitSum += curHit;
+                if (!firstRun && prevHit == 0) {
+                    ++newIncident;
+                }
+            }
+        }
+
+        // Dynamic (absolute)
+        uint64_t totalHitSum = inHitSum + outHitSum;
+        nf.hitLog = std::log1p(static_cast<float>(totalHitSum));
+
+        nf.inEdgeCovRatio  = (inDeg  ? static_cast<float>(inCovered)  /
+                                      static_cast<float>(inDeg)
+                                    : 0.0f);
+        nf.outEdgeCovRatio = (outDeg ? static_cast<float>(outCovered) /
+                                      static_cast<float>(outDeg)
+                                    : 0.0f);
+
+        // Dynamic (evolution / frontier)
+        bool hasUncoveredSucc = (outDeg > outCovered);
+        bool isCoveredNode    = (totalHitSum > 0);
+
+        nf.frontierFlag = (isCoveredNode && hasUncoveredSucc) ? 1.0f : 0.0f;
+
+        nf.exclusiveFlag =
+            (node->GetDriverIdMask().count() == 1 && node->HasDriverId(driverId))
+            ? 1.0f
+            : 0.0f;
+
+        unsigned totalDeg = inDeg + outDeg;
+        nf.newEdgeFrac =
+            (!firstRun && totalDeg
+                 ? static_cast<float>(newIncident) /
+                   static_cast<float>(totalDeg)
+                 : 0.0f);
 
         features.push_back(nf);
     }
+
+    // After the first call, we can start using "new edge" signals
+    firstRun = false;
 
     return features;
 }
 
 
-vector<pair<unsigned, unsigned>> Scheduler::getSubgraphEdges(unsigned driverId) {
-    vector<pair<unsigned, unsigned>> edges;
-
-    // Refresh subgraph if needed
-    if (subg.driverId != driverId) {
-        cgmk->getDriverGraph(driverId, subg.subgraph);
-        subg.driverId = driverId;
+unsigned Scheduler::getNodeBlockNum(set<CGNode*> subgraph) 
+{
+        unsigned totalBlocks = 0;
+    for (const auto& node : subgraph) {
+        totalBlocks += node->BlockNum;
     }
-    set<CGNode*>& subgraph = subg.subgraph;
+    return totalBlocks;
+}
+
+
+vector<pair<unsigned, unsigned>> Scheduler::getSubgraphEdges(set<CGNode*> subgraph) 
+{
+    vector<pair<unsigned, unsigned>> edges;
+    if (subgraph.empty()) {
+        return edges;
+    }
 
     // Traverse subgraph edges
     for (auto* srcNode : subgraph) {
@@ -85,7 +174,7 @@ void Scheduler::switchDriver(unsigned drvId) {
     unsigned newNodes = 0;
     unsigned totalHitNodes = 0;
     for (unsigned i = 0; i < backupFcov.size(); ++i) {
-        unsigned hitNum = fcov_getFuncHitNum(i);
+        unsigned hitNum = getNodeHitNum(i);
 
         if (hitNum != 0) {
             totalHitNodes++;
@@ -133,9 +222,36 @@ void Scheduler::synchronizeGraphs()
             continue;
         }
 
-        node->HitNum = fcov_getFuncHitNum(nodeId);
+        // update hit num for node
+        node->HitNum = getNodeHitNum(nodeId);
         //if (node->HitNum != 0)
-        //    printf("[synchronizeGraphs]node:[%u]%s, covered:%u\r\n", nodeId, node->GetFName().c_str(), node->HitNum);
+        //    printf("[synchronizeGraphs]node:[%u]%s, covered:%u\r\n", 
+        //    nodeId, node->GetFName().c_str(), node->HitNum);
+
+        // update hit num for outgoing edges
+        for (auto it = node->OutEdgeBegin(); it != node->OutEdgeEnd(); ++it) {
+            CGEdge* edge = *it;
+            edge->HitNum = fcov_getEdgeHitNum(edge->Key);
+        }
     }
 }
 
+
+set<unsigned> Scheduler::getCoveredFuncs()
+{
+    set<unsigned> covFuncs;
+
+    CGGraph* wCg = cgmk->getWholeCg();
+    for (auto itr = wCg->begin(); itr != wCg->end(); itr++) {
+        CGNode* node = itr->second;
+        
+        node->HitNum = getNodeHitNum(node->GetId());
+        if (node->HitNum == 0) {
+            continue;
+        }
+
+        covFuncs.insert(node->GetId());
+    }
+
+    return covFuncs;
+}

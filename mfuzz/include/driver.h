@@ -31,6 +31,7 @@ public:
 
     inline void setArgv(const vector<string>& args) { argv = args; }
     inline void setPriority(float priority) { this->priority = priority; }
+    inline void setPhase(const int phase) { this->phase = phase; }
 
     inline string toJson() const {
         json j = {
@@ -64,6 +65,9 @@ private:
     float priority;
     string description;
     vector<string> argv;
+
+    int phase = 0;  // 0: pilot, 1: dynamic, 2: fallback
+    int in_place_edit = 0; // 0: disable, 1: enable
 
 private:
     // runtime stat
@@ -105,15 +109,16 @@ public:
     unsigned getDriverNum();
     vector<unsigned> getAllDrvIds();
 
-    bool setActiveDriver(string activeDrvPath, unsigned driverId);
+    bool setActiveDriver(string activeDrvPath, unsigned driverId, int phase=0);
     bool setDriverPriority(unsigned driverId, float priority);
 
 private:
-    void waitForDriverLoad(const string& activeDrvPath, int timeout_sec = 15);
+    bool waitForDriverLoad(const string& activeDrvPath, int timeout_sec = 15);
     bool loadDriverList(const string& path = "drivers/driver_list.json");
     void printDrivers() const;
 
 private:
+    unsigned drvFailedNum = 0;
     string benchmark;
     unsigned sessionId;
     unsigned activeDrvId;

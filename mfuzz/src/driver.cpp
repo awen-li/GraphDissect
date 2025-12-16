@@ -36,6 +36,11 @@ bool Driver::load(string drvPath) {
         description = root["description"].get<string>();
 
         if (!parseArgs(root["args"])) return false;
+
+        if (root.find("in_place_editing") != root.end()) {
+            in_place_edit = root["in_place_editing"].get<int>();
+        }
+
         return true;
 
     } catch (const exception& e) {
@@ -161,31 +166,40 @@ void DriverMng::printDrivers() const {
 }
 
 
-void DriverMng::waitForDriverLoad(const string& activeDrvPath, int timeout_sec) {
+bool DriverMng::waitForDriverLoad(const string& activeDrvPath, int timeout_sec) {
     int waited = 0;
     const int interval_ms = 50;
 
     while (waited < timeout_sec * 1000) {
         if (access(activeDrvPath.c_str(), F_OK) == -1) {
             // File no longer exists → driver is loaded
-            return;
+            drvFailedNum = 0;
+            return true;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(interval_ms));
         waited += interval_ms;
     }
 
     std::cerr << "[Scheduler] Timeout waiting for driver to be loaded.\n";
-    return;
+    drvFailedNum++;
+    if (drvFailedNum > 3) {
+        std::cerr << "[Scheduler] Timeout times for " <<drvFailedNum<< " times, exit abnormally\n";
+        exit(1);
+    }
+    return false;
 }
 
 
-bool DriverMng::setActiveDriver(string activeDrvPath, unsigned driverId) {
+bool DriverMng::setActiveDriver(string activeDrvPath, 
+                                unsigned driverId,
+                                int phase) {
     auto it = allDrivers.find(driverId);
     if (it == allDrivers.end()) {
         std::cerr << "Driver ID " << driverId << " not found in driver map.\n";
         return false;
     }
     Driver& drv = it->second;
+    drv.setPhase(phase);
     string activeDrv = drv.toJson();
 
     int fd = open(activeDrvPath.c_str(), O_WRONLY | O_NONBLOCK| O_CREAT | O_TRUNC, 0644);
@@ -206,6 +220,11 @@ bool DriverMng::setActiveDriver(string activeDrvPath, unsigned driverId) {
         waitForDriverLoad(activeDrvPath);
     }   
     activeDrvId = driverId;
+
+    // debug
+    //fd = open("current_active_driver.json", O_WRONLY | O_NONBLOCK| O_CREAT | O_TRUNC, 0644);
+    //write(fd, activeDrv.c_str(), activeDrv.size());
+    //close(fd);
     
     return true;
 }

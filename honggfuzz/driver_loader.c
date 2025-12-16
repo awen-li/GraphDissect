@@ -86,7 +86,7 @@ static inline bool drive_parseDriverProfile(const char *json_str, driver_prof_t 
     struct json_object *root = json_tokener_parse(json_str);
     if (!root) return false;
 
-    struct json_object *id, *name, *driver, *args, *seed_dir, *priority, *output;
+    struct json_object *id, *name, *driver, *args, *seed_dir, *priority, *output, *phase, *in_place_edit;
 
     if (!json_object_object_get_ex(root, "id", &id) ||
         !json_object_object_get_ex(root, "name", &name) ||
@@ -94,9 +94,19 @@ static inline bool drive_parseDriverProfile(const char *json_str, driver_prof_t 
         !json_object_object_get_ex(root, "args", &args) ||
         !json_object_object_get_ex(root, "seed_dir", &seed_dir) ||
         !json_object_object_get_ex(root, "priority", &priority) ||
-        !json_object_object_get_ex(root, "output", &output)) {
+        !json_object_object_get_ex(root, "output", &output) ||
+        !json_object_object_get_ex(root, "phase", &phase)) {
         json_object_put(root);
         return false;
+    }
+
+    if (json_object_object_get_ex(root, "in_place_editing", &in_place_edit)) {
+        int inPlaceEditVal = json_object_get_int(in_place_edit);
+        if (inPlaceEditVal == 0) {
+            out->in_place_edit = 0; // disable
+        } else {
+            out->in_place_edit = 1; // enable
+        }
     }
 
     out->id = json_object_get_int(id);
@@ -115,6 +125,9 @@ static inline bool drive_parseDriverProfile(const char *json_str, driver_prof_t 
 
     /* output */
     strncpy(out->output, json_object_get_string(output), sizeof(out->output) - 1);
+
+    /* current phase */
+    out->current_phase = json_object_get_int(phase);
 
     if (!drive_parseArgs (root, out)) {
         LOG_F("parse_args failed\n");
@@ -226,6 +239,8 @@ bool drive_loadDriver(fuzz_driver_table_t *drv_table) {
         return false;
     } 
     
+    drv_table->current_phase = drv.drv_prof.current_phase;
+    drv_table->inPlaceEdit   = drv.drv_prof.in_place_edit;
     //PLOG_W("@drive_loadDriver: load success....");
     return true;
 }
@@ -282,12 +297,14 @@ char** drive_getArgv (fuzz_driver_t *driver, int *argc_num) {
         argc++;
     }
 
+    // input
+    argv[++argc] = "___FILE___";
+
     // output
     if (driver->drv_prof.output[0] !=0) {
         argv[++argc] = (char*)driver->drv_prof.output;
     }
 
-    argv[++argc] = "___FILE___";
     //PLOG_W ("drive_getArgv:[%d]%s",argc, argv[argc]);
     argv[++argc]   = NULL;
     *argc_num    = argc;
@@ -497,12 +514,13 @@ void driver_saveGlobalStats(void *hf) {
         return;
     }
 
-    fprintf(fp, "edges:%lu, crashes:%lu, pc:%lu, cmp:%lu, time:%lu\n",
+    fprintf(fp, "edges:%lu, crashes:%lu, pc:%lu, cmp:%lu, time:%lu, total_edges:%lu\n",
         hfuzz->feedback.hwCnts.softCntEdge,
         hfuzz->cnts.uniqueCrashesCnt,
         hfuzz->feedback.hwCnts.softCntPc,
         hfuzz->feedback.hwCnts.softCntCmp,
-        time(NULL) - hfuzz->timing.timeStart);
+        time(NULL) - hfuzz->timing.timeStart,
+        ATOMIC_GET(hfuzz->feedback.covFeedbackMap->guardNb));
 
     fclose(fp);
 }

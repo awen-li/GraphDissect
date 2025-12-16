@@ -43,11 +43,11 @@ selected_benchmarks:
 
   metadata:
     large:
-      - mysql-server     # 6.06M DB server ------------
+      - mysql-server     # 6.06M DB server
       - qemu             # 1.71M system emulator
       - clickhouse       # 1.51M analytical DB
     medium:
-      - hdf5             # 739K scientific data format
+      - hdf5             # 739K scientific data format ------------- done
       - cmake            # 733K build system
       - rocksdb          # 541K key-value store ------------- done
     small:
@@ -86,8 +86,8 @@ selected_benchmarks:
   crypto:
     large:
       - wolfssl          # 1.58M TLS/crypto library
-      - libecc           # 892K ECC crypto
-      - openssl          # 659K TLS/crypto toolkit --------------
+      - libecc           # 892K ECC crypto --------------
+      - openssl          # 659K TLS/crypto toolkit 
     medium:
       - gnutls           # 298K TLS library  ---------------
       - bitcoin-core     # 282K cryptocurrency node

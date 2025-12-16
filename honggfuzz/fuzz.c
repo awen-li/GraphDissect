@@ -438,6 +438,132 @@ static bool fuzz_fetchInput(run_t* run) {
     return true;
 }
 
+// in-place-editing enabled: before run, redirect the input to a temp copy
+static inline int fuzz_makeWorkingCopy(run_t* run, char* tmpCopy) {
+    int fd = mkstemp(tmpCopy);
+    if (fd == -1) {
+        PLOG_W("In-Place-Editing: mkstemp('%s') failed", tmpCopy);
+        return 0;
+    }
+
+    ssize_t wr = write(fd, run->dynfile->data, run->dynfile->size);
+    if (wr != (ssize_t)run->dynfile->size) {
+        PLOG_W("In-Place-Editing: short write to '%s': %zd of %zu",
+               tmpCopy, wr, run->dynfile->size);
+        close(fd);
+        unlink(tmpCopy);
+        return 0;
+    }
+
+    return fd;
+}
+
+static inline inplace_edit_t* fuzz_getInPlaceEdit(run_t* run) {
+    //inplace_edit_t* ie = run->inPlaceEdits + run->fuzzNo;
+    inplace_edit_t* ie = &run->inPlaceEdits;
+    return ie;
+}
+
+
+static inline void fuzz_redirectToCopy(run_t* run, char* tmpl) {
+    /* create working copy from current dynfile->data */
+    int tmpFd = fuzz_makeWorkingCopy(run, tmpl);  // must call mkstemp() inside
+    if (tmpFd <= 0) {
+        LOG_W("In-Place-Editing: fuzz_makeWorkingCopy failed for template '%s'", tmpl);
+        return;
+    }
+
+    inplace_edit_t* ie = fuzz_getInPlaceEdit(run);
+
+    /* Save original state once per run */
+    ie->inplaceOrigFd   = run->dynfile->fd;
+    snprintf(ie->inplaceOrigPath, sizeof(ie->inplaceOrigPath),
+             "%s", run->dynfile->path);
+    snprintf(ie->inplaceTmpPath, sizeof(ie->inplaceTmpPath),
+             "%s", tmpl);
+
+    /* Redirect dynfile -> temp copy */
+    snprintf(run->dynfile->path, sizeof(run->dynfile->path),
+             "%s", ie->inplaceTmpPath);
+    run->dynfile->fd   = tmpFd;
+
+    //LOG_D("In-Place-Editing: using working copy '%s' (orig='%s'), fd=%d",
+    //      run->dynfile->path, ie->inplaceOrigPath, run->dynfile->fd);
+}
+
+
+static inline void fuzz_inPlaceEditBefore(run_t* run) {
+    if (!run->global->drv_table.inPlaceEdit) {
+        return;
+    }
+
+    if (!run->dynfile || !run->dynfile->data || run->dynfile->size == 0) {
+        LOG_W("In-Place-Editing: dynfile is empty, skipping temp copy");
+        return;
+    }
+
+    const char* tmpDir = run->global->drv_table.session_path
+                             ? run->global->drv_table.session_path
+                             : "/tmp";
+
+    char tmpl[PATH_MAX];
+    snprintf(tmpl, sizeof(tmpl),
+             "%s/hfuzz_inplace_%06u_%06u_XXXXXX",
+             tmpDir,
+             run->fuzzNo,
+             run->dynfile->driver_id);
+
+    fuzz_redirectToCopy(run, tmpl);
+}
+
+
+// in-place-editing enabled: after run, unlink the temp copy and restore path
+static inline void fuzz_unLinkTempCopy(inplace_edit_t* ie) {
+    if (ie->inplaceTmpPath[0] == '\0') {
+        LOG_W("In-Place-Editing: no temp copy recorded, skipping unlink");
+        return;
+    }
+
+    /* Clean up the temp copy */
+    if (unlink(ie->inplaceTmpPath) == -1) {
+        PLOG_W("In-Place-Editing: unlink('%s') failed", ie->inplaceTmpPath);
+    } else {
+        LOG_D("In-Place-Editing: removed working copy '%s'", ie->inplaceTmpPath);
+    }
+
+    ie->inplaceTmpPath[0]  = '\0';
+    ie->inplaceOrigPath[0] = '\0';
+    ie->inplaceOrigFd      = 0;
+    return;
+}
+
+static inline void fuzz_inPlaceEditAfter(run_t* run) {
+    if (!run->global->drv_table.inPlaceEdit) {
+        return;
+    }
+
+    inplace_edit_t* ie = fuzz_getInPlaceEdit(run);
+    if (ie->inplaceTmpPath[0] == '\0') {
+        LOG_W("In-Place-Editing: no temp copy recorded, skipping cleanup");
+        return;
+    }
+
+    /* Restore original seed */
+    snprintf(run->dynfile->path, sizeof(run->dynfile->path),
+             "%s", ie->inplaceOrigPath);
+    if (run->dynfile->fd >= 0) {
+        close(run->dynfile->fd);
+    }
+
+    if (ie->inplaceOrigFd > 0) {
+        run->dynfile->fd = ie->inplaceOrigFd;
+    }
+
+    fuzz_unLinkTempCopy(ie);
+    return;
+}
+
+
 static void fuzz_fuzzLoop(run_t* run) {
     run->timeStartedUSecs = util_timeNowUSecs();
     run->crashFileName[0] = '\0';
@@ -461,6 +587,7 @@ static void fuzz_fuzzLoop(run_t* run) {
         if (drive_loadDriver(&run->global->drv_table)) {
             driver_switchDriver(run);
         }
+        hf_profiler_sampling(run->global);
     }
 
     if (!fuzz_fetchInput(run)) {
@@ -471,9 +598,16 @@ static void fuzz_fuzzLoop(run_t* run) {
         LOG_F("Cound't prepare input for fuzzing");
     }
 
+    // if in-place-editing is enabled, the input file might have been modified
+    // so we need to reset the dynfile size accordingly
+    fuzz_inPlaceEditBefore(run);
+
     if (!subproc_Run(run)) {
         LOG_F("Couldn't run fuzzed command");
     }
+
+    // clean up temp copy if in-place-editing is enabled
+    fuzz_inPlaceEditAfter(run);
 
     if (run->global->feedback.dynFileMethod != _HF_DYNFILE_NONE) {
         fuzz_perfFeedback(run);

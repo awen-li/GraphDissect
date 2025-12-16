@@ -74,7 +74,7 @@
 #define _HF_PC_GUARD_MAX (1024ULL * 1024ULL * 64ULL)
 
 /* Maximum size of the input file in bytes (1 MiB) */
-#define _HF_INPUT_MAX_SIZE (1024ULL * 1024ULL)
+#define _HF_INPUT_MAX_SIZE (1024ULL * 1024ULL * 10ULL)
 
 /* Default maximum size of produced inputs */
 #define _HF_INPUT_DEFAULT_SIZE (1024ULL * 8)
@@ -368,6 +368,12 @@ typedef enum {
 } runState_t;
 
 typedef struct {
+    char inplaceOrigPath[PATH_MAX];
+    char inplaceTmpPath[PATH_MAX];
+    int inplaceOrigFd;
+} inplace_edit_t;
+
+typedef struct {
     honggfuzz_t* global;
     pid_t        pid;
     int64_t      timeStartedUSecs;
@@ -399,7 +405,11 @@ typedef struct {
         int      cpuBranchFd;
         int      cpuIptBtsFd;
     } arch_linux;
+
+    /* For in-place-editing support */
+    inplace_edit_t inPlaceEdits; /* [_HF_THREAD_MAX]: to support multi-thread, can not be stored on stack*/
 } run_t;
 
 extern void driver_switchDriver(run_t* run);
+extern void hf_profiler_sampling(honggfuzz_t *hfuzz);
 #endif

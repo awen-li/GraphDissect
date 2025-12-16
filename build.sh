@@ -15,7 +15,7 @@ if [ "$Action" == "clean" ]; then
 	cd $BASE_DIR/SVF
 	if [ -d "Release-build" ]; then rm -rf Release-build z3.obj; fi
 
-	cd $BASE_DIR/fuzzpilot/comlib && make clean
+	cd $BASE_DIR/mfuzz && rm -rf build
 
 	exit 0
 fi
@@ -33,9 +33,6 @@ else
 	source ./build.sh
 fi
 
-# 3. build driverscope
-cd $BASE_DIR/fuzzpilot/comlib && make
-cd $BASE_DIR/driverscope && pip install .
+# 3. build mfuzz
+cd $BASE_DIR/mfuzz && ./build.sh && cd $BASE_DIR
 
-# 4. build FuzzPilot
-cd $BASE_DIR/fuzzpilot && pip install .

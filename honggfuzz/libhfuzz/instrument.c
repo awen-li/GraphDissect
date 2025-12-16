@@ -229,84 +229,117 @@ static bool initializeGlobalCovFeedback(void) {
     return true;
 }
 
-/***********************************************************************************
- * Load function address to ID mapping from a file.
- * File format: one line per entry as "ADDR:ID"
- * Example: 4198400:12
- */
-static inline void fcov_loadFaddrIdMap() {
+/* Same 64-bit mixer we used before */
+static inline uint64_t fcov_hash64(uint64_t x) {
+    x ^= x >> 33;
+    x *= HASH_SEED_FCOV_1;
+    x ^= x >> 33;
+    x *= HASH_SEED_FCOV_2;
+    x ^= x >> 33;
+    return x;
+}
 
-    const char *path = getenv("HF_FUNC_MAP_PATH");
-    if (!path) path = "faddr_id.map";
+/* Pack two addresses into a 64-bit edge key (low 32 bits of each) */
+static inline uint64_t fcov_make_edge_key(uintptr_t src, uintptr_t dst) {
+    uint64_t s32 = (uint64_t)(uint32_t)src;
+    uint64_t d32 = (uint64_t)(uint32_t)dst;
+    return (s32 << 32) | d32;
+}
 
-    hash_init (NULL);
-
-    // Create the table for function coverage
-    uint32_t key_len = sizeof(uintptr_t);
-    uint32_t data_len = sizeof(uint32_t);
-    if (!hash_createTable(HF_HASH_TYPE_FUNCTION, data_len, key_len)) {
-        FCOV_LOG("Failed to create hash table for function coverage.\n");
+/* Insert or increment edgeKey in the table */
+static inline void fcov_record_edge(func_coverage_t* fcov, uint64_t edgeKey) {
+    if (!fcov || fcov->block_writes || edgeKey == 0) {
         return;
     }
 
-    FILE *f = fopen(path, "r");
-    if (!f) {
-        FCOV_LOG("Failed to open function_id.map\r\n");
-        return;
-    }
+    uint64_t h   = fcov_hash64(edgeKey);
+    uint32_t idx = (uint32_t)(h & FCOV_EDGE_TAB_MASK);
 
-    char line[256];
-    unsigned index= 0;
-    while (fgets(line, sizeof(line), f)) {
-        uintptr_t addr;
-        uint32_t id;
+    /* Limit probing to avoid long stalls */
+    const uint32_t max_probe = HASH_PROBE_MAX;
+    
+    for (uint32_t i = 0; i < max_probe; ++i) {
+        uint32_t pos = (idx + i) & FCOV_EDGE_TAB_MASK;
+        fcov_edge_slot_t* slot = &fcov->edge_hits[pos];
 
-        index++;
-        if (sscanf(line, "%lx:%u", (unsigned long *)&addr, &id) != 2)
-            continue;
+        uint64_t curKey = __atomic_load_n(&slot->key, __ATOMIC_RELAXED);
 
-        hashReq_t req = {
-            .key = (uint8_t *)&addr,
-            .key_len = key_len,
-            .type = HF_HASH_TYPE_FUNCTION
-        };
-        hashAck_t ack = {0};
-
-        if (hash_createByKey(&req, &ack) == true) {
-            *(uint32_t*)(ack.data) = id;
+        if (curKey == 0) {
+            /* Try to claim this slot */
+            uint64_t expected = 0;
+            if (__atomic_compare_exchange_n(
+                    &slot->key, &expected, edgeKey,
+                    false, __ATOMIC_ACQ_REL, __ATOMIC_RELAXED)) {
+                /* Brand-new edge */
+                __atomic_add_fetch(&slot->count, 1u, __ATOMIC_RELAXED);
+                __atomic_add_fetch(&fcov->edge_count, 1u,   __ATOMIC_RELAXED);
+                FCOV_LOG("[fcov_record_edge] New edge %lx at pos %u\n", edgeKey, pos);
+                return;
+            }
+            /* Someone else raced and filled key; fall through with updated curKey */
+            curKey = expected;
         }
-        else {
-            FCOV_LOG ("[%u]hash_createByKey failed: key = %lx, data = %u\r\n", index, (unsigned long)addr, id);
+
+        if (curKey == edgeKey) {
+            FCOV_LOG("[fcov_record_edge] Existing edge %lx at pos %u\n", edgeKey, pos);
+            /* Existing entry: increment count */
+            __atomic_add_fetch(&slot->count, 1u, __ATOMIC_RELAXED);
+            __atomic_add_fetch(&fcov->edge_count, 1u,   __ATOMIC_RELAXED);
+            return;
         }
     }
 }
 
-void fcov_record(uintptr_t faddr) {
-    if (g_fcov == NULL)
-        return;
+static inline void fcov_record_func(func_coverage_t* fcov, uintptr_t faddr) {
+    if (!fcov || fcov->block_writes) return;
 
-    // Prepare the hash query
-    hashReq_t req = {
-        .key = (uint8_t *)&faddr,
-        .key_len = sizeof(faddr),
-        .type = HF_HASH_TYPE_FUNCTION
-    };
-    hashAck_t ack = {0};
+    FCOV_LOG("[fcov_record_func] Recording func %p\n", (void*)faddr);
+    uint32_t key = (uint32_t)faddr;
+    if (key == 0) return;
 
-    FCOV_LOG ("@fcov_record, f: %lx\r\n", (unsigned long)faddr);
+    uint64_t h   = fcov_hash64((uint64_t)key);
+    uint32_t idx = (uint32_t)(h & FCOV_FUNC_TAB_MASK);
 
-    // Lookup function ID by address
-    if (hash_queryByKey(&req, &ack) == true) {
-        uint32_t id;
-        id = *(uint32_t*)ack.data;
-        FCOV_LOG ("\tid: %u\r\n", id);
+    const uint32_t max_probe = HASH_PROBE_MAX;
 
-        fcov_setVisited(g_fcov, id);
-    }
-    else {
-        FCOV_LOG ("@fcov_record, query failed @ %lx\r\n", (unsigned long)faddr);
+    for (uint32_t i = 0; i < max_probe; ++i) {
+        uint32_t pos = (idx + i) & FCOV_FUNC_TAB_MASK;
+        fcov_func_slot_t* slot = &fcov->func_hits[pos];
+
+        uint32_t curKey = __atomic_load_n(&slot->key, __ATOMIC_RELAXED);
+        if (curKey == 0) {
+            uint32_t expected = 0;
+            if (__atomic_compare_exchange_n(
+                    &slot->key, &expected, key,
+                    false, __ATOMIC_ACQ_REL, __ATOMIC_RELAXED)) {
+                __atomic_add_fetch(&slot->count, 1u, __ATOMIC_RELAXED);
+                __atomic_add_fetch(&fcov->func_count, 1u, __ATOMIC_RELAXED);
+                FCOV_LOG("[fcov_record_func] New func %x at pos %u\n", key, pos);
+                return;
+            }
+            curKey = expected;
+        }
+
+        if (curKey == key) {
+            __atomic_add_fetch(&slot->count, 1u, __ATOMIC_RELAXED);
+            __atomic_add_fetch(&fcov->func_count, 1u, __ATOMIC_RELAXED);
+            FCOV_LOG("[fcov_record_func] Existing func %x at pos %u\n", key, pos);
+            return;
+        }
     }
 }
+
+static inline void fcov_record(uintptr_t caller,
+                               uintptr_t callee) {
+    func_coverage_t* fcov = g_fcov;
+    if (!fcov || fcov->block_writes || !callee) return;
+
+    uint64_t edgeKey = fcov_make_edge_key(caller, callee);
+    fcov_record_edge(fcov, edgeKey);
+    fcov_record_func(fcov, callee);
+    return;
+}
+
 
 static bool fcov_initFCovFeedback(void) {
     struct stat st;
@@ -328,24 +361,10 @@ static bool fcov_initFCovFeedback(void) {
                  _HF_COV_BITMAP_FD, sizeof(func_coverage_t));
         return false;
     }
+
+    INIT_FCOV_LOG;
     return true;
 }
-
-
-static inline void fcov_initInstrument() {
-    g_fcov = NULL;
-    INIT_FCOV_LOG;
-
-    /* load faddr_id.map by default */
-    fcov_loadFaddrIdMap();
-
-    /* map the fcov to with file descriptor */
-    if (!fcov_initFCovFeedback ()) {
-        FCOV_LOG("fcov_initCovFeedback failed\n");
-        exit (0);
-    }
-}
-/*************************************************************************************/
 
 static void initializeInstrument(void) {
     if (fcntl(_HF_LOG_FD, F_GETFD) != -1) {
@@ -387,7 +406,7 @@ static void initializeInstrument(void) {
     instrumentClearNewCov();
 
     /* Initialize function coverage */
-    fcov_initInstrument();
+    fcov_initFCovFeedback();
 }
 
 static __thread pthread_once_t localInitOnce = PTHREAD_ONCE_INIT;
@@ -461,7 +480,7 @@ HF_REQUIRE_SSE42_POPCNT void __cyg_profile_func_enter(void* func, void* caller) 
     FCOV_LOG ("__cyg_profile_func_enter: g_fcov = %p, func = %lx\r\n", g_fcov, (unsigned long)func);
 
     if (g_fcov != NULL) {
-        fcov_record ((uintptr_t)func);
+        fcov_record ((uintptr_t)caller, (uintptr_t)func);
     }
     else {
         FCOV_LOG ("g_fcov == NULL");

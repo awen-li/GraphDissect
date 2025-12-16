@@ -1,0 +1,43 @@
+# ---------- build artifacts ----------
+**/build/
+**/build-*/
+**/*-build/
+**/Release-build/
+**/dist/
+**/*.o
+**/*.a
+**/*.so
+**/*.bc
+
+# ---------- large vendor / cloned repos ----------
+SVF/
+benchmarks/**/capstone/
+benchmarks/**/FFmpeg/
+benchmarks/**/hdf5/
+benchmarks/**/jsoncpp/
+benchmarks/**/libarchive/
+benchmarks/**/libpng/
+benchmarks/**/libtiff/
+benchmarks/**/rocksdb/
+benchmarks/**/trafficserver/
+benchmarks/**/zydis/
+
+# ---------- benchmark-generated blobs ----------
+benchmarks/**/*.tar.*
+benchmarks/**/*.zip
+benchmarks/**/*.xz
+
+# ---------- local tooling caches ----------
+tools/bench_repos/
+tools/crawbench/build/
+tools/crawbench/dist/
+tools/crawbench/*.egg-info/
+
+# ---------- project-specific ----------
+honggfuzz/hfuzz_cc/hfuzz-cc
+honggfuzz/honggfuzz
+honggfuzz/**/libhfcommon.a
+honggfuzz/**/libhfnetdriver.a
+honggfuzz/**/libhfuzz.a
+honggfuzz/**/libhfuzz.so
+

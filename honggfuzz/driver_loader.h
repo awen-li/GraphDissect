@@ -28,6 +28,9 @@ typedef struct driver_prof
     const char *argv[MAX_ARGC];
 
     char output[MAX_ARGC];
+
+    int current_phase;
+    int in_place_edit; // 0: disable, 1: enable
 }driver_prof_t;
 
 typedef struct fuzz_driver 
@@ -68,6 +71,9 @@ typedef struct fuzz_driver_table
 
     uint64_t seed_hashes[MAX_SEED_HASHES];
     size_t seed_hash_count;
+
+    int current_phase; // 0: pilot phase, 1: dynsch phase, 2: fallback phase
+    int inPlaceEdit;   // 0: disable, 1: enable
 } fuzz_driver_table_t;
 
 bool drive_loadDriver(fuzz_driver_table_t *drv_table);

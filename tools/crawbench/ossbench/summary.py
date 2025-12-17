@@ -31,13 +31,27 @@ class ProfilesSummary:
     def compute(self) -> Dict[str, Any]:
         profiles = self._load_profiles()
 
+        # Filter out tiny projects (< 2K LOC)
+        MIN_LOC = 2000
+        filtered: List[ProjectProfile] = []
+        for p in profiles:
+            loc = p.loc if isinstance(p.loc, int) else None
+            if loc is None:
+                # keep unknown LOC? (consistent with current behavior)
+                filtered.append(p)
+                continue
+            if loc >= MIN_LOC:
+                filtered.append(p)
+
+        profiles = filtered
+
         total_projects = len(profiles)
         loc_values: List[int] = []
         domain_counts: Dict[str, int] = {}
         domain_to_projects: Dict[str, List[ProjectProfile]] = {}
 
         for profile in profiles:
-            if profile.loc is not None:
+            if isinstance(profile.loc, int):
                 loc_values.append(profile.loc)
 
             domain = profile.domain or "unknown"
@@ -60,35 +74,45 @@ class ProfilesSummary:
             summary["loc_max"] = None
             summary["loc_avg"] = None
 
-        # Known domains: for each domain != "unknown", sort *within* the domain by LOC desc.
-        known_domain_projects: Dict[str, List[Dict[str, Any]]] = {}
+        # Known domains: per-domain count + loc stats + projects sorted by LOC desc
+        known_domain_projects: Dict[str, Any] = {}
 
         for domain, plist in domain_to_projects.items():
             if domain == "unknown":
                 continue
 
+            # LOC stats inside this domain (ignore missing loc)
+            d_locs = [p.loc for p in plist if isinstance(p.loc, int)]
+            d_loc_min = min(d_locs) if d_locs else None
+            d_loc_max = max(d_locs) if d_locs else None
+
             # sort inside this domain only, large → small
             sorted_in_domain = sorted(
                 plist,
-                key=lambda p: p.loc if p.loc is not None else -1,
+                key=lambda p: p.loc if isinstance(p.loc, int) else -1,
                 reverse=True,
             )
-            known_domain_projects[domain] = [
-                {
-                    "project": p.project,
-                    "loc": p.loc,
-                }
-                for p in sorted_in_domain
-            ]
 
-        # Unknown domain: just the project names (sorted alphabetically for readability)
+            known_domain_projects[domain] = {
+                "count": len(plist),
+                "loc_min": d_loc_min,
+                "loc_max": d_loc_max,
+                "projects": [
+                    {"project": p.project, "loc": p.loc}
+                    for p in sorted_in_domain
+                ],
+            }
+
+        # Unknown domain: project names (sorted alphabetically for readability)
         unknown_projects = [p.project for p in domain_to_projects.get("unknown", [])]
         unknown_projects.sort()
 
         summary["known_domain_projects"] = known_domain_projects
         summary["unknown_domain_projects"] = unknown_projects
+        summary["min_loc_threshold"] = MIN_LOC
 
         return summary
+
 
     def write(self, output_path: Path) -> Dict[str, Any]:
         """

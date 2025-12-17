@@ -127,22 +127,42 @@ def cmd_summary(args: argparse.Namespace) -> None:
     print(f"  loc_max:        {summary['loc_max']}")
     print(
         f"  loc_avg:        {summary['loc_avg']:.2f}"
-        if summary['loc_avg'] is not None
+        if summary["loc_avg"] is not None
         else "  loc_avg:        None"
     )
+    if "min_loc_threshold" in summary:
+        print(f"  min_loc_filter: {summary['min_loc_threshold']}")
 
-    print("[summary] domains:")
-    for dom, count in summary["domains"].items():
-        print(f"  {dom}: {count}")
+    print("[summary] domains (count + loc range):")
+    # domains dict: domain -> count
+    # known_domain_projects dict: domain -> {count, loc_min, loc_max, projects}
+    known = summary.get("known_domain_projects", {}) or {}
 
-    # Global projects-by-LOC view (flatten from known_domain_projects)
+    # print known domains first, then unknown (if present)
+    doms = list(summary.get("domains", {}).items())
+    doms.sort(key=lambda kv: kv[0])
+
+    for dom, count in doms:
+        if dom == "unknown":
+            print(f"  {dom}: {count}")
+            continue
+
+        info = known.get(dom, {})
+        dmin = info.get("loc_min")
+        dmax = info.get("loc_max")
+        if dmin is None or dmax is None:
+            print(f"  {dom}: {count}, loc_range=None")
+        else:
+            print(f"  {dom}: {count}, loc_range=[{dmin}, {dmax}]")
+
+    # Global projects-by-LOC view (flatten from known_domain_projects[domain]['projects'])
     projects_by_loc: List[Dict[str, Any]] = []
-    for domain, plist in summary.get("known_domain_projects", {}).items():
-        for entry in plist:
+    for domain, info in known.items():
+        for entry in info.get("projects", []) or []:
             projects_by_loc.append(
                 {
-                    "project": entry["project"],
-                    "loc": entry["loc"],
+                    "project": entry.get("project"),
+                    "loc": entry.get("loc"),
                     "domain": domain,
                 }
             )

@@ -23,18 +23,15 @@ domains:
       - keystone
       - libdwarf
       - libunwind
+      - libunwind
       - lldb-eval
       - bloaty
       - cppcheck
       - flex
       - cmake
       - ninja
-      - abseil-cpp
-      - args
       - bazel-rules-fuzzing-test
       - bc-gh
-      - boost
-      - cxxopts
       - dlplibs
       - exprtk
       - gnucobol
@@ -132,7 +129,6 @@ domains:
       - libigl
       - libpng-proto
       - libspng
-      - libtorrent 
       - libultrahdr
       - lodepng
       - meshoptimizer
@@ -154,66 +150,6 @@ domains:
       - libxaac
       - spirv-cross
       - spirv-tools
-
-  
-  - id: parsing
-    name: Parsing and Serialization
-    description: >
-      Libraries and utilities that parse or serialize structured data formats
-      such as XML, JSON, YAML, TOML, or related text-based representations.
-    examples:
-      - libxml2-utils
-      - libxml2
-      - libxslt
-      - expat
-      - xerces-c
-      - pugixml
-      - tinyxml2
-      - json-c
-      - jsoncpp
-      - rapidjson
-      - simdjson
-      - jq
-      - jansson
-      - cjson
-      - yaml-cpp
-      - libyaml
-      - sql-parser
-      - libpg_query
-      - tomlplusplus
-      - jsoncons
-      - glaze
-      - boost-json
-      - arduinojson
-      - valijson
-      - md4c
-      - cmark
-      - hoextdown
-      - tidy-html5
-      - libucl
-      - libconfig
-      - inih
-      - aspell
-      - hunspell
-      - pcre2
-      - re2
-      - protobuf-c
-      - capnproto
-      - flatbuffers
-      - nanopb
-      - libprotobuf-mutator
-      - libcbor
-      - libplist
-      - libphonenumber
-      - utf8proc
-      - simdutf
-      - icu
-      - date
-      - json
-      - libyang
-      - msgpack-c
-      - arrow
-      - spotify-json
 
   - id: document
     name: Structured Document and Markup Processing
@@ -239,7 +175,6 @@ domains:
       - expat
       - libxslt
       - firefox
-      - karchive
       - kcodecs
       - kmime
       - mfcmapi
@@ -248,8 +183,60 @@ domains:
       - libsass
       - liblouis
       - libredwg
+      - iconv
+      - base64
+      - csv2json
+      - xml2json
+      - double-conversion
+      - fast_float
+      - libxml2-utils
+      - libxml2
+      - xerces-c
+      - pugixml
+      - tinyxml2
+      - json-c
+      - jsoncpp
+      - simdjson
+      - jansson
+      - cjson
+      - yaml-cpp
+      - libyaml
+      - sql-parser
+      - libpg_query
+      - tomlplusplus
+      - jsoncons
+      - glaze
+      - boost-json
+      - arduinojson
+      - valijson
+      - md4c
+      - cmark
+      - hoextdown
+      - libucl
+      - libconfig
+      - inih
+      - aspell
+      - hunspell
+      - pcre2
+      - re2
+      - protobuf-c
+      - capnproto
+      - flatbuffers
+      - nanopb
+      - libprotobuf-mutator
+      - libcbor
+      - libplist
+      - libphonenumber
+      - utf8proc
+      - simdutf
+      - icu
+      - date
+      - json
+      - libyang
+      - msgpack-c
+      - arrow
+      - spotify-json
 
-    
   - id: archive
     name: Archiving and Compression Utilities
     description: >
@@ -281,7 +268,6 @@ domains:
       - c-blosc
       - c-blosc2
       - zopfli
-      - bad_example
       - casync
       - karchive
       - libzip
@@ -338,7 +324,6 @@ domains:
       - yara
       - clamav
       - wazuh
-      - selinux
       - sudoers
       - highwayhash
       - ibmswtpm2
@@ -436,7 +421,6 @@ domains:
       - ada-url
       - ampproject
       - apache-doris
-      - apache-logging-log4cxx
       - bind9
       - bluez
       - cpp-httplib
@@ -492,7 +476,6 @@ domains:
       - s2opc
       - s2geometry
       - snort3
-      - spicy
       - uriparser
       - wget
       - wget2
@@ -501,20 +484,6 @@ domains:
       - libiec61850
       - libvnc
 
-
-  - id: conversion
-    name: Data Conversion and Format Transformers
-    description: >
-      Programs whose primary purpose is to convert data between encodings or
-      formats, without heavy semantic interpretation.
-    examples:
-      - iconv
-      - base64
-      - csv2json
-      - xml2json
-      - double-conversion
-      - fast_float
-
   - id: metadata
     name: File Metadata, Indexing, and Lightweight System Utilities
     description: >
@@ -522,7 +491,6 @@ domains:
       or lightweight system information, often used as helper tools in larger
       workflows.
     examples:
-      - exiv2
       - file
       - stat-like-tools
       - cpuinfo
@@ -538,7 +506,6 @@ domains:
       - tmux
       - libteken
       - libtsm
-      - plan9port
       - ostree
       - fwupd
       - rauc
@@ -548,7 +515,6 @@ domains:
       - cups
       - cups-filters
       - libcups
-      - file
       - sleuthkit
       - xbps
       - apache-logging-log4cxx
@@ -562,22 +528,15 @@ domains:
       - geos
       - gfwx
       - git
-      - glib
       - htslib
       - mapserver
       - matio
       - mercurial
-      - myanmar-tools
-      - opennavsurf-bag
-      - pcl
       - phmap
       - quantlib
       - rdkit
-      - serenity
       - simd
-      - vulnerable-project
       - wt
-      - wxwidgets
       - yoga
       - gdbm
       - igraph
@@ -587,6 +546,10 @@ domains:
       - libyal
       - readstat
       - muparser
+      - abseil-cpp
+      - args
+      - boost
+      - cxxopts
 
   - id: database_storage
     name: Databases and Storage Systems
@@ -652,8 +615,8 @@ domains:
       - behaviortreecpp
       - cel-cpp
       - cel-go
-      - java-example
-    
+      - glib
+
   - id: os_system
     name: Operating System and System Infrastructure
     description: >
@@ -668,7 +631,6 @@ domains:
       - spdk
       - systemd
       - lxc
-      - tdengine
       - qemu
       - edk2
       - tinyusb
@@ -686,7 +648,6 @@ domains:
       - spice-usbredir
       - xnu
 
-
   - id: ml
     name: Machine Learning Frameworks and Serving Systems
     description: >
@@ -703,3 +664,12 @@ domains:
       - sentencepiece
       - llamacpp
       - ggml
+      - torch
+      - pytorch
+      - torchscript
+      - torchx
+      - torchserve
+      - torchtext
+      - torchdata
+      - torchrec
+      - torchdistx

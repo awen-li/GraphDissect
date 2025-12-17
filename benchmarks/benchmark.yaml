@@ -1,0 +1,224 @@
+# benchmarks.yaml
+# Empirical study benchmarks grouped by domain.
+#
+# Minimal schema update:
+# - Keep the top-level "benchmarks:" map.
+# - Each domain key now maps to:
+#     - domain_name: exact display name used in papers/tables
+#     - items: list of benchmark entries (same fields as before)
+#
+# Benchmark entry fields:
+#  - name: OSS-Fuzz project name / benchmark identifier
+#  - loc_kloc: code size in KLoC (thousand LOC)
+#  - executables: representative executables/CLIs analyzed or fuzzed in the study
+#  - num_drivers: number of driver configurations (fill in when finalized)
+
+benchmarks:
+  network_and_protocols:
+    domain_name: "Network and protocols"
+    items:
+      - name: trafficserver
+        loc_kloc: 582.82
+        executables:
+          - traffic_server
+          - traffic_ctl
+          - traffic_layout
+        num_drivers: null
+
+      - name: curl
+        loc_kloc: 188.90
+        executables:
+          - curl
+        num_drivers: null
+
+      - name: http-parser
+        loc_kloc: 6.22
+        executables:
+          - http_parser_fuzzer
+        num_drivers: null
+
+  media_processing:
+    domain_name: "Media processing"
+    items:
+      - name: ffmpeg
+        loc_kloc: 1348.54
+        executables:
+          - ffmpeg
+          - ffprobe
+        num_drivers: null
+
+      - name: libtiff
+        loc_kloc: 91.88
+        executables:
+          - tiffcp
+          - tiffinfo
+          - tiff2pdf
+        num_drivers: null
+
+      - name: libpng
+        loc_kloc: 57.60
+        executables:
+          - pngfix
+          - pngimage
+          - pngtest
+          - pngunknown
+          - pngvalid
+        num_drivers: null
+
+  metadata_and_system_utilities:
+    domain_name: "Metadata and system utilities"
+    items:
+      - name: libgit2
+        loc_kloc: 264.71
+        executables:
+          - libgit2_fuzzer
+        num_drivers: null
+
+      - name: sleuthkit
+        loc_kloc: 284.62
+        executables:
+          - fls
+          - icat
+          - istat
+        num_drivers: null
+
+      - name: augeas
+        loc_kloc: 26.52
+        executables:
+          - augtool
+        num_drivers: null
+
+  parsing_and_document_processing:
+    domain_name: "Parsing and document processing"
+    items:
+      - name: xpdf
+        loc_kloc: 493.15
+        executables:
+          - pdftotext
+          - pdfinfo
+          - pdftoppm
+        num_drivers: null
+
+      - name: libxml2
+        loc_kloc: 139.12
+        executables:
+          - xmllint
+        num_drivers: null
+
+      - name: jsoncpp
+        loc_kloc: 9.88
+        executables:
+          - jsoncpp_test
+          - jsontestrunner_exe
+        num_drivers: null
+
+  cryptography_and_security:
+    domain_name: "Cryptography and security"
+    items:
+      - name: libecc
+        loc_kloc: 891.91
+        executables:
+          - libecc_fuzzer
+        num_drivers: null
+
+      - name: gnutls
+        loc_kloc: 298.04
+        executables:
+          - gnutls-cli
+          - gnutls-serv
+        num_drivers: null
+
+      - name: libsodium
+        loc_kloc: 52.02
+        executables:
+          - libsodium_fuzzer
+        num_drivers: null
+
+  toolchain_and_binary_utilities:
+    domain_name: "Toolchain / binary utilities"
+    items:
+      - name: binutils
+        loc_kloc: 3134.90
+        executables:
+          - objdump
+          - readelf
+          - nm
+          - strings
+        num_drivers: null
+
+      - name: capstone
+        loc_kloc: 124.16
+        executables:
+          - cstool
+        num_drivers: null
+
+      - name: zydis
+        loc_kloc: 21.30
+        executables:
+          - ZydisDisasm
+        num_drivers: null
+
+  archive_and_compression:
+    domain_name: "Archive and compression"
+    items:
+      - name: libarchive
+        loc_kloc: 168.92
+        executables:
+          - bsdtar
+          - bsdcpio
+        num_drivers: null
+
+      - name: c-blosc
+        loc_kloc: 112.69
+        executables:
+          - blosc_filter_fuzzer
+        num_drivers: null
+
+      - name: zlib
+        loc_kloc: 30.02
+        executables:
+          - minigzip
+        num_drivers: null
+
+  language_runtimes_and_interpreters:
+    domain_name: "Language runtimes / interpreters"
+    items:
+      - name: cpython3
+        loc_kloc: 763.72
+        executables:
+          - python
+          - python3
+        num_drivers: null
+
+      - name: quickjs
+        loc_kloc: 76.32
+        executables:
+          - qjs
+        num_drivers: null
+
+      - name: lua
+        loc_kloc: 21.26
+        executables:
+          - lua
+          - luac
+        num_drivers: null
+
+  database_and_storage:
+    domain_name: "Database and storage"
+    items:
+      - name: hdf5
+        loc_kloc: 739.41
+        executables:
+          - h5dump
+          - h5ls
+          - h5stat
+          - h5diff
+          - h5repack
+        num_drivers: null
+
+      - name: rocksdb
+        loc_kloc: 541.06
+        executables:
+          - db_bench
+          - ldb
+        num_drivers: null

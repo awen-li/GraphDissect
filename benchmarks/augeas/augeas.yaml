@@ -1,0 +1,6 @@
+project: augeas
+oss_fuzz_project_dir: projects/augeas
+main_repo: https://github.com/hercules-team/augeas
+language: c++
+domain: metadata
+loc: 26515

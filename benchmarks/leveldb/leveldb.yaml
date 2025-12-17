@@ -1,0 +1,6 @@
+project: leveldb
+oss_fuzz_project_dir: projects/leveldb
+main_repo: https://github.com/google/leveldb.git
+language: c++
+domain: ''
+loc: null

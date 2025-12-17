@@ -11,6 +11,35 @@ domains:
       - binutils-nm
       - addr2line
       - cxxfilt
+      - binutils
+      - elfutils
+      - llvm
+      - llvm_libcxx
+      - llvm_libcxxabi
+      - radare2
+      - unicorn
+      - zydis
+      - capstone
+      - keystone
+      - libdwarf
+      - libunwind
+      - lldb-eval
+      - bloaty
+      - cppcheck
+      - flex
+      - cmake
+      - ninja
+      - abseil-cpp
+      - args
+      - bazel-rules-fuzzing-test
+      - bc-gh
+      - boost
+      - cxxopts
+      - dlplibs
+      - exprtk
+      - gnucobol
+      - iverilog
+      - libstdcpp
 
   - id: media
     name: Media Processing Tools
@@ -22,18 +51,205 @@ domains:
       - avconv
       - libpng-tools
       - libjpeg-tools
+      - imagemagick
+      - graphicsmagick
+      - libpng
+      - libjpeg-turbo
+      - libtiff
+      - libwebp
+      - libheif
+      - gdk-pixbuf
+      - giflib
+      - wuffs
+      - freeimage
+      - guetzli
+      - halide
+      - leptonica
+      - opencv
+      - openexr
+      - openslide
+      - libraw
+      - librawspeed
+      - libjxl
+      - libgd
+      - dng_sdk
+      - jbig2dec
+      - astc-encoder
+      - piex
+      - libvips
+      - exiv2
+      - libexif
+      - skcms
+      - lcms
+      - freetype2
+      - harfbuzz
+      - ots
+      - woff2
+      - tesseract-ocr
+      - mpg123
+      - flac
+      - vorbis
+      - opus
+      - opusfile
+      - wavpack
+      - faad2
+      - lame
+      - speex
+      - dav1d
+      - libaom
+      - libmpeg2
+      - libtheora
+      - libvpx
+      - openh264
+      - gpac
+      - vlc
+      - mpv
+      - ffms2
+      - libyuv
+      - libass
+      - libldac
+      - sound-open-firmware
+      - libsndfile
+      - libcue
+      - alembic
+      - angle
+      - assimp
+      - cairo
+      - cura-engine
+      - draco
+      - espeak-ng
+      - fribidi
+      - glslang
+      - graphicsfuzz-spirv
+      - grok
+      - jpegoptim
+      - kimageformats
+      - kde-thumbnailers
+      - libavc
+      - libavif
+      - libfdk-aac
+      - libhevc
+      - libigl
+      - libpng-proto
+      - libspng
+      - libtorrent 
+      - libultrahdr
+      - lodepng
+      - meshoptimizer
+      - myanmar-tools
+      - nestegg
+      - ogre
+      - openjpeg
+      - pffft
+      - pngquant
+      - shaderc
+      - simd
+      - skia
+      - stb
+      - tinygltf
+      - tinyobjloader
+      - tremor
+      - vulkan-loader
+      - gstreamer
+      - libxaac
+      - spirv-cross
+      - spirv-tools
+
+  
+  - id: parsing
+    name: Parsing and Serialization
+    description: >
+      Libraries and utilities that parse or serialize structured data formats
+      such as XML, JSON, YAML, TOML, or related text-based representations.
+    examples:
+      - libxml2-utils
+      - libxml2
+      - libxslt
+      - expat
+      - xerces-c
+      - pugixml
+      - tinyxml2
+      - json-c
+      - jsoncpp
+      - rapidjson
+      - simdjson
+      - jq
+      - jansson
+      - cjson
+      - yaml-cpp
+      - libyaml
+      - sql-parser
+      - libpg_query
+      - tomlplusplus
+      - jsoncons
+      - glaze
+      - boost-json
+      - arduinojson
+      - valijson
+      - md4c
+      - cmark
+      - hoextdown
+      - tidy-html5
+      - libucl
+      - libconfig
+      - inih
+      - aspell
+      - hunspell
+      - pcre2
+      - re2
+      - protobuf-c
+      - capnproto
+      - flatbuffers
+      - nanopb
+      - libprotobuf-mutator
+      - libcbor
+      - libplist
+      - libphonenumber
+      - utf8proc
+      - simdutf
+      - icu
+      - date
+      - json
+      - libyang
+      - msgpack-c
+      - arrow
+      - spotify-json
 
   - id: document
-    name: Structured Document and Markup Parsers
+    name: Structured Document and Markup Processing
     description: >
-      Programs that parse or convert structured document formats such as PDF,
-      XML, HTML, JSON, or related markup and text-based formats.
+      Programs that parse, render, convert, or transform document formats such
+      as PDF, Office documents, PostScript, HTML, and other markup-centric formats.
     examples:
+      - poppler
       - xpdf
+      - mupdf
+      - qpdf
       - pdftops
-      - libxml2-utils
-      - json-c-tools
+      - libspectre
+      - tidy-html5
+      - libxls
+      - libxlsxwriter
+      - libreoffice
+      - ghostscript
+      - nokogiri
+      - jq
+      - jsonnet
+      - rapidjson
+      - expat
+      - libxslt
+      - firefox
+      - karchive
+      - kcodecs
+      - kmime
+      - mfcmapi
+      - yajl-ruby
+      - wxwidgets
+      - libsass
+      - liblouis
+      - libredwg
 
+    
   - id: archive
     name: Archiving and Compression Utilities
     description: >
@@ -41,22 +257,97 @@ domains:
       compressed data.
     examples:
       - tar
+      - zlib
+      - zlib-ng
+      - miniz
+      - minizip
+      - zstd
+      - brotli
+      - snappy
       - cpio
+      - lz4
+      - lzma
+      - xz
+      - lzo
+      - libarchive
+      - tarantool
       - zip
+      - upx
+      - unrar
       - unzip
       - gzip
       - bzip2
-      - xz
+      - brunsli
+      - c-blosc
+      - c-blosc2
+      - zopfli
+      - bad_example
+      - casync
+      - karchive
+      - libzip
+      - zpaq
+      - zlib-compression
+      - zling
+      - liblzfse
 
   - id: crypto
     name: Cryptographic and Hashing Utilities
     description: >
-      Utilities that compute hashes, checksums, signatures, or perform other
-      cryptographic transformations.
+      Utilities and libraries that compute hashes, checksums, signatures, or
+      perform other cryptographic transformations and authentication mechanisms.
     examples:
       - sha1sum
+      - openssl
+      - boringssl
+      - libressl
+      - wolfssl
+      - mbedtls
+      - gnutls
+      - nettle
       - md5sum
+      - libsodium
+      - liboqs
+      - bitcoin-core
+      - monero
       - openssl-cli
+      - tpm2
+      - tpm2-tss
+      - libtpms
+      - bearssl
+      - botan
+      - cryptsetup
+      - xmlsec
+      - gnupg
+      - rnp
+      - relic
+      - tink-cc
+      - bls-signatures
+      - circl
+      - bignum-fuzzer
+      - ecc-diff-fuzzer
+      - cryptofuzz
+      - libecc
+      - libtasn1
+      - gss-ntlmssp
+      - krb5
+      - libfido2
+      - opensc
+      - p11-kit
+      - jwt-verify-lib
+      - usbguard
+      - yara
+      - clamav
+      - wazuh
+      - selinux
+      - sudoers
+      - highwayhash
+      - ibmswtpm2
+      - ms-tpm-20-ref
+      - nss
+      - picotls
+      - pycryptodome
+      - solidity
+      - wolfmqtt
 
   - id: network
     name: Networking and Protocol Utilities
@@ -64,10 +355,152 @@ domains:
       Binaries that generate, parse, or transform network traffic or protocol
       messages, including client tools and protocol-specific utilities.
     examples:
-      - curl-like-tools
-      - ftp-client
+      - samba
+      - kamailio
+      - opensips
+      - pjsip
+      - janus-gateway
+      - mosquitto
+      - librdkafka
+      - msquic
+      - quiche
+      - libcurl
+      - libhttp-parser
+      - nginx
+      - haproxy
+      - openvpn
+      - wireguard-tools
+      - strongswan
+      - libreswan
+      - wireshark
+      - tcpdump
+      - libpcap
+      - snort
+      - suricata
+      - grpc-httpjson-transcoding
+      - linkerd
       - dnsutils-dig
       - dnsutils-host
+      - c-ares
+      - dnsmasq
+      - unbound
+      - h3
+      - http-parser
+      - llhttp
+      - libhtp
+      - nghttp2
+      - envoy
+      - esp-v2
+      - trafficserver
+      - varnish
+      - lighttpd
+      - mongoose
+      - civetweb
+      - unit
+      - w3m
+      - apache-httpd
+      - usrsctp
+      - avahi
+      - openvswitch
+      - networkmanager
+      - openweave
+      - openthread
+      - connectedhomeip
+      - wpantund
+      - libcoap
+      - coturn
+      - resiprocate
+      - postfix
+      - dovecot
+      - neomutt
+      - irssi
+      - pidgin
+      - znc
+      - rabbitmq-c
+      - qpid-proton
+      - libzmq
+      - brpc
+      - thrift
+      - easywsclient
+      - uwebsockets
+      - libwebsockets
+      - tor
+      - hostap
+      - kea
+      - frr
+      - ndpi
+      - proftpd
+      - pupnp
+      - lldpd
+      - muduo
+      - ada-url
+      - ampproject
+      - apache-doris
+      - apache-logging-log4cxx
+      - bind9
+      - bluez
+      - cpp-httplib
+      - curl
+      - cyclonedds
+      - dbus-broker
+      - dpp
+      - dropbear
+      - fast-dds
+      - freeradius
+      - freerdp
+      - gpsd
+      - h2o
+      - hpn-ssh
+      - http-pattern-matcher
+      - jsc
+      - knot-dns
+      - libevent
+      - libical
+      - libidn
+      - libidn2
+      - libmicrohttpd2
+      - libmodbus
+      - libproxy
+      - libpsl
+      - libsoup
+      - libsrtp
+      - libssh
+      - libssh2
+      - libtorrent
+      - lwan
+      - mosh
+      - net-snmp
+      - ntopng
+      - ntp
+      - ntpsec
+      - oatpp
+      - open5gs
+      - open62541
+      - opendds
+      - opendnp3
+      - openssh
+      - osquery
+      - pcapplusplus
+      - pigweed
+      - pistache
+      - poco
+      - powerdns
+      - proj4
+      - proxygen
+      - qs
+      - rtpproxy
+      - s2opc
+      - s2geometry
+      - snort3
+      - spicy
+      - uriparser
+      - wget
+      - wget2
+      - zeek
+      - boost-beast
+      - libiec61850
+      - libvnc
+
 
   - id: conversion
     name: Data Conversion and Format Transformers
@@ -79,32 +512,148 @@ domains:
       - base64
       - csv2json
       - xml2json
+      - double-conversion
+      - fast_float
 
   - id: metadata
     name: File Metadata, Indexing, and Lightweight System Utilities
     description: >
       Utilities that inspect or manipulate file metadata, simple descriptors,
       or lightweight system information, often used as helper tools in larger
-      workflows. They do not primarily implement OS kernels, device stacks,
-      or core system daemons.
+      workflows.
     examples:
       - exiv2
       - file
       - stat-like-tools
+      - cpuinfo
+      - hwloc
+      - numactl
+      - tcmalloc
+      - perfetto
+      - opencensus-cpp
+      - fluent-bit
+      - spdlog
+      - glog
+      - fmt
+      - tmux
+      - libteken
+      - libtsm
+      - plan9port
+      - ostree
+      - fwupd
+      - rauc
+      - pacemaker
+      - cfengine
+      - augeas
+      - cups
+      - cups-filters
+      - libcups
+      - file
+      - sleuthkit
+      - xbps
+      - apache-logging-log4cxx
+      - cctz
+      - clib
+      - cppitertools
+      - croaring
+      - crow
+      - cgif
+      - gdal
+      - geos
+      - gfwx
+      - git
+      - glib
+      - htslib
+      - mapserver
+      - matio
+      - mercurial
+      - myanmar-tools
+      - opennavsurf-bag
+      - pcl
+      - phmap
+      - quantlib
+      - rdkit
+      - serenity
+      - simd
+      - vulnerable-project
+      - wt
+      - wxwidgets
+      - yoga
+      - gdbm
+      - igraph
+      - immer
+      - inchi
+      - libgit2
+      - libyal
+      - readstat
+      - muparser
+
+  - id: database_storage
+    name: Databases and Storage Systems
+    description: >
+      Database engines and storage systems, including relational, key-value,
+      analytical databases, and scientific storage formats.
+    examples:
+      - mysql-server
+      - mariadb
+      - sqlite3
+      - postgresql
+      - mongodb
+      - redis
+      - cassandra
+      - clickhouse
+      - duckdb
+      - rocksdb
+      - leveldb
+      - wiredtiger
+      - tdengine
+      - hdf5
+      - netcdf
+      - hiredis
+      - memcached
+      - pyodbc
+      - firestore
+      - postgis
+      - tinysparql
+      - mdbtools
+      - apache-doris
 
   - id: runtime
     name: Language Runtimes and Virtual Machines
     description: >
       Language runtimes, interpreters, virtual machines, or bytecode engines
-      that execute user programs (e.g., JavaScript engines, Python runtimes,
-      WebAssembly VMs).
+      that execute user programs.
     examples:
       - cpython
       - v8
       - quickjs
       - wasm3
       - wasmedge
-
+      - cpython3
+      - python3-libraries
+      - spidermonkey-ufi
+      - spidermonkey
+      - jerryscript
+      - hermes
+      - nodejs
+      - njs
+      - lua
+      - mruby
+      - php
+      - dart
+      - wabt
+      - wamr
+      - qt
+      - janet
+      - num-bigint
+      - pybind11
+      - spicy
+      - xs
+      - behaviortreecpp
+      - cel-cpp
+      - cel-go
+      - java-example
+    
   - id: os_system
     name: Operating System and System Infrastructure
     description: >
@@ -120,144 +669,37 @@ domains:
       - systemd
       - lxc
       - tdengine
+      - qemu
+      - edk2
+      - tinyusb
+      - libusb
+      - usbguard
+      - bios-bmc-smm-error-logger
+      - libfuse
+      - selinux
+      - plan9port
+      - qubes-os
+      - bluez
+      - dbus-broker
+      - osquery
+      - serenity
+      - spice-usbredir
+      - xnu
+
 
   - id: ml
     name: Machine Learning Frameworks and Serving Systems
     description: >
       Machine learning frameworks, inference engines, and model-serving
-      systems that execute or host ML workloads (training or inference).
+      systems that execute or host ML workloads.
     examples:
       - tensorflow
       - tensorflow-serving
       - xgboost
       - onnxruntime
-
-
-coarse_map:
-  # toolchain / binary analysis
-  binary-tools: toolchain
-  disassembly: toolchain
-  assembler: toolchain
-  debug-info: toolchain
-  linkage: toolchain
-  symbol-analysis: toolchain
-  os/utils: toolchain
-
-  # archiving / compression
-  compression: archive
-  zlib: archive
-  brotli: archive
-  bzip2: archive
-  lzma: archive
-  xz: archive
-  lz4: archive
-  zstd: archive
-  archiving: archive
-
-  # media (audio/video/image/graphics)
-  image-processing: media
-  multimedia: media
-  audio: media
-  video: media
-  graphics: media
-  codec: media
-  transcoding: media
-
-
-  # documents / markup / structured data
-  json: document
-  xml: document
-  html: document
-  markup: document
-  yaml: document
-  document: document
-  pdf: document
-  text-format: document
-
-
-  # networking / protocols / servers
-  dns: network
-  dns/dhcp: network
-  http: network
-  http/parser: network
-  http/http3: network
-  web-server: network
-  web-server/embedded: network
-  proxy/load-balancer: network
-  proxy/api-gateway: network
-  ssh: network
-  vpn: network
-  network: network
-  transport: network
-  network/capture: network
-  ids/ips: network
-  ftp: network
-  mail: network
-  chat/protocol: network
-  p2p/protocol: network
-
-  # runtime / language tools
-  language-runtime: runtime
-  language-runtime/python: runtime
-  language-runtime/js: runtime
-  language-runtime/wasm: runtime
-  language-runtime/java: runtime
-  language-runtime/ruby: runtime
-  language-runtime/php: runtime
-  language-runtime/perl: runtime
-  utility-library: runtime
-
-  # crypto & security
-  crypto: crypto
-  crypto/tls: crypto
-  crypto/pgp: crypto
-  xml/security: crypto
-  auth/protocol: crypto
-  hash/checksum: crypto
-  password-tool: crypto
-
-
-  # OS / system infrastructure
-  os/system: os_system
-  os/kernel: os_system
-  os/ebpf: os_system
-  os/filesystem: os_system
-  os/storage: os_system
-  os/hypervisor: os_system
-  os/virtualization: os_system
-  os/container: os_system
-  os/daemon: os_system
-  os/device: os_system
-  os/usb: os_system
-  os/process: os_system
-  init-system: os_system
-  service-manager: os_system
-  logging-system: os_system
-  monitoring-system: os_system
-  database-system: os_system
-  time-series-db: os_system
-  kv-store: os_system
-  search-engine: os_system
-
-  # metadata / misc helper tools
-  filesystem: metadata        # high-level file walkers/indexers (not core fs)
-  system-info: metadata       # lightweight system info reporters
-  system-topology: metadata   # topology / hw inventory tools
-  terminal: metadata
-  config: metadata
-  config-parser: metadata
-  scientific-io: metadata
-  cache: metadata
-  logging: metadata
-
-  # machine learning frameworks / serving
-  ml: ml
-  ml/framework: ml
-  ml/serving: ml
-  ml/runtime: ml
-  ml/optimization: ml
-  ml/inference: ml
-
-
-  # fallback
-  other: metadata
+      - xnnpack
+      - onednn
+      - nccl
+      - sentencepiece
+      - llamacpp
+      - ggml

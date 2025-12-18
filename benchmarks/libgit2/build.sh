@@ -28,7 +28,6 @@ initialize() {
 }
 
 wllvm_compile() {
-  initialize
 
   export LLVM_COMPILER=clang
   export CC="wllvm"
@@ -72,7 +71,6 @@ wllvm_compile() {
 }
 
 hfuzz_compile() {
-  initialize
 
   export CC="hfuzz-clang"
   export CXX="hfuzz-clang++"

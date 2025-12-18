@@ -1,0 +1,6 @@
+project: libecc
+oss_fuzz_project_dir: projects/libecc
+main_repo: https://github.com/ANSSI-FR/libecc.git
+language: c++
+domain: crypto
+loc: 891905

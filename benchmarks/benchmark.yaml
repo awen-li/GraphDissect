@@ -74,18 +74,16 @@ benchmarks:
           - libgit2_fuzzer
         num_drivers: null
 
-      - name: sleuthkit
-        loc_kloc: 284.62
+      - name: geos
+        loc_kloc: 204.86
         executables:
-          - fls
-          - icat
-          - istat
+          - geosop
         num_drivers: null
 
-      - name: augeas
-        loc_kloc: 26.52
+      - name: file
+        loc_kloc: 17.95
         executables:
-          - augtool
+          - file
         num_drivers: null
 
   parsing_and_document_processing:
@@ -115,20 +113,20 @@ benchmarks:
   cryptography_and_security:
     domain_name: "Cryptography and security"
     items:
-      - name: libecc
+      - name: libecc---
         loc_kloc: 891.91
         executables:
           - libecc_fuzzer
         num_drivers: null
 
-      - name: gnutls
+      - name: gnutls---
         loc_kloc: 298.04
         executables:
           - gnutls-cli
           - gnutls-serv
         num_drivers: null
 
-      - name: libsodium
+      - name: libsodium---
         loc_kloc: 52.02
         executables:
           - libsodium_fuzzer
@@ -168,7 +166,7 @@ benchmarks:
           - bsdcpio
         num_drivers: null
 
-      - name: c-blosc
+      - name: c-blosc---
         loc_kloc: 112.69
         executables:
           - blosc_filter_fuzzer

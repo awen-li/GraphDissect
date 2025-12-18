@@ -1,95 +1,118 @@
 #!/usr/bin/env bash
 
 export ROOT="$(pwd)"
-export target="curl"
+export target="libgit2"
+
+# Main driver binary: libgit2 example CLI
+#commit_graph_fuzzer  config_file_fuzzer  download_refs_fuzzer  lg2  
+#midx_fuzzer  objects_fuzzer  packfile_fuzzer  patch_parse_fuzzer  revparse_fuzzer
+executables=("commit_graph_fuzzer" "objects_fuzzer" "packfile_fuzzer")
+
 
 Action="$1"
-executables=("curl")
 
-# load library
 source ../__scripts__/base.sh
 
-
-ensure_configure() {
-    # Generate ./configure from configure.ac using autoreconf
-    if [ ! -f "$target/configure" ]; then
-        echo "[curl] configure not found, running autoreconf -fi..."
-        (
-            cd "$target"
-            autoreconf -fi
-        )
-    fi
-    if [ ! -f "$target/configure" ]; then
-        echo "[curl] ERROR: configure script still missing in $target"
-        exit 1
-    fi
-}
-
+LIBGIT2_REPO="https://github.com/libgit2/libgit2.git"
 
 initialize() {
-    if [ ! -d "$target" ]; then
-        echo "[curl] cloning upstream repo..."
-        git clone --depth 1 https://github.com/curl/curl.git "$target"
-    fi
+  if [ -d "$target" ]; then
+    return
+  fi
 
-    ensure_configure
+  echo "[libgit2] cloning upstream repo..."
+  git clone --depth 1 "${LIBGIT2_REPO}" "$target" || {
+    echo "[libgit2] ERROR: git clone failed"
+    exit 1
+  }
 }
 
 wllvm_compile() {
+  initialize
 
-    export CC="wllvm"
-    export CXX="wllvm++"
+  export LLVM_COMPILER=clang
+  export CC="wllvm"
+  export CXX="wllvm++"
 
-    COMMON_FLAGS="-pg -g -O2 -save-temps=obj \
+  COMMON_C_FLAGS="-g -O2 \
                   -fno-discard-value-names \
                   -fno-inline-functions \
                   -fno-inline-functions-called-once \
-                  -mllvm -inline-threshold=0 \
-                  -w"
+                  -mllvm -inline-threshold=0"
 
-    export CFLAGS="$COMMON_FLAGS"
-    export CXXFLAGS="$COMMON_FLAGS"
+  export CFLAGS="${COMMON_C_FLAGS}"
+  export CXXFLAGS="${COMMON_C_FLAGS}"
 
-    build_dir="build-wllvm"
-    if [ ! -d "$build_dir" ]; then
-        mkdir "$build_dir"
-    fi
+  cd "$target"
 
-    cd "$build_dir"
-    ../$target/configure --enable-shared=no --without-ssl --without-libpsl
-    make -j8
-    cd "$ROOT"
+  build=wllmv_build
+  rm -rf $build
+  cmake -S . -B $build \
+    -DCMAKE_C_COMPILER="$CC" \
+    -DCMAKE_C_FLAGS="$CFLAGS" \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_CLI=OFF \
+    -DBUILD_EXAMPLES=ON \
+    -DUSE_SSH=OFF \
+    -DUSE_HTTPS=OFF \
+    -DUSE_BUNDLED_ZLIB=ON \
+    -DUSE_NTLMCLIENT=OFF \
+    -DBUILD_FUZZERS=ON \
+    -DUSE_STANDALONE_FUZZERS=ON \
+    -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${PWD}/$build/bin"
 
-    handle_executable "$build_dir/src" "${executables[@]}"
+  # build the example CLI driver
+  cmake --build $build -j8
+
+  cd "$ROOT"
+
+  handle_executable "$target/$build/bin" "${executables[@]}"
 }
 
 hfuzz_compile() {
+  initialize
 
-    export CC="hfuzz-clang"
-    export CXX="hfuzz-clang++"
+  export CC="hfuzz-clang"
+  export CXX="hfuzz-clang++"
 
-    COMMON_FLAGS="-fsanitize-coverage=trace-pc-guard \
+  COMMON_C_FLAGS="-g -O2 \
+                  -fsanitize-coverage=trace-pc-guard \
                   -finstrument-functions"
 
-    export CFLAGS="$COMMON_FLAGS"
-    export CXXFLAGS="$COMMON_FLAGS"
+  export CFLAGS="${COMMON_C_FLAGS}"
+  export CXXFLAGS="${COMMON_C_FLAGS}"
+  export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}
 
-    export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+  cd "$target"
 
-    build_dir="build-hfuzz"
-    if [ ! -d "$build_dir" ]; then
-        mkdir "$build_dir"
-    fi
+  build=hfuzz_build
+  rm -rf $build
+  cmake -S . -B $build \
+    -DCMAKE_C_COMPILER="$CC" \
+    -DCMAKE_C_FLAGS="$CFLAGS" \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_CLI=OFF \
+    -DBUILD_EXAMPLES=ON \
+    -DUSE_SSH=OFF \
+    -DUSE_HTTPS=OFF \
+    -DUSE_BUNDLED_ZLIB=ON \
+    -DUSE_NTLMCLIENT=OFF \
+    -DBUILD_FUZZERS=ON \
+    -DUSE_STANDALONE_FUZZERS=ON \
+    -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${PWD}/$build/bin"
 
-    cd "$build_dir"
-    ../$target/configure --enable-shared=no --without-ssl --without-libpsl
-    make -j8
-    cd "$ROOT"
+  cmake --build $build -j8
+
+  cd "$ROOT"
 }
 
-if [ "$Action" == "clean" ]; then
-    clean
-    exit 0
+if [ "${Action}" == "clean" ]; then
+  clean
+  exit 0
 fi
 
 cd "$ROOT"

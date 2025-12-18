@@ -85,32 +85,6 @@ def cmd_augment(args: argparse.Namespace) -> None:
         else "  loc_avg:        None"
     )
 
-    # Show top-N largest projects by LOC (flatten from known_domain_projects)
-    projects_by_loc: List[Dict[str, Any]] = []
-    for domain, plist in summary.get("known_domain_projects", {}).items():
-        for entry in plist:
-            projects_by_loc.append(
-                {
-                    "project": entry["project"],
-                    "loc": entry["loc"],
-                    "domain": domain,
-                }
-            )
-
-    projects_by_loc.sort(
-        key=lambda e: e["loc"] if isinstance(e.get("loc"), int) else -1,
-        reverse=True,
-    )
-
-    top_n = min(10, len(projects_by_loc))
-    if top_n > 0:
-        print(f"  top {top_n} projects by LOC:")
-        for entry in projects_by_loc[:top_n]:
-            print(
-                f"    {entry['project']}: "
-                f"loc={entry['loc']}, domain={entry['domain']}"
-            )
-
 
 def cmd_summary(args: argparse.Namespace) -> None:
     profiles_dir = args.profiles_dir.resolve()

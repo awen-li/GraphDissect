@@ -222,3 +222,8 @@ benchmarks:
           - db_bench
           - ldb
         num_drivers: null
+
+      - name: leveldb
+        loc_kloc: 21.21
+        executables: []
+        num_drivers: null

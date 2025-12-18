@@ -1,0 +1,6 @@
+project: boringssl
+oss_fuzz_project_dir: projects/boringssl
+main_repo: https://boringssl.googlesource.com/boringssl
+language: c++
+domain: crypto
+loc: 284865

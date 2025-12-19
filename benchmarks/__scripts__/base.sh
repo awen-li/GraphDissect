@@ -99,7 +99,6 @@ function handle_executable()
       
         # Generate bc
 		extract-bc $executable_path/$executable && cp $executable_path/$executable.bc $benchpath/
-		cp $executable_path/$executable $benchpath/pg_$executable
 		cp $executable_path/$executable $benchpath/$executable
 
         # Whole-program callgraph construction (including dependent libs)

@@ -128,7 +128,7 @@ function compile ()
 		# Compile for fuzzing
 		hfuzz_compile	
 
-		$copy_driver $executables
+		#copy_driver $executables
 		
 	elif [ "$Action" == "static" ]; then
 		# Only compile for static analysis

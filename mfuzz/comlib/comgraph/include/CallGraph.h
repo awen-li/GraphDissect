@@ -25,6 +25,9 @@ public:
     virtual ~CGEdge() 
     {
     }
+
+    unsigned HitNum;
+    uint64_t Key;
 };
 
 
@@ -34,11 +37,14 @@ public:
     unsigned HitNum;
     unsigned lastHit;
     unsigned Depth;
+    unsigned BlockNum;
+    uint32_t Key;
     
 public:
     CGNode(DWORD Id, string FName): GenericNode<CGEdge>(Id), FuncName(FName)
     {
         Depth = 0;
+        BlockNum = 0;
     }
 
     inline string GetFName ()
@@ -94,7 +100,12 @@ protected:
     CGNode *m_Entry;
 
 public:
-    CGGraph() { m_Entry = NULL; }
+    unsigned MaxDepth;
+    CGGraph() 
+    { 
+        m_Entry = NULL; 
+        MaxDepth = 0;
+    }
     
     virtual ~CGGraph() { }
 
@@ -270,6 +281,7 @@ public:
             DumpUnreached(visited);
         } 
 
+        MaxDepth = graphDepth;
         return graphDepth;
     }
 
@@ -388,16 +400,20 @@ public:
         string NdLabel;
         const auto& mask = Node->GetDriverIdMask();
 
+        NdLabel = Node->GetFName();
+
         if (mask.none()) 
         {
-            NdLabel = Node->GetFName() + " (mask=0)";
+             NdLabel += " (mask=0)";
         } else 
         {
             // Convert bitmask to string
             stringstream ss;
             ss << " (mask=" << mask << ")";
-            NdLabel = Node->GetFName() + ss.str();
+            NdLabel += Node->GetFName() + ss.str();
         }
+
+        NdLabel +=  " (blocks=" + to_string(Node->BlockNum) + ")";
 
         return NdLabel;
     }

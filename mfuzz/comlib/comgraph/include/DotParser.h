@@ -172,6 +172,8 @@ protected:
             }
 
             NodeTy *Node = graph.AddNode(tokens[0]);
+            Node->BlockNum = blockNum;
+            //std::cout << "Added Node: " << tokens[0] << " with BlockNum: " << blockNum << std::endl;
             //Node->SetFuncAttr ((unsigned)stoi(tokens[1]), blockNum);
             NodeMap[NodeIndex] = Node;
         }
@@ -356,6 +358,14 @@ protected:
                 }
             }
             node->SetDriverIdMask(bitmask);
+
+            auto blockPos = line.find("(blocks=");
+            assert (blockPos != string::npos);
+
+            start = blockPos + 8;
+            end = line.find(')', start);
+            assert (end != string::npos);
+            node->BlockNum = stoi(line.substr(start, end - start));
         }
   
         Df.clear();

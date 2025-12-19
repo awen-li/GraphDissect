@@ -64,7 +64,7 @@ void CgMarker::dump(string markGraph) {
 void CgMarker::markNode(unsigned nodeId, unsigned drvId) {
     CGNode* wholeNode = wholeCg.GetGNode(nodeId);
     if (!wholeNode) {
-        std::cerr << "[!] Missing node in wholeCg: " << nodeId << "\n";
+        //std::cerr << "[!] Missing node in wholeCg: " << nodeId << "\n";
         return;
     }
     wholeNode->SetDriverIdMask(drvId);
@@ -82,7 +82,7 @@ void CgMarker::markGraph(CGGraph* drvCg, unsigned drvId) {
         // Also label corresponding node in wholeCg
         CGNode* wholeNode = wholeCg.GetNode(fname);
         if (!wholeNode) {
-            std::cerr << "[!] Missing node in wholeCg: " << fname << "\n";
+            //std::cerr << "[!] Missing node in wholeCg: " << fname << "\n";
             continue;
         }
         wholeNode->SetDriverIdMask(drvId);

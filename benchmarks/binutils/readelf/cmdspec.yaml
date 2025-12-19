@@ -1,0 +1,331 @@
+profile:
+  name: "readelf"
+  binary: "readelf"
+  domain: "binutils"
+  seed_dir: "seeds"
+  max_combination: 2
+
+primary:
+  # ---- High-level views / presets ----
+
+  - id: "1"
+    cli: ["-a", "--all"]
+    kind: "flag"
+    role: "mode"
+    group: "preset"
+    include_in_search: true
+    description: "Show all major information (equivalent to -h -l -S -s -r -d -V -A -I)"
+
+  - id: "2"
+    cli: ["-e", "--headers"]
+    kind: "flag"
+    role: "mode"
+    group: "preset"
+    include_in_search: true
+    description: "Show file, program, and section headers (equivalent to -h -l -S)"
+
+  # ---- File / program / section headers ----
+
+  - id: "3"
+    cli: ["-h", "--file-header"]
+    kind: "flag"
+    role: "mode"
+    group: "header"
+    include_in_search: true
+    description: "Display ELF file header"
+
+  - id: "4"
+    cli: ["-l", "--program-headers", "--segments"]
+    kind: "flag"
+    role: "mode"
+    group: "header"
+    include_in_search: true
+    description: "Display program headers / segments"
+
+  - id: "5"
+    cli: ["-S", "--section-headers", "--sections"]
+    kind: "flag"
+    role: "mode"
+    group: "header"
+    include_in_search: true
+    description: "Display section headers"
+
+  - id: "6"
+    cli: ["-g", "--section-groups"]
+    kind: "flag"
+    role: "mode"
+    group: "section_meta"
+    include_in_search: true
+    description: "Display section groups"
+
+  - id: "7"
+    cli: ["-t", "--section-details"]
+    kind: "flag"
+    role: "mode"
+    group: "section_meta"
+    include_in_search: true
+    description: "Display per-section details"
+
+  # ---- Symbols ----
+
+  - id: "8"
+    cli: ["-s", "--syms", "--symbols"]
+    kind: "flag"
+    role: "mode"
+    group: "symbols"
+    include_in_search: true
+    description: "Display symbol table"
+
+  - id: "9"
+    cli: ["--dyn-syms"]
+    kind: "flag"
+    role: "mode"
+    group: "symbols"
+    include_in_search: true
+    description: "Display dynamic symbol table"
+
+  - id: "10"
+    cli: ["--lto-syms"]
+    kind: "flag"
+    role: "mode"
+    group: "symbols"
+    include_in_search: true
+    description: "Display LTO symbol tables"
+
+  - id: "11"
+    cli: ["--sym-base"]
+    kind: "choice"
+    metavar: "BASE"
+    choices:
+      - "mixed"          # default
+      - "10"
+    defaults: ["mixed", "10"]
+    role: "modifier"
+    group: "sym_base"
+    include_in_search: true
+    description: "Set base for symbol sizes (mixed, octal, decimal, hexadecimal)"
+
+  # ---- Demangling & unicode ----
+
+  - id: "12"
+    cli: ["-C", "--demangle"]
+    kind: "choice"
+    metavar: "STYLE"
+    choices:
+      - "auto"
+      - "gnu-v3"
+    defaults: ["auto", "gnu-v3"]
+    role: "mode"
+    group: "demangle"
+    include_in_search: true
+    description: "Decode mangled symbol names using optional demangling STYLE"
+
+  - id: "13"
+    cli: ["--no-demangle"]
+    kind: "flag"
+    role: "mode"
+    group: "demangle"
+    include_in_search: true
+    description: "Do not demangle low-level symbol names (default)"
+
+  - id: "14"
+    cli: ["--recurse-limit"]
+    kind: "flag"
+    role: "modifier"
+    group: "demangle_limit"
+    include_in_search: true
+    description: "Enable demangling recursion limit (default)"
+
+  - id: "15"
+    cli: ["--no-recurse-limit"]
+    kind: "flag"
+    role: "modifier"
+    group: "demangle_limit"
+    include_in_search: true
+    description: "Disable demangling recursion limit"
+
+  - id: "16"
+    cli: ["-U", "--unicode"]
+    kind: "choice"
+    metavar: "MODE"
+    choices:
+      - "default"
+      - "escape"
+    defaults: ["default", "escape"]
+    role: "modifier"
+    group: "unicode"
+    include_in_search: true
+    description: "Control how UTF-8 unicode characters are displayed"
+
+  - id: "17"
+    cli: ["-X", "--extra-sym-info"]
+    kind: "flag"
+    role: "modifier"
+    group: "extra_sym"
+    include_in_search: true
+    description: "Show extra information when displaying symbols"
+
+  - id: "18"
+    cli: ["--no-extra-sym-info"]
+    kind: "flag"
+    role: "modifier"
+    group: "extra_sym"
+    include_in_search: true
+    description: "Do not show extra symbol information (default)"
+
+  # ---- Other core views ----
+
+  - id: "19"
+    cli: ["-n", "--notes"]
+    kind: "flag"
+    role: "mode"
+    group: "notes"
+    include_in_search: true
+    description: "Display note sections"
+
+  - id: "20"
+    cli: ["-r", "--relocs"]
+    kind: "flag"
+    role: "mode"
+    group: "relocs"
+    include_in_search: true
+    description: "Display relocation entries"
+
+  - id: "21"
+    cli: ["-u", "--unwind"]
+    kind: "flag"
+    role: "mode"
+    group: "unwind"
+    include_in_search: true
+    description: "Display unwind info"
+
+  - id: "22"
+    cli: ["-d", "--dynamic"]
+    kind: "flag"
+    role: "mode"
+    group: "dynamic"
+    include_in_search: true
+    description: "Display the dynamic section"
+
+  - id: "23"
+    cli: ["-V", "--version-info"]
+    kind: "flag"
+    role: "mode"
+    group: "version_info"
+    include_in_search: true
+    description: "Display version sections"
+
+  - id: "24"
+    cli: ["-A", "--arch-specific"]
+    kind: "flag"
+    role: "mode"
+    group: "arch"
+    include_in_search: true
+    description: "Display architecture-specific information"
+
+  - id: "25"
+    cli: ["-c", "--archive-index"]
+    kind: "flag"
+    role: "mode"
+    group: "archive"
+    include_in_search: true
+    description: "Display symbol/file index in an archive"
+
+  - id: "26"
+    cli: ["-D", "--use-dynamic"]
+    kind: "flag"
+    role: "modifier"
+    group: "dynamic"
+    include_in_search: true
+    description: "Use dynamic section info when displaying symbols"
+
+  - id: "27"
+    cli: ["-L", "--lint", "--enable-checks"]
+    kind: "flag"
+    role: "modifier"
+    group: "lint"
+    include_in_search: true
+    description: "Enable consistency checks and warning messages"
+
+  # ---- Dumps & filtered views ----
+
+  - id: "28"
+    cli: ["-x", "--hex-dump"]
+    kind: "value"
+    metavar: "SEC"
+    value_template: ".text"
+    defaults: [".text", ".data"]
+    role: "mode"
+    group: "dump"
+    include_in_search: true
+    description: "Dump contents of the given section as bytes (by name or index)"
+
+  - id: "29"
+    cli: ["-p", "--string-dump"]
+    kind: "value"
+    metavar: "SEC"
+    value_template: ".rodata"
+    defaults: [".rodata", ".strtab"]
+    role: "mode"
+    group: "dump"
+    include_in_search: true
+    description: "Dump contents of the given section as strings"
+
+  - id: "30"
+    cli: ["-R", "--relocated-dump"]
+    kind: "value"
+    metavar: "SEC"
+    value_template: ".text"
+    defaults: [".text", "0"]
+    role: "mode"
+    group: "dump"
+    include_in_search: true
+    description: "Dump relocated contents of the given section"
+
+  - id: "31"
+    cli: ["-j", "--display-section"]
+    kind: "value"
+    metavar: "SEC"
+    value_template: ".text"
+    defaults: [".text", ".data", ".bss"]
+    role: "mode"
+    group: "display_section"
+    include_in_search: true
+    description: "Display contents of the indicated section (can be repeated)"
+
+  - id: "32"
+    cli: ["-w", "--debug-dump"]
+    kind: "choice"
+    metavar: "WHAT"
+    choices:
+      - "info"
+      - "all"
+    defaults: ["info", "all"]
+    role: "mode"
+    group: "debug_dump"
+    include_in_search: true
+    description: "Display contents of DWARF debug sections (various kinds)"
+
+  - id: "33"
+    cli: ["-z", "--decompress"]
+    kind: "flag"
+    role: "modifier"
+    group: "dump"
+    include_in_search: true
+    description: "Decompress section before dumping"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "demangle"
+
+  - type: "at_most_one_from_group"
+    group: "demangle_limit"
+
+  - type: "at_most_one_from_group"
+    group: "unicode"
+
+  - type: "at_most_one_from_group"
+    group: "extra_sym"
+
+  - type: "at_most_one_from_group"
+    group: "debug_links"

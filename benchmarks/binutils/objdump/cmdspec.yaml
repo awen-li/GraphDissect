@@ -1,0 +1,222 @@
+profile:
+  name: "objdump"
+  binary: "objdump"
+  domain: "binutils"
+  seed_dir: "seeds"
+  max_combination: 2
+
+primary:
+  ####################################################################
+  # PRIMARY OPTIONS (from "At least one of the following switches...")
+  ####################################################################
+
+  - id: "1"
+    cli: ["-a", "--archive-headers"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display archive header information"
+
+  - id: "2"
+    cli: ["-f", "--file-headers"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display overall file header"
+
+  - id: "3"
+    cli: ["-p", "--private-headers"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display object-format-specific file header contents"
+
+  - id: "4"
+    cli: ["-P", "--private"]
+    kind: "value"
+    metavar: "OPT,OPT..."
+    value_template: "OPT,OPT"
+    defaults: ["header", "all"]
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display object-format-specific contents"
+
+  - id: "5"
+    cli: ["-h", "--section-headers"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display section headers"
+
+  - id: "6"
+    cli: ["-x", "--all-headers"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display all headers"
+
+  - id: "7"
+    cli: ["-d", "--disassemble"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Disassemble executable sections"
+
+  - id: "8"
+    cli: ["-D", "--disassemble-all"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Disassemble all sections"
+
+  - id: "9"
+    cli: ["-S", "--source"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Intermix source code with disassembly"
+
+  - id: "10"
+    cli: ["-s", "--full-contents"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display full contents of all requested sections"
+
+  - id: "11"
+    cli: ["-g", "--debugging"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display debug information"
+
+  - id: "12"
+    cli: ["-e", "--debugging-tags"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display debug info using ctags style"
+
+  - id: "13"
+    cli: ["-G", "--stabs"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display raw STABS info"
+
+  - id: "14"
+    cli: ["-W", "--dwarf"]
+    kind: "choice"
+    metavar: "KIND"
+    # Full set is long; defaults are a representative subset
+    choices:
+      - "info"
+      - "frames"
+      - "loc"
+    defaults: ["info", "frames", "loc"]
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display DWARF info"
+
+  - id: "15"
+    cli: ["-t", "--syms"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display symbol table(s)"
+
+  - id: "16"
+    cli: ["-T", "--dynamic-syms"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display dynamic symbol table"
+
+  - id: "17"
+    cli: ["-r", "--reloc"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display relocation entries"
+
+  - id: "18"
+    cli: ["-R", "--dynamic-reloc"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Display dynamic relocation entries"
+
+  - id: "19"
+    cli: ["@<file>"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "opts.txt"
+    defaults: ["opts.txt"]
+    role: "mode"
+    group: "mode"
+    include_in_search: false
+    description: "Read options from file"
+
+  - id: "20"
+    cli: ["-v", "--version"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: false
+    description: "Display version"
+
+  - id: "21"
+    cli: ["-i", "--info"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "List object formats and architectures"
+
+  - id: "22"
+    cli: ["-H", "--help"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: false
+    description: "Display help"
+
+
+constraints:
+  # Only one primary mode per driver
+  - type: "at_most_one_from_group"
+    group: "mode"
+
+  # Endianness flags are mutually exclusive
+  - type: "at_most_one_from_group"
+    group: "endian"
+
+  # Only one of recurse/no-recurse
+  - type: "at_most_one_from_group"
+    group: "demangle_limit"
+
+  # Only one of show/no-show-raw-insn
+  - type: "at_most_one_from_group"
+    group: "raw_insn"
+
+  # Only one visualize-jumps mode
+  - type: "at_most_one_from_group"
+    group: "visualize_jumps"

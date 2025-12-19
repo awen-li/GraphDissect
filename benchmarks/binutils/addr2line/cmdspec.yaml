@@ -1,0 +1,96 @@
+profile:
+  name: "addr2line"
+  binary: "addr2line"
+  domain: "binutils"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "flagged"
+      flag: "-e"    
+    output:
+      kind: "positional"
+      flag: "" 
+
+primary:
+  # Major behavior / output-shaping options
+  - id: "1"
+    cli: ["-a", "--addresses"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    output: "0x435fb0"
+    description: "Show addresses in the output"
+
+  - id: "2"
+    cli: ["-i", "--inlines"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    output: "0x435fb0"
+    description: "Unwind and show inlined functions"
+
+  - id: "3"
+    cli: ["-p", "--pretty-print"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    output: "0x435fb0"
+    description: "Make the output easier to read for humans"
+
+  - id: "4"
+    cli: ["-s", "--basenames"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    output: "0x435fb0"
+    description: "Strip directory components and show only basenames"
+
+  - id: "5"
+    cli: ["-f", "--functions"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    output: "0x435fb0"
+    description: "Show function names"
+
+  - id: "6"
+    cli: ["-C", "--demangle"]
+    kind: "choice"
+    metavar: "STYLE"
+    choices:
+      - "auto"
+      - "gnu-v3"
+      - "java"
+    defaults: ["auto", "gnu-v3"]
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    output: "0x435fb0"
+    description: "Demangle function names (optional style)"
+
+  - id: "7"
+    cli: ["-h", "--help"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: false
+    description: "Display help information"
+
+  - id: "8"
+    cli: ["-v", "--version"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: false
+    description: "Display the program version"
+
+constraints:
+  # Only one of recurse/no-recurse for demangling
+  - type: "at_most_one_from_group"
+    group: "demangle_limit"

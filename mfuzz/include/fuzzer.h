@@ -3,15 +3,6 @@
 #include <optional>
 #include <iostream>
 
-struct RunResult
-{
-    bool finished = true;
-    bool crash = false;
-    std::string output;
-    int exit_code = 0;
-    std::string seed_path;
-};
-
 class FuzzerBackend
 {
 public:
@@ -20,13 +11,8 @@ public:
     virtual bool startRun(std::string bench_path, std::string& err)
     {
         (void)bench_path;
+        (void)err;
         return true;
-    }
-
-    virtual std::optional<RunResult> collectResult(int timeout_ms=3000)
-    {
-        (void)timeout_ms;
-        return RunResult{};
     }
 
     virtual bool stopRun(int run_id, std::string& err)
@@ -105,8 +91,6 @@ public:
     }
 
     bool startRun(std::string bench_path, std::string& err) override;
-    std::optional<RunResult> collectResult(int timeout_ms=3000) override;
-
     bool stopRun(int run_id, std::string& err) override;
     void shutdown() override;
 
@@ -118,9 +102,7 @@ private:
 
 private:
     bool init(std::string& err) override;
-
     bool initSession(std::string& err) override;
-
     bool initFuzzDirectory(std::string& err);
 };
 

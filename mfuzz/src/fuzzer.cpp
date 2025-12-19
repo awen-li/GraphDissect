@@ -189,60 +189,6 @@ bool HonggfuzzBackend::startRun(std::string bench_path, std::string& err)
     }
 }
 
-std::optional<RunResult> HonggfuzzBackend::collectResult(int timeout_ms)
-{
-    RunResult rr;
-    rr.finished = false;
-    rr.crash = false;
-    rr.output.clear();
-    rr.exit_code = 0;
-    rr.seed_path.clear();
-
-    if (child_pid <= 0) {
-        // Nothing running; consider it finished successfully
-        rr.finished = true;
-        return rr;
-    }
-
-    int elapsed_ms = 0;
-    const int step_ms = 50;
-
-    for (;;) {
-
-        int status = 0;
-        pid_t res = waitpid(child_pid, &status, WNOHANG);
-        if (res == child_pid) {
-            rr.finished = true;
-            if (WIFEXITED(status)) {
-                rr.exit_code = WEXITSTATUS(status);
-            }
-            else if (WIFSIGNALED(status)) {
-                rr.exit_code = 128 + WTERMSIG(status);
-                // Treat signal exits as crashes (heuristic)
-                rr.crash = true;
-            }
-            child_pid = -1;
-            return rr;
-        }
-        else if (res == 0) {
-            // Still running
-            if (elapsed_ms >= timeout_ms)
-            {
-                return std::nullopt;
-            }
-            usleep(step_ms * 1000);
-            elapsed_ms += step_ms;
-        }
-        else {
-            // waitpid error; treat as finished with error code
-            rr.finished = true;
-            rr.exit_code = 1;
-            child_pid = -1;
-            return rr;
-        }
-    }
-}
-
 bool HonggfuzzBackend::stopRun(int run_id, std::string& err)
 {
     (void)run_id;

@@ -1,8 +1,5 @@
 #include "dynsch.h"
 
-extern bool dynsch_genFidMap(const char *benchPath);
-
-
 int main (int argc, char** argv)
 {
     char *benchPath = NULL;

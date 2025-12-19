@@ -20,6 +20,8 @@ set(MFUZZ_SOURCES
     src/driver.cpp
     src/dynsch.cpp
     src/fcov.cpp
+    src/fuzzer.cpp
+    src/util.cpp
 )
 
 add_executable(mfuzz ${MFUZZ_SOURCES})

@@ -1,16 +1,24 @@
 #ifndef _DRIVER_H_
 #define _DRIVER_H_
-
+#include <sys/types.h>
+#include <unistd.h>
 #include <string>
 #include <map>
 #include <queue>
 #include <vector>
 #include <functional>
 #include <utility>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 
 using namespace std;
 using json = nlohmann::json;
+
+struct RunResult 
+{
+    bool ok = false;        // exit code == 0
+    int exit_code = -1;     // shell-style status (0 success)
+};
 
 class Driver {
 public:
@@ -56,6 +64,8 @@ public:
     inline uint64_t getExecs() const { return execs; }
     inline time_t getTimeElapsed() const { return time_elapsed; }
 
+    RunResult run(int timeout_sec = 5) const;
+
 private:
     int id;
     string name;
@@ -80,6 +90,29 @@ private:
 
 private:
     bool parseArgs(const nlohmann::json& jargs);
+
+private:
+    inline vector<string> getSeeds() const
+    {
+        vector<string> seeds;
+        for (const auto &entry : filesystem::directory_iterator(seed_dir)) {
+            if (!entry.is_regular_file()) 
+                continue;
+            seeds.push_back(entry.path().string());
+        }
+
+        return seeds;
+    }
+
+    inline string formatArgs() const
+    {
+        string result;
+        for (size_t i = 0; i < argv.size(); ++i) {
+            result += argv[i];
+            if (i < argv.size() - 1) result += " ";
+        }
+        return result;
+    }
 };
 
 using DriverHeapEntry = std::pair<float, int>;  // (priority, driverId)

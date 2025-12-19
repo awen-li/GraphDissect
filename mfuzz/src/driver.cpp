@@ -114,6 +114,55 @@ bool Driver::loadRuntimeStat() {
 }
 
 
+RunResult Driver::run(int timeout_sec) const 
+{
+    RunResult rr;
+    rr.ok = true; // assume success unless any seed fails
+
+    // get seed list
+    std::vector<std::string> seeds = getSeeds();
+    if (seeds.empty()) {
+        std::cerr << "No seed files found in directory: " << seed_dir << "\n";
+        rr.ok = false;
+        return rr;
+    }
+
+    // run each seed
+    string args = formatArgs();
+    for (const auto& seed : seeds) {
+
+        std::string cmd =
+            "timeout " + std::to_string(timeout_sec) + "s " +
+            driver + " " + args + " " +
+            seed + " " + output + " >/dev/null 2>&1";
+
+        int status = std::system(cmd.c_str());
+
+        int exit_code = -1;
+        if (WIFEXITED(status)) {
+            exit_code = WEXITSTATUS(status);
+        }
+
+        // timeout: 124 (GNU coreutils timeout)
+        if (exit_code == 124) {
+            std::cerr << "@run driver timeout@ " << name
+                      << " seed=" << seed
+                      << " cmd=" << cmd << "\n";
+            rr.ok = false;
+        } 
+        else if (exit_code != 0) {
+            std::cerr << "@run driver failed@ " << name
+                      << " exit=" << exit_code
+                      << " seed=" << seed
+                      << " cmd=" << cmd << "\n";
+            rr.ok = false;
+        }
+    }
+
+    return rr;
+}
+
+
 bool DriverMng::loadDriverList(const string& path) {
     json root;
     try {

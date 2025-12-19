@@ -2,7 +2,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from faddr2gid.faddr_map import FaddrMap
+from faddr2gid.faddr_gid import FaddrMap
 
 
 def main() -> int:

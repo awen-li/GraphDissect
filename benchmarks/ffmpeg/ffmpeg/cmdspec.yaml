@@ -1,0 +1,249 @@
+profile:
+  name: "ffmpeg"
+  binary: "ffmpeg"
+  domain: "media"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: ["-nostdin", "-y"]   # set global args to reduce output noise
+  io:
+    input:
+      kind: "flagged"
+      flag: "-i"    
+    output:
+      kind: "positional"
+      flag: "" 
+
+primary:
+  # ===== Per-file options (input/output behavior) =====
+
+  - id: "1"
+    cli: ["-f"]
+    kind: "choice"
+    metavar: "FMT"
+    choices:
+      - "null"     # decode-only sink
+      - "mp4"
+    defaults: ["null", "mp4"]
+    role: "mode"
+    group: "container"
+    include_in_search: true
+    output: "."
+    description: "Per-file container format (null for decode-only, others for remux/transcode)"
+
+  - id: "2"
+    cli: ["-t"]
+    kind: "value"
+    metavar: "DURATION"
+    value_template: "5"
+    defaults: ["1"]
+    role: "mode"
+    include_in_search: true
+    output: "out.wav, out.flac, out.mkv, out.mp4, out.webm, out.h264, out.png"
+    description: "Stop transcoding after specified duration (seconds)"
+
+  - id: "3"
+    cli: ["-to"]
+    kind: "value"
+    metavar: "TIME_STOP"
+    value_template: "00:00:05"
+    defaults: ["00:00:03", "00:00:05"]
+    role: "mode"
+    include_in_search: true
+    description: "Stop transcoding after specified timestamp is reached"
+
+  - id: "4"
+    cli: ["-ss"]
+    kind: "value"
+    metavar: "TIME_OFF"
+    value_template: "00:00:02"
+    defaults: ["00:00:01", "00:00:02"]
+    role: "mode"
+    include_in_search: true
+    description: "Start transcoding at specified time offset"
+
+  # ===== Per-stream generic options =====
+
+  - id: "5"
+    cli: ["-c"]
+    kind: "value"
+    metavar: "CODEC"
+    value_template: "copy"
+    defaults: ["copy", "mpeg4"]
+    role: "mode"
+    group: "codec_generic"
+    include_in_search: true
+    description: "Generic per-stream codec selector (with optional stream specifier)"
+
+  - id: "6"
+    cli: ["-filter"]
+    kind: "value"
+    metavar: "FILTER_GRAPH"
+    value_template: "scale=320:240"
+    defaults: ["scale=320:240"]
+    role: "mode"
+    group: "filter_generic"
+    include_in_search: true
+    description: "Generic per-stream filtergraph (with optional stream specifier)"
+
+  # ===== Video options =====
+
+  - id: "7"
+    cli: ["-r"]
+    kind: "value"
+    metavar: "VRATE"
+    value_template: "25"
+    defaults: ["24", "30"]
+    role: "mode"
+    include_in_search: true
+    description: "Override input framerate / set output video framerate (fps)"
+
+  - id: "8"
+    cli: ["-aspect"]
+    kind: "value"
+    metavar: "ASPECT"
+    value_template: "16:9"
+    defaults: ["4:3", "16:9"]
+    role: "mode"
+    include_in_search: true
+    description: "Set aspect ratio (e.g., 4:3, 16:9, or numeric value)"
+
+  - id: "9"
+    cli: ["-vn"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Disable video stream processing (audio-only)"
+
+  - id: "10"
+    cli: ["-vcodec"]
+    kind: "value"
+    metavar: "VCODEC"
+    value_template: "mpeg4"
+    defaults: ["copy", "mpeg4"]
+    role: "mode"
+    group: "vcodec"
+    include_in_search: true
+    description: "Alias for -c:v (select encoder/decoder for video streams)"
+
+  - id: "11"
+    cli: ["-vf"]
+    kind: "value"
+    metavar: "VFILTER"
+    value_template: "scale=320:240"
+    defaults: ["scale=320:240", "transpose=1"]
+    role: "mode"
+    include_in_search: true
+    description: "Alias for -filter:v (apply video filtergraph)"
+
+  - id: "12"
+    cli: ["-b"]
+    kind: "value"
+    metavar: "VBITRATE"
+    value_template: "500k"
+    defaults: ["200k", "500k"]
+    role: "mode"
+    include_in_search: true
+    description: "Video bitrate (legacy, use -b:v in modern usage)"
+
+  # ===== Audio options =====
+
+  - id: "13"
+    cli: ["-aq"]
+    kind: "value"
+    metavar: "QUALITY"
+    value_template: "2"
+    defaults: ["2", "5"]
+    role: "mode"
+    include_in_search: true
+    description: "Audio quality (codec-specific, often VBR scale)"
+
+  - id: "14"
+    cli: ["-ar"]
+    kind: "value"
+    metavar: "ARATE"
+    value_template: "44100"
+    defaults: ["44100", "48000"]
+    role: "mode"
+    include_in_search: true
+    description: "Audio sampling rate (Hz)"
+
+  - id: "15"
+    cli: ["-ac"]
+    kind: "value"
+    metavar: "CHANNELS"
+    value_template: "2"
+    defaults: ["1", "2"]
+    role: "mode"
+    include_in_search: true
+    description: "Number of audio channels"
+
+  - id: "16"
+    cli: ["-an"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Disable audio stream processing (video-only)"
+
+  - id: "17"
+    cli: ["-acodec"]
+    kind: "value"
+    metavar: "ACODEC"
+    value_template: "aac"
+    defaults: ["copy", "aac"]
+    role: "mode"
+    group: "acodec"
+    include_in_search: true
+    description: "Alias for -c:a (select encoder/decoder for audio streams)"
+
+  - id: "18"
+    cli: ["-ab"]
+    kind: "value"
+    metavar: "ABITRATE"
+    value_template: "128k"
+    defaults: ["96k", "128k"]
+    role: "mode"
+    include_in_search: true
+    description: "Alias for -b:a (audio bitrate)"
+
+  - id: "19"
+    cli: ["-af"]
+    kind: "value"
+    metavar: "AFILTER"
+    value_template: "volume=0.5"
+    defaults: ["volume=0.5", "aecho=0.8:0.9:1000:0.3"]
+    role: "mode"
+    include_in_search: true
+    description: "Alias for -filter:a (apply audio filtergraph)"
+
+  # ===== Subtitle options =====
+
+  - id: "20"
+    cli: ["-sn"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Disable subtitle stream processing"
+
+  - id: "21"
+    cli: ["-scodec"]
+    kind: "value"
+    metavar: "SCODEC"
+    value_template: "mov_text"
+    defaults: ["copy", "mov_text"]
+    role: "mode"
+    include_in_search: true
+    description: "Alias for -c:s (select encoder/decoder for subtitle streams)"
+
+constraints:
+  # Overwrite behavior is mutually exclusive
+  - type: "at_most_one_from_group"
+    group: "overwrite"
+
+  # Single loglevel at a time
+  - type: "at_most_one_from_group"
+    group: "loglevel"
+
+  # Only one graph configuration active if graph options are used
+  - type: "at_most_one_from_group"
+    group: "graphs"
+    

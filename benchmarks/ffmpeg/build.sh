@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 export ROOT="$(pwd)"
-export target="FFmpeg"
+export target="ffmpeg_source"
+
 executables=("ffmpeg" "ffprobe")
 
 Action="$1"
@@ -35,18 +36,18 @@ wllvm_compile() {
     export RANLIB="llvm-ranlib"
     export NM="llvm-nm"
 
-    COMMON_FLAGS="-g -O2 \
+    COMMON_FLAGS="-g -pg -O2 \
                   -fno-discard-value-names \
                   -fno-inline-functions \
-                  -fno-inline-functions-called-once \
                   -mllvm -inline-threshold=0"
 
     export CFLAGS="${COMMON_FLAGS}"
     export CXXFLAGS="${COMMON_FLAGS}"
-    export LDFLAGS=""
+    export LDFLAGS="-pg"
 
     build_dir="build-wllvm"
     rm -rf "$build_dir" && mkdir "$build_dir"
+
     cd "$build_dir"
     ../"$target"/configure \
         --cc="$CC" \
@@ -62,10 +63,11 @@ wllvm_compile() {
         --disable-stripping \
         --enable-static \
         --disable-shared \
-        --disable-x86asm
+        --disable-x86asm \
+        --extra-cflags="$COMMON_FLAGS" \
+        --extra-ldflags="-pg"
     make -j8
     cd "$ROOT"
-
 
     handle_executable "$build_dir" "${executables[@]}"
 }
@@ -81,6 +83,7 @@ hfuzz_compile() {
 
     build_dir="build-hfuzz"
     rm -rf "$build_dir" && mkdir "$build_dir"
+
     cd "$build_dir"
     ../"$target"/configure \
         --cc="$CC" \
@@ -94,14 +97,27 @@ hfuzz_compile() {
         --enable-static \
         --disable-shared \
         --disable-x86asm
-
     make -j"$(nproc)"
     cd "$ROOT"
+
+    copy_executable "$build_dir" "${executables[@]}"
 }
 
 
 if [ "$Action" == "clean" ]; then
-    clean
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
+    exit 0
+fi
+
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
     exit 0
 fi
 

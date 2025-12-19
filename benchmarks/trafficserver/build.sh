@@ -2,7 +2,9 @@
 
 export ROOT="$(pwd)"
 export target="trafficserver"
-executables=("traffic_server")
+executables1=("traffic_server")
+executables2=("traffic_ctl")
+executables3=("traffic_layout")
 
 Action="$1"
 
@@ -52,7 +54,9 @@ wllvm_compile() {
     cd "$ROOT"
 
     # Register the main binary (for wllvm bitcode extraction, etc.)
-    handle_executable "$target/build/src/" "${executables[@]}"
+    handle_executable "$target/build/src/traffic_server" "${executables1[@]}"
+    handle_executable "$target/build/src/traffic_ctl"    "${executables2[@]}"
+    handle_executable "$target/build/src/traffic_layout" "${executables3[@]}"
 }
 
 hfuzz_compile() {

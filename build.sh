@@ -34,5 +34,7 @@ else
 fi
 
 # 3. build mfuzz
+cd $BASE_DIR/mfuzz/comlib && make clean && make
 cd $BASE_DIR/mfuzz && ./build.sh && cd $BASE_DIR
+cd $BASE_DIR/mfuzz && pip install .
 

@@ -3,7 +3,7 @@
 export ROOT="$(pwd)"
 export target="libpng"
 # CMake puts the tools in the build/ dir
-executables=("pngfix" "pngimage" "pngtest" "pngunknown" "pngvalid")
+executables=("pngfix" "pngimage" "pngvalid")
 
 Action="$1"
 

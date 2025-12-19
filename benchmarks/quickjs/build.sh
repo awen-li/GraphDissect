@@ -4,7 +4,7 @@ export ROOT="$(pwd)"
 export target="quickjs"
 
 Action="$1"
-executables=("qjs")
+executables=("qjs" "qjsc")
 
 # load library
 source ../__scripts__/base.sh
@@ -46,7 +46,7 @@ wllvm_compile() {
         cd "$target"
         make clean || true
         # CC on the command line overrides CC=$(CROSS_PREFIX)clang/gcc in the Makefile
-        make -j8 CC="$CC"
+        make -j8 CC="$CC" LDFLAGS="-pg" qjs qjsc
     )
 
     handle_executable "$target" "${executables[@]}"
@@ -69,13 +69,27 @@ hfuzz_compile() {
     (
         cd "$target"
         make clean || true
-        make -j8 CC="$CC"
+        make -j8 CC="$CC" qjs qjsc
     )
+
+    copy_executable "$target" "${executables[@]}"
 }
 
 
 if [ "$Action" == "clean" ]; then
-    clean
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
+    exit 0
+fi
+
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
     exit 0
 fi
 

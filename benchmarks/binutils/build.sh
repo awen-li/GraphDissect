@@ -4,7 +4,7 @@ export ROOT=`pwd`
 export target=binutils-gdb
 
 Action=$1
-executables=("objdump" "readelf" "addr2line" "nm-new" "ranlib" "strings" "strip-new" "elfedit")
+executables=("objdump" "readelf" "addr2line")
 
 # load library
 source ../__scripts__/base.sh 
@@ -40,7 +40,7 @@ function wllvm_compile ()
 	export CC=wllvm
 	export CXX=wllvm++
 
-	COMMON_FLAGS="-pg -g -O2 -save-temps=obj \
+	COMMON_FLAGS="-g -O2 -save-temps=obj \
 				-fno-discard-value-names \
 				-fno-inline-functions \
 				-fno-inline-functions-called-once \
@@ -59,6 +59,8 @@ function wllvm_compile ()
 	../$target/configure --disable-gprofng --disable-nls --disable-gdb --disable-gdbserver --disable-sim
 	make -j4
 	cd ..
+
+	handle_executable $build_dir/binutils $executables
 }
 
 function hfuzz_compile ()
@@ -79,14 +81,27 @@ function hfuzz_compile ()
 	../$target/configure --disable-gprofng --disable-nls --disable-gdb --disable-gdbserver --disable-sim
 	make -j4
 	cd -
+
+	copy_executable $build_dir/binutils $executables
 }
 
 
 if [ "$Action" == "clean" ]; then
-	clean
-	exit 0
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
+    exit 0
 fi
 
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
+    exit 0
+fi
 
 cd $ROOT
 compile

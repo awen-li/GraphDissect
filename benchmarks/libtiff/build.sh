@@ -2,7 +2,7 @@
 
 export ROOT="$(pwd)"
 export target="libtiff"
-executables=("tiff2bw" "tiffcrop" "tiffcp" "tiff2pdf" "tiff2ps" "tiff2rgba" "tiffinfo" "fax2tiff" "fax2ps" "pal2rgb" "ppm2tiff" "raw2tiff")
+executables=("tiff2bw" "tiff2pdf" "tiffinfo")
 
 Action=$1
 
@@ -58,7 +58,7 @@ wllvm_compile() {
     make -j8
     cd $ROOT
 
-    #handle_executable "$target/tools" "${executables[@]}"
+    handle_executable "$target/tools" "${executables[@]}"
 }
 
 
@@ -80,12 +80,24 @@ hfuzz_compile() {
     make -j8
     cd "$ROOT"
 
-    #copy_executable "$target/tools" "${executables[@]}"
+    copy_executable "$target/tools" "${executables[@]}"
 }
 
 
-if [ "${Action}" == "clean" ]; then
-    clean
+if [ "$Action" == "clean" ]; then
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
+    exit 0
+fi
+
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
     exit 0
 fi
 

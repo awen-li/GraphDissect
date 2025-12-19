@@ -2,7 +2,7 @@
 
 export ROOT="$(pwd)"
 export target="hdf5"
-executables=("h5dump" "h5ls" "h5diff" "h5stat" "h5repack")
+executables=("h5dump" "h5ls" "h5repack")
 
 Action="$1"
 
@@ -29,7 +29,7 @@ wllvm_compile() {
     export CC="wllvm"
     export CXX="wllvm++"
 
-    COMMON_C_FLAGS="-g -O2 \
+    COMMON_C_FLAGS="-g -O2 -pg \
                     -fno-discard-value-names \
                     -fno-inline-functions \
                     -fno-inline-functions-called-once \
@@ -41,7 +41,6 @@ wllvm_compile() {
     export CXXFLAGS="${COMMON_CXX_FLAGS}"
 
     cd "$target"
-
     rm -rf build
     cmake -S . -B build \
         -DCMAKE_C_COMPILER="$CC" \
@@ -56,9 +55,7 @@ wllvm_compile() {
         -DBUILD_SHARED_LIBS=OFF \
         -DBUILD_STATIC_LIBS=ON \
         -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${PWD}/build/bin"
-
     cmake --build build -j8
-
     cd "$ROOT"
 
     handle_executable "$target/build/bin" "${executables[@]}"
@@ -81,7 +78,6 @@ hfuzz_compile() {
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}
 
     cd "$target"
-
     rm -rf build
     cmake -S . -B build \
         -DCMAKE_C_COMPILER="$CC" \
@@ -96,14 +92,26 @@ hfuzz_compile() {
         -DBUILD_SHARED_LIBS=OFF \
         -DBUILD_STATIC_LIBS=ON \
         -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${PWD}/build/bin"
-
     cmake --build build -j8
-
     cd "$ROOT"
+
+    copy_executable "$target/build/bin" "${executables[@]}"
 }
 
-if [ "${Action}" == "clean" ]; then
-    clean
+if [ "$Action" == "clean" ]; then
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
+    exit 0
+fi
+
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
     exit 0
 fi
 

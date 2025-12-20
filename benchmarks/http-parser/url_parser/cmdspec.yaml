@@ -1,0 +1,38 @@
+profile:
+  name: "url_parser"
+  binary: "url_parser"
+  domain: "network_and_protocols"
+  seed_dir: "seeds"
+  max_combination: 1
+  io:
+    input:
+      kind: "positional"
+      flag: ""        # url is positional
+
+primary:
+  - id: "1"
+    cli: ["connect"]
+    kind: "positional_choice"
+    metavar: "MODE"
+    choices: ["connect"]
+    defaults: ["connect"]
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Parse URL for connect-style components (host/port etc.)"
+
+  - id: "2"
+    cli: ["get"]
+    kind: "positional_choice"
+    metavar: "MODE"
+    choices: ["get"]
+    defaults: ["get"]
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Parse URL for HTTP GET-style request components"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "mode"
+

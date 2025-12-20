@@ -1,0 +1,40 @@
+profile:
+  name: "parsertrace"
+  binary: "parsertrace"
+  domain: "network_and_protocols"
+  seed_dir: "seeds"
+  max_combination: 1
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "ptype"
+    include_in_search: true
+    description: "Parse file as HTTP Response"
+
+  - id: "2"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    group: "ptype"
+    include_in_search: true
+    description: "Parse file as HTTP reQuest"
+
+  - id: "3"
+    cli: ["-b"]
+    kind: "flag"
+    role: "mode"
+    group: "ptype"
+    include_in_search: true
+    description: "Parse file as Both request and response"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "ptype"
+

@@ -58,7 +58,19 @@ hfuzz_compile() {
 }
 
 if [ "$Action" == "clean" ]; then
-    clean
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
+    exit 0
+fi
+
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
     exit 0
 fi
 

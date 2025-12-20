@@ -1,0 +1,277 @@
+profile:
+  name: "h5repack"
+  binary: "h5repack"
+  domain: "data"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-n", "--native"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Use native HDF5 types when repacking."
+
+  - id: "2"
+    cli: ["-L", "--latest"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Use latest file format; takes precedence over --low/--high."
+
+  - id: "3"
+    cli: ["--low"]
+    kind: "value"
+    metavar: "BOUND"
+    value_template: "0"
+    defaults: ["0", "2"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Low bound for library release versions (H5F_LIBVER_* index)."
+
+  - id: "4"
+    cli: ["--high"]
+    kind: "value"
+    metavar: "BOUND"
+    value_template: "5"
+    defaults: ["3", "5"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "High bound for library release versions (H5F_LIBVER_* index)."
+
+  # ===== External links handling =====
+
+  - id: "5"
+    cli: ["--merge"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Follow external soft links recursively and merge data."
+
+  - id: "6"
+    cli: ["--prune"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Do not follow external soft links and remove link (or dangling)."
+
+  # ===== Group / link / shared header thresholds =====
+
+  - id: "7"
+    cli: ["-c", "--compact"]
+    kind: "value"
+    metavar: "L1"
+    value_template: "10"
+    defaults: ["10"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Maximum number of links in header messages (compact)."
+
+  - id: "8"
+    cli: ["-d", "--indexed"]
+    kind: "value"
+    metavar: "L2"
+    value_template: "20"
+    defaults: ["20"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Minimum number of links in the indexed format."
+
+  - id: "9"
+    cli: ["-s", "--ssize"]
+    kind: "value"
+    metavar: "S[:F]"
+    value_template: "20:dtype"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Shared object header minimum size (optionally per-message type)."
+
+  # ===== Filters / layout =====
+
+  - id: "10"
+    cli: ["-f", "--filter"]
+    kind: "value"
+    metavar: "FILT"
+    value_template: "GZIP=1"
+    defaults: ["GZIP=1", "SHUF", "NONE"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Filter specification string (GZIP, SZIP, SHUF, FLET, NBIT, SOFF, UD, NONE)."
+
+  - id: "11"
+    cli: ["-l", "--layout"]
+    kind: "value"
+    metavar: "LAYT"
+    value_template: "dset1:CHUNK=20x10"
+    defaults: ["CHUNK=20x10", "COMPA", "CONTI"]
+    role: "mode"
+    include_in_search: true
+    description: "Layout specification string (CHUNK/COMPA/CONTI)."
+
+  - id: "12"
+    cli: ["-m", "--minimum"]
+    kind: "value"
+    metavar: "M"
+    value_template: "1024"
+    defaults: ["0", "1024"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Do not apply filter to datasets smaller than M bytes."
+
+  # ===== User block / metadata / alignment =====
+
+  - id: "13"
+    cli: ["-u", "--ublock"]
+    kind: "value"
+    metavar: "U"
+    value_template: "ublock.bin"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "File with user block data to be added."
+
+  - id: "14"
+    cli: ["-b", "--block"]
+    kind: "value"
+    metavar: "B"
+    value_template: "1024"
+    defaults: ["512", "1024"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "User block size (>=512 and power of 2)."
+
+  - id: "15"
+    cli: ["-M", "--metadata_block_size"]
+    kind: "value"
+    metavar: "A"
+    value_template: "4096"
+    defaults: ["4096"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Metadata block size for H5Pset_meta_block_size."
+
+  - id: "16"
+    cli: ["-t", "--threshold"]
+    kind: "value"
+    metavar: "T"
+    value_template: "1"
+    defaults: ["1", "4096"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Threshold for H5Pset_alignment."
+
+  - id: "17"
+    cli: ["-a", "--alignment"]
+    kind: "value"
+    metavar: "A"
+    value_template: "4096"
+    defaults: ["4096"]
+    role: "mode"
+    include_in_search: true
+    description: "Alignment value for H5Pset_alignment (>0)."
+
+  # ===== Sorting / file space management =====
+
+  - id: "18"
+    cli: ["-q", "--sort_by"]
+    kind: "value"
+    metavar: "Q"
+    value_template: "creation_order"
+    defaults: ["name", "creation_order"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Sort index type: 'name' or 'creation_order'."
+
+  - id: "19"
+    cli: ["-z", "--sort_order"]
+    kind: "value"
+    metavar: "Z"
+    value_template: "ascending"
+    defaults: ["ascending", "descending"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Sort order: 'ascending' or 'descending'."
+
+  - id: "20"
+    cli: ["-S", "--fs_strategy"]
+    kind: "value"
+    metavar: "FS_STRATEGY"
+    value_template: "FSM_AGGR"
+    defaults: ["FSM_AGGR", "PAGE", "AGGR", "NONE"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "File space management strategy."
+
+  - id: "21"
+    cli: ["-P", "--fs_persist"]
+    kind: "value"
+    metavar: "FS_PERSIST"
+    value_template: "1"
+    defaults: ["0", "1"]
+    role: "mode"
+    include_in_search: true
+    description: "Persist (1) or not persist (0) free-space."
+
+  - id: "22"
+    cli: ["-T", "--fs_threshold"]
+    kind: "value"
+    metavar: "FS_THRESHOLD"
+    value_template: "1"
+    defaults: ["1", "4096"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Minimum size of free-space sections to track."
+
+  - id: "23"
+    cli: ["-G", "--fs_pagesize"]
+    kind: "value"
+    metavar: "FS_PAGESIZE"
+    value_template: "4096"
+    defaults: ["4096"]
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "File space page size (>=512) for PAGE strategy."
+
+  # ===== External options file =====
+
+  - id: "24"
+    cli: ["-e", "--file"]
+    kind: "value"
+    metavar: "E"
+    value_template: "config.txt"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    output: "out.h5"
+    description: "Name of file with -f and -l option definitions."
+
+constraints: []

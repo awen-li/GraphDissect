@@ -1,0 +1,1 @@
+http://example.com/%7Euser/%2Fpath?x=%00%ff

@@ -1,0 +1,144 @@
+profile:
+  name: "bsdunzip"
+  binary: "bsdunzip"
+  domain: "archiving"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""          # zipfile is positional
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  ####################################################################
+  # PRIMARY MODES / COMMONLY USED OPTIONS
+  # (from: unzip [-aCcfjLlnopqtuvyZ1] ... zipfile [member ...])
+  ####################################################################
+
+  - id: "1"
+    cli: ["-l"]
+    kind: "flag"
+    role: "mode"
+    group: "unzip_mode"
+    include_in_search: true
+    description: "List archive contents"
+
+  - id: "2"
+    cli: ["-t"]
+    kind: "flag"
+    role: "mode"
+    group: "unzip_mode"
+    include_in_search: true
+    description: "Test archive integrity"
+
+  - id: "3"
+    cli: ["-p"]
+    kind: "flag"
+    role: "mode"
+    group: "unzip_mode"
+    include_in_search: true
+    description: "Extract to stdout (avoid filesystem writes)"
+
+  - id: "4"
+    cli: ["-o"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Overwrite existing files without prompting"
+
+  - id: "5"
+    cli: ["-n"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Never overwrite existing files"
+
+  - id: "6"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Quiet mode"
+
+  - id: "7"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Verbose listing"
+
+  - id: "8"
+    cli: ["-Z1"]
+    kind: "flag"
+    role: "mode"
+    group: "list_style"
+    include_in_search: true
+    description: "List in a compact style (-Z1)"
+
+  - id: "9"
+    cli: ["-d"]
+    kind: "value"
+    metavar: "DIR"
+    value_template: "out"
+    defaults: ["out"]
+    role: "mode"
+    group: "out_dir"
+    include_in_search: true
+    description: "Extract into directory"
+
+  - id: "10"
+    cli: ["-x"]
+    kind: "value"
+    metavar: "PATTERN"
+    value_template: "*.txt"
+    defaults: ["*.txt", "*"]
+    role: "mode"
+    group: "exclude"
+    include_in_search: true
+    description: "Exclude files matching pattern"
+
+  # encoding knob in usage: [{-O|-I} encoding]
+  - id: "11"
+    cli: ["-O"]
+    kind: "value"
+    metavar: "ENC"
+    value_template: "UTF-8"
+    defaults: ["UTF-8"]
+    role: "mode"
+    group: "encoding"
+    include_in_search: true
+    description: "Set output character encoding"
+
+  - id: "12"
+    cli: ["-I"]
+    kind: "value"
+    metavar: "ENC"
+    value_template: "UTF-8"
+    defaults: ["UTF-8"]
+    role: "mode"
+    group: "encoding"
+    include_in_search: true
+    description: "Set input character encoding"
+
+constraints:
+  # Choose at most one primary mode: list/test/stdout-extract
+  - type: "at_most_one_from_group"
+    group: "unzip_mode"
+
+  # Overwrite flags conflict
+  - type: "at_most_one_from_group"
+    group: "overwrite"
+    # (if your engine requires explicit group tagging, set group for -o/-n to "overwrite")
+    # If not supported, keep both flags but your generator should avoid combining them.
+
+  # Encoding flags are mutually exclusive
+  - type: "at_most_one_from_group"
+    group: "encoding"
+
+  # Listing styles: at most one
+  - type: "at_most_one_from_group"
+    group: "list_style"
+

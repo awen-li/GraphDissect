@@ -5,10 +5,8 @@ export target="libarchive"
 
 # CLI tools as drivers (paths relative to $target)
 executables=(
-    "tar/bsdtar"
-    "cpio/bsdcpio"
-    "cat/bsdcat"
-    "unzip/bsdunzip"
+    "bsdtar"
+    "bsdunzip"
 )
 
 Action="$1"
@@ -38,8 +36,8 @@ initialize() {
     mv "libarchive-${LIBARCHIVE_VERSION}" "${target}"
 }
 
-wllvm_compile() {
-    initialize
+wllvm_compile() 
+{
 
     export LLVM_COMPILER=clang
     export CC="wllvm"
@@ -70,9 +68,8 @@ wllvm_compile() {
     handle_executable "$target" "${executables[@]}"
 }
 
-hfuzz_compile() {
-    initialize
-
+hfuzz_compile() 
+{
     export CC="hfuzz-clang -g -O2 -fsanitize-coverage=trace-pc-guard -finstrument-functions"
     export CXX="hfuzz-clang++ -g -O2 -fsanitize-coverage=trace-pc-guard -finstrument-functions"
 
@@ -91,10 +88,24 @@ hfuzz_compile() {
     cd "$ROOT"
 }
 
-if [ "${Action}" == "clean" ]; then
-    clean
+
+if [ "$Action" == "clean" ]; then
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
     exit 0
 fi
+
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
+    exit 0
+fi
+
 
 cd "$ROOT"
 compile

@@ -1,0 +1,152 @@
+profile:
+  name: "bsdtar"
+  binary: "bsdtar"
+  domain: "archiving"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    # we fuzz the archive file itself (positional patterns are optional)
+    input:
+      kind: "flagged"
+      flag: "-f"
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  ####################################################################
+  # PRIMARY MODES (first option must be a mode specifier)
+  ####################################################################
+
+  - id: "1"
+    cli: ["-t"]
+    kind: "flag"
+    role: "mode"
+    group: "tar_mode"
+    include_in_search: true
+    description: "List archive entries"
+
+  - id: "2"
+    cli: ["-x"]
+    kind: "flag"
+    role: "mode"
+    group: "tar_mode"
+    include_in_search: true
+    description: "Extract archive entries"
+
+  - id: "3"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "tar_mode"
+    include_in_search: true
+    description: "Create archive (less suitable for file-fuzzing, but kept as a mode)"
+
+  ####################################################################
+  # ARCHIVE LOCATION (file-based fuzzing uses -f <archive>)
+  ####################################################################
+
+  - id: "4"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "ARCHIVE"
+    value_template: "@@"
+    defaults: ["@@"]
+    role: "io"
+    include_in_search: true
+    description: "Archive file path"
+
+  ####################################################################
+  # COMPRESSION (mutually exclusive)
+  ####################################################################
+
+  - id: "5"
+    cli: ["-z"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    description: "gzip compression"
+
+  - id: "6"
+    cli: ["-j"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    description: "bzip2 compression"
+
+  - id: "7"
+    cli: ["-J"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    description: "xz compression"
+
+  - id: "8"
+    cli: ["--lzma"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    description: "lzma compression"
+
+  ####################################################################
+  # FORMAT (create-mode relevant, but safe to keep as primary knob)
+  ####################################################################
+
+  - id: "9"
+    cli: ["--format"]
+    kind: "choice"
+    metavar: "FMT"
+    choices: ["ustar", "pax", "cpio", "shar"]
+    defaults: ["ustar", "pax"]
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Select archive format"
+
+  ####################################################################
+  # SAFE EXTRACT/LIST OPTIONS (avoid interactive / filesystem-heavy ones)
+  ####################################################################
+
+  - id: "10"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Verbose"
+
+  - id: "11"
+    cli: ["-O"]
+    kind: "flag"
+    role: "mode"
+    group: "extract_output"
+    include_in_search: true
+    description: "Write extracted entries to stdout (avoid writing to disk)"
+
+  - id: "12"
+    cli: ["-m"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Do not restore modification times"
+
+constraints:
+  # one main mode
+  - type: "exactly_one_from_group"
+    group: "tar_mode"
+
+  # at most one compression method
+  - type: "at_most_one_from_group"
+    group: "compress"
+
+  # at most one format
+  - type: "at_most_one_from_group"
+    group: "format"
+
+  # at most one extract output mode knob (currently only -O)
+  - type: "at_most_one_from_group"
+    group: "extract_output"
+

@@ -1,0 +1,163 @@
+profile:
+  name: "pdftops"
+  binary: "pdftops"
+  domain: "document"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""    
+    output:
+      kind: "positional"
+      flag: "" 
+
+
+primary:
+  # ===== Output mode / PostScript level =====
+  - id: "1"
+    cli: []
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-default.ps" 
+    description: "Default PostScript output"
+
+  - id: "2"
+    cli: ["-level1"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level1.ps"
+    description: "Generate Level 1 PostScript"
+
+  - id: "3"
+    cli: ["-level1sep"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level1sep.ps"
+    description: "Generate Level 1 separable PostScript"
+
+  - id: "4"
+    cli: ["-level2"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level2.ps"
+    description: "Generate Level 2 PostScript"
+
+  - id: "5"
+    cli: ["-level2gray"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level2gray.ps"
+    description: "Generate Level 2 grayscale PostScript"
+
+  - id: "6"
+    cli: ["-level2sep"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level2sep.ps"
+    description: "Generate Level 2 separable PostScript"
+
+  - id: "7"
+    cli: ["-level3"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level3.ps"
+    description: "Generate Level 3 PostScript"
+
+  - id: "8"
+    cli: ["-level3gray"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level3gray.ps"
+    description: "Generate Level 3 grayscale PostScript"
+
+  - id: "9"
+    cli: ["-level3sep"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-level3sep.ps"
+    description: "Generate Level 3 separable PostScript"
+
+  - id: "10"
+    cli: ["-eps"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-eps.ps"
+    description: "Generate Encapsulated PostScript (EPS)"
+
+  - id: "11"
+    cli: ["-form"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "ps-form.ps"
+    description: "Generate a PostScript form"
+
+second:
+  # ===== Page range =====
+  - id: "12"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "FIRST"
+    value_template: "1"
+    defaults: ["1"]
+    role: "modifier"
+    include_in_search: true
+    description: "First page to print"
+
+  - id: "13"
+    cli: ["-l"]
+    kind: "value"
+    metavar: "LAST"
+    value_template: "3"
+    defaults: ["3"]
+    role: "modifier"
+    include_in_search: true
+    description: "Last page to print"
+
+  # ===== Paper size / dimensions =====
+  - id: "14"
+    cli: ["-paper"]
+    kind: "value"
+    metavar: "SIZE"
+    value_template: "letter"
+    defaults: ["letter"]
+    role: "modifier"
+    include_in_search: true
+    description: "Paper size (letter, legal, A4, A3, match)"
+
+  - id: "15"
+    cli: ["-paperw"]
+    kind: "value"
+    metavar: "PTS"
+    value_template: "612"
+    defaults: ["612"]
+    role: "modifier"
+    include_in_search: true
+    description: "Paper width, in points"
+
+  - id: "16"
+    cli: ["-paperh"]
+    kind: "value"
+    metavar: "PTS"
+    value_template: "792"
+    defaults: ["792"]
+    role: "modifier"
+    include_in_search: true
+    description: "Paper height, in points"
+
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "verbosity"
+

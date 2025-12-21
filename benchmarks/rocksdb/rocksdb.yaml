@@ -1,6 +1,0 @@
-project: rocksdb
-oss_fuzz_project_dir: projects/rocksdb
-main_repo: https://github.com/facebook/rocksdb
-language: c++
-domain: metadata
-loc: 541059

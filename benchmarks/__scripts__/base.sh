@@ -119,7 +119,7 @@ function handle_executable()
         fi
 
 		# generate driver
-		 python -m gdriver $benchpath
+	 python -m gdriver $benchpath
     done
 }
 

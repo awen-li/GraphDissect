@@ -4,7 +4,7 @@ export ROOT=`pwd`
 export target=xpdf-4.06
 
 Action=$1
-executables=("pdfdetach" "pdfinfo" "pdftohtml")
+executables=("pdfdetach" "pdfinfo" "pdftops")
 
 # load library
 source ../__scripts__/base.sh

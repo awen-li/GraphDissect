@@ -1,0 +1,81 @@
+profile:
+  name: "qjs"
+  binary: "qjs"
+  domain: "javascript"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  io:
+    input:
+      kind: "positional"       # qjs file.js
+      flag: null
+
+    output:
+      kind: "positional"       # qjs does not have explicit output files
+      flag: null
+
+
+primary:
+  # ----------------------------------------------------
+  # Execution modes (semantic-level behavior)
+  # ----------------------------------------------------
+
+  - id: "1"
+    cli: ["-e", "--eval"]
+    kind: "value"
+    metavar: "EXPR"
+    value_template: "1+2"
+    defaults: ["1+2"]
+    role: "mode"
+    include_in_search: true
+    description: "Evaluate an expression instead of running a file"
+
+  - id: "2"
+    cli: ["-i", "--interactive"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: false
+    description: "Force REPL/interactive mode"
+
+  - id: "3"
+    cli: ["-m", "--module"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    group: "load_mode"
+    description: "Load input as ES6 module"
+
+  - id: "4"
+    cli: ["--script"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    group: "load_mode"
+    description: "Load input as ES6 script"
+
+  - id: "5"
+    cli: ["--strict"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Force strict mode"
+
+  - id: "6"
+    cli: ["-T", "--trace"]
+    kind: "flag"
+    role: "modifier"
+    include_in_search: true
+    description: "Trace memory allocation"
+
+  - id: "7"
+    cli: ["-d", "--dump"]
+    kind: "flag"
+    role: "modifier"
+    include_in_search: true
+    description: "Dump memory usage statistics"
+
+
+constraints:
+  # --module and --script cannot be combined
+  - type: "at_most_one_from_group"
+    group: "load_mode"

@@ -9,14 +9,16 @@ executables=("qjs" "qjsc")
 # load library
 source ../__scripts__/base.sh
 
-ensure_makefile() {
+ensure_makefile() 
+{
     if [ ! -f "$target/Makefile" ]; then
         echo "[quickjs] ERROR: Makefile missing in $target"
         exit 1
     fi
 }
 
-initialize() {
+initialize() 
+{
     if [ -d "$target" ]; then
         rm -rf $target
     fi
@@ -25,7 +27,8 @@ initialize() {
     ensure_makefile
 }
 
-wllvm_compile() {
+wllvm_compile() 
+{
     # compiler only
     export CC="wllvm"
     export CXX="wllvm++"
@@ -52,7 +55,8 @@ wllvm_compile() {
     handle_executable "$target" "${executables[@]}"
 }
 
-hfuzz_compile() {
+hfuzz_compile() 
+{
     # compiler only
     export CC="hfuzz-clang"
     export CXX="hfuzz-clang++"

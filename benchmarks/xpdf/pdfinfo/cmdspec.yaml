@@ -1,0 +1,90 @@
+profile:
+  name: "pdfinfo"
+  binary: "pdfinfo"
+  domain: "document"
+  seed_dir: "seeds"
+  max_combination: 2
+
+primary:
+  # ===== High-level modes / views =====
+  - id: "1"
+    cli: []
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Default document information output"
+
+  - id: "2"
+    cli: ["-box"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print the page bounding boxes"
+
+  - id: "3"
+    cli: ["-meta"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print the document metadata (XML)"
+
+  - id: "4"
+    cli: ["-rawdates"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print undecoded date strings directly from the PDF file"
+
+  - id: "5"
+    cli: ["-custom"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print the custom info dictionary fields"
+
+second:
+  # ===== Page range =====
+  - id: "1"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "FIRST"
+    value_template: "1"
+    defaults: ["1"]
+    role: "modifier"
+    include_in_search: true
+    description: "First page to report"
+
+  - id: "2"
+    cli: ["-l"]
+    kind: "value"
+    metavar: "LAST"
+    value_template: "3"
+    defaults: ["3"]
+    role: "modifier"
+    include_in_search: true
+    description: "Last page to report"
+
+  # ===== Encoding =====
+  - id: "3"
+    cli: ["-enc"]
+    kind: "value"
+    metavar: "ENC"
+    value_template: "utf-8"
+    defaults: ["utf-8"]
+    role: "modifier"
+    include_in_search: true
+    description: "Output text encoding name"
+
+
+  # ===== Config file =====
+  - id: "4"
+    cli: ["-cfg"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "xpdfrc"
+    defaults: ["xpdfrc"]
+    role: "modifier"
+    include_in_search: true
+    description: "Configuration file to use instead of .xpdfrc"
+
+constraints: []

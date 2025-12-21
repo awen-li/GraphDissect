@@ -1,0 +1,141 @@
+profile:
+  name: "pdftohtml"
+  binary: "pdftohtml"
+  domain: "pdf"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""    
+    output:
+      kind: "positional"
+      flag: "" 
+
+
+primary:
+  # ===== High-level modes (different HTML extraction styles) =====
+  - id: "1"
+    cli: []
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "html-default"   # base html-dir; refined per driver
+    description: "Default HTML conversion"
+
+  - id: "2"
+    cli: ["-table"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "html-table"
+    description: "Use table mode for text extraction"
+
+  - id: "3"
+    cli: ["-formfields"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "html-formfields"
+    description: "Convert form fields to HTML"
+
+  - id: "4"
+    cli: ["-embedbackground"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "html-embedbg"
+    description: "Embed background image as base64-encoded data"
+
+second:
+  # ===== Page range =====
+  - id: "1"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "FIRST"
+    value_template: "1"
+    defaults: ["1", "2"]
+    role: "modifier"
+    include_in_search: true
+    description: "First page to convert"
+
+  - id: "2"
+    cli: ["-l"]
+    kind: "value"
+    metavar: "LAST"
+    value_template: "3"
+    defaults: ["3", "5"]
+    role: "modifier"
+    include_in_search: true
+    description: "Last page to convert"
+
+  # ===== Zoom / resolution / stretch =====
+  - id: "3"
+    cli: ["-z"]
+    kind: "value"
+    metavar: "ZOOM"
+    value_template: "1.0"
+    defaults: ["1.0"]
+    role: "modifier"
+    include_in_search: true
+    description: "Initial zoom level (1.0 means 72dpi)"
+
+  - id: "4"
+    cli: ["-r"]
+    kind: "value"
+    metavar: "DPI"
+    value_template: "150"
+    defaults: ["150", "300"]
+    role: "modifier"
+    include_in_search: true
+    description: "Resolution in DPI (default 150)"
+
+  - id: "5"
+    cli: ["-vstretch"]
+    kind: "value"
+    metavar: "FACTOR"
+    value_template: "1.0"
+    defaults: ["1.0", "1.5"]
+    role: "modifier"
+    include_in_search: true
+    description: "Vertical stretch factor (1.0 means no stretching)"
+
+  # ===== Fonts / font embedding =====
+  - id: "6"
+    cli: ["-nofonts"]
+    kind: "flag"
+    role: "modifier"
+    group: "fonts"
+    include_in_search: true
+    description: "Do not extract embedded fonts"
+
+  - id: "7"
+    cli: ["-embedfonts"]
+    kind: "flag"
+    role: "modifier"
+    group: "fonts"
+    include_in_search: true
+    description: "Embed fonts as base64-encoded data"
+
+  - id: "8"
+    cli: ["-allinvisible"]
+    kind: "flag"
+    role: "modifier"
+    group: "visibility"
+    include_in_search: true
+    description: "Treat all text as invisible"
+
+  - id: "14"
+    cli: ["-meta"]
+    kind: "flag"
+    role: "modifier"
+    include_in_search: true
+    description: "Include document metadata in the HTML output"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "fonts"
+  - type: "at_most_one_from_group"
+    group: "visibility"
+  - type: "at_most_one_from_group"
+    group: "verbosity"

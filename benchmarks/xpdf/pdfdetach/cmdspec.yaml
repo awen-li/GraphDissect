@@ -1,0 +1,72 @@
+profile:
+  name: "pdfdetach"
+  binary: "pdfdetach"
+  domain: "pdf"
+  seed_dir: "seeds"
+  max_combination: 2
+
+primary:
+  # ===== Main behavior modes (mutually exclusive) =====
+  - id: "1"
+    cli: ["-list"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "List all embedded files in the PDF"
+
+  - id: "2"
+    cli: ["-save"]
+    kind: "value"
+    metavar: "INDEX"
+    value_template: "1"
+    defaults: ["1"]
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Save the embedded file with the given index"
+
+  - id: "3"
+    cli: ["-saveall"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Save all embedded files"
+
+second:
+  # ===== Output control / encoding =====
+  - id: "1"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "output.bin"
+    defaults: ["output.bin"]
+    role: "modifier"
+    include_in_search: true
+    description: "File name for the saved embedded file"
+
+  - id: "2"
+    cli: ["-enc"]
+    kind: "choice"
+    metavar: "ENCODING"
+    choices:
+      - "UTF-8"
+    defaults: ["UTF-8"]
+    role: "modifier"
+    include_in_search: true
+    description: "Output text encoding name"
+
+  - id: "3"
+    cli: ["-cfg"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "xpdfrc"
+    defaults: ["xpdfrc"]
+    role: "modifier"
+    include_in_search: true
+    description: "Configuration file to use instead of .xpdfrc"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "mode"

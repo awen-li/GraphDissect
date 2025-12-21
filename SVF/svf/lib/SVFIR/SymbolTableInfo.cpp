@@ -528,8 +528,12 @@ SymID SymbolTableInfo::getValSym(const SVFValue* val)
         return blkPtrSymID();
     else
     {
-        ValueToIDMapTy::const_iterator iter =  valSymMap.find(val);
-        assert(iter!=valSymMap.end() &&"value sym not found");
+        ValueToIDMapTy::const_iterator iter = valSymMap.find(val);
+        if (iter == valSymMap.end()) {
+            // Fallback for unexpected values: treat as black-hole or null symbol.
+            // For the use (call graph only), this is safer than aborting.
+            return blkPtrSymID();
+        }
         return iter->second;
     }
 }

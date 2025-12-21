@@ -1,0 +1,304 @@
+profile:
+  name: "capinfos"
+  binary: "capinfos"
+  domain: "network"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""          # one or more input capture files
+    output:
+      kind: "none"      # writes to stdout only
+      flag: ""
+
+primary:
+  # ===== General infos =====
+  - id: "1"
+    cli: ["-t"]
+    kind: "flag"
+    role: "mode"
+    group: "general"
+    include_in_search: true
+    description: "Display the capture file type"
+
+  - id: "2"
+    cli: ["-E"]
+    kind: "flag"
+    role: "mode"
+    group: "general"
+    include_in_search: true
+    description: "Display the capture file encapsulation"
+
+  - id: "3"
+    cli: ["-I"]
+    kind: "flag"
+    role: "mode"
+    group: "general"
+    include_in_search: true
+    description: "Display the capture file interface information"
+
+  - id: "4"
+    cli: ["-F"]
+    kind: "flag"
+    role: "mode"
+    group: "general"
+    include_in_search: true
+    description: "Display additional capture file information"
+
+  - id: "5"
+    cli: ["-H"]
+    kind: "flag"
+    role: "mode"
+    group: "general"
+    include_in_search: true
+    description: "Display SHA256 and SHA1 hashes of the file"
+
+  - id: "6"
+    cli: ["-k"]
+    kind: "flag"
+    role: "mode"
+    group: "general"
+    include_in_search: true
+    description: "Display the capture comment"
+
+  - id: "7"
+    cli: ["-p"]
+    kind: "flag"
+    role: "mode"
+    group: "general"
+    include_in_search: true
+    description: "Display individual packet comments"
+
+  # ===== Size infos =====
+  - id: "8"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "size"
+    include_in_search: true
+    description: "Display the number of packets"
+
+  - id: "9"
+    cli: ["-s"]
+    kind: "flag"
+    role: "mode"
+    group: "size"
+    include_in_search: true
+    description: "Display the size of the file in bytes"
+
+  - id: "10"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "size"
+    include_in_search: true
+    description: "Display the total length of all packets in bytes"
+
+  - id: "11"
+    cli: ["-l"]
+    kind: "flag"
+    role: "mode"
+    group: "size"
+    include_in_search: true
+    description: "Display the snapshot length (packet size limit)"
+
+  # ===== Time infos =====
+  - id: "12"
+    cli: ["-u"]
+    kind: "flag"
+    role: "mode"
+    group: "time"
+    include_in_search: true
+    description: "Display the capture duration in seconds"
+
+  - id: "13"
+    cli: ["-a"]
+    kind: "flag"
+    role: "mode"
+    group: "time"
+    include_in_search: true
+    description: "Display the timestamp of the earliest packet"
+
+  - id: "14"
+    cli: ["-e"]
+    kind: "flag"
+    role: "mode"
+    group: "time"
+    include_in_search: true
+    description: "Display the timestamp of the latest packet"
+
+  - id: "15"
+    cli: ["-o"]
+    kind: "flag"
+    role: "mode"
+    group: "time"
+    include_in_search: true
+    description: "Display whether packets are in chronological order"
+
+  - id: "16"
+    cli: ["-S"]
+    kind: "flag"
+    role: "mode"
+    group: "time"
+    include_in_search: true
+    description: "Display earliest and latest timestamps as seconds"
+
+  # ===== Statistic infos =====
+  - id: "17"
+    cli: ["-y"]
+    kind: "flag"
+    role: "mode"
+    group: "stats"
+    include_in_search: true
+    description: "Display average data rate in bytes/sec"
+
+  - id: "18"
+    cli: ["-i"]
+    kind: "flag"
+    role: "mode"
+    group: "stats"
+    include_in_search: true
+    description: "Display average data rate in bits/sec"
+
+  - id: "19"
+    cli: ["-z"]
+    kind: "flag"
+    role: "mode"
+    group: "stats"
+    include_in_search: true
+    description: "Display average packet size in bytes"
+
+  - id: "20"
+    cli: ["-x"]
+    kind: "flag"
+    role: "mode"
+    group: "stats"
+    include_in_search: true
+    description: "Display average packet rate in packets/sec"
+
+  # ===== Metadata infos =====
+  - id: "21"
+    cli: ["-n"]
+    kind: "flag"
+    role: "mode"
+    group: "metadata"
+    include_in_search: true
+    description: "Display number of resolved IPv4 and IPv6 addresses"
+
+  - id: "22"
+    cli: ["-D"]
+    kind: "flag"
+    role: "mode"
+    group: "metadata"
+    include_in_search: true
+    description: "Display number of decryption secrets"
+
+  # ===== Output format (report type) =====
+  - id: "23"
+    cli: ["-L"]
+    kind: "flag"
+    role: "mode"
+    group: "report_type"
+    include_in_search: true
+    description: "Generate long report (default)"
+
+  - id: "24"
+    cli: ["-T"]
+    kind: "flag"
+    role: "mode"
+    group: "report_type"
+    include_in_search: true
+    description: "Generate table report"
+
+  - id: "25"
+    cli: ["-M"]
+    kind: "flag"
+    role: "mode"
+    group: "machine_readable"
+    include_in_search: true
+    description: "Display machine-readable values in long reports"
+
+  # ===== Table report options: header record =====
+  - id: "26"
+    cli: ["-R"]
+    kind: "flag"
+    role: "mode"
+    group: "table_header"
+    include_in_search: true
+    description: "Generate header record (default)"
+
+  - id: "27"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "table_header"
+    include_in_search: true
+    description: "Do not generate header record"
+
+  # ===== Table separator options =====
+  - id: "28"
+    cli: ["-B"]
+    kind: "flag"
+    role: "mode"
+    group: "separator"
+    include_in_search: true
+    description: "Separate infos with TAB character (default)"
+
+  - id: "29"
+    cli: ["-m"]
+    kind: "flag"
+    role: "mode"
+    group: "separator"
+    include_in_search: true
+    description: "Separate infos with comma (,) character"
+
+  - id: "30"
+    cli: ["-b"]
+    kind: "flag"
+    role: "mode"
+    group: "separator"
+    include_in_search: true
+    description: "Separate infos with SPACE character"
+
+  # ===== Table quoting options =====
+  - id: "31"
+    cli: ["-N"]
+    kind: "flag"
+    role: "mode"
+    group: "quoting"
+    include_in_search: true
+    description: "Do not quote infos (default)"
+
+  - id: "32"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    group: "quoting"
+    include_in_search: true
+    description: "Quote infos with single quotes (')"
+
+  - id: "33"
+    cli: ["-Q"]
+    kind: "flag"
+    role: "mode"
+    group: "quoting"
+    include_in_search: true
+    description: "Quote infos with double quotes (\")"
+
+constraints:
+  # Only one report type at a time: long or table
+  - type: "at_most_one_from_group"
+    group: "report_type"
+
+  # Only one table header behavior
+  - type: "at_most_one_from_group"
+    group: "table_header"
+
+  # Only one separator style
+  - type: "at_most_one_from_group"
+    group: "separator"
+
+  # Only one quoting style
+  - type: "at_most_one_from_group"
+    group: "quoting"

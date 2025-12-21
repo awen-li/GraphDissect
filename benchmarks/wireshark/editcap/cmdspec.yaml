@@ -1,0 +1,400 @@
+profile:
+  name: "editcap"
+  binary: "editcap"
+  domain: "network"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"   # <infile>
+      flag: ""
+    output:
+      kind: "positional"   # <outfile>
+      flag: ""
+
+primary:
+  # ===== Packet selection =====
+  - id: "1"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "packet_selection"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Keep the selected packets instead of deleting them"
+
+  - id: "2"
+    cli: ["-A"]
+    kind: "value"
+    metavar: "START_TIME"
+    value_template: "2024-01-01T00:00:00"
+    defaults: ["2024-01-01T00:00:00"]
+    role: "mode"
+    group: "packet_selection"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Only read packets with timestamp >= given time"
+
+  - id: "3"
+    cli: ["-B"]
+    kind: "value"
+    metavar: "STOP_TIME"
+    value_template: "2024-01-01T01:00:00"
+    defaults: ["2024-01-01T01:00:00"]
+    role: "mode"
+    group: "packet_selection"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Only read packets with timestamp < given time"
+
+  # ===== Duplicate packet removal =====
+  - id: "4"
+    cli: ["--novlan"]
+    kind: "flag"
+    role: "mode"
+    group: "dedup"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Remove VLAN info before duplicate detection"
+
+  - id: "5"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "dedup"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Remove packet if duplicate with default window (5)"
+
+  - id: "6"
+    cli: ["-D"]
+    kind: "value"
+    metavar: "DUP_WINDOW"
+    value_template: "5"
+    defaults: ["5", "10"]
+    role: "mode"
+    group: "dedup"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Remove packet if duplicate within configurable duplicate window"
+
+  - id: "7"
+    cli: ["-w"]
+    kind: "value"
+    metavar: "DUP_TIME_WINDOW"
+    value_template: "0.000001"
+    defaults: ["0.000001", "0.001"]
+    role: "mode"
+    group: "dedup"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Remove duplicate packets within the given time window (seconds)"
+
+  - id: "8"
+    cli: ["--skip-radiotap-header"]
+    kind: "flag"
+    role: "mode"
+    group: "dedup"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Skip radiotap header when checking for packet duplicates"
+
+  - id: "9"
+    cli: ["--set-unused"]
+    kind: "flag"
+    role: "mode"
+    group: "dedup"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Set unused bytes to zero in sll link addr before duplicate checks"
+
+  # ===== Packet manipulation =====
+  - id: "10"
+    cli: ["-s"]
+    kind: "value"
+    metavar: "SNAPLEN"
+    value_template: "128"
+    defaults: ["64", "128", "256"]
+    role: "mode"
+    group: "manip"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Truncate each packet to at most SNAPLEN bytes"
+
+  - id: "11"
+    cli: ["-C"]
+    kind: "value"
+    metavar: "CHOPSPEC"
+    value_template: "14:20"
+    defaults: ["14:20"]
+    role: "mode"
+    group: "manip"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Chop bytes from packets, optionally with offset (offset:length)"
+
+  - id: "12"
+    cli: ["-L"]
+    kind: "flag"
+    role: "mode"
+    group: "manip"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Adjust reported frame length when chopping/snapping"
+
+  - id: "13"
+    cli: ["-R"]
+    kind: "value"
+    metavar: "FRAMENUM:TIME"
+    value_template: "1:2024-01-01T00:00:00"
+    defaults: ["1:2024-01-01T00:00:00"]
+    role: "mode"
+    group: "manip"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Replace timestamp for the given frame number"
+
+  - id: "14"
+    cli: ["-t"]
+    kind: "value"
+    metavar: "TIME_ADJ"
+    value_template: "-0.5"
+    defaults: ["-0.5", "0.5"]
+    role: "mode"
+    group: "manip"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Adjust timestamp of each packet by the given relative time"
+
+  - id: "15"
+    cli: ["-S"]
+    kind: "value"
+    metavar: "STRICT_ADJ"
+    value_template: "0.000001"
+    defaults: ["0", "0.000001"]
+    role: "mode"
+    group: "manip"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Adjust timestamps to enforce strictly increasing order"
+
+  - id: "16"
+    cli: ["-E"]
+    kind: "value"
+    metavar: "ERR_PROB"
+    value_template: "0.01"
+    defaults: ["0.001", "0.01"]
+    role: "mode"
+    group: "error_injection"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Set probability that a packet byte will be randomly changed"
+
+  - id: "17"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "CHANGE_OFFSET"
+    value_template: "14"
+    defaults: ["14"]
+    role: "mode"
+    group: "error_injection"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Skip initial bytes when applying random errors (with -E)"
+
+  - id: "18"
+    cli: ["--seed"]
+    kind: "value"
+    metavar: "SEED"
+    value_template: "12345"
+    defaults: ["12345"]
+    role: "mode"
+    group: "error_injection"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Set pseudo-random seed used with -E for reproducible errors"
+
+  - id: "19"
+    cli: ["-I"]
+    kind: "value"
+    metavar: "IGNORE_BYTES"
+    value_template: "26"
+    defaults: ["26"]
+    role: "mode"
+    group: "manip"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Ignore initial bytes when computing MD5 for duplicate detection"
+
+  - id: "20"
+    cli: ["-a"]
+    kind: "value"
+    metavar: "FRAMENUM:COMMENT"
+    value_template: "1:edited_by_fuzz"
+    defaults: ["1:edited_by_fuzz"]
+    role: "mode"
+    group: "packet_comments"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Add or replace packet comment for a given frame number"
+
+  - id: "21"
+    cli: ["--discard-packet-comments"]
+    kind: "flag"
+    role: "mode"
+    group: "packet_comment_mode"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Discard all existing packet comments from input file"
+
+  - id: "22"
+    cli: ["--preserve-packet-comments"]
+    kind: "flag"
+    role: "mode"
+    group: "packet_comment_mode"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Preserve existing packet comments when adding new comments with -a"
+
+  # ===== Output files / splitting / format =====
+  - id: "23"
+    cli: ["-c"]
+    kind: "value"
+    metavar: "PKTS_PER_FILE"
+    value_template: "1000"
+    defaults: ["100", "1000"]
+    role: "mode"
+    group: "output_split"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Split output into files with at most this many packets each"
+
+  - id: "24"
+    cli: ["-i"]
+    kind: "value"
+    metavar: "SECS_PER_FILE"
+    value_template: "60"
+    defaults: ["10", "60"]
+    role: "mode"
+    group: "output_split"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Split output into files based on time interval in seconds"
+
+  - id: "25"
+    cli: ["-F"]
+    kind: "value"
+    metavar: "CAPTURE_TYPE"
+    value_template: "pcapng"
+    defaults: ["pcapng", "pcap"]
+    role: "mode"
+    group: "output_format"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Set output file type (default pcapng; empty -F lists types)"
+
+  - id: "26"
+    cli: ["-T"]
+    kind: "value"
+    metavar: "ENCAP_TYPE"
+    value_template: "ethernet"
+    defaults: ["ethernet"]
+    role: "mode"
+    group: "output_format"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Set output file encapsulation type"
+
+  - id: "27"
+    cli: ["--inject-secrets"]
+    kind: "value"
+    metavar: "TYPE,FILE"
+    value_template: "_tls,/path/to/secrets.txt"
+    defaults: ["_tls,/tmp/secrets.txt"]
+    role: "mode"
+    group: "secrets"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Insert decryption secrets from the given file"
+
+  - id: "28"
+    cli: ["--extract-secrets"]
+    kind: "flag"
+    role: "mode"
+    group: "secrets"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Extract decryption secrets into the output file instead"
+
+  - id: "29"
+    cli: ["--discard-all-secrets"]
+    kind: "flag"
+    role: "mode"
+    group: "secrets"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Discard all decryption secrets from input when writing output"
+
+  - id: "30"
+    cli: ["--capture-comment"]
+    kind: "value"
+    metavar: "COMMENT"
+    value_template: "edited_by_fuzz"
+    defaults: ["edited_by_fuzz"]
+    role: "mode"
+    group: "capture_comment"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Add a capture file comment, if the format supports it"
+
+  - id: "31"
+    cli: ["--discard-capture-comment"]
+    kind: "flag"
+    role: "mode"
+    group: "capture_comment"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Discard capture file comments from input when writing output"
+
+  - id: "32"
+    cli: ["--compress"]
+    kind: "value"
+    metavar: "TYPE"
+    value_template: "gzip"
+    defaults: ["gzip"]
+    role: "mode"
+    group: "output_compress"
+    include_in_search: true
+    output: "/dev/null"
+    description: "Compress the output file using the given compression format"
+
+second:
+  # ===== Misc / metadata / verbosity =====
+  - id: "1"
+    cli: ["-h", "--help"]
+    kind: "flag"
+    role: "modifier"
+    group: "meta"
+    include_in_search: false
+    description: "Display help and exit"
+
+  - id: "2"
+    cli: ["-v", "--version"]
+    kind: "flag"
+    role: "modifier"
+    group: "meta"
+    include_in_search: false
+    description: "Display version information and exit"
+
+  - id: "3"
+    cli: ["-V"]
+    kind: "flag"
+    role: "modifier"
+    group: "verbose"
+    include_in_search: true
+    description: "Verbose output; with duplicate removal options prints lengths and MD5 hashes"
+
+constraints:
+  # Only one packet comment behavior at a time
+  - type: "at_most_one_from_group"
+    group: "packet_comment_mode"

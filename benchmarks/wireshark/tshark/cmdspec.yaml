@@ -1,0 +1,558 @@
+profile:
+  name: "tshark"
+  binary: "tshark"
+  domain: "network"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "flagged"      # -r <infile>
+      flag: "-r"
+    output:
+      kind: "none"         # default: print to stdout; output files via -w etc.
+      flag: ""
+
+primary:
+  # ===== Input / basic processing =====
+
+  - id: "1"
+    cli: ["-c"]
+    kind: "value"
+    metavar: "COUNT"
+    value_template: "100"
+    defaults: ["10", "100", "1000"]
+    role: "mode"
+    group: "limit_packets"
+    include_in_search: true
+    description: "Stop after processing COUNT packets from the input file"
+
+  - id: "2"
+    cli: ["-2"]
+    kind: "flag"
+    role: "mode"
+    group: "two_pass"
+    include_in_search: true
+    description: "Perform a two-pass analysis"
+
+  - id: "3"
+    cli: ["-M"]
+    kind: "value"
+    metavar: "COUNT"
+    value_template: "1000"
+    defaults: ["100", "1000"]
+    role: "mode"
+    group: "session_reset"
+    include_in_search: true
+    description: "Perform automatic session reset after COUNT packets"
+
+  - id: "4"
+    cli: ["-R", "--read-filter"]
+    kind: "value"
+    metavar: "READ_FILTER"
+    value_template: "tcp"
+    defaults: ["tcp", "udp", "ip"]
+    role: "mode"
+    group: "read_filter"
+    include_in_search: true
+    description: "Read filter in Wireshark display filter syntax (requires -2)"
+
+  - id: "5"
+    cli: ["-Y", "--display-filter"]
+    kind: "value"
+    metavar: "DISPLAY_FILTER"
+    value_template: "ip"
+    defaults: ["ip", "tcp", "udp"]
+    role: "mode"
+    group: "display_filter"
+    include_in_search: true
+    description: "Display filter applied when processing the capture"
+
+  - id: "6"
+    cli: ["-n"]
+    kind: "flag"
+    role: "mode"
+    group: "name_resolve"
+    include_in_search: true
+    description: "Disable all name resolutions"
+
+  - id: "7"
+    cli: ["-N"]
+    kind: "value"
+    metavar: "FLAGS"
+    value_template: "mt"
+    defaults: ["m", "mt", "mtnd"]
+    role: "mode"
+    group: "name_resolve"
+    include_in_search: true
+    description: "Enable specific name resolution(s): 'mtndsNvg'"
+
+  - id: "8"
+    cli: ["-d"]
+    kind: "value"
+    metavar: "DECODE_AS"
+    value_template: "tcp.port==8888,http"
+    defaults:
+      - "tcp.port==8888,http"
+      - "tcp.port==443,ssl"
+    role: "mode"
+    group: "decode_as"
+    include_in_search: true
+    description: "Decode traffic on selector as another protocol"
+
+  - id: "9"
+    cli: ["-H"]
+    kind: "value"
+    metavar: "HOSTS_FILE"
+    value_template: "hosts.txt"
+    defaults: ["hosts.txt"]
+    role: "mode"
+    group: "hosts"
+    include_in_search: true
+    description: "Read host entries from file and write them to capture file (implies -W n)"
+
+  # ===== Protocol / heuristic toggles =====
+
+  - id: "10"
+    cli: ["--enable-protocol"]
+    kind: "value"
+    metavar: "PROTO"
+    value_template: "http"
+    defaults: ["http", "dns", "tls"]
+    role: "mode"
+    group: "proto_toggle"
+    include_in_search: true
+    description: "Enable dissection of proto_name"
+
+  - id: "11"
+    cli: ["--disable-protocol"]
+    kind: "value"
+    metavar: "PROTO"
+    value_template: "icmp"
+    defaults: ["icmp", "arp"]
+    role: "mode"
+    group: "proto_toggle"
+    include_in_search: true
+    description: "Disable dissection of proto_name"
+
+  - id: "12"
+    cli: ["--only-protocols"]
+    kind: "value"
+    metavar: "PROTO_LIST"
+    value_template: "ip,tcp"
+    defaults: ["ip,tcp", "ip,udp", "ip,tcp,http"]
+    role: "mode"
+    group: "proto_restrict"
+    include_in_search: true
+    description: "Only enable dissection of these protocols (comma-separated)"
+
+  - id: "13"
+    cli: ["--disable-all-protocols"]
+    kind: "flag"
+    role: "mode"
+    group: "proto_restrict"
+    include_in_search: true
+    description: "Disable dissection of all protocols"
+
+  - id: "14"
+    cli: ["--enable-heuristic"]
+    kind: "value"
+    metavar: "HEUR_SHORT_NAME"
+    value_template: "tcp"
+    defaults: ["tcp", "udp"]
+    role: "mode"
+    group: "heuristic_toggle"
+    include_in_search: true
+    description: "Enable heuristic protocol dissector by short name"
+
+  - id: "15"
+    cli: ["--disable-heuristic"]
+    kind: "value"
+    metavar: "HEUR_SHORT_NAME"
+    value_template: "tcp"
+    defaults: ["tcp", "udp"]
+    role: "mode"
+    group: "heuristic_toggle"
+    include_in_search: true
+    description: "Disable heuristic protocol dissector by short name"
+
+  # ===== Output: capture file writing =====
+
+  - id: "16"
+    cli: ["-w"]
+    kind: "value"
+    metavar: "OUTFILE"
+    value_template: "-"
+    defaults: ["-", "out.pcapng"]
+    role: "mode"
+    group: "outfile"
+    include_in_search: true
+    description: "Write packets to OUTFILE (pcapng), or '-' for stdout"
+
+  - id: "17"
+    cli: ["--capture-comment"]
+    kind: "value"
+    metavar: "COMMENT"
+    value_template: "fuzzing run"
+    defaults: ["fuzzing run"]
+    role: "mode"
+    group: "outfile_meta"
+    include_in_search: true
+    description: "Add a capture file comment, if supported"
+
+  - id: "18"
+    cli: ["-C"]
+    kind: "value"
+    metavar: "PROFILE"
+    value_template: "Default"
+    defaults: ["Default"]
+    role: "mode"
+    group: "profile"
+    include_in_search: true
+    description: "Start with specified configuration profile"
+
+  - id: "20"
+    cli: ["-F"]
+    kind: "choice"
+    metavar: "FILE_TYPE"
+    choices:
+      - "pcapng"
+      - "pcap"
+    defaults: ["pcapng", "pcap"]
+    role: "mode"
+    group: "outfile_type"
+    include_in_search: true
+    description: "Set the capture output file type"
+
+  # ===== Output: text / detail / formatting =====
+
+  - id: "21"
+    cli: ["-V"]
+    kind: "flag"
+    role: "mode"
+    group: "detail"
+    include_in_search: true
+    description: "Add packet tree (Packet Details) to text output"
+
+  - id: "22"
+    cli: ["-O"]
+    kind: "value"
+    metavar: "PROTO_LIST"
+    value_template: "ip,tcp"
+    defaults: ["ip,tcp", "ip,udp", "http"]
+    role: "mode"
+    group: "detail"
+    include_in_search: true
+    description: "Only show packet details for selected protocols"
+
+  - id: "23"
+    cli: ["-P", "--print"]
+    kind: "flag"
+    role: "mode"
+    group: "print"
+    include_in_search: true
+    description: "Print packet summary even when writing to a file"
+
+  - id: "24"
+    cli: ["-S"]
+    kind: "value"
+    metavar: "SEPARATOR"
+    value_template: "-----"
+    defaults: ["-----", "==="]
+    role: "mode"
+    group: "separator"
+    include_in_search: true
+    description: "String separator printed between packets"
+
+  - id: "25"
+    cli: ["-x"]
+    kind: "flag"
+    role: "mode"
+    group: "hexdump"
+    include_in_search: true
+    description: "Print hex and ASCII dump (Packet Bytes)"
+
+  - id: "26"
+    cli: ["--hexdump"]
+    kind: "value"
+    metavar: "HEXOPT"
+    value_template: "all,ascii"
+    defaults: ["all,ascii", "frames,noascii"]
+    role: "mode"
+    group: "hexdump"
+    include_in_search: true
+    description: "Configure hexdump data source and ASCII behavior"
+
+  - id: "27"
+    cli: ["-T"]
+    kind: "choice"
+    metavar: "FMT"
+    choices:
+      - "text"
+      - "json"
+      - "jsonraw"
+      - "pdml"
+      - "psml"
+      - "tabs"
+      - "fields"
+      - "ek"
+    defaults: ["text", "json"]
+    role: "mode"
+    group: "output_format"
+    include_in_search: true
+    description: "Format of text output"
+
+  - id: "28"
+    cli: ["-j"]
+    kind: "value"
+    metavar: "PROTO_FILTER"
+    value_template: "ip,tcp"
+    defaults: ["ip,tcp", "ip,udp", "http"]
+    role: "mode"
+    group: "output_filter"
+    include_in_search: true
+    description: "Protocol layers filter when -T ek|pdml|json is used"
+
+  - id: "29"
+    cli: ["-J"]
+    kind: "value"
+    metavar: "PROTO_FILTER"
+    value_template: "http,tcp"
+    defaults: ["http,tcp", "dns,udp"]
+    role: "mode"
+    group: "output_filter"
+    include_in_search: true
+    description: "Top-level protocol filter when -T ek|pdml|json is used"
+
+  - id: "30"
+    cli: ["-e"]
+    kind: "value"
+    metavar: "FIELD"
+    value_template: "frame.number"
+    defaults: ["frame.number", "ip.src", "ip.dst", "_ws.col.info"]
+    role: "mode"
+    group: "fields"
+    include_in_search: true
+    description: "Field to print when -Tfields is selected (can be repeated)"
+
+  - id: "31"
+    cli: ["-E"]
+    kind: "value"
+    metavar: "FIELD_OPT"
+    value_template: "header=y"
+    defaults: ["header=y", "quote=d", "separator=/t"]
+    role: "mode"
+    group: "fields"
+    include_in_search: true
+    description: "Options for -Tfields output (header, separator, quotes, etc.)"
+
+  # ===== Time formatting =====
+
+  - id: "32"
+    cli: ["-t"]
+    kind: "choice"
+    metavar: "TIME_FMT"
+    choices:
+      - "r"
+      - "e"
+      - "ad"
+      - "ud"
+    defaults: ["r", "e"]
+    role: "mode"
+    group: "time_format"
+    include_in_search: true
+    description: "Output format of timestamps (e.g., rel, epoch, absolute)"
+
+  - id: "33"
+    cli: ["-u"]
+    kind: "choice"
+    metavar: "SEC_FMT"
+    choices:
+      - "s"
+      - "hms"
+    defaults: ["s", "hms"]
+    role: "mode"
+    group: "sec_format"
+    include_in_search: true
+    description: "Output format of seconds"
+
+  # ===== Statistics / exports =====
+
+  - id: "34"
+    cli: ["-z"]
+    kind: "value"
+    metavar: "STAT_EXPR"
+    value_template: "io,stat,1"
+    defaults:
+      - "io,stat,1"
+      - "conv,tcp"
+    role: "mode"
+    group: "statistics"
+    include_in_search: true
+    description: "Compute various statistics (I/O, conversations, etc.)"
+
+  - id: "35"
+    cli: ["--export-objects"]
+    kind: "value"
+    metavar: "SPEC"
+    value_template: "http,export_dir"
+    defaults: ["http,export_dir"]
+    role: "mode"
+    group: "export"
+    include_in_search: true
+    description: "Save exported objects for a protocol to a directory"
+
+  - id: "36"
+    cli: ["--export-tls-session-keys"]
+    kind: "value"
+    metavar: "KEYFILE"
+    value_template: "tlskeys.log"
+    defaults: ["tlskeys.log"]
+    role: "mode"
+    group: "export"
+    include_in_search: true
+    description: "Export TLS session keys to a file"
+
+second:
+  # ===== Verbosity / flushing / access =====
+
+  - id: "1"
+    cli: ["-l"]
+    kind: "flag"
+    role: "modifier"
+    group: "flush"
+    include_in_search: true
+    description: "Flush standard output after each packet"
+
+  - id: "2"
+    cli: ["-q"]
+    kind: "flag"
+    role: "modifier"
+    group: "quiet"
+    include_in_search: true
+    description: "Be more quiet on stdout"
+
+  - id: "3"
+    cli: ["-Q"]
+    kind: "flag"
+    role: "modifier"
+    group: "quiet"
+    include_in_search: true
+    description: "Only log true errors to stderr (quieter than -q)"
+
+  - id: "4"
+    cli: ["-g"]
+    kind: "flag"
+    role: "modifier"
+    group: "permissions"
+    include_in_search: true
+    description: "Enable group read access on the output file(s)"
+
+  - id: "5"
+    cli: ["-W"]
+    kind: "value"
+    metavar: "EXTRA"
+    value_template: "n"
+    defaults: ["n"]
+    role: "modifier"
+    group: "extra_info"
+    include_in_search: true
+    description: "Save extra information in the file (n = name resolution info)"
+
+  - id: "7"
+    cli: ["--no-duplicate-keys"]
+    kind: "flag"
+    role: "modifier"
+    group: "json_opts"
+    include_in_search: true
+    description: "Merge duplicate JSON object keys into array values"
+
+  - id: "9"
+    cli: ["--temp-dir"]
+    kind: "value"
+    metavar: "DIR"
+    value_template: "/tmp"
+    defaults: ["/tmp"]
+    role: "modifier"
+    group: "paths"
+    include_in_search: true
+    description: "Directory for temporary files"
+
+  - id: "10"
+    cli: ["--compress"]
+    kind: "choice"
+    metavar: "TYPE"
+    choices:
+      - "gzip"
+      - "zstd"
+    defaults: ["gzip"]
+    role: "modifier"
+    group: "compress"
+    include_in_search: true
+    description: "Compress capture output with specified compression type"
+
+  # ===== Misc / config / reports =====
+
+  - id: "18"
+    cli: ["-h", "--help"]
+    kind: "flag"
+    role: "modifier"
+    group: "meta"
+    include_in_search: false
+    description: "Show help and exit"
+
+  - id: "19"
+    cli: ["-v", "--version"]
+    kind: "flag"
+    role: "modifier"
+    group: "meta"
+    include_in_search: false
+    description: "Show version and exit"
+
+  - id: "20"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "PREF"
+    value_template: "tcp.desegment_tcp_streams:TRUE"
+    defaults: ["tcp.desegment_tcp_streams:TRUE"]
+    role: "modifier"
+    group: "prefs"
+    include_in_search: true
+    description: "Override preference setting (name:value)"
+
+  - id: "21"
+    cli: ["-K"]
+    kind: "value"
+    metavar: "KEYTAB"
+    value_template: "krb5.keytab"
+    defaults: ["krb5.keytab"]
+    role: "modifier"
+    group: "crypto"
+    include_in_search: true
+    description: "Keytab file to use for Kerberos decryption"
+
+  - id: "22"
+    cli: ["-G"]
+    kind: "value"
+    metavar: "REPORT"
+    value_template: "fields"
+    defaults: ["fields", "elastic-mapping"]
+    role: "modifier"
+    group: "report"
+    include_in_search: true
+    description: "Dump report (e.g., fields) and exit"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "output_format"
+
+  - type: "at_most_one_from_group"
+    group: "quiet"
+
+  - type: "at_most_one_from_group"
+    group: "name_resolve"
+
+  - type: "at_most_one_from_group"
+    group: "proto_restrict"
+
+  - type: "at_most_one_from_group"
+    group: "time_format"

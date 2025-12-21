@@ -1,0 +1,129 @@
+profile:
+  name: "pngfix"
+  binary: "pngfix"
+  domain: "libpng"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "none"
+      flag: ""
+
+primary:
+  ####################################################################
+  # PRIMARY FUNCTIONALITIES (operation modes)
+  ####################################################################
+
+  - id: "1"
+    cli: ["--optimize", "-o"]
+    kind: "flag"
+    role: "mode"
+    group: "operation"
+    include_in_search: true
+    description: "Optimize: find the smallest deflate window size for compressed data"
+
+  - id: "2"
+    cli: ["--strip"]
+    kind: "choice"
+    metavar: "LEVEL"
+    choices:
+      - "crc"
+      - "unsafe"
+      - "all"
+    defaults: ["crc", "unsafe", "all"]
+    role: "mode"
+    group: "operation"
+    include_in_search: true
+    description: "Strip ancillary chunks at specified level (crc/unsafe/unused/transform/color/all)"
+
+  - id: "3"
+    cli: ["--max"]
+    kind: "value"
+    metavar: "N"
+    value_template: "4096"
+    defaults: ["4096"]
+    role: "mode"
+    group: "operation"
+    include_in_search: true
+    description: "Resize IDAT chunks to N bytes (may change chunk sizing; can trigger more fixing paths)"
+
+  ####################################################################
+  # OUTPUT CONTROLS (writes new PNG)
+  ####################################################################
+
+  - id: "4"
+    cli: ["--out"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "out.png"
+    defaults: ["out.png"]
+    role: "mode"
+    group: "output"
+    include_in_search: true
+    output: "out.png"
+    description: "Write processed PNG to an explicit output file"
+
+  - id: "5"
+    cli: ["--suffix"]
+    kind: "value"
+    metavar: "SUF"
+    value_template: ".fixed.png"
+    defaults: [".fixed.png"]
+    role: "mode"
+    group: "output"
+    include_in_search: true
+    description: "Write output as <name><suffix> (when output is enabled)"
+
+  - id: "6"
+    cli: ["--prefix"]
+    kind: "value"
+    metavar: "PRE"
+    value_template: "fixed_"
+    defaults: ["fixed_"]
+    role: "mode"
+    group: "output"
+    include_in_search: true
+    description: "Write output as <prefix><name> (when output is enabled)"
+
+  ####################################################################
+  # MESSAGES / VERBOSITY (useful to toggle internal paths)
+  ####################################################################
+
+  - id: "7"
+    cli: ["--quiet", "-q"]
+    kind: "flag"
+    role: "mode"
+    group: "msg"
+    include_in_search: false
+    description: "Quiet summaries (can be repeated for more silence)"
+
+  - id: "8"
+    cli: ["--errors", "-e"]
+    kind: "flag"
+    role: "mode"
+    group: "msg"
+    include_in_search: false
+    description: "Output errors from libpng and the program"
+
+  - id: "9"
+    cli: ["--warnings", "-w"]
+    kind: "flag"
+    role: "mode"
+    group: "msg"
+    include_in_search: false
+    description: "Output warnings from libpng"
+
+constraints:
+  # Only one operation mode per driver (optimize/strip/max are treated as primary)
+  - type: "at_most_one_from_group"
+    group: "operation"
+
+  # Output selection: at most one of explicit out vs prefix/suffix style
+  - type: "at_most_one_from_group"
+    group: "output"
+
+  # Message flags can be combined; don't constrain msg group.
+

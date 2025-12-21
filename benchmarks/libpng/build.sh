@@ -26,7 +26,6 @@ initialize() {
 
 wllvm_compile() 
 {
-    initialize
 
     export LLVM_COMPILER=clang
     export CC="wllvm"
@@ -56,8 +55,8 @@ wllvm_compile()
     handle_executable "$target/build" "${executables[@]}"
 }
 
-hfuzz_compile() {
-    initialize
+hfuzz_compile() 
+{
 
     export CC="hfuzz-clang"
     export CXX="hfuzz-clang++"
@@ -84,10 +83,24 @@ hfuzz_compile() {
     cd "$ROOT"
 }
 
-if [ "${Action}" == "clean" ]; then
-    clean
+
+if [ "$Action" == "clean" ]; then
+    exe="$2"
+    if [ -n "$exe" ]; then
+        targets=("$exe")
+    else
+        targets=("${executables[@]}")
+    fi
+
+    clean "${targets[@]}"
     exit 0
 fi
+
+if [ "$Action" == "show" ]; then
+    show_driver_info "${executables[@]}"
+    exit 0
+fi
+
 
 cd "$ROOT"
 compile

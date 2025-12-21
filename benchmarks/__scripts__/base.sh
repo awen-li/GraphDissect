@@ -88,14 +88,6 @@ function handle_executable()
         if [ ! -d "$benchpath" ]; then
             mkdir "$benchpath"
         fi
-
-		# Generate bc for dependent libs
-		list_project_libs "$executable_path/$executable" "$executable_path" \
-			| grep -v '^#' \
-			| while read -r lib_name lib_path; do
-				echo "[*] extracting bc for $lib_name from $lib_path"
-				extract-bc "$lib_path" && cp "${lib_path}.bc" $benchpath/
-			  done
       
         # Generate bc
 		extract-bc $executable_path/$executable && cp $executable_path/$executable.bc $benchpath/

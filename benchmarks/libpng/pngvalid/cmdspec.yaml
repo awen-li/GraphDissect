@@ -1,0 +1,27 @@
+profile:
+  name: "pngvalid"
+  binary: "pngvalid"         
+  domain: "libpng"
+  seed_dir: "seeds"
+  max_combination: 1
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: [""]
+    kind: "flag"
+    role: "mode"
+    group: "default"
+    include_in_search: true
+    description: "Default execution (no options); process the input PNG file"
+
+constraints:
+  # only one primary mode anyway
+  - type: "at_most_one_from_group"
+    group: "default"

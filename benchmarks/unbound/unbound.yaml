@@ -1,0 +1,6 @@
+project: unbound
+oss_fuzz_project_dir: projects/unbound
+main_repo: https://github.com/NLnetLabs/unbound
+language: c
+domain: network
+loc: 137592

@@ -1,0 +1,91 @@
+profile:
+  name: "unbound-checkconf"
+  binary: "unbound-checkconf"
+  domain: "network_and_protocols"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  # This tool reads a config file (optional), prints results, exits.
+  # There is no output file produced by the program itself.
+  base_args: []
+
+  io:
+    input:
+      kind: "positional"
+      # Optional single positional: config file
+      position: 0
+      metavar: "CONF"
+      # Default from help text:
+      default: "/usr/local/etc/unbound/unbound.conf"
+    output:
+      kind: "none"
+
+primary:
+  # ===== Core behavior flags =====
+
+  - id: "1"
+    cli: ["-h"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Show usage help and exit."
+
+  - id: "2"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Quiet mode: suppress output on success."
+
+  - id: "3"
+    cli: ["-f"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Output full pathname with chroot applied (typically used with -o pidfile)."
+
+  - id: "4"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "OPTION"
+    value_template: "pidfile"
+    defaults: ["pidfile", "chroot", "directory", "username"]
+    role: "query"
+    include_in_search: true
+    description: "Print value of a configuration option to stdout (e.g., pidfile)."
+
+constraints:
+  # -o requires an argument
+  - type: "requires_value"
+    cli: ["-o"]
+
+  # -f is meaningful only with -o (per help text example)
+  - type: "requires"
+    if_present: ["-f"]
+    require_any: [["-o"]]
+
+examples:
+  - id: "ex1"
+    cmd: ["unbound-checkconf", "-h"]
+    description: "Show help (note: --help is not supported)."
+
+  - id: "ex2"
+    cmd: ["unbound-checkconf"]
+    description: "Check default config /usr/local/etc/unbound/unbound.conf."
+
+  - id: "ex3"
+    cmd: ["unbound-checkconf", "seeds/unbound.conf"]
+    description: "Check a specific config file."
+
+  - id: "ex4"
+    cmd: ["unbound-checkconf", "-q", "seeds/unbound.conf"]
+    description: "Quiet check of a specific config file."
+
+  - id: "ex5"
+    cmd: ["unbound-checkconf", "-o", "pidfile", "seeds/unbound.conf"]
+    description: "Print pidfile value from the given config."
+
+  - id: "ex6"
+    cmd: ["unbound-checkconf", "-f", "-o", "pidfile", "seeds/unbound.conf"]
+    description: "Print pidfile with chroot applied (requires -o)."
+

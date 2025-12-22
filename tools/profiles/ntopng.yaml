@@ -2,5 +2,5 @@ project: ntopng
 oss_fuzz_project_dir: projects/ntopng
 main_repo: https://github.com/ntop/ntopng.git
 language: c++
-domain: media
+domain: network
 loc: 163384

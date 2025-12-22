@@ -2,5 +2,5 @@ project: pjsip
 oss_fuzz_project_dir: projects/pjsip
 main_repo: https://github.com/pjsip/pjproject
 language: c
-domain: metadata
+domain: network
 loc: 528398

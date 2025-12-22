@@ -2,5 +2,5 @@ project: grpc-httpjson-transcoding
 oss_fuzz_project_dir: projects/grpc-httpjson-transcoding
 main_repo: https://github.com/grpc-ecosystem/grpc-httpjson-transcoding.git
 language: c++
-domain: document
+domain: network
 loc: 9476

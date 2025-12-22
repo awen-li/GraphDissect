@@ -2,5 +2,5 @@ project: edk2
 oss_fuzz_project_dir: projects/edk2
 main_repo: https://github.com/tianocore/edk2
 language: c
-domain: metadata
+domain: os_system
 loc: 1209213

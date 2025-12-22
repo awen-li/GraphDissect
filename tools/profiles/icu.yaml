@@ -2,5 +2,5 @@ project: icu
 oss_fuzz_project_dir: projects/icu
 main_repo: https://github.com/unicode-org/icu.git
 language: c++
-domain: metadata
+domain: document
 loc: 988735

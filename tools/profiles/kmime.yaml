@@ -2,5 +2,5 @@ project: kmime
 oss_fuzz_project_dir: projects/kmime
 main_repo: https://invent.kde.org/pim/kmime.git
 language: c++
-domain: metadata
+domain: document
 loc: 10886

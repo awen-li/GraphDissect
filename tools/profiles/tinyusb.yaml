@@ -2,5 +2,5 @@ project: tinyusb
 oss_fuzz_project_dir: projects/tinyusb
 main_repo: https://github.com/hathach/tinyusb.git
 language: c++
-domain: metadata
+domain: os_system
 loc: 166319

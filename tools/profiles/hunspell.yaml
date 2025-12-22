@@ -2,5 +2,5 @@ project: hunspell
 oss_fuzz_project_dir: projects/hunspell
 main_repo: https://github.com/hunspell/hunspell.git
 language: c++
-domain: metadata
+domain: document
 loc: 83881

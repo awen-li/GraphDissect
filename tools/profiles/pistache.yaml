@@ -2,5 +2,5 @@ project: pistache
 oss_fuzz_project_dir: projects/pistache
 main_repo: https://github.com/pistacheio/pistache
 language: c++
-domain: metadata
+domain: network
 loc: 48124

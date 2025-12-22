@@ -2,5 +2,5 @@ project: iroha
 oss_fuzz_project_dir: projects/iroha
 main_repo: https://github.com/hyperledger/iroha.git
 language: c++
-domain: crypto
+domain: unknown
 loc: 144

@@ -2,5 +2,5 @@ project: ntpsec
 oss_fuzz_project_dir: projects/ntpsec
 main_repo: https://gitlab.com/NTPsec/ntpsec
 language: c
-domain: metadata
+domain: network
 loc: 62493

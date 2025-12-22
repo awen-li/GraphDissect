@@ -2,5 +2,5 @@ project: libpg_query
 oss_fuzz_project_dir: projects/libpg_query
 main_repo: https://github.com/pganalyze/pg_query
 language: c
-domain: metadata
+domain: document
 loc: 374062

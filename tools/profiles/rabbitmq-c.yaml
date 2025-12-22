@@ -2,5 +2,5 @@ project: rabbitmq-c
 oss_fuzz_project_dir: projects/rabbitmq-c
 main_repo: https://github.com/alanxz/rabbitmq-c
 language: c
-domain: metadata
+domain: network
 loc: 11506

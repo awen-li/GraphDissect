@@ -2,5 +2,5 @@ project: opennavsurf-bag
 oss_fuzz_project_dir: projects/opennavsurf-bag
 main_repo: https://github.com/OpenNavigationSurface/BAG
 language: c++
-domain: metadata
+domain: unknown
 loc: 22292

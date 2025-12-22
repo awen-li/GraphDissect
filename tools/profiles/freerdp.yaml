@@ -2,5 +2,5 @@ project: freerdp
 oss_fuzz_project_dir: projects/freerdp
 main_repo: https://github.com/FreeRDP/FreeRDP
 language: c
-domain: metadata
+domain: network
 loc: 439398

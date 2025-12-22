@@ -2,5 +2,5 @@ project: selinux
 oss_fuzz_project_dir: projects/selinux
 main_repo: https://github.com/SELinuxProject/selinux
 language: c
-domain: metadata
+domain: os_system
 loc: 157073

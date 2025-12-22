@@ -2,5 +2,5 @@ project: yara
 oss_fuzz_project_dir: projects/yara
 main_repo: https://github.com/VirusTotal/yara.git
 language: c++
-domain: metadata
+domain: crypto
 loc: 67007

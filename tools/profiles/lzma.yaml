@@ -2,5 +2,5 @@ project: lzma
 oss_fuzz_project_dir: projects/lzma
 main_repo: https://github.com/fancycode/lzma-fuzz.git
 language: c++
-domain: metadata
+domain: archive
 loc: 84249

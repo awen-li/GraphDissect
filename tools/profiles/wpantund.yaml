@@ -2,5 +2,5 @@ project: wpantund
 oss_fuzz_project_dir: projects/wpantund
 main_repo: https://github.com/openthread/wpantund
 language: c++
-domain: metadata
+domain: network
 loc: 109438

@@ -2,5 +2,5 @@ project: pybind11
 oss_fuzz_project_dir: projects/pybind11
 main_repo: https://github.com/pybind/pybind11.git
 language: c++
-domain: network
+domain: runtime
 loc: 32358

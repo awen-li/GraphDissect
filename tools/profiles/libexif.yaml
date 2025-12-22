@@ -2,5 +2,5 @@ project: libexif
 oss_fuzz_project_dir: projects/libexif
 main_repo: https://github.com/libexif/libexif
 language: c++
-domain: metadata
+domain: media
 loc: 14021

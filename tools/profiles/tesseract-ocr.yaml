@@ -2,5 +2,5 @@ project: tesseract-ocr
 oss_fuzz_project_dir: projects/tesseract-ocr
 main_repo: https://github.com/tesseract-ocr/tesseract
 language: c++
-domain: metadata
+domain: media
 loc: 155164

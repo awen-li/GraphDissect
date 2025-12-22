@@ -2,5 +2,5 @@ project: libical
 oss_fuzz_project_dir: projects/libical
 main_repo: https://github.com/libical/libical.git
 language: c++
-domain: metadata
+domain: network
 loc: 52443

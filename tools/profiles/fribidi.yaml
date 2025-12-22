@@ -2,5 +2,5 @@ project: fribidi
 oss_fuzz_project_dir: projects/fribidi
 main_repo: https://github.com/fribidi/fribidi.git
 language: c
-domain: metadata
+domain: media
 loc: 8724

@@ -2,5 +2,5 @@ project: cppcheck
 oss_fuzz_project_dir: projects/cppcheck
 main_repo: https://github.com/danmar/cppcheck.git
 language: c++
-domain: metadata
+domain: toolchain
 loc: 278379

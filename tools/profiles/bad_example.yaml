@@ -2,5 +2,5 @@ project: bad_example
 oss_fuzz_project_dir: projects/bad_example
 main_repo: https://github.com/madler/zlib
 language: c++
-domain: archive
+domain: unknown
 loc: 30026

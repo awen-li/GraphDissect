@@ -2,5 +2,5 @@ project: libmodbus
 oss_fuzz_project_dir: projects/libmodbus
 main_repo: https://github.com/stephane/libmodbus
 language: c
-domain: metadata
+domain: network
 loc: 5471

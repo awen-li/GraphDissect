@@ -2,5 +2,5 @@ project: kcodecs
 oss_fuzz_project_dir: projects/kcodecs
 main_repo: https://invent.kde.org/frameworks/kcodecs.git
 language: c++
-domain: media
+domain: document
 loc: 8817

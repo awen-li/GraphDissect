@@ -2,5 +2,5 @@ project: gdbm
 oss_fuzz_project_dir: projects/gdbm
 main_repo: https://git.gnu.org.ua/gdbm.git
 language: c
-domain: toolchain
+domain: metadata
 loc: 17435

@@ -2,5 +2,5 @@ project: brpc
 oss_fuzz_project_dir: projects/brpc
 main_repo: https://github.com/apache/incubator-brpc
 language: c++
-domain: metadata
+domain: network
 loc: 211717

@@ -1,1140 +1,1077 @@
-total_projects: 556
+total_projects: 508
 domains:
-  runtime: 33
-  network: 79
-  media: 90
-  metadata: 224
-  document: 38
-  archive: 23
-  crypto: 42
-  toolchain: 18
-  ml: 6
-  os_system: 2
-  unknown: 1
-loc_total: 177823572
-loc_min: 0
+  metadata: 53
+  network: 127
+  media: 94
+  document: 68
+  unknown: 15
+  toolchain: 22
+  crypto: 43
+  runtime: 23
+  os_system: 18
+  archive: 22
+  database_storage: 16
+  ml: 7
+loc_total: 177810905
+loc_min: 2440
 loc_max: 9542759
-loc_avg: 319826.5683453237
+loc_avg: 350021.4665354331
 known_domain_projects:
-  runtime:
-  - project: jsc
-    loc: 7942901
-  - project: nodejs
-    loc: 4113269
-  - project: hermes
-    loc: 2761567
-  - project: v8
-    loc: 2043693
-  - project: php
-    loc: 1316093
-  - project: poco
-    loc: 796378
-  - project: cpython3
-    loc: 763720
-  - project: python3-libraries
-    loc: 763720
-  - project: dart
-    loc: 602700
-  - project: glib
-    loc: 543312
-  - project: xs
-    loc: 299360
-  - project: wamr
-    loc: 209115
-  - project: abseil-cpp
-    loc: 171654
-  - project: wasmedge
-    loc: 164186
-  - project: njs
-    loc: 124685
-  - project: jerryscript
-    loc: 121452
-  - project: spicy
-    loc: 85701
-  - project: quickjs
-    loc: 76321
-  - project: mruby
-    loc: 72860
-  - project: wabt
-    loc: 60216
-  - project: janet
-    loc: 33610
-  - project: wasm3
-    loc: 22387
-  - project: lua
-    loc: 21260
-  - project: clib
-    loc: 20409
-  - project: magic-enum
-    loc: 19227
-  - project: args
-    loc: 18495
-  - project: cxxopts
-    loc: 17292
-  - project: cppitertools
-    loc: 11242
-  - project: boost
-    loc: 121
-  - project: dlplibs
-    loc: 0
-  - project: gnucobol
-    loc: 0
-  - project: spidermonkey-ufi
-    loc: 0
-  - project: spidermonkey
-    loc: 0
-  network:
-  - project: wireshark
-    loc: 4777197
-  - project: open5gs
-    loc: 1055982
-  - project: envoy
-    loc: 1031338
-  - project: mongoose
-    loc: 880916
-  - project: apache-doris
-    loc: 770777
-  - project: systemd
-    loc: 720441
-  - project: frr
-    loc: 689669
-  - project: kea
-    loc: 669083
-  - project: civetweb
-    loc: 592031
-  - project: trafficserver
-    loc: 582815
-  - project: networkmanager
-    loc: 484285
-  - project: strongswan
-    loc: 409225
-  - project: snort3
-    loc: 367102
-  - project: tor
-    loc: 322433
-  - project: libwebsockets
-    loc: 318485
-  - project: openvswitch
-    loc: 312724
-  - project: zeek
-    loc: 309641
-  - project: suricata
-    loc: 304383
-  - project: bind9
-    loc: 297089
-  - project: haproxy
-    loc: 272587
-  - project: proftpd
-    loc: 245489
-  - project: h2o
-    loc: 244614
-  - project: apache-httpd
-    loc: 237414
-  - project: powerdns
-    loc: 225492
-  - project: osquery
-    loc: 193325
-  - project: curl
-    loc: 188903
-  - project: nginx
-    loc: 170325
-  - project: knot-dns
-    loc: 150714
-  - project: rtpproxy
-    loc: 150555
-  - project: proxygen
-    loc: 145560
-  - project: hpn-ssh
-    loc: 141085
-  - project: unbound
-    loc: 137592
-  - project: openssh
-    loc: 131112
-  - project: ndpi
-    loc: 124636
-  - project: libyang
-    loc: 123084
-  - project: libssh
-    loc: 112638
-  - project: boost-beast
-    loc: 112205
-  - project: pcapplusplus
-    loc: 111814
-  - project: dropbear
-    loc: 106955
-  - project: openvpn
-    loc: 102160
-  - project: nghttp2
-    loc: 101769
-  - project: varnish
-    loc: 100957
-  - project: lighttpd
-    loc: 100914
-  - project: unit
-    loc: 84785
-  - project: usrsctp
-    loc: 82031
-  - project: libevent
-    loc: 67915
-  - project: libsoup
-    loc: 62231
-  - project: libmicrohttpd2
-    loc: 54876
-  - project: apache-logging-log4cxx
-    loc: 49638
-  - project: libssh2
-    loc: 46241
-  - project: c-ares
-    loc: 44505
-  - project: wget2
-    loc: 44168
-  - project: cpp-httplib
-    loc: 44064
-  - project: avahi
-    loc: 41762
-  - project: libpcap
-    loc: 41061
-  - project: libhtp
-    loc: 38749
-  - project: pupnp
-    loc: 38512
-  - project: dnsmasq
-    loc: 36706
-  - project: wget
-    loc: 35510
-  - project: lldpd
-    loc: 34312
-  - project: pybind11
-    loc: 32358
-  - project: lwan
-    loc: 31220
-  - project: ada-url
-    loc: 28666
-  - project: muduo
-    loc: 27001
-  - project: h3
-    loc: 19984
-  - project: esp-v2
-    loc: 14275
-  - project: uriparser
-    loc: 13418
-  - project: mosh
-    loc: 10894
-  - project: uwebsockets
-    loc: 8824
-  - project: libidn
-    loc: 6635
-  - project: http-parser
-    loc: 6220
-  - project: libidn2
-    loc: 5991
-  - project: libproxy
-    loc: 3451
-  - project: libpsl
-    loc: 2440
-  - project: http-pattern-matcher
-    loc: 1867
-  - project: llhttp
-    loc: 973
-  - project: easywsclient
-    loc: 748
-  - project: hostap
-    loc: 0
-  - project: qs
-    loc: 0
-  media:
-  - project: gstreamer
-    loc: 2241490
-  - project: opencv
-    loc: 1505127
-  - project: ffmpeg
-    loc: 1348536
-  - project: angle
-    loc: 1095870
-  - project: skia
-    loc: 909514
-  - project: gpac
-    loc: 767270
-  - project: vlc
-    loc: 653164
-  - project: libaom
-    loc: 627164
-  - project: spirv-tools
-    loc: 482683
-  - project: grok
-    loc: 450774
-  - project: imagemagick
-    loc: 396057
-  - project: libvpx
-    loc: 364566
-  - project: ogre
-    loc: 364450
-  - project: assimp
-    loc: 346155
-  - project: sound-open-firmware
-    loc: 337436
-  - project: halide
-    loc: 315667
-  - project: simd
-    loc: 313289
-  - project: wuffs
-    loc: 238920
-  - project: cairo
-    loc: 218162
-  - project: libhevc
-    loc: 208851
-  - project: openexr
-    loc: 201607
-  - project: leptonica
-    loc: 193101
-  - project: libvips
-    loc: 183350
-  - project: openjpeg
-    loc: 178503
-  - project: tinygltf
-    loc: 167713
-  - project: ntopng
-    loc: 163384
-  - project: mpv
-    loc: 155356
-  - project: libjxl
-    loc: 137110
-  - project: libyuv
-    loc: 115885
-  - project: libigl
-    loc: 115159
-  - project: glslang
-    loc: 101950
-  - project: openh264
-    loc: 97909
-  - project: libtiff
-    loc: 91882
-  - project: alembic
-    loc: 89261
-  - project: libheif
-    loc: 85792
-  - project: libwebp
-    loc: 84328
-  - project: astc-encoder
-    loc: 84224
-  - project: stb
-    loc: 81544
-  - project: opus
-    loc: 78255
-  - project: vulkan-loader
-    loc: 68748
-  - project: spirv-cross
-    loc: 65654
-  - project: cura-engine
-    loc: 64118
-  - project: libjpeg-turbo
-    loc: 62017
-  - project: flac
-    loc: 61351
-  - project: dng_sdk
-    loc: 60851
-  - project: libraw
-    loc: 58488
-  - project: libpng
-    loc: 57597
-  - project: faad2
-    loc: 56396
-  - project: libsndfile
-    loc: 55602
-  - project: vorbis
-    loc: 54840
-  - project: draco
-    loc: 52306
-  - project: libgd
-    loc: 51019
-  - project: espeak-ng
-    loc: 44005
-  - project: dav1d
-    loc: 43010
-  - project: libavif
-    loc: 40601
-  - project: wavpack
-    loc: 35547
-  - project: librawspeed
-    loc: 35440
-  - project: kde-thumbnailers
-    loc: 32393
-  - project: gdk-pixbuf
-    loc: 31231
-  - project: meshoptimizer
-    loc: 29590
-  - project: mpg123
-    loc: 27907
-  - project: kimageformats
-    loc: 27879
-  - project: libultrahdr
-    loc: 26211
-  - project: speex
-    loc: 23934
-  - project: libmpeg2
-    loc: 17923
-  - project: openslide
-    loc: 17422
-  - project: tinyobjloader
-    loc: 16091
-  - project: jbig2dec
-    loc: 12841
-  - project: lodepng
-    loc: 12771
-  - project: kcodecs
-    loc: 8817
-  - project: guetzli
-    loc: 8029
-  - project: libspng
-    loc: 7831
-  - project: tremor
-    loc: 7745
-  - project: giflib
-    loc: 7259
-  - project: opusfile
-    loc: 7167
-  - project: ffms2
-    loc: 6993
-  - project: libldac
-    loc: 6066
-  - project: cgif
-    loc: 4686
-  - project: nestegg
-    loc: 4043
-  - project: graphicsfuzz-spirv
-    loc: 3172
-  - project: jpegoptim
-    loc: 2624
-  - project: pngquant
-    loc: 1465
-  - project: libcue
-    loc: 1368
-  - project: freeimage
-    loc: 0
-  - project: graphicsmagick
-    loc: 0
-  - project: lame
-    loc: 0
-  - project: libpng-proto
-    loc: 0
-  - project: libtheora
-    loc: 0
-  - project: msgpack-c
-    loc: 0
-  - project: piex
-    loc: 0
   metadata:
-  - project: libstdcpp
-    loc: 6812567
-  - project: mysql-server
-    loc: 6064439
-  - project: samba
-    loc: 1995074
-  - project: fluent-bit
-    loc: 1934098
-  - project: mariadb
-    loc: 1753535
-  - project: qemu
-    loc: 1709083
-  - project: clickhouse
-    loc: 1513579
-  - project: gdal
-    loc: 1478548
-  - project: connectedhomeip
-    loc: 1334554
-  - project: edk2
-    loc: 1209213
-  - project: resiprocate
-    loc: 1073995
-  - project: fast-dds
-    loc: 1073083
-  - project: duckdb
-    loc: 1036428
-  - project: icu
-    loc: 988735
-  - project: kamailio
-    loc: 884635
-  - project: wxwidgets
-    loc: 880182
-  - project: libredwg
-    loc: 876587
-  - project: tdengine
-    loc: 798116
-  - project: hdf5
-    loc: 739404
-  - project: cmake
-    loc: 733293
-  - project: arrow
-    loc: 674186
-  - project: openweave
-    loc: 619245
-  - project: rocksdb
-    loc: 541059
-  - project: xen
-    loc: 540070
-  - project: pcl
-    loc: 539227
-  - project: wazuh
-    loc: 531633
-  - project: pjsip
-    loc: 528398
-  - project: dovecot
-    loc: 520053
-  - project: opensips
-    loc: 464818
-  - project: pigweed
-    loc: 444316
-  - project: rdkit
-    loc: 442382
-  - project: freerdp
-    loc: 439398
-  - project: plan9port
-    loc: 403826
-  - project: spdk
-    loc: 401841
-  - project: opendds
-    loc: 398098
-  - project: quantlib
-    loc: 397845
-  - project: wt
-    loc: 394417
-  - project: bluez
-    loc: 393709
-  - project: libpg_query
-    loc: 374062
-  - project: quiche
-    loc: 361102
-  - project: double-conversion
-    loc: 322759
-  - project: git
-    loc: 306971
-  - project: openbabel
-    loc: 304057
-  - project: krb5
-    loc: 303027
-  - project: cpuinfo
-    loc: 299851
-  - project: perfetto
-    loc: 297656
-  - project: netcdf
-    loc: 296630
-  - project: igraph
-    loc: 295519
-  - project: sleuthkit
-    loc: 284623
-  - project: cppcheck
-    loc: 278379
-  - project: fwupd
-    loc: 270802
-  - project: mapserver
-    loc: 270451
-  - project: freeradius
-    loc: 269680
-  - project: libgit2
-    loc: 264714
-  - project: cyclonedds
-    loc: 261243
-  - project: eigen
-    loc: 238632
-  - project: openthread
-    loc: 236002
-  - project: libxaac
-    loc: 227844
-  - project: s2opc
-    loc: 227679
-  - project: libspdm
-    loc: 222710
-  - project: libavc
-    loc: 218614
-  - project: clamav
-    loc: 215183
-  - project: brpc
-    loc: 211717
-  - project: geos
-    loc: 204857
-  - project: sentencepiece
-    loc: 199372
-  - project: firestore
-    loc: 195245
-  - project: neomutt
-    loc: 187422
-  - project: proj4
-    loc: 182363
-  - project: postgis
-    loc: 181240
-  - project: opensc
-    loc: 181145
-  - project: iverilog
-    loc: 176738
-  - project: cups
-    loc: 172421
-  - project: open62541
-    loc: 172247
-  - project: cel-cpp
-    loc: 168639
-  - project: msquic
-    loc: 168489
-  - project: tinyusb
-    loc: 166319
-  - project: libtorrent
-    loc: 166028
-  - project: inchi
-    loc: 162278
-  - project: librdkafka
-    loc: 159151
-  - project: selinux
-    loc: 157073
-  - project: libiec61850
-    loc: 155910
-  - project: capnproto
-    loc: 155246
-  - project: tesseract-ocr
-    loc: 155164
-  - project: pacemaker
-    loc: 144869
-  - project: harfbuzz
-    loc: 139450
-  - project: postfix
-    loc: 136745
-  - project: libbpf
-    loc: 134004
-  - project: e2fsprogs
-    loc: 133657
-  - project: cfengine
-    loc: 132299
-  - project: sudoers
-    loc: 131598
-  - project: libfdk-aac
-    loc: 127763
-  - project: thrift
-    loc: 125308
-  - project: fuzzing-puzzles
-    loc: 118859
-  - project: wpantund
-    loc: 109438
-  - project: simdutf
-    loc: 106402
-  - project: libcups
-    loc: 106154
-  - project: dpp
-    loc: 97538
-  - project: janus-gateway
-    loc: 93065
-  - project: flatbuffers
-    loc: 84438
-  - project: lzma
-    loc: 84249
-  - project: hunspell
-    loc: 83881
-  - project: fio
-    loc: 82012
-  - project: qpid-proton
-    loc: 79568
-  - project: s2geometry
-    loc: 79481
-  - project: exiv2
-    loc: 78250
-  - project: htslib
-    loc: 74727
-  - project: behaviortreecpp
-    loc: 73525
-  - project: gpsd
-    loc: 72509
-  - project: tmux
-    loc: 72317
-  - project: p11-kit
-    loc: 71729
-  - project: mfcmapi
-    loc: 70366
-  - project: tomlplusplus
-    loc: 69267
-  - project: lxc
-    loc: 68667
-  - project: yoga
-    loc: 68593
-  - project: yara
-    loc: 67007
-  - project: fuzztest-example
-    loc: 66805
-  - project: ostree
-    loc: 66537
-  - project: libcoap
-    loc: 64782
-  - project: irssi
-    loc: 64203
-  - project: tinysparql
-    loc: 62952
-  - project: pcre2
-    loc: 62694
-  - project: ntpsec
-    loc: 62493
-  - project: tcmalloc
-    loc: 61946
-  - project: libzmq
-    loc: 61538
-  - project: hwloc
-    loc: 60005
-  - project: opendnp3
-    loc: 59810
-  - project: w3m
-    loc: 59524
-  - project: libphonenumber
-    loc: 54737
-  - project: mosquitto
-    loc: 52558
-  - project: libical
-    loc: 52443
-  - project: exprtk
-    loc: 48755
-  - project: pistache
-    loc: 48124
-  - project: lcms
-    loc: 45497
-  - project: fmt
-    loc: 45209
-  - project: znc
-    loc: 44197
-  - project: libvnc
-    loc: 43124
-  - project: croaring
-    loc: 42818
-  - project: coturn
-    loc: 40009
-  - project: immer
-    loc: 39636
-  - project: memcached
-    loc: 38406
-  - project: ampproject
-    loc: 37667
-  - project: vulnerable-project
-    loc: 37373
-  - project: liblouis
-    loc: 37116
-  - project: rauc
-    loc: 36931
-  - project: oatpp
-    loc: 36612
-  - project: libfido2
-    loc: 34953
-  - project: fftw3
-    loc: 34260
-  - project: xbps
-    loc: 33253
-  - project: readstat
-    loc: 32954
-  - project: casync
-    loc: 31245
-  - project: libsass
-    loc: 30866
-  - project: date
-    loc: 30077
-  - project: libfuse
-    loc: 28884
-  - project: re2
-    loc: 27921
-  - project: libusb
-    loc: 27776
-  - project: augeas
-    loc: 26515
-  - project: aspell
-    loc: 25877
-  - project: dbus-broker
-    loc: 24862
-  - project: spdlog
-    loc: 24021
-  - project: matio
-    loc: 23235
-  - project: ninja
-    loc: 23220
-  - project: opennavsurf-bag
-    loc: 22292
-  - project: phmap
-    loc: 21721
-  - project: leveldb
-    loc: 21207
-  - project: bc-gh
-    loc: 19125
-  - project: utf8proc
-    loc: 19057
-  - project: libass
-    loc: 18446
-  - project: usbguard
-    loc: 18424
-  - project: file
-    loc: 17951
-  - project: ots
-    loc: 17734
-  - project: libucl
-    loc: 17016
-  - project: crow
-    loc: 16594
-  - project: opencensus-cpp
-    loc: 15010
-  - project: sql-parser
-    loc: 14078
-  - project: libexif
-    loc: 14021
-  - project: nanopb
-    loc: 12973
-  - project: cups-filters
-    loc: 12611
-  - project: mdbtools
-    loc: 12133
-  - project: libconfig
-    loc: 11928
-  - project: rabbitmq-c
-    loc: 11506
-  - project: libplist
-    loc: 11313
-  - project: libtsm
-    loc: 11027
-  - project: fast_float
-    loc: 10939
-  - project: libyal
-    loc: 10914
-  - project: kmime
-    loc: 10886
-  - project: libyaml
-    loc: 10586
-  - project: libcacard
-    loc: 10075
-  - project: glog
-    loc: 9796
-  - project: hiredis
-    loc: 9522
-  - project: libcbor
-    loc: 9442
-  - project: protobuf-c
-    loc: 8811
-  - project: fribidi
-    loc: 8724
-  - project: muparser
-    loc: 7994
-  - project: cctz
-    loc: 7784
-  - project: pyodbc
-    loc: 7631
-  - project: numactl
-    loc: 7416
-  - project: flex
-    loc: 7159
-  - project: skcms
-    loc: 7020
-  - project: spice-usbredir
-    loc: 6617
-  - project: jwt-verify-lib
-    loc: 5887
-  - project: freetype2
-    loc: 5670
-  - project: libmodbus
-    loc: 5471
-  - project: pffft
-    loc: 4516
-  - project: bios-bmc-smm-error-logger
-    loc: 3824
-  - project: woff2
-    loc: 3683
-  - project: libprotobuf-mutator
-    loc: 2956
-  - project: java-example
-    loc: 2603
-  - project: gfwx
-    loc: 920
-  - project: inih
-    loc: 895
-  - project: bazel-rules-fuzzing-test
-    loc: 766
-  - project: oss-fuzz-example
-    loc: 150
-  - project: cifuzz-example
-    loc: 72
-  - project: cel-go
-    loc: 0
-  - project: example
-    loc: 0
-  - project: firefox
-    loc: 0
-  - project: libteken
-    loc: 0
-  - project: mercurial
-    loc: 0
-  - project: ntp
-    loc: 0
-  - project: num-bigint
-    loc: 0
-  - project: pidgin
-    loc: 0
-  - project: postgresql
-    loc: 0
-  - project: qt
-    loc: 0
-  - project: qubes-os
-    loc: 0
-  - project: sqlite3
-    loc: 0
+    count: 53
+    loc_min: 4686
+    loc_max: 1934098
+    projects:
+    - project: fluent-bit
+      loc: 1934098
+    - project: gdal
+      loc: 1478548
+    - project: rdkit
+      loc: 442382
+    - project: quantlib
+      loc: 397845
+    - project: wt
+      loc: 394417
+    - project: git
+      loc: 306971
+    - project: cpuinfo
+      loc: 299851
+    - project: perfetto
+      loc: 297656
+    - project: igraph
+      loc: 295519
+    - project: sleuthkit
+      loc: 284623
+    - project: fwupd
+      loc: 270802
+    - project: mapserver
+      loc: 270451
+    - project: libgit2
+      loc: 264714
+    - project: geos
+      loc: 204857
+    - project: cups
+      loc: 172421
+    - project: abseil-cpp
+      loc: 171654
+    - project: inchi
+      loc: 162278
+    - project: pacemaker
+      loc: 144869
+    - project: cfengine
+      loc: 132299
+    - project: libcups
+      loc: 106154
+    - project: htslib
+      loc: 74727
+    - project: tmux
+      loc: 72317
+    - project: yoga
+      loc: 68593
+    - project: ostree
+      loc: 66537
+    - project: tcmalloc
+      loc: 61946
+    - project: hwloc
+      loc: 60005
+    - project: apache-logging-log4cxx
+      loc: 49638
+    - project: fmt
+      loc: 45209
+    - project: croaring
+      loc: 42818
+    - project: immer
+      loc: 39636
+    - project: rauc
+      loc: 36931
+    - project: xbps
+      loc: 33253
+    - project: readstat
+      loc: 32954
+    - project: augeas
+      loc: 26515
+    - project: spdlog
+      loc: 24021
+    - project: matio
+      loc: 23235
+    - project: phmap
+      loc: 21721
+    - project: clib
+      loc: 20409
+    - project: args
+      loc: 18495
+    - project: file
+      loc: 17951
+    - project: gdbm
+      loc: 17435
+    - project: cxxopts
+      loc: 17292
+    - project: crow
+      loc: 16594
+    - project: opencensus-cpp
+      loc: 15010
+    - project: cups-filters
+      loc: 12611
+    - project: cppitertools
+      loc: 11242
+    - project: libtsm
+      loc: 11027
+    - project: libyal
+      loc: 10914
+    - project: glog
+      loc: 9796
+    - project: muparser
+      loc: 7994
+    - project: cctz
+      loc: 7784
+    - project: numactl
+      loc: 7416
+    - project: cgif
+      loc: 4686
+  network:
+    count: 127
+    loc_min: 2440
+    loc_max: 7942901
+    projects:
+    - project: jsc
+      loc: 7942901
+    - project: wireshark
+      loc: 4777197
+    - project: samba
+      loc: 1995074
+    - project: connectedhomeip
+      loc: 1334554
+    - project: resiprocate
+      loc: 1073995
+    - project: fast-dds
+      loc: 1073083
+    - project: open5gs
+      loc: 1055982
+    - project: envoy
+      loc: 1031338
+    - project: kamailio
+      loc: 884635
+    - project: mongoose
+      loc: 880916
+    - project: poco
+      loc: 796378
+    - project: apache-doris
+      loc: 770777
+    - project: frr
+      loc: 689669
+    - project: kea
+      loc: 669083
+    - project: openweave
+      loc: 619245
+    - project: civetweb
+      loc: 592031
+    - project: trafficserver
+      loc: 582815
+    - project: pjsip
+      loc: 528398
+    - project: dovecot
+      loc: 520053
+    - project: networkmanager
+      loc: 484285
+    - project: opensips
+      loc: 464818
+    - project: pigweed
+      loc: 444316
+    - project: freerdp
+      loc: 439398
+    - project: strongswan
+      loc: 409225
+    - project: opendds
+      loc: 398098
+    - project: bluez
+      loc: 393709
+    - project: snort3
+      loc: 367102
+    - project: quiche
+      loc: 361102
+    - project: tor
+      loc: 322433
+    - project: libwebsockets
+      loc: 318485
+    - project: openvswitch
+      loc: 312724
+    - project: zeek
+      loc: 309641
+    - project: suricata
+      loc: 304383
+    - project: bind9
+      loc: 297089
+    - project: net-snmp
+      loc: 279341
+    - project: haproxy
+      loc: 272587
+    - project: freeradius
+      loc: 269680
+    - project: cyclonedds
+      loc: 261243
+    - project: proftpd
+      loc: 245489
+    - project: h2o
+      loc: 244614
+    - project: apache-httpd
+      loc: 237414
+    - project: openthread
+      loc: 236002
+    - project: s2opc
+      loc: 227679
+    - project: powerdns
+      loc: 225492
+    - project: brpc
+      loc: 211717
+    - project: osquery
+      loc: 193325
+    - project: curl
+      loc: 188903
+    - project: neomutt
+      loc: 187422
+    - project: proj4
+      loc: 182363
+    - project: open62541
+      loc: 172247
+    - project: nginx
+      loc: 170325
+    - project: msquic
+      loc: 168489
+    - project: libtorrent
+      loc: 166028
+    - project: ntopng
+      loc: 163384
+    - project: librdkafka
+      loc: 159151
+    - project: libiec61850
+      loc: 155910
+    - project: knot-dns
+      loc: 150714
+    - project: rtpproxy
+      loc: 150555
+    - project: proxygen
+      loc: 145560
+    - project: hpn-ssh
+      loc: 141085
+    - project: unbound
+      loc: 137592
+    - project: postfix
+      loc: 136745
+    - project: openssh
+      loc: 131112
+    - project: thrift
+      loc: 125308
+    - project: ndpi
+      loc: 124636
+    - project: libssh
+      loc: 112638
+    - project: boost-beast
+      loc: 112205
+    - project: pcapplusplus
+      loc: 111814
+    - project: wpantund
+      loc: 109438
+    - project: dropbear
+      loc: 106955
+    - project: openvpn
+      loc: 102160
+    - project: nghttp2
+      loc: 101769
+    - project: varnish
+      loc: 100957
+    - project: lighttpd
+      loc: 100914
+    - project: dpp
+      loc: 97538
+    - project: janus-gateway
+      loc: 93065
+    - project: unit
+      loc: 84785
+    - project: usrsctp
+      loc: 82031
+    - project: qpid-proton
+      loc: 79568
+    - project: s2geometry
+      loc: 79481
+    - project: gpsd
+      loc: 72509
+    - project: libevent
+      loc: 67915
+    - project: libcoap
+      loc: 64782
+    - project: irssi
+      loc: 64203
+    - project: ntpsec
+      loc: 62493
+    - project: libsoup
+      loc: 62231
+    - project: libzmq
+      loc: 61538
+    - project: opendnp3
+      loc: 59810
+    - project: w3m
+      loc: 59524
+    - project: libmicrohttpd2
+      loc: 54876
+    - project: mosquitto
+      loc: 52558
+    - project: libical
+      loc: 52443
+    - project: pistache
+      loc: 48124
+    - project: libssh2
+      loc: 46241
+    - project: c-ares
+      loc: 44505
+    - project: znc
+      loc: 44197
+    - project: wget2
+      loc: 44168
+    - project: cpp-httplib
+      loc: 44064
+    - project: libvnc
+      loc: 43124
+    - project: avahi
+      loc: 41762
+    - project: libpcap
+      loc: 41061
+    - project: coturn
+      loc: 40009
+    - project: libhtp
+      loc: 38749
+    - project: pupnp
+      loc: 38512
+    - project: ampproject
+      loc: 37667
+    - project: dnsmasq
+      loc: 36706
+    - project: oatpp
+      loc: 36612
+    - project: wget
+      loc: 35510
+    - project: lldpd
+      loc: 34312
+    - project: lwan
+      loc: 31220
+    - project: ada-url
+      loc: 28666
+    - project: muduo
+      loc: 27001
+    - project: dbus-broker
+      loc: 24862
+    - project: libsrtp
+      loc: 21748
+    - project: h3
+      loc: 19984
+    - project: esp-v2
+      loc: 14275
+    - project: uriparser
+      loc: 13418
+    - project: rabbitmq-c
+      loc: 11506
+    - project: mosh
+      loc: 10894
+    - project: grpc-httpjson-transcoding
+      loc: 9476
+    - project: uwebsockets
+      loc: 8824
+    - project: libidn
+      loc: 6635
+    - project: http-parser
+      loc: 6220
+    - project: libidn2
+      loc: 5991
+    - project: libmodbus
+      loc: 5471
+    - project: libproxy
+      loc: 3451
+    - project: libpsl
+      loc: 2440
+  media:
+    count: 94
+    loc_min: 2624
+    loc_max: 2241490
+    projects:
+    - project: gstreamer
+      loc: 2241490
+    - project: opencv
+      loc: 1505127
+    - project: ffmpeg
+      loc: 1348536
+    - project: angle
+      loc: 1095870
+    - project: skia
+      loc: 909514
+    - project: gpac
+      loc: 767270
+    - project: vlc
+      loc: 653164
+    - project: libaom
+      loc: 627164
+    - project: spirv-tools
+      loc: 482683
+    - project: grok
+      loc: 450774
+    - project: imagemagick
+      loc: 396057
+    - project: libvpx
+      loc: 364566
+    - project: ogre
+      loc: 364450
+    - project: assimp
+      loc: 346155
+    - project: sound-open-firmware
+      loc: 337436
+    - project: halide
+      loc: 315667
+    - project: simd
+      loc: 313289
+    - project: wuffs
+      loc: 238920
+    - project: libxaac
+      loc: 227844
+    - project: libavc
+      loc: 218614
+    - project: cairo
+      loc: 218162
+    - project: libhevc
+      loc: 208851
+    - project: openexr
+      loc: 201607
+    - project: leptonica
+      loc: 193101
+    - project: libvips
+      loc: 183350
+    - project: openjpeg
+      loc: 178503
+    - project: tinygltf
+      loc: 167713
+    - project: mpv
+      loc: 155356
+    - project: tesseract-ocr
+      loc: 155164
+    - project: harfbuzz
+      loc: 139450
+    - project: libjxl
+      loc: 137110
+    - project: libfdk-aac
+      loc: 127763
+    - project: libyuv
+      loc: 115885
+    - project: libigl
+      loc: 115159
+    - project: glslang
+      loc: 101950
+    - project: openh264
+      loc: 97909
+    - project: libtiff
+      loc: 91882
+    - project: alembic
+      loc: 89261
+    - project: libheif
+      loc: 85792
+    - project: libwebp
+      loc: 84328
+    - project: astc-encoder
+      loc: 84224
+    - project: stb
+      loc: 81544
+    - project: opus
+      loc: 78255
+    - project: exiv2
+      loc: 78250
+    - project: vulkan-loader
+      loc: 68748
+    - project: spirv-cross
+      loc: 65654
+    - project: cura-engine
+      loc: 64118
+    - project: libjpeg-turbo
+      loc: 62017
+    - project: flac
+      loc: 61351
+    - project: dng_sdk
+      loc: 60851
+    - project: libraw
+      loc: 58488
+    - project: libpng
+      loc: 57597
+    - project: faad2
+      loc: 56396
+    - project: libsndfile
+      loc: 55602
+    - project: vorbis
+      loc: 54840
+    - project: draco
+      loc: 52306
+    - project: libgd
+      loc: 51019
+    - project: lcms
+      loc: 45497
+    - project: espeak-ng
+      loc: 44005
+    - project: dav1d
+      loc: 43010
+    - project: libavif
+      loc: 40601
+    - project: wavpack
+      loc: 35547
+    - project: librawspeed
+      loc: 35440
+    - project: kde-thumbnailers
+      loc: 32393
+    - project: gdk-pixbuf
+      loc: 31231
+    - project: meshoptimizer
+      loc: 29590
+    - project: mpg123
+      loc: 27907
+    - project: kimageformats
+      loc: 27879
+    - project: libultrahdr
+      loc: 26211
+    - project: speex
+      loc: 23934
+    - project: libass
+      loc: 18446
+    - project: libmpeg2
+      loc: 17923
+    - project: ots
+      loc: 17734
+    - project: openslide
+      loc: 17422
+    - project: tinyobjloader
+      loc: 16091
+    - project: libexif
+      loc: 14021
+    - project: jbig2dec
+      loc: 12841
+    - project: lodepng
+      loc: 12771
+    - project: shaderc
+      loc: 10293
+    - project: fribidi
+      loc: 8724
+    - project: guetzli
+      loc: 8029
+    - project: libspng
+      loc: 7831
+    - project: tremor
+      loc: 7745
+    - project: giflib
+      loc: 7259
+    - project: opusfile
+      loc: 7167
+    - project: skcms
+      loc: 7020
+    - project: ffms2
+      loc: 6993
+    - project: libldac
+      loc: 6066
+    - project: freetype2
+      loc: 5670
+    - project: pffft
+      loc: 4516
+    - project: nestegg
+      loc: 4043
+    - project: woff2
+      loc: 3683
+    - project: graphicsfuzz-spirv
+      loc: 3172
+    - project: jpegoptim
+      loc: 2624
   document:
-  - project: libreoffice
-    loc: 5114922
-  - project: ghostscript
-    loc: 1467900
-  - project: mupdf
-    loc: 492913
-  - project: spotify-json
-    loc: 330320
-  - project: poppler
-    loc: 209223
-  - project: simdjson
-    loc: 190704
-  - project: jsoncons
-    loc: 142495
-  - project: libxml2
-    loc: 139118
-  - project: json
-    loc: 107166
-  - project: glaze
-    loc: 86056
-  - project: yaml-cpp
-    loc: 80477
-  - project: libxlsxwriter
-    loc: 65699
-  - project: qpdf
-    loc: 64845
-  - project: jsonnet
-    loc: 48888
-  - project: nokogiri
-    loc: 47085
-  - project: boost-json
-    loc: 45625
-  - project: tidy-html5
-    loc: 40848
-  - project: arduinojson
-    loc: 39499
-  - project: libxslt
-    loc: 35778
-  - project: jq
-    loc: 32373
-  - project: expat
-    loc: 29811
-  - project: rapidjson
-    loc: 29514
-  - project: pugixml
-    loc: 24743
-  - project: valijson
-    loc: 18998
-  - project: cmark
-    loc: 17049
-  - project: cjson
-    loc: 16596
-  - project: jansson
-    loc: 14243
-  - project: jsoncpp
-    loc: 9883
-  - project: grpc-httpjson-transcoding
-    loc: 9476
-  - project: json-c
-    loc: 9360
-  - project: md4c
-    loc: 7965
-  - project: hoextdown
-    loc: 7130
-  - project: tinyxml2
-    loc: 5858
-  - project: libxls
-    loc: 5703
-  - project: libspectre
-    loc: 4690
-  - project: yajl-ruby
-    loc: 3072
-  - project: xerces-c
-    loc: 0
-  - project: xpdf
-    loc: 0
-  archive:
-  - project: tarantool
-    loc: 274435
-  - project: libarchive
-    loc: 168922
-  - project: upx
-    loc: 144306
-  - project: c-blosc2
-    loc: 112690
-  - project: zstd
-    loc: 91262
-  - project: c-blosc
-    loc: 88766
-  - project: brotli
-    loc: 38657
-  - project: xz
-    loc: 34427
-  - project: zlib-ng
-    loc: 31977
-  - project: bad_example
-    loc: 30026
-  - project: zlib
-    loc: 30026
-  - project: miniz
-    loc: 27844
-  - project: unrar
-    loc: 25699
-  - project: lz4
-    loc: 19060
-  - project: libzip
-    loc: 17248
-  - project: minizip
-    loc: 14624
-  - project: brunsli
-    loc: 13381
-  - project: karchive
-    loc: 11213
-  - project: zip
-    loc: 11049
-  - project: zopfli
-    loc: 10384
-  - project: snappy
-    loc: 4634
-  - project: bzip2
-    loc: 0
-  - project: lzo
-    loc: 0
-  crypto:
-  - project: wolfssl
-    loc: 1579769
-  - project: libecc
-    loc: 891905
-  - project: openssl
-    loc: 659491
-  - project: gnutls
-    loc: 298038
-  - project: gnupg
-    loc: 289891
-  - project: boringssl
-    loc: 284865
-  - project: bitcoin-core
-    loc: 282190
-  - project: monero
-    loc: 234470
-  - project: liboqs
-    loc: 227748
-  - project: botan
-    loc: 196196
-  - project: solidity
-    loc: 166613
-  - project: tpm2-tss
-    loc: 151541
-  - project: relic
-    loc: 145353
-  - project: tink-cc
-    loc: 142646
-  - project: libtpms
-    loc: 117942
-  - project: xmlsec
-    loc: 100393
-  - project: rnp
-    loc: 79650
-  - project: mbedtls
-    loc: 72529
-  - project: nettle
-    loc: 70532
-  - project: fuzztest-raksha
-    loc: 66805
-  - project: cryptsetup
-    loc: 65685
-  - project: ms-tpm-20-ref
-    loc: 61184
-  - project: bearssl
-    loc: 59281
-  - project: ibmswtpm2
-    loc: 55255
-  - project: libsodium
-    loc: 52020
-  - project: tpm2
-    loc: 48124
-  - project: pycryptodome
-    loc: 45137
-  - project: picotls
-    loc: 33151
-  - project: libsrtp
-    loc: 21748
-  - project: wolfmqtt
-    loc: 20485
-  - project: libtasn1
-    loc: 12133
-  - project: gss-ntlmssp
-    loc: 11637
-  - project: bls-signatures
-    loc: 10694
-  - project: shaderc
-    loc: 10293
-  - project: highwayhash
-    loc: 8155
-  - project: libressl
-    loc: 4938
-  - project: ecc-diff-fuzzer
-    loc: 1450
-  - project: circl
-    loc: 1292
-  - project: iroha
-    loc: 144
-  - project: bignum-fuzzer
-    loc: 0
-  - project: cryptofuzz
-    loc: 0
-  - project: nss
-    loc: 0
+    count: 68
+    loc_min: 2956
+    loc_max: 5114922
+    projects:
+    - project: libreoffice
+      loc: 5114922
+    - project: ghostscript
+      loc: 1467900
+    - project: icu
+      loc: 988735
+    - project: wxwidgets
+      loc: 880182
+    - project: libredwg
+      loc: 876587
+    - project: arrow
+      loc: 674186
+    - project: mupdf
+      loc: 492913
+    - project: libpg_query
+      loc: 374062
+    - project: spotify-json
+      loc: 330320
+    - project: double-conversion
+      loc: 322759
+    - project: poppler
+      loc: 209223
+    - project: simdjson
+      loc: 190704
+    - project: capnproto
+      loc: 155246
+    - project: jsoncons
+      loc: 142495
+    - project: libxml2
+      loc: 139118
+    - project: libyang
+      loc: 123084
+    - project: json
+      loc: 107166
+    - project: simdutf
+      loc: 106402
+    - project: glaze
+      loc: 86056
+    - project: flatbuffers
+      loc: 84438
+    - project: hunspell
+      loc: 83881
+    - project: yaml-cpp
+      loc: 80477
+    - project: mfcmapi
+      loc: 70366
+    - project: tomlplusplus
+      loc: 69267
+    - project: libxlsxwriter
+      loc: 65699
+    - project: qpdf
+      loc: 64845
+    - project: pcre2
+      loc: 62694
+    - project: libphonenumber
+      loc: 54737
+    - project: jsonnet
+      loc: 48888
+    - project: nokogiri
+      loc: 47085
+    - project: boost-json
+      loc: 45625
+    - project: tidy-html5
+      loc: 40848
+    - project: arduinojson
+      loc: 39499
+    - project: liblouis
+      loc: 37116
+    - project: libxslt
+      loc: 35778
+    - project: jq
+      loc: 32373
+    - project: libsass
+      loc: 30866
+    - project: date
+      loc: 30077
+    - project: expat
+      loc: 29811
+    - project: rapidjson
+      loc: 29514
+    - project: re2
+      loc: 27921
+    - project: aspell
+      loc: 25877
+    - project: pugixml
+      loc: 24743
+    - project: utf8proc
+      loc: 19057
+    - project: valijson
+      loc: 18998
+    - project: cmark
+      loc: 17049
+    - project: libucl
+      loc: 17016
+    - project: cjson
+      loc: 16596
+    - project: jansson
+      loc: 14243
+    - project: sql-parser
+      loc: 14078
+    - project: nanopb
+      loc: 12973
+    - project: libconfig
+      loc: 11928
+    - project: libplist
+      loc: 11313
+    - project: fast_float
+      loc: 10939
+    - project: kmime
+      loc: 10886
+    - project: libyaml
+      loc: 10586
+    - project: jsoncpp
+      loc: 9883
+    - project: libcbor
+      loc: 9442
+    - project: json-c
+      loc: 9360
+    - project: kcodecs
+      loc: 8817
+    - project: protobuf-c
+      loc: 8811
+    - project: md4c
+      loc: 7965
+    - project: hoextdown
+      loc: 7130
+    - project: tinyxml2
+      loc: 5858
+    - project: libxls
+      loc: 5703
+    - project: libspectre
+      loc: 4690
+    - project: yajl-ruby
+      loc: 3072
+    - project: libprotobuf-mutator
+      loc: 2956
   toolchain:
-  - project: llvm_libcxx
-    loc: 9542759
-  - project: llvm_libcxxabi
-    loc: 9542759
-  - project: llvm
-    loc: 9542742
-  - project: binutils
-    loc: 3134902
-  - project: radare2
-    loc: 803813
-  - project: unicorn
-    loc: 374053
-  - project: net-snmp
-    loc: 279341
-  - project: util-linux
-    loc: 181687
-  - project: libdwarf
-    loc: 129411
-  - project: capstone
-    loc: 124155
-  - project: elfutils
-    loc: 116134
-  - project: keystone
-    loc: 105171
-  - project: libunwind
-    loc: 44366
-  - project: zydis
-    loc: 21300
-  - project: gdbm
-    loc: 17435
-  - project: lldb-eval
-    loc: 17272
-  - project: bloaty
-    loc: 12149
-  - project: myanmar-tools
-    loc: 436
-  ml:
-  - project: tensorflow
-    loc: 3171446
-  - project: xnnpack
-    loc: 2196799
-  - project: onednn
-    loc: 932747
-  - project: llamacpp
-    loc: 354581
-  - project: nccl
-    loc: 79715
-  - project: tensorflow-serving
-    loc: 52330
+    count: 22
+    loc_min: 7159
+    loc_max: 9542759
+    projects:
+    - project: llvm_libcxx
+      loc: 9542759
+    - project: llvm_libcxxabi
+      loc: 9542759
+    - project: llvm
+      loc: 9542742
+    - project: libstdcpp
+      loc: 6812567
+    - project: binutils
+      loc: 3134902
+    - project: radare2
+      loc: 803813
+    - project: cmake
+      loc: 733293
+    - project: unicorn
+      loc: 374053
+    - project: cppcheck
+      loc: 278379
+    - project: iverilog
+      loc: 176738
+    - project: libdwarf
+      loc: 129411
+    - project: capstone
+      loc: 124155
+    - project: elfutils
+      loc: 116134
+    - project: keystone
+      loc: 105171
+    - project: exprtk
+      loc: 48755
+    - project: libunwind
+      loc: 44366
+    - project: ninja
+      loc: 23220
+    - project: zydis
+      loc: 21300
+    - project: bc-gh
+      loc: 19125
+    - project: lldb-eval
+      loc: 17272
+    - project: bloaty
+      loc: 12149
+    - project: flex
+      loc: 7159
+  crypto:
+    count: 43
+    loc_min: 4938
+    loc_max: 1579769
+    projects:
+    - project: wolfssl
+      loc: 1579769
+    - project: libecc
+      loc: 891905
+    - project: openssl
+      loc: 659491
+    - project: wazuh
+      loc: 531633
+    - project: krb5
+      loc: 303027
+    - project: gnutls
+      loc: 298038
+    - project: gnupg
+      loc: 289891
+    - project: boringssl
+      loc: 284865
+    - project: bitcoin-core
+      loc: 282190
+    - project: monero
+      loc: 234470
+    - project: liboqs
+      loc: 227748
+    - project: clamav
+      loc: 215183
+    - project: botan
+      loc: 196196
+    - project: opensc
+      loc: 181145
+    - project: solidity
+      loc: 166613
+    - project: tpm2-tss
+      loc: 151541
+    - project: relic
+      loc: 145353
+    - project: tink-cc
+      loc: 142646
+    - project: sudoers
+      loc: 131598
+    - project: libtpms
+      loc: 117942
+    - project: xmlsec
+      loc: 100393
+    - project: rnp
+      loc: 79650
+    - project: mbedtls
+      loc: 72529
+    - project: p11-kit
+      loc: 71729
+    - project: nettle
+      loc: 70532
+    - project: yara
+      loc: 67007
+    - project: cryptsetup
+      loc: 65685
+    - project: ms-tpm-20-ref
+      loc: 61184
+    - project: bearssl
+      loc: 59281
+    - project: ibmswtpm2
+      loc: 55255
+    - project: libsodium
+      loc: 52020
+    - project: tpm2
+      loc: 48124
+    - project: pycryptodome
+      loc: 45137
+    - project: libfido2
+      loc: 34953
+    - project: picotls
+      loc: 33151
+    - project: wolfmqtt
+      loc: 20485
+    - project: usbguard
+      loc: 18424
+    - project: libtasn1
+      loc: 12133
+    - project: gss-ntlmssp
+      loc: 11637
+    - project: bls-signatures
+      loc: 10694
+    - project: highwayhash
+      loc: 8155
+    - project: jwt-verify-lib
+      loc: 5887
+    - project: libressl
+      loc: 4938
+  runtime:
+    count: 23
+    loc_min: 21260
+    loc_max: 4113269
+    projects:
+    - project: nodejs
+      loc: 4113269
+    - project: hermes
+      loc: 2761567
+    - project: v8
+      loc: 2043693
+    - project: php
+      loc: 1316093
+    - project: cpython3
+      loc: 763720
+    - project: python3-libraries
+      loc: 763720
+    - project: dart
+      loc: 602700
+    - project: glib
+      loc: 543312
+    - project: xs
+      loc: 299360
+    - project: wamr
+      loc: 209115
+    - project: cel-cpp
+      loc: 168639
+    - project: wasmedge
+      loc: 164186
+    - project: njs
+      loc: 124685
+    - project: jerryscript
+      loc: 121452
+    - project: spicy
+      loc: 85701
+    - project: quickjs
+      loc: 76321
+    - project: behaviortreecpp
+      loc: 73525
+    - project: mruby
+      loc: 72860
+    - project: wabt
+      loc: 60216
+    - project: janet
+      loc: 33610
+    - project: pybind11
+      loc: 32358
+    - project: wasm3
+      loc: 22387
+    - project: lua
+      loc: 21260
   os_system:
-  - project: serenity
-    loc: 927371
-  - project: xnu
-    loc: 13698
+    count: 18
+    loc_min: 3824
+    loc_max: 1709083
+    projects:
+    - project: qemu
+      loc: 1709083
+    - project: edk2
+      loc: 1209213
+    - project: serenity
+      loc: 927371
+    - project: systemd
+      loc: 720441
+    - project: xen
+      loc: 540070
+    - project: plan9port
+      loc: 403826
+    - project: spdk
+      loc: 401841
+    - project: util-linux
+      loc: 181687
+    - project: tinyusb
+      loc: 166319
+    - project: selinux
+      loc: 157073
+    - project: libbpf
+      loc: 134004
+    - project: e2fsprogs
+      loc: 133657
+    - project: lxc
+      loc: 68667
+    - project: libfuse
+      loc: 28884
+    - project: libusb
+      loc: 27776
+    - project: xnu
+      loc: 13698
+    - project: spice-usbredir
+      loc: 6617
+    - project: bios-bmc-smm-error-logger
+      loc: 3824
+  archive:
+    count: 22
+    loc_min: 4634
+    loc_max: 274435
+    projects:
+    - project: tarantool
+      loc: 274435
+    - project: libarchive
+      loc: 168922
+    - project: upx
+      loc: 144306
+    - project: c-blosc2
+      loc: 112690
+    - project: zstd
+      loc: 91262
+    - project: c-blosc
+      loc: 88766
+    - project: lzma
+      loc: 84249
+    - project: brotli
+      loc: 38657
+    - project: xz
+      loc: 34427
+    - project: zlib-ng
+      loc: 31977
+    - project: casync
+      loc: 31245
+    - project: zlib
+      loc: 30026
+    - project: miniz
+      loc: 27844
+    - project: unrar
+      loc: 25699
+    - project: lz4
+      loc: 19060
+    - project: libzip
+      loc: 17248
+    - project: minizip
+      loc: 14624
+    - project: brunsli
+      loc: 13381
+    - project: karchive
+      loc: 11213
+    - project: zip
+      loc: 11049
+    - project: zopfli
+      loc: 10384
+    - project: snappy
+      loc: 4634
+  database_storage:
+    count: 16
+    loc_min: 7631
+    loc_max: 6064439
+    projects:
+    - project: mysql-server
+      loc: 6064439
+    - project: mariadb
+      loc: 1753535
+    - project: clickhouse
+      loc: 1513579
+    - project: duckdb
+      loc: 1036428
+    - project: tdengine
+      loc: 798116
+    - project: hdf5
+      loc: 739404
+    - project: rocksdb
+      loc: 541059
+    - project: netcdf
+      loc: 296630
+    - project: firestore
+      loc: 195245
+    - project: postgis
+      loc: 181240
+    - project: tinysparql
+      loc: 62952
+    - project: memcached
+      loc: 38406
+    - project: leveldb
+      loc: 21207
+    - project: mdbtools
+      loc: 12133
+    - project: hiredis
+      loc: 9522
+    - project: pyodbc
+      loc: 7631
+  ml:
+    count: 7
+    loc_min: 52330
+    loc_max: 3171446
+    projects:
+    - project: tensorflow
+      loc: 3171446
+    - project: xnnpack
+      loc: 2196799
+    - project: onednn
+      loc: 932747
+    - project: llamacpp
+      loc: 354581
+    - project: sentencepiece
+      loc: 199372
+    - project: nccl
+      loc: 79715
+    - project: tensorflow-serving
+      loc: 52330
 unknown_domain_projects:
-- ''
+- bad_example
+- eigen
+- fftw3
+- fio
+- fuzzing-puzzles
+- fuzztest-example
+- fuzztest-raksha
+- java-example
+- libcacard
+- libspdm
+- magic-enum
+- openbabel
+- opennavsurf-bag
+- pcl
+- vulnerable-project
+min_loc_threshold: 2000

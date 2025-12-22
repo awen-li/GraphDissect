@@ -2,5 +2,5 @@ project: lcms
 oss_fuzz_project_dir: projects/lcms
 main_repo: https://github.com/mm2/Little-CMS
 language: c++
-domain: metadata
+domain: media
 loc: 45497

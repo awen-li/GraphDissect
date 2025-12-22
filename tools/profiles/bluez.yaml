@@ -2,5 +2,5 @@ project: bluez
 oss_fuzz_project_dir: projects/bluez
 main_repo: https://github.com/bluez/bluez
 language: c
-domain: metadata
+domain: network
 loc: 393709

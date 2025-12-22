@@ -2,5 +2,5 @@ project: libsrtp
 oss_fuzz_project_dir: projects/libsrtp
 main_repo: https://github.com/cisco/libsrtp
 language: c++
-domain: crypto
+domain: network
 loc: 21748

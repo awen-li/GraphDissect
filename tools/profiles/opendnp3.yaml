@@ -2,5 +2,5 @@ project: opendnp3
 oss_fuzz_project_dir: projects/opendnp3
 main_repo: https://github.com/dnp3/opendnp3.git
 language: c++
-domain: metadata
+domain: network
 loc: 59810

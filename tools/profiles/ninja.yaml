@@ -2,5 +2,5 @@ project: ninja
 oss_fuzz_project_dir: projects/ninja
 main_repo: https://github.com/ninja-build/ninja
 language: c++
-domain: metadata
+domain: toolchain
 loc: 23220

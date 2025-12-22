@@ -2,5 +2,5 @@ project: libsass
 oss_fuzz_project_dir: projects/libsass
 main_repo: https://github.com/sass/libsass.git
 language: c++
-domain: metadata
+domain: document
 loc: 30866

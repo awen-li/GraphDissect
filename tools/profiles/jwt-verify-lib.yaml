@@ -2,5 +2,5 @@ project: jwt-verify-lib
 oss_fuzz_project_dir: projects/jwt-verify-lib
 main_repo: https://github.com/google/jwt_verify_lib.git
 language: c++
-domain: metadata
+domain: crypto
 loc: 5887

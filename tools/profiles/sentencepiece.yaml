@@ -2,5 +2,5 @@ project: sentencepiece
 oss_fuzz_project_dir: projects/sentencepiece
 main_repo: https://github.com/google/sentencepiece.git
 language: c++
-domain: metadata
+domain: ml
 loc: 199372

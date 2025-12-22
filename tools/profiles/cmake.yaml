@@ -2,5 +2,5 @@ project: cmake
 oss_fuzz_project_dir: projects/cmake
 main_repo: https://gitlab.kitware.com/cmake/cmake
 language: c
-domain: metadata
+domain: toolchain
 loc: 733293

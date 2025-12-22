@@ -2,5 +2,5 @@ project: utf8proc
 oss_fuzz_project_dir: projects/utf8proc
 main_repo: https://github.com/JuliaStrings/utf8proc
 language: c
-domain: metadata
+domain: document
 loc: 19057

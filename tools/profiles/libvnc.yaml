@@ -2,5 +2,5 @@ project: libvnc
 oss_fuzz_project_dir: projects/libvnc
 main_repo: https://github.com/LibVNC/libvncserver.git
 language: c++
-domain: metadata
+domain: network
 loc: 43124

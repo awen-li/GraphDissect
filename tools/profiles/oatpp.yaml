@@ -2,5 +2,5 @@ project: oatpp
 oss_fuzz_project_dir: projects/oatpp
 main_repo: https://github.com/oatpp/oatpp
 language: c++
-domain: metadata
+domain: network
 loc: 36612

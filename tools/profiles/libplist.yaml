@@ -2,5 +2,5 @@ project: libplist
 oss_fuzz_project_dir: projects/libplist
 main_repo: https://github.com/libimobiledevice/libplist
 language: c++
-domain: metadata
+domain: document
 loc: 11313

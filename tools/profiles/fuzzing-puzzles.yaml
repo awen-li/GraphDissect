@@ -2,5 +2,5 @@ project: fuzzing-puzzles
 oss_fuzz_project_dir: projects/fuzzing-puzzles
 main_repo: https://github.com/google/fuzzer-test-suite
 language: c++
-domain: metadata
+domain: unknown
 loc: 118859

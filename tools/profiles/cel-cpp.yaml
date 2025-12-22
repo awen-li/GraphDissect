@@ -2,5 +2,5 @@ project: cel-cpp
 oss_fuzz_project_dir: projects/cel-cpp
 main_repo: https://github.com/google/cel-cpp
 language: c++
-domain: metadata
+domain: runtime
 loc: 168639

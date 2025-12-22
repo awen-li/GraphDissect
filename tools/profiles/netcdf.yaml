@@ -2,5 +2,5 @@ project: netcdf
 oss_fuzz_project_dir: projects/netcdf
 main_repo: https://github.com/Unidata/netcdf-c
 language: c++
-domain: metadata
+domain: database_storage
 loc: 296630

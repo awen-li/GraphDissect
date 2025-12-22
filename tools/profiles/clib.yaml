@@ -2,5 +2,5 @@ project: clib
 oss_fuzz_project_dir: projects/clib
 main_repo: https://github.com/clibs/clib
 language: c
-domain: runtime
+domain: metadata
 loc: 20409

@@ -2,5 +2,5 @@ project: mdbtools
 oss_fuzz_project_dir: projects/mdbtools
 main_repo: https://github.com/mdbtools/mdbtools
 language: c
-domain: metadata
+domain: database_storage
 loc: 12133

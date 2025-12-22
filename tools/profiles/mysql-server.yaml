@@ -2,5 +2,5 @@ project: mysql-server
 oss_fuzz_project_dir: projects/mysql-server
 main_repo: https://github.com/mysql/mysql-server
 language: c++
-domain: metadata
+domain: database_storage
 loc: 6064439

@@ -2,5 +2,5 @@ project: fuzztest-raksha
 oss_fuzz_project_dir: projects/fuzztest-raksha
 main_repo: https://github.com/google/fuzztest
 language: c++
-domain: crypto
+domain: unknown
 loc: 66805

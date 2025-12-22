@@ -2,5 +2,5 @@ project: exiv2
 oss_fuzz_project_dir: projects/exiv2
 main_repo: https://github.com/Exiv2/exiv2
 language: c++
-domain: metadata
+domain: media
 loc: 78250

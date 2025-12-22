@@ -2,5 +2,5 @@ project: libavc
 oss_fuzz_project_dir: projects/libavc
 main_repo: https://github.com/ittiam-systems/libavc.git
 language: c++
-domain: metadata
+domain: media
 loc: 218614

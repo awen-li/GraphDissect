@@ -2,5 +2,5 @@ project: pyodbc
 oss_fuzz_project_dir: projects/pyodbc
 main_repo: https://github.com/mkleehammer/pyodbc
 language: python
-domain: metadata
+domain: database_storage
 loc: 7631

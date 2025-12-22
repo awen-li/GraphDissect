@@ -2,5 +2,5 @@ project: pigweed
 oss_fuzz_project_dir: projects/pigweed
 main_repo: https://pigweed.googlesource.com/pigweed/pigweed
 language: c++
-domain: metadata
+domain: network
 loc: 444316

@@ -2,5 +2,5 @@ project: neomutt
 oss_fuzz_project_dir: projects/neomutt
 main_repo: https://github.com/neomutt/neomutt
 language: c++
-domain: metadata
+domain: network
 loc: 187422

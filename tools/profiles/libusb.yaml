@@ -2,5 +2,5 @@ project: libusb
 oss_fuzz_project_dir: projects/libusb
 main_repo: https://github.com/libusb/libusb
 language: c++
-domain: metadata
+domain: os_system
 loc: 27776

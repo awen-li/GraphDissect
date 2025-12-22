@@ -2,5 +2,5 @@ project: qt
 oss_fuzz_project_dir: projects/qt
 main_repo: git://code.qt.io/qt/qt5.git
 language: c++
-domain: metadata
+domain: runtime
 loc: 0

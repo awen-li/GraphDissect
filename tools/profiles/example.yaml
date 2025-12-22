@@ -2,5 +2,5 @@ project: example
 oss_fuzz_project_dir: projects/example
 main_repo: https://github.com/example/my-api
 language: c++
-domain: metadata
+domain: unknown
 loc: 0

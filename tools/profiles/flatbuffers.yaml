@@ -2,5 +2,5 @@ project: flatbuffers
 oss_fuzz_project_dir: projects/flatbuffers
 main_repo: https://github.com/google/flatbuffers
 language: c++
-domain: metadata
+domain: document
 loc: 84438

@@ -2,5 +2,5 @@ project: open62541
 oss_fuzz_project_dir: projects/open62541
 main_repo: https://github.com/open62541/open62541.git
 language: c++
-domain: metadata
+domain: network
 loc: 172247

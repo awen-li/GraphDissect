@@ -2,5 +2,5 @@ project: date
 oss_fuzz_project_dir: projects/date
 main_repo: https://github.com/HowardHinnant/date
 language: c++
-domain: metadata
+domain: document
 loc: 30077

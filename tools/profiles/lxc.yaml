@@ -2,5 +2,5 @@ project: lxc
 oss_fuzz_project_dir: projects/lxc
 main_repo: https://github.com/lxc/lxc
 language: c
-domain: metadata
+domain: os_system
 loc: 68667

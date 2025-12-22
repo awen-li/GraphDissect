@@ -2,5 +2,5 @@ project: exprtk
 oss_fuzz_project_dir: projects/exprtk
 main_repo: https://github.com/ArashPartow/exprtk.git
 language: c++
-domain: metadata
+domain: toolchain
 loc: 48755

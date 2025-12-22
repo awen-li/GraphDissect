@@ -2,5 +2,5 @@ project: behaviortreecpp
 oss_fuzz_project_dir: projects/behaviortreecpp
 main_repo: https://github.com/BehaviorTree/BehaviorTree.CPP
 language: c++
-domain: metadata
+domain: runtime
 loc: 73525

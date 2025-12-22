@@ -2,5 +2,5 @@ project: openweave
 oss_fuzz_project_dir: projects/openweave
 main_repo: https://github.com/openweave/openweave-core
 language: c++
-domain: metadata
+domain: network
 loc: 619245

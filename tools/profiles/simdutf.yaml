@@ -2,5 +2,5 @@ project: simdutf
 oss_fuzz_project_dir: projects/simdutf
 main_repo: https://github.com/simdutf/simdutf
 language: c++
-domain: metadata
+domain: document
 loc: 106402

@@ -2,5 +2,5 @@ project: tomlplusplus
 oss_fuzz_project_dir: projects/tomlplusplus
 main_repo: https://github.com/marzer/tomlplusplus.git
 language: c++
-domain: metadata
+domain: document
 loc: 69267

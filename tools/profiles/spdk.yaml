@@ -2,5 +2,5 @@ project: spdk
 oss_fuzz_project_dir: projects/spdk
 main_repo: https://github.com/spdk/spdk
 language: c
-domain: metadata
+domain: os_system
 loc: 401841

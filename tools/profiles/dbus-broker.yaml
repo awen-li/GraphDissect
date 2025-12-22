@@ -2,5 +2,5 @@ project: dbus-broker
 oss_fuzz_project_dir: projects/dbus-broker
 main_repo: https://github.com/bus1/dbus-broker
 language: c
-domain: metadata
+domain: network
 loc: 24862

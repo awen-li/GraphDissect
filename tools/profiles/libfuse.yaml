@@ -2,5 +2,5 @@ project: libfuse
 oss_fuzz_project_dir: projects/libfuse
 main_repo: https://github.com/libfuse/libfuse
 language: c
-domain: metadata
+domain: os_system
 loc: 28884

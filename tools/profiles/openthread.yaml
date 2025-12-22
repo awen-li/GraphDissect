@@ -2,5 +2,5 @@ project: openthread
 oss_fuzz_project_dir: projects/openthread
 main_repo: https://github.com/openthread/openthread
 language: c++
-domain: metadata
+domain: network
 loc: 236002

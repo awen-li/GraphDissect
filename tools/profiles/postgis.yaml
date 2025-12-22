@@ -2,5 +2,5 @@ project: postgis
 oss_fuzz_project_dir: projects/postgis
 main_repo: https://git.osgeo.org/gitea/postgis/postgis.git
 language: c++
-domain: metadata
+domain: database_storage
 loc: 181240

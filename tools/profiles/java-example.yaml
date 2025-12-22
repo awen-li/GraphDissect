@@ -2,5 +2,5 @@ project: java-example
 oss_fuzz_project_dir: projects/java-example
 main_repo: https://github.com/CodeIntelligenceTesting/jazzer
 language: jvm
-domain: metadata
+domain: unknown
 loc: 2603

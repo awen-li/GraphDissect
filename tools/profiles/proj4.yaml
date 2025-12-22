@@ -2,5 +2,5 @@ project: proj4
 oss_fuzz_project_dir: projects/proj4
 main_repo: https://github.com/OSGeo/PROJ
 language: c++
-domain: metadata
+domain: network
 loc: 182363

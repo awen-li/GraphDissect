@@ -2,5 +2,5 @@ project: sql-parser
 oss_fuzz_project_dir: projects/sql-parser
 main_repo: https://github.com/hyrise/sql-parser
 language: c++
-domain: metadata
+domain: document
 loc: 14078

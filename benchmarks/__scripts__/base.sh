@@ -74,7 +74,7 @@ function handle_executable()
 {
     executable_path=$1
     executables=$2
-
+    is_so="${3:-}"
 
     if [ ! -d "seeds" ]; then
 		mkdir seeds
@@ -88,10 +88,20 @@ function handle_executable()
         if [ ! -d "$benchpath" ]; then
             mkdir "$benchpath"
         fi
-      
+        
+        # Generate bc for dependent libs
+        if [ "$is_so" == "so" ]; then
+	    list_project_libs "$executable_path/$executable" "$executable_path" \
+		| grep -v '^#' \
+		| while read -r lib_name lib_path; do
+			echo "[*] extracting bc for $lib_name from $lib_path"
+			extract-bc "$lib_path" && cp "${lib_path}.bc" $benchpath/
+		  done 
+        fi
+
         # Generate bc
-		extract-bc $executable_path/$executable && cp $executable_path/$executable.bc $benchpath/
-		cp $executable_path/$executable $benchpath/$executable
+	extract-bc $executable_path/$executable && cp $executable_path/$executable.bc $benchpath/
+	cp $executable_path/$executable $benchpath/$executable
 
         # Whole-program callgraph construction (including dependent libs)
         if [ ! -f "$benchpath/callgraph_final.dot" ]; then

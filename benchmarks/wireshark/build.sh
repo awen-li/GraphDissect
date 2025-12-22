@@ -10,7 +10,8 @@ executables=("tshark" "editcap" "capinfos")
 # load library helpers (compile, clean, handle_executable, etc.)
 source ../__scripts__/base.sh
 
-initialize() {
+initialize() 
+{
     if [ ! -d "$target" ]; then
         echo "[wireshark] cloning upstream repo..."
         git clone --depth 1 https://gitlab.com/wireshark/wireshark.git "$target"
@@ -22,7 +23,8 @@ initialize() {
 }
 
 
-wllvm_compile() {
+wllvm_compile() 
+{
 
     export CC="wllvm"
     export CXX="wllvm++"
@@ -57,7 +59,7 @@ wllvm_compile() {
 
     cd "$ROOT"
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOT/build-wllvm/run
-    handle_executable "$build_dir/run" "${executables[@]}"
+    handle_executable "$build_dir/run" "${executables[@]}" "so"
 }
 
 

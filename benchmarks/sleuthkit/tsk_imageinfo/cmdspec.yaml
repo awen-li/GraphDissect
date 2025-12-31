@@ -1,0 +1,58 @@
+profile:
+  name: "tsk_imageinfo"
+  binary: "tsk_imageinfo"
+  domain: "metadata"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "none"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Verbose output to stderr."
+
+  - id: "2"
+    cli: ["-V"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print version and exit."
+
+  - id: "3"
+    cli: ["-i"]
+    kind: "choice"
+    metavar: "IMGTYPE"
+    choices:
+      - "raw"
+      - "aff"
+      - "ewf"
+      - "list"
+    defaults: ["raw", "list"]
+    role: "mode"
+    include_in_search: true
+    description: "Image format type (use 'list' for supported types)."
+
+  - id: "4"
+    cli: ["-b"]
+    kind: "value"
+    metavar: "DEV_SECTOR_SIZE"
+    value_template: "512"
+    defaults: ["512", "4096"]
+    role: "mode"
+    include_in_search: true
+    description: "Device sector size in bytes."
+
+constraints:
+  - type: "exclusive"
+    option: "-V"
+

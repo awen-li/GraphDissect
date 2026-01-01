@@ -17,24 +17,24 @@ benchmarks:
   network_and_protocols:
     domain_name: "Network and protocols"
     items:
-      - name: trafficserver
-        loc_kloc: 582.82
+      - name: snort3
+        loc_kloc: 367.10
         executables:
-          - traffic_server
-          - traffic_ctl
-          - traffic_layout
+          - snort
+          - snort2lua
         num_drivers: null
 
-      - name: curl
-        loc_kloc: 188.90
+      - name: unbound
+        loc_kloc: 137.59
         executables:
-          - curl
+          - unbound-checkconf
         num_drivers: null
 
       - name: http-parser
         loc_kloc: 6.22
         executables:
-          - http_parser_fuzzer
+          - parsertrace
+          - url_parser
         num_drivers: null
 
   media_processing:
@@ -50,7 +50,7 @@ benchmarks:
       - name: libtiff
         loc_kloc: 91.88
         executables:
-          - tiffcp
+          - tiff2bw
           - tiffinfo
           - tiff2pdf
         num_drivers: null
@@ -60,24 +60,21 @@ benchmarks:
         executables:
           - pngfix
           - pngimage
-          - pngtest
-          - pngunknown
           - pngvalid
         num_drivers: null
 
   metadata_and_system_utilities:
     domain_name: "Metadata and system utilities"
     items:
-      - name: libgit2
-        loc_kloc: 264.71
+      - name: git
+        loc_kloc: 306.97
         executables:
-          - libgit2_fuzzer
+          - git
         num_drivers: null
 
-      - name: geos
-        loc_kloc: 204.86
+      - name: 
+        loc_kloc:
         executables:
-          - geosop
         num_drivers: null
 
       - name: file
@@ -113,23 +110,19 @@ benchmarks:
   cryptography_and_security:
     domain_name: "Cryptography and security"
     items:
-      - name: libecc---
-        loc_kloc: 891.91
+      - name:
+        loc_kloc:
         executables:
-          - libecc_fuzzer
         num_drivers: null
 
-      - name: gnutls---
-        loc_kloc: 298.04
+      - name:
+        loc_kloc:
         executables:
-          - gnutls-cli
-          - gnutls-serv
         num_drivers: null
 
-      - name: libsodium---
-        loc_kloc: 52.02
+      - name:
+        loc_kloc:
         executables:
-          - libsodium_fuzzer
         num_drivers: null
 
   toolchain_and_binary_utilities:
@@ -140,20 +133,17 @@ benchmarks:
         executables:
           - objdump
           - readelf
-          - nm
-          - strings
+          - addr2line
         num_drivers: null
 
-      - name: capstone
-        loc_kloc: 124.16
+      - name:
+        loc_kloc: 
         executables:
-          - cstool
         num_drivers: null
 
-      - name: zydis
-        loc_kloc: 21.30
+      - name:
+        loc_kloc:
         executables:
-          - ZydisDisasm
         num_drivers: null
 
   archive_and_compression:
@@ -166,10 +156,9 @@ benchmarks:
           - bsdcpio
         num_drivers: null
 
-      - name: c-blosc---
-        loc_kloc: 112.69
+      - name:
+        loc_kloc:
         executables:
-          - blosc_filter_fuzzer
         num_drivers: null
 
       - name: zlib
@@ -181,17 +170,16 @@ benchmarks:
   language_runtimes_and_interpreters:
     domain_name: "Language runtimes / interpreters"
     items:
-      - name: cpython3
-        loc_kloc: 763.72
+      - name:
+        loc_kloc:
         executables:
-          - python
-          - python3
         num_drivers: null
 
       - name: quickjs
         loc_kloc: 76.32
         executables:
           - qjs
+          - qjsc
         num_drivers: null
 
       - name: lua
@@ -214,14 +202,12 @@ benchmarks:
           - h5repack
         num_drivers: null
 
-      - name: rocksdb
-        loc_kloc: 541.06
+      - name:
+        loc_kloc:
         executables:
-          - db_bench
-          - ldb
         num_drivers: null
 
-      - name: leveldb
-        loc_kloc: 21.21
-        executables: []
+      - name:
+        loc_kloc:
+        executables:
         num_drivers: null

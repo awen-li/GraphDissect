@@ -1,0 +1,6 @@
+project: jq
+oss_fuzz_project_dir: projects/jq
+main_repo: https://github.com/jqlang/jq
+language: c
+domain: document
+loc: 32373

@@ -56,8 +56,9 @@ wllvm_compile()
 hfuzz_compile() {
     initialize
 
-    export CC="hfuzz-clang -fsanitize-coverage=trace-pc-guard -finstrument-functions"
-    export CXX="hfuzz-clang++ -fsanitize-coverage=trace-pc-guard -finstrument-functions"
+    export CC="hfuzz-clang "
+    export CXX="hfuzz-clang++"
+    COMMON_FLAGS="-fsanitize-coverage=trace-pc-guard -finstrument-functions"
 
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}
 
@@ -69,6 +70,8 @@ hfuzz_compile() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_COMPILER="$CC" \
         -DCMAKE_CXX_COMPILER="$CXX" \
+        -DCMAKE_C_FLAGS="$COMMON_FLAGS" \
+        -DCMAKE_CXX_FLAGS="$COMMON_FLAGS" \
         -DBUILD_SHARED_LIBS=OFF \
         -DENABLE_TESTS=OFF \
         -DENABLE_EXAMPLES=OFF \
@@ -78,7 +81,8 @@ hfuzz_compile() {
     make -j"$(nproc)"
     cd "$ROOT"
 
-    copy_executable "$build_dir" "${executables[@]}"
+    copy_executable "$build_dir/ncdump" "${executables[@]}"
+    copy_executable "$build_dir/ncgen"  "${executables_ncgen[@]}"
 }
 
 if [ "$Action" == "clean" ]; then

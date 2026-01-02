@@ -1,0 +1,290 @@
+profile:
+  name: "dwarfdump"
+  binary: "dwarfdump"
+  domain: "toolchain"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  # keep output bounded; avoid huge prints by default
+  base_args:
+    - "-H8"                  # limit to first N major units / CUs
+    - "--format-suppress-data"
+    - "--format-suppress-offsets"
+
+  io:
+    input:
+      kind: "positional"     # <object file>
+    output:
+      kind: "none"
+
+primary:
+  # ===== Core "print section" modes (good coverage, file-driven) =====
+  - id: "1"
+    cli: ["-a", "--print-all"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print all DWARF debug_* sections (bounded by -H)."
+
+  - id: "2"
+    cli: ["-i", "--print-info"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print .debug_info / DIE tree (bounded by -H)."
+
+  - id: "3"
+    cli: ["-l", "--print-lines"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print .debug_line (can be large; bounded by -H)."
+
+  - id: "4"
+    cli: ["-ls", "--print-lines-short"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print .debug_line without printing <pc> addresses."
+
+  - id: "5"
+    cli: ["-f", "--print-frame"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print .debug_frame."
+
+  - id: "6"
+    cli: ["-F", "--print-eh-frame"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print GNU .eh_frame."
+
+  - id: "7"
+    cli: ["-p", "--print-pubnames"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print pubnames section."
+
+  - id: "8"
+    cli: ["-y", "--print-type"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print pubtypes section."
+
+  - id: "9"
+    cli: ["-r", "--print-aranges"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print aranges section."
+
+  - id: "10"
+    cli: ["-N", "--print-ranges"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print ranges section."
+
+  - id: "11"
+    cli: ["-m", "--print-macinfo"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print DWARF macro sections (.debug_macro/.debug_macinfo)."
+
+  - id: "12"
+    cli: ["-s", "--print-strings"]
+    kind: "flag"
+    role: "mode"
+    group: "main_mode"
+    include_in_search: true
+    description: "Print raw .debug_str section."
+
+  # ===== Integrity checking modes (good fuzz targets) =====
+  - id: "13"
+    cli: ["-ka", "--check-all"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Run all DWARF integrity checks."
+
+  - id: "14"
+    cli: ["-kb", "--check-abbrev"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Check abbreviations."
+
+  - id: "15"
+    cli: ["-kx", "--check-frame-basic"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Basic frame checks."
+
+  - id: "16"
+    cli: ["-kxe", "--check-frame-extended"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Extended frame checks."
+
+  - id: "17"
+    cli: ["-kR", "--check-forward-refs"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Check forward references to DIEs."
+
+  - id: "18"
+    cli: ["-ky", "--check-type"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Examine type info."
+
+  - id: "19"
+    cli: ["-ku", "--check-usage"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Print usage summaries (tag-tag / tag-attr / attr-form)."
+
+  - id: "20"
+    cli: ["--check-functions"]
+    kind: "flag"
+    role: "mode"
+    group: "check_mode"
+    include_in_search: true
+    description: "Call extra libdwarf APIs not otherwise exercised (coverage helper)."
+
+  # ===== Output qualifiers / limiters (keep combos small) =====
+  - id: "21"
+    cli: ["-d", "--format-dense"]
+    kind: "flag"
+    role: "format"
+    include_in_search: true
+    description: "Dense one-line-per-entry format (info section)."
+
+  - id: "22"
+    cli: ["-e", "--format-ellipsis"]
+    kind: "flag"
+    role: "format"
+    include_in_search: true
+    description: "Use short names for tags/attrs, etc."
+
+  - id: "23"
+    cli: ["-M", "--format-attr-name"]
+    kind: "flag"
+    role: "format"
+    include_in_search: true
+    description: "Print attribute form name for each attribute."
+
+  - id: "24"
+    cli: ["-C", "--format-extensions"]
+    kind: "flag"
+    role: "format"
+    include_in_search: true
+    description: "Treat some DWARF extensions as warnings (often used with -ki/-ku)."
+
+  - id: "25"
+    cli: ["-H", "--format-limit"]
+    kind: "value"
+    metavar: "N"
+    value_template: "8"
+    defaults: ["4", "8", "16"]
+    role: "limit"
+    include_in_search: true
+    description: "Stop after N major units (limits output/runtime)."
+
+  - id: "26"
+    cli: ["-v", "--verbose"]
+    kind: "flag"
+    role: "verbosity"
+    group: "verbosity"
+    include_in_search: true
+    description: "Show more information."
+
+  - id: "27"
+    cli: ["-vv", "--verbose-more"]
+    kind: "flag"
+    role: "verbosity"
+    group: "verbosity"
+    include_in_search: true
+    description: "Show even more information."
+
+constraints:
+  # choose at most one major mode: either "print sections" OR "check"
+  - type: "at_most_one_from_group"
+    group: "main_mode"
+
+  - type: "at_most_one_from_group"
+    group: "check_mode"
+
+  # but require at least one of them so we don't run with only formatting flags
+  - type: "require_any"
+    any:
+      - ["-a"]
+      - ["-i"]
+      - ["-l"]
+      - ["-ls"]
+      - ["-f"]
+      - ["-F"]
+      - ["-p"]
+      - ["-y"]
+      - ["-r"]
+      - ["-N"]
+      - ["-m"]
+      - ["-s"]
+      - ["-ka"]
+      - ["-kb"]
+      - ["-kx"]
+      - ["-kxe"]
+      - ["-kR"]
+      - ["-ky"]
+      - ["-ku"]
+      - ["--check-functions"]
+
+  # verbose flags are mutually exclusive
+  - type: "at_most_one_from_group"
+    group: "verbosity"
+
+examples:
+  - id: "ex1"
+    cmd: ["dwarfdump", "-H8", "--format-suppress-data", "--format-suppress-offsets", "-i", "seeds/objs/hello.o"]
+    description: "Parse DIE tree from an object file (bounded)."
+
+  - id: "ex2"
+    cmd: ["dwarfdump", "-H8", "--format-suppress-data", "--format-suppress-offsets", "-l", "seeds/objs/hello.o"]
+    description: "Parse .debug_line (bounded)."
+
+  - id: "ex3"
+    cmd: ["dwarfdump", "-H8", "--format-suppress-data", "--format-suppress-offsets", "-ka", "seeds/objs/hello.o"]
+    description: "Run all integrity checks on an input object."
+
+  - id: "ex4"
+    cmd: ["dwarfdump", "-H4", "--format-suppress-data", "--format-suppress-offsets", "-f", "-M", "seeds/objs/hello.o"]
+    description: "Exercise frame parser + attribute-form printing."
+

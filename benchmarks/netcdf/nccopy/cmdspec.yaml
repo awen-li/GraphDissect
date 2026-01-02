@@ -1,0 +1,272 @@
+profile:
+  name: "nccopy"
+  binary: "nccopy"
+  domain: "database_storage"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    input:
+      kind: "positional_pair"
+      flag: ""          # nccopy [opts] infile outfile
+    output:
+      kind: "file"
+      flag: ""
+
+primary:
+  # ===== Output format selection (mutually exclusive) =====
+
+  - id: "1"
+    cli: ["-k"]
+    kind: "choice"
+    metavar: "KIND"
+    choices:
+      - "classic"
+      - "64-bit offset"
+      - "cdf5"
+      - "netCDF-4"
+      - "netCDF-4 classic model"
+    defaults:
+      - "classic"
+      - "netCDF-4"
+    role: "mode"
+    group: "out_kind"
+    include_in_search: true
+    description: "Specify netCDF output format kind"
+
+  - id: "2"
+    cli: ["-3"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "netCDF classic output (same as -k 'classic')"
+
+  - id: "3"
+    cli: ["-6"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "64-bit-offset output (same as -k '64-bit offset')"
+
+  - id: "4"
+    cli: ["-4"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "netCDF-4 output (same as -k 'netCDF-4')"
+
+  - id: "5"
+    cli: ["-7"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "netCDF-4 classic model output (same as -k 'netCDF-4 classic model')"
+
+  - id: "6"
+    cli: ["-5"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "CDF5 output (same as -k 'cdf5')"
+
+  # ===== Compression / layout knobs =====
+
+  - id: "7"
+    cli: ["-d"]
+    kind: "value"
+    metavar: "N"
+    value_template: "1"
+    defaults: ["0", "1"]
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    description: "Deflation compression level (0..9)"
+
+  - id: "8"
+    cli: ["-s"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    description: "Add shuffle option to deflation"
+
+  - id: "9"
+    cli: ["-c"]
+    kind: "value"
+    metavar: "CHUNKSPEC"
+    value_template: "var:1,1"
+    defaults:
+      - "var:1,1"
+      - "var:4,4"
+      - "dim1/1,dim2/1"
+    role: "mode"
+    group: "chunking"
+    include_in_search: true
+    description: "Specify chunking for variables/dimensions"
+
+  - id: "10"
+    cli: ["-F"]
+    kind: "value"
+    metavar: "FILTERSPEC"
+    value_template: "var:filter"
+    defaults:
+      - "var:filter"
+    role: "mode"
+    group: "filters"
+    include_in_search: true
+    description: "Specify compression algorithm for an output variable (repeatable; treated as single use here)"
+
+  - id: "11"
+    cli: ["-M"]
+    kind: "value"
+    metavar: "N"
+    value_template: "0"
+    defaults: ["4096"]
+    role: "mode"
+    group: "chunking"
+    include_in_search: true
+    description: "Set minimum chunk size (bytes)"
+
+  # ===== Variable/group selection (mutually exclusive within each category) =====
+
+  - id: "12"
+    cli: ["-v"]
+    kind: "value"
+    metavar: "VARLIST"
+    value_template: "var1"
+    defaults: ["var1"]
+    role: "mode"
+    group: "var_select"
+    include_in_search: true
+    description: "Include data only for listed variables (keep all definitions)"
+
+  - id: "13"
+    cli: ["-V"]
+    kind: "value"
+    metavar: "VARLIST"
+    value_template: "var1"
+    defaults: ["var1"]
+    role: "mode"
+    group: "var_select"
+    include_in_search: true
+    description: "Include definitions and data only for listed variables"
+
+  - id: "14"
+    cli: ["-g"]
+    kind: "value"
+    metavar: "GRPLIST"
+    value_template: "grp1"
+    defaults: ["grp1"]
+    role: "mode"
+    group: "grp_select"
+    include_in_search: true
+    description: "Include data only for variables in listed groups (keep all definitions)"
+
+  - id: "15"
+    cli: ["-G"]
+    kind: "value"
+    metavar: "GRPLIST"
+    value_template: "grp1"
+    defaults: ["grp1"]
+    role: "mode"
+    group: "grp_select"
+    include_in_search: true
+    description: "Include definitions and data only for variables in listed groups"
+
+  # ===== Copy mechanics / buffering =====
+
+  - id: "16"
+    cli: ["-m"]
+    kind: "value"
+    metavar: "N"
+    value_template: "5000000"
+    defaults: ["5000000"]
+    role: "mode"
+    group: "buffer"
+    include_in_search: true
+    description: "Copy buffer size (bytes)"
+
+  - id: "17"
+    cli: ["-h"]
+    kind: "value"
+    metavar: "N"
+    value_template: "0"
+    defaults: ["0", "1048576"]
+    role: "mode"
+    group: "cache"
+    include_in_search: true
+    description: "Chunk cache size (bytes)"
+
+  - id: "18"
+    cli: ["-e"]
+    kind: "value"
+    metavar: "N"
+    value_template: "0"
+    defaults: ["0", "128", "1024"]
+    role: "mode"
+    group: "cache"
+    include_in_search: true
+    description: "Chunk cache elements"
+
+  - id: "19"
+    cli: ["-u"]
+    kind: "flag"
+    role: "mode"
+    group: "copy_mode"
+    include_in_search: true
+    description: "Convert unlimited dimensions to fixed-size dimensions"
+
+  - id: "20"
+    cli: ["-w"]
+    kind: "flag"
+    role: "mode"
+    group: "copy_mode"
+    include_in_search: true
+    description: "Write whole output file from diskless netCDF on close"
+
+  - id: "21"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "copy_mode"
+    include_in_search: true
+    description: "Read whole input into diskless file on open (classic/64-bit/cdf5 only)"
+
+  # ===== Logging (optional) =====
+
+  - id: "22"
+    cli: ["-L"]
+    kind: "value"
+    metavar: "N"
+    value_template: "0"
+    defaults: ["0"]
+    role: "mode"
+    group: "loglevel"
+    include_in_search: false
+    description: "Set log level (>=0); ignored if logging not enabled"
+
+constraints:
+  # Output kind: pick at most one of -k or the short-form flags -3/-4/-5/-6/-7
+  - type: "at_most_one_from_group"
+    group: "out_kind"
+
+  - type: "at_most_one_from_group"
+    group: "out_kind_short"
+
+  # Variable selection: -v vs -V
+  - type: "at_most_one_from_group"
+    group: "var_select"
+
+  # Group selection: -g vs -G
+  - type: "at_most_one_from_group"
+    group: "grp_select"
+
+  # Cache knobs: -h and -e are related; allow both if you want,
+  # but keeping them in same group avoids combinational noise.
+  - type: "at_most_one_from_group"
+    group: "cache"

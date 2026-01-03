@@ -2,5 +2,5 @@ project: pycryptodome
 oss_fuzz_project_dir: projects/pycryptodome
 main_repo: https://github.com/Legrandin/pycryptodome.git
 language: c
-domain: crypto
+domain: network
 loc: 45137

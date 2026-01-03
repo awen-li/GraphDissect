@@ -2,5 +2,5 @@ project: liboqs
 oss_fuzz_project_dir: projects/liboqs
 main_repo: https://github.com/open-quantum-safe/liboqs.git
 language: c
-domain: crypto
+domain: network
 loc: 227748

@@ -2,5 +2,5 @@ project: circl
 oss_fuzz_project_dir: projects/circl
 main_repo: https://github.com/cloudflare/circl.git
 language: c++
-domain: crypto
+domain: network
 loc: 1292

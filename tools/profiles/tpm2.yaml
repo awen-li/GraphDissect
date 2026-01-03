@@ -2,5 +2,5 @@ project: tpm2
 oss_fuzz_project_dir: projects/tpm2
 main_repo: https://chromium.googlesource.com/chromiumos/third_party/tpm2
 language: c++
-domain: crypto
+domain: network
 loc: 48124

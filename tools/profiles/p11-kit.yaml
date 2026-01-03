@@ -2,5 +2,5 @@ project: p11-kit
 oss_fuzz_project_dir: projects/p11-kit
 main_repo: https://github.com/p11-glue/p11-kit
 language: c
-domain: crypto
+domain: network
 loc: 71729

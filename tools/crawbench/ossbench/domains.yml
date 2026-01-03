@@ -236,6 +236,7 @@ domains:
       - msgpack-c
       - arrow
       - spotify-json
+      - opennavsurf-bag
 
   - id: archive
     name: Archiving and Compression Utilities
@@ -543,6 +544,11 @@ domains:
       - args
       - boost
       - cxxopts
+      - magic-enum
+      - openbabel
+      - eigen
+      - fftw3
+      - pcl
 
   - id: database_storage
     name: Databases and Storage Systems
@@ -640,6 +646,8 @@ domains:
       - serenity
       - spice-usbredir
       - xnu
+      - fio
+      - libcacard
 
   - id: ml
     name: Machine Learning Frameworks and Serving Systems

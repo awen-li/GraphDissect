@@ -2,5 +2,5 @@ project: highwayhash
 oss_fuzz_project_dir: projects/highwayhash
 main_repo: https://github.com/google/highwayhash
 language: c++
-domain: crypto
+domain: network
 loc: 8155

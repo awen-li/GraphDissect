@@ -2,5 +2,5 @@ project: libressl
 oss_fuzz_project_dir: projects/libressl
 main_repo: https://github.com/libressl/portable.git
 language: c++
-domain: crypto
+domain: network
 loc: 4938

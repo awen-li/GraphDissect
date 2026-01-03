@@ -2,5 +2,5 @@ project: sudoers
 oss_fuzz_project_dir: projects/sudoers
 main_repo: https://github.com/sudo-project/sudo
 language: c
-domain: crypto
+domain: network
 loc: 131598

@@ -2,5 +2,5 @@ project: openbabel
 oss_fuzz_project_dir: projects/openbabel
 main_repo: https://github.com/openbabel/openbabel.git
 language: c++
-domain: unknown
+domain: metadata
 loc: 304057

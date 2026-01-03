@@ -2,5 +2,5 @@ project: clamav
 oss_fuzz_project_dir: projects/clamav
 main_repo: https://github.com/Cisco-Talos/clamav-devel.git
 language: c++
-domain: crypto
+domain: network
 loc: 215183

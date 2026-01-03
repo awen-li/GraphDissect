@@ -2,5 +2,5 @@ project: libtpms
 oss_fuzz_project_dir: projects/libtpms
 main_repo: https://github.com/stefanberger/libtpms
 language: c++
-domain: crypto
+domain: network
 loc: 117942

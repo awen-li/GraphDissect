@@ -2,5 +2,5 @@ project: tpm2-tss
 oss_fuzz_project_dir: projects/tpm2-tss
 main_repo: https://github.com/tstruk/tpm2-tss.git
 language: c++
-domain: crypto
+domain: network
 loc: 151541

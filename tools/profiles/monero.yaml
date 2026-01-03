@@ -2,5 +2,5 @@ project: monero
 oss_fuzz_project_dir: projects/monero
 main_repo: https://github.com/monero-project/monero.git
 language: c++
-domain: crypto
+domain: network
 loc: 234470

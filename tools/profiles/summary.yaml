@@ -1,14 +1,13 @@
 total_projects: 508
 domains:
-  metadata: 53
-  network: 127
+  metadata: 58
+  network: 170
   media: 94
-  document: 68
-  unknown: 15
+  document: 69
+  unknown: 7
   toolchain: 22
-  crypto: 43
   runtime: 23
-  os_system: 18
+  os_system: 20
   archive: 22
   database_storage: 16
   ml: 7
@@ -18,7 +17,7 @@ loc_max: 9542759
 loc_avg: 350021.4665354331
 known_domain_projects:
   metadata:
-    count: 53
+    count: 58
     loc_min: 4686
     loc_max: 1934098
     projects:
@@ -26,6 +25,8 @@ known_domain_projects:
       loc: 1934098
     - project: gdal
       loc: 1478548
+    - project: pcl
+      loc: 539227
     - project: rdkit
       loc: 442382
     - project: quantlib
@@ -34,6 +35,8 @@ known_domain_projects:
       loc: 394417
     - project: git
       loc: 306971
+    - project: openbabel
+      loc: 304057
     - project: cpuinfo
       loc: 299851
     - project: perfetto
@@ -48,6 +51,8 @@ known_domain_projects:
       loc: 270451
     - project: libgit2
       loc: 264714
+    - project: eigen
+      loc: 238632
     - project: geos
       loc: 204857
     - project: cups
@@ -84,6 +89,8 @@ known_domain_projects:
       loc: 39636
     - project: rauc
       loc: 36931
+    - project: fftw3
+      loc: 34260
     - project: xbps
       loc: 33253
     - project: readstat
@@ -98,6 +105,8 @@ known_domain_projects:
       loc: 21721
     - project: clib
       loc: 20409
+    - project: magic-enum
+      loc: 19227
     - project: args
       loc: 18495
     - project: file
@@ -129,7 +138,7 @@ known_domain_projects:
     - project: cgif
       loc: 4686
   network:
-    count: 127
+    count: 170
     loc_min: 2440
     loc_max: 7942901
     projects:
@@ -139,6 +148,8 @@ known_domain_projects:
       loc: 4777197
     - project: samba
       loc: 1995074
+    - project: wolfssl
+      loc: 1579769
     - project: connectedhomeip
       loc: 1334554
     - project: resiprocate
@@ -149,6 +160,8 @@ known_domain_projects:
       loc: 1055982
     - project: envoy
       loc: 1031338
+    - project: libecc
+      loc: 891905
     - project: kamailio
       loc: 884635
     - project: mongoose
@@ -161,12 +174,16 @@ known_domain_projects:
       loc: 689669
     - project: kea
       loc: 669083
+    - project: openssl
+      loc: 659491
     - project: openweave
       loc: 619245
     - project: civetweb
       loc: 592031
     - project: trafficserver
       loc: 582815
+    - project: wazuh
+      loc: 531633
     - project: pjsip
       loc: 528398
     - project: dovecot
@@ -199,8 +216,18 @@ known_domain_projects:
       loc: 309641
     - project: suricata
       loc: 304383
+    - project: krb5
+      loc: 303027
+    - project: gnutls
+      loc: 298038
     - project: bind9
       loc: 297089
+    - project: gnupg
+      loc: 289891
+    - project: boringssl
+      loc: 284865
+    - project: bitcoin-core
+      loc: 282190
     - project: net-snmp
       loc: 279341
     - project: haproxy
@@ -217,12 +244,20 @@ known_domain_projects:
       loc: 237414
     - project: openthread
       loc: 236002
+    - project: monero
+      loc: 234470
+    - project: liboqs
+      loc: 227748
     - project: s2opc
       loc: 227679
     - project: powerdns
       loc: 225492
+    - project: clamav
+      loc: 215183
     - project: brpc
       loc: 211717
+    - project: botan
+      loc: 196196
     - project: osquery
       loc: 193325
     - project: curl
@@ -231,12 +266,16 @@ known_domain_projects:
       loc: 187422
     - project: proj4
       loc: 182363
+    - project: opensc
+      loc: 181145
     - project: open62541
       loc: 172247
     - project: nginx
       loc: 170325
     - project: msquic
       loc: 168489
+    - project: solidity
+      loc: 166613
     - project: libtorrent
       loc: 166028
     - project: ntopng
@@ -245,24 +284,34 @@ known_domain_projects:
       loc: 159151
     - project: libiec61850
       loc: 155910
+    - project: tpm2-tss
+      loc: 151541
     - project: knot-dns
       loc: 150714
     - project: rtpproxy
       loc: 150555
     - project: proxygen
       loc: 145560
+    - project: relic
+      loc: 145353
+    - project: tink-cc
+      loc: 142646
     - project: hpn-ssh
       loc: 141085
     - project: unbound
       loc: 137592
     - project: postfix
       loc: 136745
+    - project: sudoers
+      loc: 131598
     - project: openssh
       loc: 131112
     - project: thrift
       loc: 125308
     - project: ndpi
       loc: 124636
+    - project: libtpms
+      loc: 117942
     - project: libssh
       loc: 112638
     - project: boost-beast
@@ -281,6 +330,8 @@ known_domain_projects:
       loc: 100957
     - project: lighttpd
       loc: 100914
+    - project: xmlsec
+      loc: 100393
     - project: dpp
       loc: 97538
     - project: janus-gateway
@@ -289,14 +340,26 @@ known_domain_projects:
       loc: 84785
     - project: usrsctp
       loc: 82031
+    - project: rnp
+      loc: 79650
     - project: qpid-proton
       loc: 79568
     - project: s2geometry
       loc: 79481
+    - project: mbedtls
+      loc: 72529
     - project: gpsd
       loc: 72509
+    - project: p11-kit
+      loc: 71729
+    - project: nettle
+      loc: 70532
     - project: libevent
       loc: 67915
+    - project: yara
+      loc: 67007
+    - project: cryptsetup
+      loc: 65685
     - project: libcoap
       loc: 64782
     - project: irssi
@@ -307,20 +370,32 @@ known_domain_projects:
       loc: 62231
     - project: libzmq
       loc: 61538
+    - project: ms-tpm-20-ref
+      loc: 61184
     - project: opendnp3
       loc: 59810
     - project: w3m
       loc: 59524
+    - project: bearssl
+      loc: 59281
+    - project: ibmswtpm2
+      loc: 55255
     - project: libmicrohttpd2
       loc: 54876
     - project: mosquitto
       loc: 52558
     - project: libical
       loc: 52443
+    - project: libsodium
+      loc: 52020
     - project: pistache
+      loc: 48124
+    - project: tpm2
       loc: 48124
     - project: libssh2
       loc: 46241
+    - project: pycryptodome
+      loc: 45137
     - project: c-ares
       loc: 44505
     - project: znc
@@ -349,8 +424,12 @@ known_domain_projects:
       loc: 36612
     - project: wget
       loc: 35510
+    - project: libfido2
+      loc: 34953
     - project: lldpd
       loc: 34312
+    - project: picotls
+      loc: 33151
     - project: lwan
       loc: 31220
     - project: ada-url
@@ -361,28 +440,44 @@ known_domain_projects:
       loc: 24862
     - project: libsrtp
       loc: 21748
+    - project: wolfmqtt
+      loc: 20485
     - project: h3
       loc: 19984
+    - project: usbguard
+      loc: 18424
     - project: esp-v2
       loc: 14275
     - project: uriparser
       loc: 13418
+    - project: libtasn1
+      loc: 12133
+    - project: gss-ntlmssp
+      loc: 11637
     - project: rabbitmq-c
       loc: 11506
     - project: mosh
       loc: 10894
+    - project: bls-signatures
+      loc: 10694
     - project: grpc-httpjson-transcoding
       loc: 9476
     - project: uwebsockets
       loc: 8824
+    - project: highwayhash
+      loc: 8155
     - project: libidn
       loc: 6635
     - project: http-parser
       loc: 6220
     - project: libidn2
       loc: 5991
+    - project: jwt-verify-lib
+      loc: 5887
     - project: libmodbus
       loc: 5471
+    - project: libressl
+      loc: 4938
     - project: libproxy
       loc: 3451
     - project: libpsl
@@ -581,7 +676,7 @@ known_domain_projects:
     - project: jpegoptim
       loc: 2624
   document:
-    count: 68
+    count: 69
     loc_min: 2956
     loc_max: 5114922
     projects:
@@ -671,6 +766,8 @@ known_domain_projects:
       loc: 25877
     - project: pugixml
       loc: 24743
+    - project: opennavsurf-bag
+      loc: 22292
     - project: utf8proc
       loc: 19057
     - project: valijson
@@ -770,97 +867,6 @@ known_domain_projects:
       loc: 12149
     - project: flex
       loc: 7159
-  crypto:
-    count: 43
-    loc_min: 4938
-    loc_max: 1579769
-    projects:
-    - project: wolfssl
-      loc: 1579769
-    - project: libecc
-      loc: 891905
-    - project: openssl
-      loc: 659491
-    - project: wazuh
-      loc: 531633
-    - project: krb5
-      loc: 303027
-    - project: gnutls
-      loc: 298038
-    - project: gnupg
-      loc: 289891
-    - project: boringssl
-      loc: 284865
-    - project: bitcoin-core
-      loc: 282190
-    - project: monero
-      loc: 234470
-    - project: liboqs
-      loc: 227748
-    - project: clamav
-      loc: 215183
-    - project: botan
-      loc: 196196
-    - project: opensc
-      loc: 181145
-    - project: solidity
-      loc: 166613
-    - project: tpm2-tss
-      loc: 151541
-    - project: relic
-      loc: 145353
-    - project: tink-cc
-      loc: 142646
-    - project: sudoers
-      loc: 131598
-    - project: libtpms
-      loc: 117942
-    - project: xmlsec
-      loc: 100393
-    - project: rnp
-      loc: 79650
-    - project: mbedtls
-      loc: 72529
-    - project: p11-kit
-      loc: 71729
-    - project: nettle
-      loc: 70532
-    - project: yara
-      loc: 67007
-    - project: cryptsetup
-      loc: 65685
-    - project: ms-tpm-20-ref
-      loc: 61184
-    - project: bearssl
-      loc: 59281
-    - project: ibmswtpm2
-      loc: 55255
-    - project: libsodium
-      loc: 52020
-    - project: tpm2
-      loc: 48124
-    - project: pycryptodome
-      loc: 45137
-    - project: libfido2
-      loc: 34953
-    - project: picotls
-      loc: 33151
-    - project: wolfmqtt
-      loc: 20485
-    - project: usbguard
-      loc: 18424
-    - project: libtasn1
-      loc: 12133
-    - project: gss-ntlmssp
-      loc: 11637
-    - project: bls-signatures
-      loc: 10694
-    - project: highwayhash
-      loc: 8155
-    - project: jwt-verify-lib
-      loc: 5887
-    - project: libressl
-      loc: 4938
   runtime:
     count: 23
     loc_min: 21260
@@ -913,7 +919,7 @@ known_domain_projects:
     - project: lua
       loc: 21260
   os_system:
-    count: 18
+    count: 20
     loc_min: 3824
     loc_max: 1709083
     projects:
@@ -941,6 +947,8 @@ known_domain_projects:
       loc: 134004
     - project: e2fsprogs
       loc: 133657
+    - project: fio
+      loc: 82012
     - project: lxc
       loc: 68667
     - project: libfuse
@@ -949,6 +957,8 @@ known_domain_projects:
       loc: 27776
     - project: xnu
       loc: 13698
+    - project: libcacard
+      loc: 10075
     - project: spice-usbredir
       loc: 6617
     - project: bios-bmc-smm-error-logger
@@ -1060,18 +1070,10 @@ known_domain_projects:
       loc: 52330
 unknown_domain_projects:
 - bad_example
-- eigen
-- fftw3
-- fio
 - fuzzing-puzzles
 - fuzztest-example
 - fuzztest-raksha
 - java-example
-- libcacard
 - libspdm
-- magic-enum
-- openbabel
-- opennavsurf-bag
-- pcl
 - vulnerable-project
 min_loc_threshold: 2000

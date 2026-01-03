@@ -276,64 +276,6 @@ domains:
       - zling
       - liblzfse
 
-  - id: crypto
-    name: Cryptographic and Hashing Utilities
-    description: >
-      Utilities and libraries that compute hashes, checksums, signatures, or
-      perform other cryptographic transformations and authentication mechanisms.
-    examples:
-      - sha1sum
-      - openssl
-      - boringssl
-      - libressl
-      - wolfssl
-      - mbedtls
-      - gnutls
-      - nettle
-      - md5sum
-      - libsodium
-      - liboqs
-      - bitcoin-core
-      - monero
-      - openssl-cli
-      - tpm2
-      - tpm2-tss
-      - libtpms
-      - bearssl
-      - botan
-      - cryptsetup
-      - xmlsec
-      - gnupg
-      - rnp
-      - relic
-      - tink-cc
-      - bls-signatures
-      - circl
-      - bignum-fuzzer
-      - ecc-diff-fuzzer
-      - cryptofuzz
-      - libecc
-      - libtasn1
-      - gss-ntlmssp
-      - krb5
-      - libfido2
-      - opensc
-      - p11-kit
-      - jwt-verify-lib
-      - usbguard
-      - yara
-      - clamav
-      - wazuh
-      - sudoers
-      - highwayhash
-      - ibmswtpm2
-      - ms-tpm-20-ref
-      - nss
-      - picotls
-      - pycryptodome
-      - solidity
-      - wolfmqtt
-
   - id: network
     name: Networking and Protocol Utilities
     description: >
@@ -483,6 +425,57 @@ domains:
       - boost-beast
       - libiec61850
       - libvnc
+      - sha1sum
+      - openssl
+      - boringssl
+      - libressl
+      - wolfssl
+      - mbedtls
+      - gnutls
+      - nettle
+      - md5sum
+      - libsodium
+      - liboqs
+      - bitcoin-core
+      - monero
+      - openssl-cli
+      - tpm2
+      - tpm2-tss
+      - libtpms
+      - bearssl
+      - botan
+      - cryptsetup
+      - xmlsec
+      - gnupg
+      - rnp
+      - relic
+      - tink-cc
+      - bls-signatures
+      - circl
+      - bignum-fuzzer
+      - ecc-diff-fuzzer
+      - cryptofuzz
+      - libecc
+      - libtasn1
+      - gss-ntlmssp
+      - krb5
+      - libfido2
+      - opensc
+      - p11-kit
+      - jwt-verify-lib
+      - usbguard
+      - yara
+      - clamav
+      - wazuh
+      - sudoers
+      - highwayhash
+      - ibmswtpm2
+      - ms-tpm-20-ref
+      - nss
+      - picotls
+      - pycryptodome
+      - solidity
+      - wolfmqtt
 
   - id: metadata
     name: File Metadata, Indexing, and Lightweight System Utilities

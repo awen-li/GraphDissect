@@ -72,9 +72,15 @@ benchmarks:
           - git
         num_drivers: null
 
-      - name: 
-        loc_kloc:
+      - name: sleuthkit
+        loc_kloc: 284.62
         executables:
+          - istat
+          - img_stat
+          - tsk_recover
+          - fsstat
+          - blkcat
+          - tsk_image_info
         num_drivers: null
 
       - name: file
@@ -100,29 +106,10 @@ benchmarks:
           - xmllint
         num_drivers: null
 
-      - name: jsoncpp
-        loc_kloc: 9.88
+      - name: jq
+        loc_kloc: 32.37
         executables:
-          - jsoncpp_test
-          - jsontestrunner_exe
-        num_drivers: null
-
-  cryptography_and_security:
-    domain_name: "Cryptography and security"
-    items:
-      - name:
-        loc_kloc:
-        executables:
-        num_drivers: null
-
-      - name:
-        loc_kloc:
-        executables:
-        num_drivers: null
-
-      - name:
-        loc_kloc:
-        executables:
+          - jq
         num_drivers: null
 
   toolchain_and_binary_utilities:
@@ -136,43 +123,25 @@ benchmarks:
           - addr2line
         num_drivers: null
 
-      - name:
-        loc_kloc: 
+      - name: cppcheck  
+        oc_kloc: 278.38
         executables:
+          - cppcheck
         num_drivers: null
 
-      - name:
-        loc_kloc:
+      - name: libdwarf
+        loc_kloc: 129.41
         executables:
-        num_drivers: null
-
-  archive_and_compression:
-    domain_name: "Archive and compression"
-    items:
-      - name: libarchive
-        loc_kloc: 168.92
-        executables:
-          - bsdtar
-          - bsdcpio
-        num_drivers: null
-
-      - name:
-        loc_kloc:
-        executables:
-        num_drivers: null
-
-      - name: zlib
-        loc_kloc: 30.02
-        executables:
-          - minigzip
+          - dwarfdump
         num_drivers: null
 
   language_runtimes_and_interpreters:
     domain_name: "Language runtimes / interpreters"
     items:
-      - name:
-        loc_kloc:
+      - name: cpython
+        loc_kloc: 763.72
         executables:
+          - python3
         num_drivers: null
 
       - name: quickjs
@@ -189,6 +158,29 @@ benchmarks:
           - luac
         num_drivers: null
 
+    archive_and_compression:
+    domain_name: "Archive and compression"
+    items:
+      - name: libarchive
+        loc_kloc: 168.92
+        executables:
+          - bsdtar
+          - bsdcpio
+        num_drivers: null
+
+      - name: upx
+        loc_kloc: 144.31
+        executables:
+          - upx
+        num_drivers: null
+
+      - name: xz
+        loc_kloc: 34.43
+        executables:
+          - xz
+        num_drivers: null
+
+  
   database_and_storage:
     domain_name: "Database and storage"
     items:
@@ -202,12 +194,21 @@ benchmarks:
           - h5repack
         num_drivers: null
 
-      - name:
-        loc_kloc:
+      - name: netcdf
+        loc_kloc: 296.63
         executables:
+          - ncdump
+          - ncgen
+          - ncinfo
         num_drivers: null
 
-      - name:
-        loc_kloc:
+      - name: mdbtools ---
+        loc_kloc: 12.13
         executables:
+          - mdb-export
+          - mdb-tables
+          - mdb-schema
         num_drivers: null
+
+
+  

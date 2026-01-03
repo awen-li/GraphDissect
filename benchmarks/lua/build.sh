@@ -30,7 +30,7 @@ initialize()
 wllvm_compile() 
 {
     CC="wllvm"
-    COMMON_FLAGS="-pg -g -O2 -save-temps=obj \
+    COMMON_FLAGS="-g -O2 -save-temps=obj \
                   -fno-discard-value-names \
                   -fno-inline-functions \
                   -fno-inline-functions-called-once \

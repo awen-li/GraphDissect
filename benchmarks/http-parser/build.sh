@@ -8,16 +8,16 @@ Action="$1"
 
 source ../__scripts__/base.sh
 
-initialize() {
+initialize() 
+{
     if [ ! -d "$target" ]; then
         echo "[http-parser] cloning upstream repo..."
         git clone --depth 1 https://github.com/nodejs/http-parser.git "$target"
     fi
 }
 
-wllvm_compile() {
-    initialize
-
+wllvm_compile() 
+{
     export CC="wllvm"
     export CXX="wllvm++"
 
@@ -39,9 +39,8 @@ wllvm_compile() {
     handle_executable "$target" "${executables[@]}"
 }
 
-hfuzz_compile() {
-    initialize
-
+hfuzz_compile() 
+{
     export CC="hfuzz-clang"
     export CXX="hfuzz-clang++"
 

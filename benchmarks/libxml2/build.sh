@@ -37,8 +37,8 @@ initialize() {
 
 function wllvm_compile ()
 {
-	export CC="wllvm -pg -g -O2 -save-temps=obj -fno-discard-value-names -fno-inline-functions -fno-inline-functions-called-once -mllvm -inline-threshold=0 -w"
-	export CXX="wllvm++ -pg -g -O2 -save-temps=obj -fno-discard-value-names -fno-inline-functions -fno-inline-functions-called-once -mllvm -inline-threshold=0 -w"
+	export CC="wllvm -g -O2 -save-temps=obj -fno-discard-value-names -fno-inline-functions -fno-inline-functions-called-once -mllvm -inline-threshold=0 -w"
+	export CXX="wllvm++ -g -O2 -save-temps=obj -fno-discard-value-names -fno-inline-functions -fno-inline-functions-called-once -mllvm -inline-threshold=0 -w"
 
     # 1) Clean the *source* tree if it was configured before
     if [ -d "$target" ]; then

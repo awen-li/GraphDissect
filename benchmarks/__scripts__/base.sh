@@ -72,9 +72,11 @@ bc_total_size() {
 #
 function handle_executable() 
 {
-    executable_path=$1
-    executables=$2
+    executable_path="$1"
+    executables="$2"
     is_so="${3:-}"
+
+    echo "[*] Handling executable(s) in: ${executables[@]}"
 
     if [ ! -d "seeds" ]; then
 		mkdir seeds
@@ -100,8 +102,8 @@ function handle_executable()
         fi
 
         # Generate bc
-	extract-bc $executable_path/$executable && cp $executable_path/$executable.bc $benchpath/
-	cp $executable_path/$executable $benchpath/$executable
+	    extract-bc $executable_path/$executable && cp $executable_path/$executable.bc $benchpath/
+	    cp $executable_path/$executable $benchpath/$executable
 
         # Whole-program callgraph construction (including dependent libs)
         if [ ! -f "$benchpath/callgraph_final.dot" ]; then

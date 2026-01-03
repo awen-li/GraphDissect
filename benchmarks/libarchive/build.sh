@@ -17,7 +17,8 @@ LIBARCHIVE_VERSION="3.8.3"
 LIBARCHIVE_TARBALL="libarchive-${LIBARCHIVE_VERSION}.tar.xz"
 LIBARCHIVE_URL="https://www.libarchive.org/downloads/${LIBARCHIVE_TARBALL}"
 
-initialize() {
+initialize() 
+{
     # Always start from a clean source tree
     if [ -d "$target" ]; then
         rm -rf "$target"
@@ -38,7 +39,6 @@ initialize() {
 
 wllvm_compile() 
 {
-
     export LLVM_COMPILER=clang
     export CC="wllvm"
     export CXX="wllvm++"

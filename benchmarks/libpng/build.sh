@@ -11,7 +11,8 @@ source ../__scripts__/base.sh
 
 LIBPNG_REPO="https://github.com/pnggroup/libpng.git"
 
-initialize() {
+initialize() 
+{
     # Always pull the latest code from the repository
     if [ -d "$target" ]; then
         rm -rf "$target"
@@ -26,7 +27,6 @@ initialize() {
 
 wllvm_compile() 
 {
-
     export LLVM_COMPILER=clang
     export CC="wllvm"
     export CXX="wllvm++"
@@ -57,7 +57,6 @@ wllvm_compile()
 
 hfuzz_compile() 
 {
-
     export CC="hfuzz-clang"
     export CXX="hfuzz-clang++"
 

@@ -33,14 +33,13 @@ initialize() {
 }
 
 
-wllvm_compile() {
-
+wllvm_compile() 
+{
     export LLVM_COMPILER=clang
-
     export CC="wllvm"
     export CXX="wllvm++"
 
-    COMMON_FLAGS="-g -O2 -pg\
+    COMMON_FLAGS="-g -O2 \
                   -fno-discard-value-names \
                   -fno-inline-functions \
                   -fno-inline-functions-called-once \
@@ -62,11 +61,10 @@ wllvm_compile() {
 }
 
 
-hfuzz_compile() {
-
+hfuzz_compile() 
+{
     export CC="hfuzz-clang"
     export CXX="hfuzz-clang++"
-
     export CFLAGS="-g -O2 -fsanitize-coverage=trace-pc-guard -finstrument-functions"
     export CXXFLAGS="-g -O2 -fsanitize-coverage=trace-pc-guard -finstrument-functions"
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}

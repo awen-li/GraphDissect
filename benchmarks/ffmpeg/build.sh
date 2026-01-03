@@ -10,14 +10,16 @@ Action="$1"
 
 source ../__scripts__/base.sh
 
-ensure_configure() {
+ensure_configure() 
+{
     if [ ! -f "$target/configure" ]; then
         echo "[ffmpeg] ERROR: configure script missing in $target"
         exit 1
     fi
 }
 
-initialize() {
+initialize() 
+{
     if [ ! -d "$target" ]; then
         echo "[ffmpeg] cloning upstream repo..."
         git clone --depth 1 https://github.com/FFmpeg/FFmpeg.git "$target"
@@ -26,8 +28,8 @@ initialize() {
 }
 
 
-wllvm_compile() {
-
+wllvm_compile() 
+{
     export LLVM_COMPILER=clang
 
     export CC="wllvm"
@@ -73,12 +75,10 @@ wllvm_compile() {
 }
 
 
-hfuzz_compile() {
-
+hfuzz_compile() 
+{
     export CC="hfuzz-clang -fsanitize-coverage=trace-pc-guard -finstrument-functions"
     export CXX="hfuzz-clang++ -fsanitize-coverage=trace-pc-guard -finstrument-functions"
-
-
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}
 
     build_dir="build-hfuzz"

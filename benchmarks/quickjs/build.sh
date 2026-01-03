@@ -35,7 +35,7 @@ wllvm_compile()
 
     # add your analysis-friendly flags via environment,
     # QuickJS will append its own -g, DEFINES, etc.
-    COMMON_FLAGS="-pg -g -O2 -save-temps=obj \
+    COMMON_FLAGS="-g -O2 -save-temps=obj \
                   -fno-discard-value-names \
                   -fno-inline-functions \
                   -fno-inline-functions-called-once \

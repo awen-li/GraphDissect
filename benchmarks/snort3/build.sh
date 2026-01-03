@@ -5,11 +5,9 @@ export ROOT="$(pwd)"
 export target="snort3"
 Action="${1:-}"
 
-# Primary CLI executable (pcap file input via -r <pcap>)
 executables=("snort2lua")
 executables1=("snort")
 
-# load common helpers: compile(), clean(), copy_executable(), handle_executable(), show_driver_info(), etc.
 source ../__scripts__/base.sh
 
 initialize() {
@@ -21,9 +19,6 @@ initialize() {
     fi
 
     command -v cmake >/dev/null 2>&1 || { echo "[snort3] ERROR: cmake not found"; exit 1; }
-
-    # NOTE: snort3 typically needs extra deps (daq, pcap, ssl, etc.).
-    # Keep the script dependency-agnostic; install deps in your image if needed.
 }
 
 wllvm_compile() {

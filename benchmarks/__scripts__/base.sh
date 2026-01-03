@@ -80,7 +80,7 @@ function handle_executable()
 
     if [ ! -d "seeds" ]; then
 		mkdir seeds
-		tar -xvf seeds.tar -C seeds
+		[ -f "seeds.tar" ] && tar -xvf seeds.tar -C seeds
 	fi
 
     for exe in "${executables[@]}"; do

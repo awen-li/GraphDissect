@@ -202,13 +202,12 @@ benchmarks:
           - ncinfo
         num_drivers: null
 
-      - name: mdbtools ---
+      - name: leveldb
         loc_kloc: 12.13
         executables:
-          - mdb-export
-          - mdb-tables
-          - mdb-schema
+          - leveldbutil
         num_drivers: null
+
 
 
   

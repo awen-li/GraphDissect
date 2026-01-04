@@ -22,7 +22,8 @@ class MFuzz
 public:
     MFuzz(std::string bench, const std::string& fuzzer)
         : bench_path(bench),
-          fuzzer(fuzzer)
+          fuzzer(fuzzer),
+          stopped(false)
     {
         bench_path = UTIL::abs_path(bench_path);
         std::cout << "[MFuzz] benchmark path: " << bench_path << "\n";
@@ -31,7 +32,7 @@ public:
 
     ~MFuzz() 
     {
-        stop_fuzzer();
+        
     }
 
     void start_fuzzer(double max_time_budget = 24 * 3600);
@@ -86,4 +87,6 @@ private:
     std::unique_ptr<Scheduler> scheduler;
     std::string   session_id;
     fs::path      session_path;
+
+    bool stopped;
 };

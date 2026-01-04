@@ -122,7 +122,9 @@ void MFuzz::start_fuzzer(double max_time_budget)
 }
 
 void MFuzz::stop_fuzzer() 
-{    
+{
+    stopped = true;
+
     if (fuzzer_pid > 0) {
         // Send SIGINT and wait
         kill(fuzzer_pid, SIGINT);
@@ -131,7 +133,7 @@ void MFuzz::stop_fuzzer()
         std::cout << "[MFuzz] fuzzer stopped.\n";
         fuzzer_pid = -1;
     }
-        
+    
     if (!session_path.empty() && fs::exists(session_path)) {
         std::error_code ec;
         fs::remove_all(session_path, ec);
@@ -171,12 +173,19 @@ double MFuzz::fuzz_by_average(double max_time_budget)
     double escape = 0.0;
     size_t driver_index = 0;
 
-    while (escape < max_time_budget) {
+    unsigned interval = 0;
+    while (!stopped && escape < max_time_budget) {
         std::this_thread::sleep_for(
-            std::chrono::milliseconds(static_cast<int>(switch_interval * 1000))
+            std::chrono::milliseconds(static_cast<int>(1 * 1000))
             );
+        
+        interval++;
+        if (interval < switch_interval) {
+            continue;
+        }
 
-        escape += switch_interval;
+        interval = 0;
+        escape  += switch_interval;
 
         driver_index = (driver_index + 1) % driver_list.size();
         active_driver = driver_list[driver_index];

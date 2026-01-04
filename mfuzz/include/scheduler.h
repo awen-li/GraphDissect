@@ -37,7 +37,8 @@ public:
         driverManger = new DriverMng(benchPath);
         assert(driverManger != NULL);
 
-        fcov_setPath((sessionPath + "/fcov.map").c_str());
+        fcovPath = sessionPath + "/fcov.map";
+        fcov_setPath(fcovPath.c_str());
 
         activeDriver = 0;
     }
@@ -64,6 +65,7 @@ private:
 
     string benchPath;
     string sessionPath;
+    string fcovPath;
     CgMarker* cgmk;
 
     vector<unsigned> backupFcov;

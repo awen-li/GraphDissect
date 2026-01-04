@@ -41,7 +41,8 @@ public:
     inline void setPriority(float priority) { this->priority = priority; }
     inline void setPhase(const int phase) { this->phase = phase; }
 
-    inline string toJson() const {
+    inline string toJson() const 
+    {
         json j = {
             {"id", id},
             {"name", name},
@@ -50,8 +51,13 @@ public:
             {"output", output},
             {"seed_dir", seed_dir},
             {"priority", priority},
-            {"description", description}
+            {"description", description},
+            {"phase", phase}
         };
+
+        if (in_place_edit) {
+            j["in_place_editing"] = in_place_edit;
+        }
         return j.dump(4);
     }
 
@@ -123,9 +129,12 @@ public:
     DriverMng(string bench)
         : benchmark(std::move(bench)) {
             activeDrvId = 0;
+            if (!loadDrivers()) {
+                std::cout<<"[DriverMng] loadDrivers fails @"<<benchmark<<"...\n";
+                exit(1);
+            }
         }
 public: 
-    bool loadDrivers();
 
     Driver& getDriver(unsigned drvId);
 
@@ -137,6 +146,7 @@ public:
     bool setDriverPriority(unsigned driverId, float priority);
 
 private:
+    bool loadDrivers();
     bool waitForDriverLoad(const string& activeDrvPath, int timeout_sec = 15);
     bool loadDriverList(const string& path = "drivers/driver_list.json");
     void printDrivers() const;

@@ -26,7 +26,7 @@ void MFuzz::start_fuzzer(double max_time_budget)
     // Init scheduler and set default driver
     scheduler = std::make_unique<Scheduler>(bench_path, session_path.string());
     unsigned default_driver = 1;
-    scheduler->setActiveDriver(default_driver);
+    scheduler->setActiveDriver(default_driver, true);
 
     // Fuzz in/out directories
     auto [in_dir, out_dir] = init_fuzzDirectory();

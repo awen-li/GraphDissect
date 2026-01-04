@@ -111,11 +111,18 @@ bool Scheduler::getFAddrIdMap()
     return (status != -1) && WIFEXITED(status) && (WEXITSTATUS(status) == 0);
 }
 
-void Scheduler::setActiveDriver(unsigned driverId)
+void Scheduler::setActiveDriver(unsigned driverId, bool init)
 {
+    string activeDrvPath = sessionPath + "/active_driver.drv";
+
+    if (init == true) {
+        driverManger->setActiveDriver(activeDrvPath, driverId);
+        activeDriver = driverId;
+        return;
+    }
+
     setCovBlock();
 
-    string activeDrvPath = sessionPath + "/active_driver.json";
     driverManger->setActiveDriver(activeDrvPath, driverId);
 
     /* syn graph */

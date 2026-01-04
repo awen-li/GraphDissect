@@ -48,7 +48,7 @@ public:
         delete fAddrToID;
     }
 
-    void setActiveDriver(unsigned driverId);
+    void setActiveDriver(unsigned driverId, bool init=false);
     void synchronizeGraphs();
     void switchDriver(unsigned drvId);
     set<unsigned> getCoveredFuncs();

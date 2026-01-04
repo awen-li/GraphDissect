@@ -16,4 +16,5 @@ bool createDir(const std::string& path, std::string& err);
 bool findFuzzerBin(std::string fuzzName, std::string& out_path, std::string& err);
 
 std::string shell_quote(const std::string& s);
+std::string abs_path(const std::string& in);
 }

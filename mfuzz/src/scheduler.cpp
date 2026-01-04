@@ -100,19 +100,12 @@ set<unsigned> Scheduler::getCoveredFuncs()
 
 bool Scheduler::getFAddrIdMap() 
 {
-    fs::path benchPathFs(benchPath);
-    fs::path absBenchPath;
-    try {
-        absBenchPath = fs::canonical(benchPathFs);
-    } 
-    catch (const fs::filesystem_error&) {
-        absBenchPath = fs::absolute(benchPathFs);
-    }
-
+    fs::path absBenchPath(benchPath);
     const std::string binaryName = absBenchPath.filename().string();
     std::string cmd =
         "FAddr2Gid --bench " + UTIL::shell_quote(absBenchPath.string()) +
         " --binary " + UTIL::shell_quote(binaryName);
+    std::cout<< "[Scheduler] getFAddrIdMap cmd: " << cmd << "\n";
 
     int status = std::system(cmd.c_str());
     return (status != -1) && WIFEXITED(status) && (WEXITSTATUS(status) == 0);

@@ -1,4 +1,4 @@
-#include <cmath>  // for std::sqrt
+#include <cmath>
 #include <unordered_map>
 #include "cgmarker.h"
 
@@ -301,13 +301,8 @@ void CgMarker::reportDriverGraph(std::ostream& os,
     }
 }
 
-
 void CgMarker::dumpFunctoIdMap(const string& outPath)
 {
-    if (exists(outPath)) {
-        return;
-    }
-
     std::ofstream ofs(outPath);
     if (!ofs) {
         std::cerr << "WARN: failed to open " << outPath << " for writing.\n";
@@ -319,6 +314,6 @@ void CgMarker::dumpFunctoIdMap(const string& outPath)
         unsigned nodeId = node->GetId();
         const string& fname = node->GetFName();
 
-        ofs << std::hex << fname << ":" << nodeId << "\n";
+        ofs << fname << ":" << nodeId << "\n";
     }
 }

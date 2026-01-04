@@ -44,8 +44,6 @@ typedef struct {
 } func_coverage_t;
 
 
-bool fcov_initBitmap(const char* session_path, unsigned target_bm_fd);
-
 void fcov_setPath(const char* fcovMapPath);
 void fcov_deinit();
 

@@ -135,4 +135,16 @@ std::string shell_quote(const std::string& s)
     return out;
 }
 
+std::string abs_path(const std::string& in) 
+{
+    namespace fs = std::filesystem;
+    fs::path p(in);
+
+    try {
+        return fs::canonical(p).string();
+    } catch (const fs::filesystem_error&) {
+        return fs::absolute(p).lexically_normal().string();
+    }
+}
+
 }

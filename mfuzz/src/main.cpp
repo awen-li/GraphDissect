@@ -29,6 +29,6 @@ int main (int argc, char** argv)
     }
 
     MFuzz mfuzz(bench_path, "honggfuzz");
-    mfuzz.start_fuzzer(bench_path, time_budget);
+    mfuzz.start_fuzzer(time_budget);
     return 0;
 }

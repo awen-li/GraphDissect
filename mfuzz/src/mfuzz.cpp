@@ -8,13 +8,13 @@ inline bool process_exists(const std::string& name = "honggfuzz")
     return std::system(cmd.c_str()) == 0;
 }
 
-void MFuzz::start_fuzzer(const std::string& benchmark, double max_time_budget) 
+void MFuzz::start_fuzzer(double max_time_budget) 
 {
     // Change directory to benchmark
-    fs::path absPath = fs::absolute(benchmark);
+    fs::path absPath = fs::absolute(bench_path);
     if (!fs::exists(absPath) || !fs::is_directory(absPath)) {
         std::cerr << "[MFuzz] Benchmark path does not exist or is not a directory: "
-                      << absPath << "\n";
+                  << absPath << "\n";
         return;
     }
 
@@ -24,7 +24,7 @@ void MFuzz::start_fuzzer(const std::string& benchmark, double max_time_budget)
     }
 
     // Init scheduler and set default driver
-    scheduler = std::make_unique<Scheduler>(benchmark, session_path.string());
+    scheduler = std::make_unique<Scheduler>(bench_path, session_path.string());
     unsigned default_driver = 1;
     scheduler->setActiveDriver(default_driver);
 
@@ -115,7 +115,7 @@ void MFuzz::start_fuzzer(const std::string& benchmark, double max_time_budget)
             fuzzer_pid = pid;
             std::cout << "[MFuzz] [session - " << session_id
                     << "] fuzzer started for fuzzing on "
-                    << benchmark << "\n";
+                    << bench_path << "\n";
             run_schedule_average(max_time_budget);
         }
     }

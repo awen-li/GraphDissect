@@ -37,6 +37,8 @@ public:
         driverManger = new DriverMng(benchPath);
         assert(driverManger != NULL);
 
+        fcov_setPath((sessionPath + "/fcov.map").c_str());
+
         activeDriver = 0;
     }
 

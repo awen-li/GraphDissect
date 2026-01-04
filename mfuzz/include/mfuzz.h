@@ -24,6 +24,8 @@ public:
         : bench_path(bench),
           fuzzer(fuzzer)
     {
+        bench_path = UTIL::abs_path(bench_path);
+        std::cout << "[MFuzz] benchmark path: " << bench_path << "\n";
         init_session();
     }
 
@@ -32,7 +34,7 @@ public:
         stop_fuzzer();
     }
 
-    void start_fuzzer(const std::string& benchmark, double max_time_budget = 24 * 3600);
+    void start_fuzzer(double max_time_budget = 24 * 3600);
     void stop_fuzzer();
 
 private:

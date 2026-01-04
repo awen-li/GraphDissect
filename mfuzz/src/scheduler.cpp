@@ -255,3 +255,35 @@ set<unsigned> Scheduler::getCoveredFuncs()
 
     return covFuncs;
 }
+
+
+static std::string shell_quote(const std::string& s) 
+{
+    std::string out = "'";
+    for (char c : s) {
+        if (c == '\'') out += "'\\''";
+        else out += c;
+    }
+    out += "'";
+    return out;
+}
+
+bool Scheduler::getFAddrIdMap() 
+{
+    fs::path benchPathFs(benchPath);
+    fs::path absBenchPath;
+    try {
+        absBenchPath = fs::canonical(benchPathFs);
+    } 
+    catch (const fs::filesystem_error&) {
+        absBenchPath = fs::absolute(benchPathFs);
+    }
+
+    const std::string binaryName = absBenchPath.filename().string();
+    std::string cmd =
+        "FAddr2Gid --bench " + shell_quote(absBenchPath.string()) +
+        " --binary " + shell_quote(binaryName);
+
+    int status = std::system(cmd.c_str());
+    return (status != -1) && WIFEXITED(status) && (WEXITSTATUS(status) == 0);
+}

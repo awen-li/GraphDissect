@@ -39,6 +39,7 @@ public:
     float computeDriverScore(CGGraph* drvCg, unsigned drvId);
 private:
     unsigned countPrivateNodes(unsigned driverId);
+    void dumpFunctoIdMap(const string& outPath = "function_id.map");
 
     inline void initWholeCg (const string& cgDotPath) {
         cout<<"CG path --> "<<cgDotPath<<endl;
@@ -46,6 +47,8 @@ private:
         dotParser.Dot2Graph (wholeCg);
         assert(wholeCg.GetNodeNum () != 0);
         wholeCg.ComputeNodeDepths();
+
+        dumpFunctoIdMap(benchPath + "/function_id.map");
     }
 };
 

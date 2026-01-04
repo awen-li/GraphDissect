@@ -4,9 +4,12 @@
 #include <atomic>
 #include <chrono>
 #include <cassert>
+#include <filesystem>
 #include "cgmarker.h"
 #include "fcov.h"
 #include "faddr_id.h"
+
+namespace fs = std::filesystem;
 
 struct NodeFeature 
 {
@@ -39,9 +42,13 @@ public:
     Scheduler(const string& benchPath) {
         this->benchPath  = benchPath;
 
-        cgmk = new CgMarker (benchPath, "marked_callgraph.dot");
+        cgmk = new CgMarker (benchPath);
         assert(cgmk != NULL);
 
+        string faddrMapPath = benchPath + "/faddr_id.map";
+        if (!fs::exists(faddrMapPath)) {
+            assert(getFAddrIdMap() == true && "Failed to get faddr_id.map"); 
+        }
         fAddrToID = new FaddrID (benchPath + "/faddr_id.map");
         assert(fAddrToID != NULL);
         initEdgeKey();
@@ -93,7 +100,7 @@ private:
     map<uint64_t, CGEdge*> keyToEdge;
 
 private:
-
+    bool getFAddrIdMap();
     unsigned getNodeBlockNum(set<CGNode*> subgraph);
     vector<NodeFeature> getNodeFeatures(unsigned driverId, set<CGNode*> subgraph);
     vector<pair<unsigned, unsigned>> getSubgraphEdges(set<CGNode*> subgraph);

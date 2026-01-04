@@ -191,9 +191,6 @@ bool DriverMng::loadDriverList(const string& path) {
         Driver drv;
         drv.load(drvPath);
         allDrivers[driverId] = drv;
-
-        // insert to heap
-        driverHeap.push({drv.getPriority(), driverId});
     }
 
     //printDrivers();
@@ -278,53 +275,25 @@ bool DriverMng::setActiveDriver(string activeDrvPath,
     return true;
 }
 
-
-unsigned DriverMng::getPriorDriver() {
-    auto [priority, drvId] = driverHeap.top();
-    driverHeap.pop();
-
-    return drvId;
-}
-
-bool DriverMng::setDriverPriority(unsigned driverId, float priority) {
-    auto itr = allDrivers.find(driverId);
-    if (itr == allDrivers.end()) {
-        cerr << "Fail to get driver: "<< driverId <<"\n";
-        return false;
-    }
-
-    Driver& drv = itr->second;
-    drv.setPriority(priority);
-
-    driverHeap.push({priority,driverId});
-    return true;
-}
-
 unsigned DriverMng::getDriverNum() {
     return allDrivers.size();
 }
 
 
-vector<unsigned> DriverMng::getAllDrvIds() {
-    vector<std::pair<unsigned, Driver>> sortedDrivers(allDrivers.begin(), allDrivers.end());
-
-    // Sort by priority in descending order
-    std::sort(sortedDrivers.begin(), sortedDrivers.end(),
-              [](const auto& a, const auto& b) {
-                  return a.second.getPriority() > b.second.getPriority();
-              });
-
-    // Collect sorted IDs
+vector<unsigned> DriverMng::getAllDrvIds() 
+{
     vector<unsigned> allDrvIds;
-    for (const auto& pair : sortedDrivers) {
-        allDrvIds.push_back(pair.first);
+    
+    for (const auto& [id, item] : allDrivers) {
+        allDrvIds.push_back(id);
     }
 
     return allDrvIds;
 }
 
 
-Driver& DriverMng::getDriver(unsigned drvId) {
+Driver& DriverMng::getDriver(unsigned drvId) 
+{
     auto itr = allDrivers.find(drvId);
     assert(itr != allDrivers.end());
 

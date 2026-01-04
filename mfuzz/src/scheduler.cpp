@@ -1,165 +1,9 @@
 #include <cmath>
 #include "scheduler.h"
+#include "driver.h"
 
-void Scheduler::getGraphFeatures(unsigned driverId, 
-                          vector<NodeFeature>& nFeatures, 
-                          vector<pair<unsigned, unsigned>>& edgeList,
-                          unsigned& totalBlocks)
+void Scheduler::switchDriver(unsigned drvId) 
 {
-    set<CGNode*> subgraph;
-    cgmk->getDriverGraph(driverId, subgraph);
-
-    nFeatures   = getNodeFeatures(driverId, subgraph);
-    edgeList    = getSubgraphEdges(subgraph);
-    totalBlocks = getNodeBlockNum(subgraph);
-
-    return;
-}
-
-vector<NodeFeature> Scheduler::getNodeFeatures(unsigned driverId, set<CGNode*> subgraph) 
-{
-    vector<NodeFeature> features;
-
-    if (subgraph.empty()) {
-        return features;
-    }
-
-    // 1) Compute maxDepth for normalization
-    unsigned maxDepth = 0;
-    for (CGNode* node : subgraph) {
-        if (node->Depth > maxDepth) {
-            maxDepth = node->Depth;
-        }
-    }
-
-    // 2) Build features per node
-    for (CGNode* node : subgraph) {
-        NodeFeature nf{};
-        unsigned nodeId = node->GetId();
-
-        nf.funcId   = nodeId;
-        unsigned inDeg  = node->GetIncomingEdgeNum();
-        unsigned outDeg = node->GetOutgoingEdgeNum();
-
-        // Static
-        nf.inDegree  = static_cast<float>(inDeg);
-        nf.outDegree = static_cast<float>(outDeg);
-        nf.depthNorm = (maxDepth ? static_cast<float>(node->Depth) /
-                                   static_cast<float>(maxDepth)
-                                 : 0.0f);
-
-        // Dynamic accumulators
-        unsigned inCovered      = 0;
-        unsigned outCovered     = 0;
-        uint64_t inHitSum       = 0;
-        uint64_t outHitSum      = 0;
-        unsigned newIncident    = 0;
-
-        // Incoming edges: u -> node
-        for (auto it = node->InEdgeBegin(); it != node->InEdgeEnd(); ++it) {
-            CGEdge* edge = *it;
-            unsigned prevHit = edge->HitNum;
-            unsigned curHit  = fcov_getEdgeHitNum(edge->Key);
-            edge->HitNum     = curHit;  // cache current for next round
-
-            if (curHit > 0) {
-                ++inCovered;
-                inHitSum += curHit;
-                if (!firstRun && prevHit == 0) {
-                    ++newIncident;
-                }
-            }
-        }
-
-        // Outgoing edges: node -> w
-        for (auto it = node->OutEdgeBegin(); it != node->OutEdgeEnd(); ++it) {
-            CGEdge* edge = *it;
-            unsigned prevHit = edge->HitNum;
-            unsigned curHit  = fcov_getEdgeHitNum(edge->Key);
-            edge->HitNum     = curHit;
-
-            if (curHit > 0) {
-                ++outCovered;
-                outHitSum += curHit;
-                if (!firstRun && prevHit == 0) {
-                    ++newIncident;
-                }
-            }
-        }
-
-        // Dynamic (absolute)
-        uint64_t totalHitSum = inHitSum + outHitSum;
-        nf.hitLog = std::log1p(static_cast<float>(totalHitSum));
-
-        nf.inEdgeCovRatio  = (inDeg  ? static_cast<float>(inCovered)  /
-                                      static_cast<float>(inDeg)
-                                    : 0.0f);
-        nf.outEdgeCovRatio = (outDeg ? static_cast<float>(outCovered) /
-                                      static_cast<float>(outDeg)
-                                    : 0.0f);
-
-        // Dynamic (evolution / frontier)
-        bool hasUncoveredSucc = (outDeg > outCovered);
-        bool isCoveredNode    = (totalHitSum > 0);
-
-        nf.frontierFlag = (isCoveredNode && hasUncoveredSucc) ? 1.0f : 0.0f;
-
-        nf.exclusiveFlag =
-            (node->GetDriverIdMask().count() == 1 && node->HasDriverId(driverId))
-            ? 1.0f
-            : 0.0f;
-
-        unsigned totalDeg = inDeg + outDeg;
-        nf.newEdgeFrac =
-            (!firstRun && totalDeg
-                 ? static_cast<float>(newIncident) /
-                   static_cast<float>(totalDeg)
-                 : 0.0f);
-
-        features.push_back(nf);
-    }
-
-    // After the first call, we can start using "new edge" signals
-    firstRun = false;
-
-    return features;
-}
-
-
-unsigned Scheduler::getNodeBlockNum(set<CGNode*> subgraph) 
-{
-        unsigned totalBlocks = 0;
-    for (const auto& node : subgraph) {
-        totalBlocks += node->BlockNum;
-    }
-    return totalBlocks;
-}
-
-
-vector<pair<unsigned, unsigned>> Scheduler::getSubgraphEdges(set<CGNode*> subgraph) 
-{
-    vector<pair<unsigned, unsigned>> edges;
-    if (subgraph.empty()) {
-        return edges;
-    }
-
-    // Traverse subgraph edges
-    for (auto* srcNode : subgraph) {
-        unsigned srcId = srcNode->GetId();
-
-        for (auto itr = srcNode->OutEdgeBegin(); itr != srcNode->OutEdgeEnd(); itr++) {
-            CGNode* dstNode = (*itr)->GetDstNode();
-            unsigned dstId  = dstNode->GetId();
-
-            edges.emplace_back(srcId, dstId);
-        }
-    }
-
-    return edges;
-}
-
-
-void Scheduler::switchDriver(unsigned drvId) {
     // 1: Compute coverage diff between current state and last backup
     //  : Label the call graph with the newly covered set
     // 2: Backup the current fcov state and switch active driver
@@ -197,8 +41,6 @@ void Scheduler::switchDriver(unsigned drvId) {
 
     // switch to new driver
     activeDriver = drvId;
-    firstRun     = false;
-
     std::cout << "[Scheduler] Switched to driver " << drvId
               << "[" <<totalHitNodes<<" / "<<backupFcov.size()<<"]"
               << " (updated " << updatedNodes << " nodes with newly discovered "<<newNodes<<")\n";
@@ -256,18 +98,6 @@ set<unsigned> Scheduler::getCoveredFuncs()
     return covFuncs;
 }
 
-
-static std::string shell_quote(const std::string& s) 
-{
-    std::string out = "'";
-    for (char c : s) {
-        if (c == '\'') out += "'\\''";
-        else out += c;
-    }
-    out += "'";
-    return out;
-}
-
 bool Scheduler::getFAddrIdMap() 
 {
     fs::path benchPathFs(benchPath);
@@ -281,9 +111,35 @@ bool Scheduler::getFAddrIdMap()
 
     const std::string binaryName = absBenchPath.filename().string();
     std::string cmd =
-        "FAddr2Gid --bench " + shell_quote(absBenchPath.string()) +
-        " --binary " + shell_quote(binaryName);
+        "FAddr2Gid --bench " + UTIL::shell_quote(absBenchPath.string()) +
+        " --binary " + UTIL::shell_quote(binaryName);
 
     int status = std::system(cmd.c_str());
     return (status != -1) && WIFEXITED(status) && (WEXITSTATUS(status) == 0);
+}
+
+void Scheduler::setActiveDriver(unsigned driverId)
+{
+    setCovBlock();
+
+    string activeDrvPath = sessionPath + "/active_driver.json";
+    driverManger->setActiveDriver(activeDrvPath, driverId);
+
+    /* syn graph */
+    synchronizeGraphs();
+
+    /* switch driver */
+    switchDriver(driverId);
+    activeDriver = driverId;
+
+    setCovNonBlock();
+
+    std::cout << "[Scheduler::setActiveDriver] SUCCESS @[" << driverId << "]\n";
+    return;
+}
+
+
+vector<unsigned> Scheduler::getAllDrvIds()
+{
+    return driverManger->getAllDrvIds();
 }

@@ -1,4 +1,3 @@
-#include "dynsch.h"
 #include "mfuzz.h"
 
 
@@ -9,28 +8,8 @@ inline bool process_exists(const std::string& name = "honggfuzz")
     return std::system(cmd.c_str()) == 0;
 }
 
-// If you don’t have a shlex-like quoting helper, this simple version is OK.
-inline std::string shell_quote(const std::string& s) 
+void MFuzz::start_fuzzer(const std::string& benchmark, double max_time_budget) 
 {
-    std::string out = "'";
-    for (char c : s) {
-        if (c == '\'') {
-            out += "'\"'\"'";
-        } else {
-            out += c;
-        }
-    }
-    out += "'";
-    return out;
-}
-
-void MFuzz::start_fuzzer(const std::string& benchmark, int driverId) 
-{
-    if (driverId == 0) {
-        std::perror("[MFuzz] input driverId = 0");
-        exit (0);
-    }
-
     // Change directory to benchmark
     fs::path absPath = fs::absolute(benchmark);
     if (!fs::exists(absPath) || !fs::is_directory(absPath)) {
@@ -44,11 +23,10 @@ void MFuzz::start_fuzzer(const std::string& benchmark, int driverId)
         return;
     }
 
-    // Init scheduler
-    scheduler = std::make_unique<Scheduler>(benchmark);
-
-    active_driver = driverId;
-    dynsch_setActiveDriver(active_driver);
+    // Init scheduler and set default driver
+    scheduler = std::make_unique<Scheduler>(benchmark, session_path.string());
+    unsigned default_driver = 1;
+    scheduler->setActiveDriver(default_driver);
 
     // Fuzz in/out directories
     auto [in_dir, out_dir] = init_fuzzDirectory();
@@ -73,7 +51,7 @@ void MFuzz::start_fuzzer(const std::string& benchmark, int driverId)
         std::string cmd_str;
         for (size_t i = 0; i < args.size(); ++i) {
             if (i) cmd_str += " ";
-            cmd_str += shell_quote(args[i]);
+            cmd_str += UTIL::shell_quote(args[i]);
         }
 
         fs::path cmd_file = session_path / "hfuzz_cmd.txt";
@@ -138,6 +116,7 @@ void MFuzz::start_fuzzer(const std::string& benchmark, int driverId)
             std::cout << "[MFuzz] [session - " << session_id
                     << "] fuzzer started for fuzzing on "
                     << benchmark << "\n";
+            run_schedule_average(max_time_budget);
         }
     }
 }
@@ -168,7 +147,7 @@ double MFuzz::fuzz_by_average(double max_time_budget)
 {
     if (!scheduler) return 0.0;
 
-    auto driver_list = dynsch_getAllDrivers();
+    auto driver_list = scheduler->getAllDrvIds();
     if (driver_list.empty()) {
         std::cout << "No drivers are loaded!\n";
         stop_fuzzer();
@@ -201,27 +180,24 @@ double MFuzz::fuzz_by_average(double max_time_budget)
 
         driver_index = (driver_index + 1) % driver_list.size();
         active_driver = driver_list[driver_index];
-        dynsch_setActiveDriver(active_driver);
+        scheduler->setActiveDriver(active_driver);
     }
 
     return escape;
 }
 
-void MFuzz::run_schedule_average(double max_time) 
+void MFuzz::run_schedule_average(double max_time_budget) 
 {
-    max_time_budget = max_time;
-    total_time = 0.0;
-
-    if (fuzz_by_average(max_time) == 0.0) {
+    if (fuzz_by_average(max_time_budget) == 0.0) {
         return;
     }
 
-    auto coved_funcs = dynsch_getCoveredFuncs();
+    set<unsigned> coved_funcs = scheduler->getCoveredFuncs();
     std::cout << "[run_schedule_average][" << coved_funcs.size()
                 << "]coved_funcs -> [";
-    for (size_t i = 0; i < coved_funcs.size(); ++i) {
-        std::cout << coved_funcs[i];
-        if (i + 1 < coved_funcs.size()) std::cout << ", ";
+    for (auto it = coved_funcs.begin(); it != coved_funcs.end(); ++it) {
+        std::cout << *it;
+        if (std::next(it) != coved_funcs.end()) std::cout << ", ";
     }
     std::cout << "]\n";
 

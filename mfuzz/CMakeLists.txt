@@ -18,7 +18,6 @@ set(MFUZZ_SOURCES
     src/mfuzz.cpp
     src/scheduler.cpp
     src/driver.cpp
-    src/dynsch.cpp
     src/fcov.cpp
     src/fuzzer.cpp
     src/util.cpp

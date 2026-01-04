@@ -115,22 +115,13 @@ private:
     }
 };
 
-using DriverHeapEntry = std::pair<float, int>;  // (priority, driverId)
-
-struct DriverCmp {
-    bool operator()(const DriverHeapEntry& a, const DriverHeapEntry& b) const {
-        return a.first < b.first;  // max-heap: higher priority first
-    }
-};
-
-
 class DriverMng {
 public:
     DriverMng() = default;
     ~DriverMng() = default;
 
-    DriverMng(string bench, unsigned sessionId)
-        : benchmark(std::move(bench)), sessionId(sessionId) {
+    DriverMng(string bench)
+        : benchmark(std::move(bench)) {
             activeDrvId = 0;
         }
 public: 
@@ -153,12 +144,8 @@ private:
 private:
     unsigned drvFailedNum = 0;
     string benchmark;
-    unsigned sessionId;
     unsigned activeDrvId;
     map<int, Driver> allDrivers;
-
-    priority_queue<DriverHeapEntry, vector<DriverHeapEntry>, DriverCmp> driverHeap;
-
 };
 
 #endif // _DRIVER_H_

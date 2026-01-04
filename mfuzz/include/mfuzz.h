@@ -12,6 +12,7 @@
 #include <unistd.h> 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "util.h"
 #include "scheduler.h" 
 
 namespace fs = std::filesystem;
@@ -19,10 +20,9 @@ namespace fs = std::filesystem;
 class MFuzz 
 {
 public:
-    MFuzz(const std::string& fuzzer)
-        : fuzzer(fuzzer),
-          max_time_budget(0.0),
-          total_time(0.0) 
+    MFuzz(std::string bench, const std::string& fuzzer)
+        : bench_path(bench),
+          fuzzer(fuzzer)
     {
         init_session();
     }
@@ -32,13 +32,13 @@ public:
         stop_fuzzer();
     }
 
-    void start_fuzzer(const std::string& benchmark, int driverId = 0);
+    void start_fuzzer(const std::string& benchmark, double max_time_budget = 24 * 3600);
     void stop_fuzzer();
 
 private:
     double check_fcov(double driver_time_budget);
     double fuzz_by_average(double max_time_budget);
-    void run_schedule_average(double max_time = 24 * 3600);
+    void run_schedule_average(double max_time_budget);
 
     inline void init_session() 
     {
@@ -54,7 +54,9 @@ private:
 
     inline std::pair<fs::path, fs::path> init_fuzzDirectory() 
     {
-        fs::path fuzz_dir = fs::absolute("./fuzz");
+        std::string fuzz_path = bench_path + "/fuzz";
+        
+        fs::path fuzz_dir = fs::absolute(fuzz_path);
         if (!fs::exists(fuzz_dir)) {
             fs::create_directories(fuzz_dir);
         }
@@ -73,14 +75,13 @@ private:
     }
 
 private:
+    std::string bench_path;
+
     std::string fuzzer;
     pid_t fuzzer_pid;
+    int    active_driver;
 
     std::unique_ptr<Scheduler> scheduler;
     std::string   session_id;
     fs::path      session_path;
-
-    int    active_driver;
-    double max_time_budget;
-    double total_time;
 };

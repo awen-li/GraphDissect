@@ -5,42 +5,23 @@
 #include <chrono>
 #include <cassert>
 #include <filesystem>
+#include "driver.h"
+#include "util.h"
 #include "cgmarker.h"
 #include "fcov.h"
 #include "faddr_id.h"
 
 namespace fs = std::filesystem;
 
-struct NodeFeature 
-{
-    unsigned funcId;
-
-    // Static
-    float inDegree;
-    float outDegree;
-    float depthNorm;
-
-    // Dynamic (absolute)
-    float hitLog;          // log(1 + total calls to this node)
-    float inEdgeCovRatio;  // (#covered in-edges / inDegree)
-    float outEdgeCovRatio; // (#covered out-edges / outDegree)
-
-    // NEW: edge hit intensity
-    float inHitLog;        // log(1 + sum hits over incoming edges)
-    float outHitLog;       // log(1 + sum hits over outgoing edges)
-
-    // Dynamic (evolution / frontier)
-    float frontierFlag;    // 0 or 1
-    float exclusiveFlag;   // 0 or 1
-    float newEdgeFrac;     // newIncidentEdges / max(1, inDegree+outDegree)
-};
 
 class Scheduler
 {
 public:
     Scheduler() = default;
-    Scheduler(const string& benchPath) {
-        this->benchPath  = benchPath;
+    Scheduler(const string& benchPath, const string& sessionPath) 
+    {
+        this->benchPath   = benchPath;
+        this->sessionPath = sessionPath;
 
         cgmk = new CgMarker (benchPath);
         assert(cgmk != NULL);
@@ -53,45 +34,34 @@ public:
         assert(fAddrToID != NULL);
         initEdgeKey();
 
-        // fcov cache
-        backupFcov.resize(getGraphNodeNum()+32, 0);
+        driverManger = new DriverMng(benchPath);
+        assert(driverManger != NULL);
 
         activeDriver = 0;
-        firstRun     = true;
     }
 
-    ~Scheduler () {
+    ~Scheduler () 
+    {
         delete cgmk;
         delete fAddrToID;
     }
 
+    void setActiveDriver(unsigned driverId);
     void synchronizeGraphs();
     void switchDriver(unsigned drvId);
-
-    void getGraphFeatures(unsigned driverId, 
-                          vector<NodeFeature>& nFeatures, 
-                          vector<pair<unsigned, unsigned>>& edgeList,
-                          unsigned& totalBlocks); 
-    
     set<unsigned> getCoveredFuncs();
+    vector<unsigned> getAllDrvIds();
 
-    inline unsigned getGraphNodeNum() {
-        CGGraph* wCg = cgmk->getWholeCg();
-        return wCg->GetNodeNum();
-    }
-
-    inline void dump() {
+    inline void dump() 
+    {
         cgmk->dump("final_marked_callgraph");
     }
 
-    inline unsigned getWCgSize () {
-        return getGraphNodeNum();
-    }
-
 private:
-    unsigned firstRun;
     unsigned activeDriver;
+
     string benchPath;
+    string sessionPath;
     CgMarker* cgmk;
 
     vector<unsigned> backupFcov;
@@ -99,11 +69,10 @@ private:
     FaddrID *fAddrToID;
     map<uint64_t, CGEdge*> keyToEdge;
 
+    DriverMng*  driverManger;
+
 private:
     bool getFAddrIdMap();
-    unsigned getNodeBlockNum(set<CGNode*> subgraph);
-    vector<NodeFeature> getNodeFeatures(unsigned driverId, set<CGNode*> subgraph);
-    vector<pair<unsigned, unsigned>> getSubgraphEdges(set<CGNode*> subgraph);
 
     inline uint64_t hash64(uint64_t x) 
     {

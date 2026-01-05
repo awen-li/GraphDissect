@@ -9,6 +9,7 @@
 #include <functional>
 #include <utility>
 #include <filesystem>
+#include <iostream>
 #include <nlohmann/json.hpp>
 
 using namespace std;

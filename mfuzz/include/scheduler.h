@@ -45,6 +45,7 @@ public:
 
     ~Scheduler () 
     {
+        cgmk->dump();
         delete cgmk;
         delete fAddrToID;
     }

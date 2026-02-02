@@ -125,7 +125,7 @@ void MFuzz::stop_fuzzer()
 {
     stopped = true;
     scheduler->dump();
-    
+
     if (fuzzer_pid > 0) {
         // Send SIGINT and wait
         kill(fuzzer_pid, SIGINT);
@@ -177,7 +177,7 @@ double MFuzz::fuzz_one_unit(const std::vector<unsigned>& driver_list, double tim
     return escape;
 }
 
-double MFuzz::fuzz_by_average(double max_time_budget) 
+double MFuzz::fuzz_by_average(double max_time_budget, unsigned fuzzing_units) 
 {
     if (!scheduler) return 0.0;
 
@@ -194,8 +194,6 @@ double MFuzz::fuzz_by_average(double max_time_budget)
         if (i + 1 < driver_list.size()) std::cout << ", ";
     }
     std::cout << "], driver_num:" << driver_list.size()<< "\n";
-
-    unsigned fuzzing_units = 24;
 
     double escape = 0.0;
     double time_budget_per_unit = max_time_budget / fuzzing_units;

@@ -41,7 +41,7 @@ public:
 private:
     double check_fcov(double driver_time_budget);
     double fuzz_one_unit(const std::vector<unsigned>& driver_list, double time_budget);
-    double fuzz_by_average(double max_time_budget);
+    double fuzz_by_average(double max_time_budget, unsigned fuzzing_units = 12);
     void run_schedule_average(double max_time_budget);
 
     inline void init_session() 

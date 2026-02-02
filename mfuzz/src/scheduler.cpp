@@ -123,14 +123,13 @@ void Scheduler::setActiveDriver(unsigned driverId, bool init)
 
     setCovBlock();
 
-    driverManger->setActiveDriver(activeDrvPath, driverId);
-
     /* syn graph */
     synchronizeGraphs();
 
     /* switch driver */
     switchDriver(driverId);
     activeDriver = driverId;
+    driverManger->setActiveDriver(activeDrvPath, activeDriver);
 
     setCovNonBlock();
 

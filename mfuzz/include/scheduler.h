@@ -41,6 +41,7 @@ public:
         fcov_setPath(fcovPath.c_str());
 
         activeDriver = 0;
+        backupFcov.resize(getGraphSize()+32, 0);
     }
 
     ~Scheduler () 
@@ -79,6 +80,11 @@ private:
 
 private:
     bool getFAddrIdMap();
+
+    inline unsigned getGraphSize() {
+        CGGraph* wCg = cgmk->getWholeCg();
+        return wCg->GetNodeNum();
+    }
 
     inline uint64_t hash64(uint64_t x) 
     {

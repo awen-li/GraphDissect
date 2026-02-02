@@ -124,7 +124,8 @@ void MFuzz::start_fuzzer(double max_time_budget)
 void MFuzz::stop_fuzzer() 
 {
     stopped = true;
-
+    scheduler->dump();
+    
     if (fuzzer_pid > 0) {
         // Send SIGINT and wait
         kill(fuzzer_pid, SIGINT);
@@ -144,37 +145,18 @@ void MFuzz::stop_fuzzer()
     }
 }
 
-
-double MFuzz::fuzz_by_average(double max_time_budget) 
+double MFuzz::fuzz_one_unit(const std::vector<unsigned>& driver_list, double time_budget)
 {
-    if (!scheduler) return 0.0;
-
-    auto driver_list = scheduler->getAllDrvIds();
-    if (driver_list.empty()) {
-        std::cout << "No drivers are loaded!\n";
-        stop_fuzzer();
-        return 0.0;
-    }
-
-    double switch_interval = max_time_budget / driver_list.size();
-    if (switch_interval < 1.0) {
-        switch_interval = 1.0;
-        max_time_budget = static_cast<double>(driver_list.size());
-    }
-
-    std::cout << "@fuzz_by_average -> drivers: [";
-    for (size_t i = 0; i < driver_list.size(); ++i) {
-        std::cout << driver_list[i];
-        if (i + 1 < driver_list.size()) std::cout << ", ";
-    }
-    std::cout << "], driver_num:" << driver_list.size()
-            << ", switch_interval:" << switch_interval << "\n";
-
     double escape = 0.0;
     size_t driver_index = 0;
 
+    double switch_interval = time_budget / driver_list.size();
+    if (switch_interval < 1.0) {
+        switch_interval = 1.0;
+    }
+
     unsigned interval = 0;
-    while (!stopped && escape < max_time_budget) {
+    while (!stopped && escape < time_budget) {
         std::this_thread::sleep_for(
             std::chrono::milliseconds(static_cast<int>(1 * 1000))
             );
@@ -190,6 +172,41 @@ double MFuzz::fuzz_by_average(double max_time_budget)
         driver_index = (driver_index + 1) % driver_list.size();
         active_driver = driver_list[driver_index];
         scheduler->setActiveDriver(active_driver);
+    }
+
+    return escape;
+}
+
+double MFuzz::fuzz_by_average(double max_time_budget) 
+{
+    if (!scheduler) return 0.0;
+
+    auto driver_list = scheduler->getAllDrvIds();
+    if (driver_list.empty()) {
+        std::cout << "No drivers are loaded!\n";
+        stop_fuzzer();
+        return 0.0;
+    }
+
+    std::cout << "@fuzz_by_average -> drivers: [";
+    for (size_t i = 0; i < driver_list.size(); ++i) {
+        std::cout << driver_list[i];
+        if (i + 1 < driver_list.size()) std::cout << ", ";
+    }
+    std::cout << "], driver_num:" << driver_list.size()<< "\n";
+
+    unsigned fuzzing_units = 24;
+
+    double escape = 0.0;
+    double time_budget_per_unit = max_time_budget / fuzzing_units;
+    for (unsigned unit = 0; unit < fuzzing_units; ++unit) {
+        std::cout << "[fuzz_by_average] fuzzing unit " << (unit + 1)
+                    << "/" << fuzzing_units << " ...\n";
+        
+        escape += fuzz_one_unit(driver_list,time_budget_per_unit);
+        if (escape >= max_time_budget || stopped) {
+            break;
+        }
     }
 
     return escape;

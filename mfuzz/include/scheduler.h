@@ -45,9 +45,10 @@ public:
 
     ~Scheduler () 
     {
-        cgmk->dump();
+        dump();
         delete cgmk;
         delete fAddrToID;
+        delete driverManger;
     }
 
     void setActiveDriver(unsigned driverId, bool init=false);

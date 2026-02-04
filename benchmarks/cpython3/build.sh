@@ -74,6 +74,8 @@ hfuzz_compile() {
     ../$target/configure
     make -j8
     cd "$ROOT"
+
+    copy_executable "$build_dir" "${executables[@]}" "softlink"
 }
 
 if [ "$Action" == "clean" ]; then

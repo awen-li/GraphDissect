@@ -139,6 +139,7 @@ function copy_executable ()
 {
     executable_path=$1
     executables=$2
+    softlink="${3:-}"
 
 	for exe in "${executables[@]}"; do
         executable=$exe
@@ -147,11 +148,18 @@ function copy_executable ()
 		if [ ! -d "$benchpath" ]; then
 			mkdir $benchpath
 		fi
+        rm -rf $benchpath/$executable
 
-		cp $executable_path/$executable $benchpath
+        if [ "$softlink" == "softlink" ]; then
+            abs_path=$(realpath "$executable_path")
+            ln -sf $abs_path/$executable $benchpath
+            echo "[*] Softlinking $executable to $benchpath"
+        else
+            cp $executable_path/$executable $benchpath
+        fi
 
 		# Generate function address to ID mappingAdd commentMore actions
-        python -m driverscope "$benchpath" --faddr --binary "$executable"
+        FAddr2Gid --bench "$benchpath" --binary "$executable"
 	done
 }
 

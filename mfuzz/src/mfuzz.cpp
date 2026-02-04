@@ -41,7 +41,7 @@ void MFuzz::start_fuzzer(double max_time_budget)
         "-o", out_dir.string(),
         "--timeout", "10",
         "--rlimit_rss", "2048",
-        "-F", "1048576",
+        "-F", "10485760",
         "--", "fuzzPilot",
         "___FILE___"
     };

@@ -76,16 +76,14 @@ hfuzz_compile()
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}
 
     cd "$target"
-
     make distclean >/dev/null 2>&1 || true
-
     ./configure \
         --enable-static \
         --disable-shared
-
     make -j8
-
     cd "$ROOT"
+
+    copy_executable "$target" "${executables[@]}"
 }
 
 

@@ -10,10 +10,11 @@ source ../__scripts__/base.sh
 
 initialize() 
 {
-    if [ ! -d "$target" ]; then
-        echo "[http-parser] cloning upstream repo..."
-        git clone --depth 1 https://github.com/nodejs/http-parser.git "$target"
+    if [ -d "$target" ]; then
+       rm -rf "$target" 
     fi
+    echo "[http-parser] cloning upstream repo..."
+    git clone --depth 1 https://github.com/nodejs/http-parser.git "$target"
 }
 
 wllvm_compile() 
@@ -54,6 +55,8 @@ hfuzz_compile()
     make clean || true
     make -j8 CC="$CC" url_parser parsertrace
     cd "$ROOT"
+
+    copy_executable "$target" "${executables[@]}"
 }
 
 if [ "$Action" == "clean" ]; then

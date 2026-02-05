@@ -85,7 +85,7 @@ hfuzz_compile()
     make -j"$(nproc)"
   )
 
-  copy_executable "$build_dir" "${executables[@]}"
+  copy_executable "$build_dir/src/bin/dwarfdump" "${executables[@]}"
 }
 
 

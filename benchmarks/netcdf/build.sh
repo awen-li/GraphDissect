@@ -54,9 +54,7 @@ wllvm_compile()
 }
 
 hfuzz_compile() {
-    initialize
-
-    export CC="hfuzz-clang "
+    export CC="hfuzz-clang"
     export CXX="hfuzz-clang++"
     COMMON_FLAGS="-fsanitize-coverage=trace-pc-guard -finstrument-functions"
 

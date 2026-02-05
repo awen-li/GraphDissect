@@ -89,7 +89,7 @@ hfuzz_compile()
     make -j8
     cd "$ROOT"
 
-    copy_executable "$build_dir" "${executables[@]}"
+    copy_executable "$target/src" "${executables[@]}"
 }
 
 

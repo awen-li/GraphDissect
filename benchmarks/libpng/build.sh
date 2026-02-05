@@ -80,7 +80,9 @@ hfuzz_compile()
     cmake --build build -j8
 
     cd "$ROOT"
+    copy_executable "$target/build" "${executables[@]}"
 }
+
 
 
 if [ "$Action" == "clean" ]; then

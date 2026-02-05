@@ -88,6 +88,8 @@ hfuzz_compile()
         --disable-dependency-tracking
     make -j8
     cd "$ROOT"
+
+    copy_executable "$build_dir" "${executables[@]}"
 }
 
 

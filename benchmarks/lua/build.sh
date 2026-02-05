@@ -19,11 +19,11 @@ ensure_makefile()
 
 initialize() 
 {
-    if [ ! -d "$target" ]; then
-        echo "[lua] cloning upstream repo..."
-        git clone --depth 1 https://github.com/lua/lua.git "$target"
+    if [ -d "$target" ]; then
+        rm -rf "$target"
     fi
-
+    echo "[lua] cloning upstream repo..."
+    git clone --depth 1 https://github.com/lua/lua.git "$target"
     ensure_makefile
 }
 
@@ -61,6 +61,7 @@ hfuzz_compile()
         # instrument both compile & link
         make -j8 CC="$CC" MYCFLAGS="$HFUZZ_FLAGS" MYLDFLAGS="$HFUZZ_FLAGS"
     )
+    copy_executable "$target" "${executables[@]}"
 }
 
 

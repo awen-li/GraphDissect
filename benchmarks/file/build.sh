@@ -13,13 +13,10 @@ FILE_REPO="https://github.com/file/file.git"
 
 initialize() 
 {
-    if [ ! -d "$target" ]; then
-        echo "[file] cloning upstream repo..."
-        git clone --depth 1 "$FILE_REPO" "$target" || {
-            echo "[file] ERROR: git clone failed"
-            exit 1
-        }
+    if [ -d "$target" ]; then
+        rm -rf "$target"
     fi
+    git clone --depth 1 "$FILE_REPO" "$target"
 
     # "file" uses autotools; repo usually needs autoreconf
     cd "$target"

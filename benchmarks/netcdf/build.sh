@@ -3,8 +3,7 @@
 export ROOT="$(pwd)"
 export target="netcdf_source"
 
-executables=("ncdump" "nccopy")
-executables_ncgen=("ncgen")
+executables=("ncdump" "nccopy" "ncgen")
 
 Action="$1"
 
@@ -49,10 +48,9 @@ wllvm_compile()
     make -j"$(nproc)"
     cd "$ROOT"
 
-    handle_executable "$build_dir/ncdump" "${executables[@]}"
-
-    executables=("${executables_ncgen[@]}")
-    handle_executable "$build_dir/ncgen"  "${executables[@]}"
+    handle_executable "$build_dir/ncdump" "ncdump"
+    handle_executable "$build_dir/ncdump" "nccopy"
+    handle_executable "$build_dir/ncgen"  "ncgen"
 }
 
 hfuzz_compile() {
@@ -81,10 +79,9 @@ hfuzz_compile() {
     make -j"$(nproc)"
     cd "$ROOT"
 
-    copy_executable "$build_dir/ncdump" "${executables[@]}"
-
-    executables=("${executables_ncgen[@]}")
-    copy_executable "$build_dir/ncgen"  "${executables[@]}"
+    copy_executable "$build_dir/ncdump" "ncdump"
+    copy_executable "$build_dir/ncdump" "nccopy"
+    copy_executable "$build_dir/ncgen"  "ncgen"
 }
 
 if [ "$Action" == "clean" ]; then
@@ -96,13 +93,11 @@ if [ "$Action" == "clean" ]; then
     fi
 
     clean "${targets[@]}"
-    clean "${executables_ncgen[@]}"
     exit 0
 fi
 
 if [ "$Action" == "show" ]; then
     show_driver_info "${executables[@]}"
-    show_driver_info "${executables_ncgen[@]}"
     exit 0
 fi
 

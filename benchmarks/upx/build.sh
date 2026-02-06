@@ -3,7 +3,7 @@ set -euo pipefail
 
 export ROOT="$(pwd)"
 export target="upx-src"
-Action="${1:-static}"
+Action="${1:-}"
 
 executables=("upx")
 

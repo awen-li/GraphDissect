@@ -7,7 +7,6 @@ Action="${1:-static}"
 
 executables=("upx")
 
-# load shared helpers (compile/clean/show/handle_executable/copy_executable, etc.)
 source ../__scripts__/base.sh
 
 initialize() {
@@ -57,18 +56,9 @@ hfuzz_compile() {
     make -j"$(nproc)"
   )
 
-  if [ -x "$build_dir/upx" ]; then
-    copy_executable "$build_dir" "${executables[@]}"
-  elif [ -x "$build_dir/src/upx" ]; then
-    copy_executable "$build_dir/src" "${executables[@]}"
-  else
-    echo "[upx] ERROR: built upx not found under $build_dir"
-    find "$build_dir" -maxdepth 3 -type f -name upx -perm -111 -print || true
-    exit 1
-  fi
+  copy_executable "$build_dir" "${executables[@]}"
 }
 
-# ---- dispatch helpers (same pattern as your other benchmarks) ----
 
 if [ "$Action" == "clean" ]; then
   exe="${2:-}"

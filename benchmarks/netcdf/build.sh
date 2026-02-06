@@ -51,7 +51,7 @@ wllvm_compile()
 
     handle_executable "$build_dir/ncdump" "${executables[@]}"
 
-    executables="${executables_ncgen[@]}"
+    executables=("${executables_ncgen[@]}")
     handle_executable "$build_dir/ncgen"  "${executables[@]}"
 }
 
@@ -83,7 +83,7 @@ hfuzz_compile() {
 
     copy_executable "$build_dir/ncdump" "${executables[@]}"
 
-    executables="${executables_ncgen[@]}"
+    executables=("${executables_ncgen[@]}")
     copy_executable "$build_dir/ncgen"  "${executables[@]}"
 }
 

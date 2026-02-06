@@ -317,3 +317,17 @@ void CgMarker::dumpFunctoIdMap(const string& outPath)
         ofs << fname << ":" << nodeId << "\n";
     }
 }
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void genFunctionIDMap(const char* benchPath) 
+{
+    CgMarker marker (benchPath);
+}
+
+#ifdef __cplusplus
+}
+#endif

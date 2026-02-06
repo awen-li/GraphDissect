@@ -50,7 +50,9 @@ wllvm_compile()
     cd "$ROOT"
 
     handle_executable "$build_dir/ncdump" "${executables[@]}"
-    handle_executable "$build_dir/ncgen"  "${executables_ncgen[@]}"
+
+    executables="${executables_ncgen[@]}"
+    handle_executable "$build_dir/ncgen"  "${executables[@]}"
 }
 
 hfuzz_compile() {
@@ -80,7 +82,9 @@ hfuzz_compile() {
     cd "$ROOT"
 
     copy_executable "$build_dir/ncdump" "${executables[@]}"
-    copy_executable "$build_dir/ncgen"  "${executables_ncgen[@]}"
+
+    executables="${executables_ncgen[@]}"
+    copy_executable "$build_dir/ncgen"  "${executables[@]}"
 }
 
 if [ "$Action" == "clean" ]; then
@@ -92,11 +96,13 @@ if [ "$Action" == "clean" ]; then
     fi
 
     clean "${targets[@]}"
+    clean "${executables_ncgen[@]}"
     exit 0
 fi
 
 if [ "$Action" == "show" ]; then
     show_driver_info "${executables[@]}"
+    show_driver_info "${executables_ncgen[@]}"
     exit 0
 fi
 

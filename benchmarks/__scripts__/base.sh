@@ -145,6 +145,7 @@ function copy_executable ()
     shift                      
     executables=("$@")
 
+    echo "[*] Copy executable(s) in: ${executables[@]}"
 	for exe in "${executables[@]}"; do
         executable=$exe
         benchpath=$exe
@@ -173,8 +174,9 @@ function copy_executable ()
 }
 
 function copy_driver () {
-    executables=$1
+    executables=("$@")
 
+    echo "[*] Copy drivers(s) in: ${executables[@]}"
     for benchpath in "${executables[@]}"; do
         executable="$(basename "$benchpath")"
         executable_path="$(realpath "$benchpath")"/$executable

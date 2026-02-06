@@ -148,9 +148,10 @@ function copy_executable ()
 		if [ ! -d "$benchpath" ]; then
 			mkdir $benchpath
 		fi
-        rm -rf $benchpath/$executable
 
         if [ "$softlink" == "softlink" ]; then
+            rm -rf $benchpath/$executable
+            
             abs_path=$(realpath "$executable_path")
             ln -sf $abs_path/$executable $benchpath
             echo "[*] Softlinking $executable to $benchpath"

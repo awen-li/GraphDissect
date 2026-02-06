@@ -5,8 +5,13 @@ export ROOT="$(pwd)"
 export target="snort3"
 Action="${1:-}"
 
-executables=("snort2lua")
-executables1=("snort")
+executables1=("snort2lua")
+executables2=("snort")
+
+executables=(
+  "${executables1[@]}"
+  "${executables2[@]}"
+)
 
 source ../__scripts__/base.sh
 
@@ -39,8 +44,8 @@ wllvm_compile() {
          && make -j4 \
     )
 
-    handle_executable "$build_dir/tools/snort2lua" "${executables[@]}"
-    handle_executable "$build_dir/src" "${executables1[@]}"
+    handle_executable "$build_dir/tools/snort2lua" "${executables1[@]}"
+    handle_executable "$build_dir/src" "${executables2[@]}"
 }
 
 hfuzz_compile() {
@@ -61,7 +66,8 @@ hfuzz_compile() {
          && make -j4 \
     ) 
 
-    copy_executable "$build_dir/tools/snort2lua" "${executables[@]}"
+    copy_executable "$build_dir/tools/snort2lua" "${executables1[@]}"
+    copy_executable "$build_dir/src" "${executables2[@]}"
 }
 
 # -------- actions --------

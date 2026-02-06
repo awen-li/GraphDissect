@@ -2,7 +2,7 @@ import re
 import os
 import subprocess
 from collections import defaultdict
-from .func_gid import genFunctionIDMap
+import genfid
 
 ##########################################
 # nm path
@@ -19,7 +19,10 @@ class FaddrMap:
     def __init__(self, bench: str, binary: str):
         self.bench_path  = bench
         self.binary_path = os.path.join(bench, binary)
-        genFunctionIDMap(bench)
+
+        # Generate function ID map using the C++ extension module
+        genfid.genFuncIdMap(bench)
+
         self.faddr_path = os.path.join(bench, "function_addr.map")
         self.fid_path   = os.path.join(bench, "function_id.map")
 

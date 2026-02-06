@@ -74,16 +74,16 @@ function handle_executable()
 {
     executable_path="$1"
     shift                      
-    local executables=("$@")
+    local all_executables=("$@")
 
-    echo "[*] Handling executable(s) in: ${executables[@]}"
+    echo "[*] Handling executable(s) in: ${all_executables[@]}"
 
     if [ ! -d "seeds" ]; then
 		mkdir seeds
 		[ -f "seeds.tar" ] && tar -xvf seeds.tar -C seeds
 	fi
 
-    for exe in "${executables[@]}"; do
+    for exe in "${all_executables[@]}"; do
         executable=$exe
         benchpath=$exe
 
@@ -143,10 +143,10 @@ function copy_executable ()
 {
     executable_path=$1
     shift                      
-    executables=("$@")
+    all_executables=("$@")
 
-    echo "[*] Copy executable(s) in: ${executables[@]}"
-	for exe in "${executables[@]}"; do
+    echo "[*] Copy executable(s) in: ${all_executables[@]}"
+	for exe in "${all_executables[@]}"; do
         executable=$exe
         benchpath=$exe
 
@@ -174,10 +174,10 @@ function copy_executable ()
 }
 
 function copy_driver () {
-    executables=("$@")
+    all_executables=("$@")
 
-    echo "[*] Copy drivers(s) in: ${executables[@]}"
-    for benchpath in "${executables[@]}"; do
+    echo "[*] Copy drivers(s) in: ${all_executables[@]}"
+    for benchpath in "${all_executables[@]}"; do
         executable="$(basename "$benchpath")"
         executable_path="$(realpath "$benchpath")"/$executable
 

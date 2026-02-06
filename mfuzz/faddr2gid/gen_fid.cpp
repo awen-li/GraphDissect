@@ -31,7 +31,7 @@ static struct PyModuleDef markModule = {
     NULL,
 };
 
-PyMODINIT_FUNC PyInit_graphmarker(void) {
+PyMODINIT_FUNC PyInit_genfid(void) {
     return PyModule_Create(&markModule);
 }
 

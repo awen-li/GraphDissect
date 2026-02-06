@@ -158,7 +158,7 @@ function copy_executable ()
 			mkdir $benchpath
 		fi
 
-        if [ -z "${softlink:-}" ]; then
+        if [ -n "${softlink:-}" ]; then
             rm -rf $benchpath/$executable
             
             abs_path=$(realpath "$executable_path")

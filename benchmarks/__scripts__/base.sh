@@ -96,13 +96,13 @@ function handle_executable()
         fi
         
         # Generate bc for dependent libs
-        if [ -n "$is_so" ]; then
-	    list_project_libs "$executable_path/$executable" "$executable_path" \
-		| grep -v '^#' \
-		| while read -r lib_name lib_path; do
-			echo "[*] extracting bc for $lib_name from $lib_path"
-			extract-bc "$lib_path" && cp "${lib_path}.bc" $benchpath/
-		  done 
+        if [ -n "${is_so:-}" ]; then     
+            list_project_libs "$executable_path/$executable" "$executable_path" \
+            | grep -v '^#' \
+            | while read -r lib_name lib_path; do
+                echo "[*] extracting bc for $lib_name from $lib_path"
+                extract-bc "$lib_path" && cp "${lib_path}.bc" $benchpath/
+            done 
         fi
 
         # Generate bc
@@ -158,7 +158,7 @@ function copy_executable ()
 			mkdir $benchpath
 		fi
 
-        if [ -n "$softlink" ]; then
+        if [ -z "${softlink:-}" ]; then
             rm -rf $benchpath/$executable
             
             abs_path=$(realpath "$executable_path")

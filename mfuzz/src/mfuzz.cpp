@@ -174,6 +174,10 @@ double MFuzz::fuzz_one_unit(const std::vector<unsigned>& driver_list, double tim
         scheduler->setActiveDriver(active_driver);
     }
 
+    // log the coverage of this fuzzing unit: timestammp + number of covered funcs
+    std::set<unsigned> covered_funcs = scheduler->getCoveredFuncs();
+    logCoverage(covered_funcs);
+
     return escape;
 }
 

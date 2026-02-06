@@ -28,6 +28,10 @@ public:
         bench_path = UTIL::abs_path(bench_path);
         std::cout << "[MFuzz] benchmark path: " << bench_path << "\n";
         init_session();
+
+        mfuzz_logfile = bench_path + "/mfuzz_f_coverage.log";
+        std::error_code ec;
+        fs::remove(mfuzz_logfile, ec);
     }
 
     ~MFuzz() 
@@ -90,4 +94,22 @@ private:
     fs::path      session_path;
 
     bool stopped;
+    std::string mfuzz_logfile;
+
+private:
+    void logCoverage(const std::set<unsigned>& covered_funcs)
+    {
+        // get current timestamp (seconds since epoch)
+        auto now = std::chrono::system_clock::now();
+        auto ts  = std::chrono::duration_cast<std::chrono::seconds>(
+                    now.time_since_epoch()).count();
+
+        std::ofstream ofs(mfuzz_logfile, std::ios::out | std::ios::app);
+        if (!ofs.is_open()) {
+            // optional: handle error
+            return;
+        }
+
+        ofs << ts << "," << covered_funcs.size() << "\n";
+    }
 };

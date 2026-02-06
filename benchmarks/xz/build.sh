@@ -64,7 +64,7 @@ hfuzz_compile()
     make -j"$(nproc)"
     cd "$ROOT"
 
-    handle_executable "$target/src/xz" $executables
+    copy_executable "$target/src/xz" $executables
 }
 
 if [ "$Action" == "clean" ]; then

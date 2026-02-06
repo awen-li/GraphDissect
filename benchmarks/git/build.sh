@@ -23,10 +23,11 @@ ensure_configure() {
 }
 
 initialize() {
-    if [ ! -d "$target" ]; then
-        echo "[git] cloning upstream repo..."
-        git clone --depth 1 https://github.com/git/git "$target"
+    if [ -d "$target" ]; then
+        rm -rf "$target"
     fi
+    echo "[git] cloning upstream repo..."
+    git clone --depth 1 https://github.com/git/git "$target"
     ensure_configure
 }
 

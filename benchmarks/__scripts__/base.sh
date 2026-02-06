@@ -282,7 +282,7 @@ function compile ()
 		# Compile for fuzzing
 		hfuzz_compile	
 
-		copy_driver $executables
+		copy_driver "${executables[@]}"
 		
 	elif [ "$Action" == "static" ]; then
 		# Only compile for static analysis
@@ -292,9 +292,9 @@ function compile ()
 		# Default: compile for fuzzing only
 		hfuzz_compile
 
-		copy_driver $executables
+		copy_driver "${executables[@]}"
 	fi
 
-    show_driver_info $executables
+    show_driver_info "${executables[@]}"
 }
 

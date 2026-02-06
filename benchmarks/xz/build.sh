@@ -25,7 +25,7 @@ ensure_configure()
 
 initialize() 
 {
-    if [-d "$target" ]; then
+    if [ -d "$target" ]; then
         rm -rf "$target"        
     fi
     git clone --depth 1 https://github.com/tukaani-project/xz.git "$target"

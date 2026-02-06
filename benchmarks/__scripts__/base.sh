@@ -73,8 +73,8 @@ bc_total_size() {
 function handle_executable() 
 {
     executable_path="$1"
-    executables="$2"
-    is_so="${3:-}"
+    shift                      
+    local executables=("$@")
 
     echo "[*] Handling executable(s) in: ${executables[@]}"
 
@@ -96,7 +96,7 @@ function handle_executable()
         fi
         
         # Generate bc for dependent libs
-        if [ "$is_so" == "so" ]; then
+        if [ -n "$is_so" ]; then
 	    list_project_libs "$executable_path/$executable" "$executable_path" \
 		| grep -v '^#' \
 		| while read -r lib_name lib_path; do
@@ -142,8 +142,8 @@ function handle_executable()
 function copy_executable ()
 {
     executable_path=$1
-    executables=$2
-    softlink="${3:-}"
+    shift                      
+    executables=("$@")
 
 	for exe in "${executables[@]}"; do
         executable=$exe
@@ -157,7 +157,7 @@ function copy_executable ()
 			mkdir $benchpath
 		fi
 
-        if [ "$softlink" == "softlink" ]; then
+        if [ -n "$softlink" ]; then
             rm -rf $benchpath/$executable
             
             abs_path=$(realpath "$executable_path")

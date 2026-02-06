@@ -52,11 +52,8 @@ wllvm_compile()
 
     # Clean previous config/build (Git does not support your FFmpeg-style out-of-tree reliably)
     make distclean >/dev/null 2>&1 || true
-
     ./configure CC="$CC" HOSTCC=clang CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS"
-
     make CC="$CC" CFLAGS="$COMMON_FLAGS" -j"$(nproc)"
-
     cd "$ROOT"
 
     # Copy from source dir (where binaries are produced)
@@ -72,12 +69,9 @@ hfuzz_compile()
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}
 
     cd "$target"
-
     make distclean >/dev/null 2>&1 || true
-    ./configure CC="$CC"
-
-    make -j"$(nproc)"
-
+    ./configure CC="$CC" HOSTCC="hfuzz-clang"
+    make CC="$CC" -j"$(nproc)"
     cd "$ROOT"
 
     copy_executable "$target" "${executables[@]}"

@@ -87,6 +87,10 @@ function handle_executable()
         executable=$exe
         benchpath=$exe
 
+        if [ ! -f "$executable_path/$executable" ]; then
+            continue
+        fi
+
         if [ ! -d "$benchpath" ]; then
             mkdir "$benchpath"
         fi
@@ -144,6 +148,10 @@ function copy_executable ()
 	for exe in "${executables[@]}"; do
         executable=$exe
         benchpath=$exe
+
+        if [ ! -f "$executable_path/$executable" ]; then
+            continue
+        fi
 
 		if [ ! -d "$benchpath" ]; then
 			mkdir $benchpath

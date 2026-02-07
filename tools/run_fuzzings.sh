@@ -47,7 +47,7 @@ declare -A BENCHMARK_EXECUTABLES=(
   ["lua"]="lua luac"
 
   # archive_and_compression
-  ["libarchive"]="bsdtar bsdcpio"
+  ["libarchive"]="bsdtar bsdunzip"
   ["upx"]="upx"
   ["xz"]="xz"
 
@@ -292,7 +292,8 @@ init_queue() {
   local -a queue=()
 
   # Prioritize a few benches first (edit as you like)
-  local -a first_benches=("libxml2" "snort3" "netcdf")
+  local -a first_benches=("libxml2" "snort3" "netcdf" "git" "xz" "upx" "leveldb" 
+                          "file" "jq" "cppcheck" "unbound" "cpython")
 
   local b e
   for b in "${first_benches[@]}"; do
@@ -308,11 +309,8 @@ init_queue() {
   # The rest (edit ordering as desired)
   local -a rest_benches=(
     "binutils" "xpdf" "ffmpeg" "libtiff" "libpng"
-    "quickjs" "hdf5" "file" "exiv2" "jq"
-    "git" "sleuthkit" "cppcheck" "libdwarf"
-    "cpython" "lua" "libarchive" "upx" "xz"
-    "unbound" "http-parser" "leveldb"
-  )
+    "quickjs" "hdf5"  "sleuthkit" "libdwarf"
+    "lua" "libarchive"  "http-parser")
 
   for b in "${rest_benches[@]}"; do
     # skip benches already in first_benches to avoid duplicates

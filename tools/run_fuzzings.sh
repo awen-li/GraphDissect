@@ -42,7 +42,7 @@ declare -A BENCHMARK_EXECUTABLES=(
   ["libdwarf"]="dwarfdump"
 
   # language_runtimes_and_interpreters
-  ["cpython"]="python3"
+  ["cpython"]="python"
   ["quickjs"]="qjs qjsc"
   ["lua"]="lua luac"
 
@@ -52,8 +52,8 @@ declare -A BENCHMARK_EXECUTABLES=(
   ["xz"]="xz"
 
   # database_and_storage
-  ["hdf5"]="h5dump h5ls h5stat h5diff h5repack"
-  ["netcdf"]="ncdump ncgen ncinfo"
+  ["hdf5"]="h5dump h5ls h5repack"
+  ["netcdf"]="ncdump ncgen nccopy"
   ["leveldb"]="leveldbutil"
 )
 

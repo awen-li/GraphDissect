@@ -1,0 +1,315 @@
+profile:
+  name: "wavpack"
+  binary: "wavpack"
+  domain: "wavpack"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "flagged"
+      flag: ["-o", "out.wv"]
+
+primary:
+  - id: "0"
+    cli: [""]
+    kind: "default"
+    role: "mode"
+    group: "default"
+    include_in_search: true
+    description: "Default lossless encode/transcode (requires input file or stdin)"
+
+  # ---- Preset quality / speed modes ----
+  - id: "1"
+    cli: ["-f"]
+    kind: "flag"
+    role: "mode"
+    group: "quality_preset"
+    include_in_search: true
+    description: "Fast mode (faster encode/decode; lower compression)"
+
+  - id: "2"
+    cli: ["-g"]
+    kind: "flag"
+    role: "mode"
+    group: "quality_preset"
+    include_in_search: true
+    description: "Normal mode (cancels -f/-h)"
+
+  - id: "3"
+    cli: ["-h"]
+    kind: "flag"
+    role: "mode"
+    group: "quality_preset"
+    include_in_search: true
+    description: "High quality mode (better compression; slower)"
+
+  - id: "4"
+    cli: ["-hh"]
+    kind: "flag"
+    role: "mode"
+    group: "quality_preset"
+    include_in_search: true
+    description: "Very high quality mode (best compression; slowest)"
+
+  # ---- Hybrid / bitrate options ----
+  - id: "5"
+    cli: ["-b"]
+    kind: "value"
+    metavar: "BITRATE"
+    value_template: "2.0"
+    defaults: ["6.0"]
+    role: "mode"
+    group: "hybrid"
+    include_in_search: true
+    description: "Enable hybrid compression with specified bitrate"
+
+  - id: "6"
+    cli: ["-c"]
+    kind: "flag"
+    role: "modifier"
+    group: "hybrid"
+    include_in_search: true
+    description: "Hybrid lossless mode (used with -b); creates correction file"
+
+  - id: "7"
+    cli: ["-cc"]
+    kind: "flag"
+    role: "modifier"
+    group: "hybrid"
+    include_in_search: true
+    description: "Maximum hybrid lossless compression (may slow decode)"
+
+  - id: "8"
+    cli: ["--cross-decorr"]
+    kind: "flag"
+    role: "modifier"
+    group: "hybrid"
+    include_in_search: true
+    description: "Use cross-channel correlation in hybrid mode"
+
+  - id: "9"
+    cli: ["--use-dns"]
+    kind: "flag"
+    role: "modifier"
+    group: "hybrid"
+    include_in_search: true
+    description: "Force dynamic noise shaping (hybrid only)"
+
+  - id: "10"
+    cli: ["-n"]
+    kind: "flag"
+    role: "modifier"
+    group: "hybrid"
+    include_in_search: true
+    description: "Calculate average/peak quantization noise (hybrid only)"
+
+  # ---- Block / threading / performance knobs ----
+  - id: "11"
+    cli: ["--blocksize"]
+    kind: "value"
+    metavar: "N"
+    value_template: "4096"
+    defaults: ["4096"]
+    role: "modifier"
+    group: "block"
+    include_in_search: true
+    description: "Specify block size in samples"
+
+  - id: "12"
+    cli: ["--merge-blocks"]
+    kind: "flag"
+    role: "modifier"
+    group: "block"
+    include_in_search: true
+    description: "Merge consecutive blocks with equal redundancy"
+
+  - id: "13"
+    cli: ["--threads"]
+    kind: "value"
+    metavar: "N"
+    value_template: "2"
+    defaults: ["4"]
+    role: "modifier"
+    group: "threads"
+    include_in_search: true
+    description: "Use multiple threads (1-12)"
+
+  - id: "14"
+    cli: ["--no-threads"]
+    kind: "flag"
+    role: "modifier"
+    group: "threads"
+    include_in_search: true
+    description: "Disable multithreading (equivalent to --threads=1)"
+
+  # ---- I/O behaviors ----
+  - id: "15"
+    cli: ["-i"]
+    kind: "flag"
+    role: "mode"
+    group: "io_mode"
+    include_in_search: true
+    description: "Parse header but ignore length; assume audio to EOF"
+
+  - id: "16"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "io_mode"
+    include_in_search: true
+    description: "Parse headers for info but do not store in WavPack file"
+
+  - id: "17"
+    cli: ["-v"]
+    kind: "flag"
+    role: "modifier"
+    group: "verify"
+    include_in_search: true
+    description: "Verify output file integrity after write"
+
+  - id: "18"
+    cli: ["--no-overwrite"]
+    kind: "flag"
+    role: "modifier"
+    group: "overwrite"
+    include_in_search: true
+    description: "Never overwrite existing files (and don't ask)"
+
+  - id: "19"
+    cli: ["-q"]
+    kind: "flag"
+    role: "modifier"
+    group: "verbosity"
+    include_in_search: true
+    description: "Quiet mode"
+
+  # ---- Raw PCM handling ----
+  - id: "20"
+    cli: ["--raw-pcm"]
+    kind: "flag"
+    role: "mode"
+    group: "input_kind"
+    include_in_search: true
+    description: "Treat input as raw PCM (default: 44100Hz, 16-bit signed, 2ch, little-endian)"
+
+  - id: "21"
+    cli: ["--raw-pcm"]
+    kind: "value"
+    metavar: "SPEC"
+    value_template: "44100,16s,2,le"
+    defaults: ["48000,16s,2,le"]
+    role: "mode"
+    group: "input_kind"
+    include_in_search: true
+    description: "Treat input as raw PCM with explicit spec sr,bps[f|s|u],nch,[le|be]"
+
+  - id: "22"
+    cli: ["--raw-pcm-skip"]
+    kind: "value"
+    metavar: "SKIP"
+    value_template: "0"
+    defaults: ["44"]
+    role: "modifier"
+    group: "input_skip"
+    include_in_search: true
+    description: "Skip bytes before/after encoding (header/trailer trimming)"
+
+  # ---- Metadata / tags ----
+  - id: "23"
+    cli: ["-m"]
+    kind: "flag"
+    role: "modifier"
+    group: "metadata"
+    include_in_search: true
+    description: "Compute and store MD5 signature of raw audio data"
+
+  - id: "24"
+    cli: ["--allow-huge-tags"]
+    kind: "flag"
+    role: "modifier"
+    group: "metadata"
+    include_in_search: true
+    description: "Allow tag data up to 16 MB"
+
+  - id: "25"
+    cli: ["--no-utf8-convert"]
+    kind: "flag"
+    role: "modifier"
+    group: "metadata"
+    include_in_search: true
+    description: "Do not recode passed tags to UTF-8"
+
+  - id: "26"
+    cli: ["--import-id3"]
+    kind: "flag"
+    role: "modifier"
+    group: "metadata"
+    include_in_search: true
+    description: "Attempt to import ID3v2 tags from trailers"
+
+  # ---- Advanced encode processing ----
+  - id: "27"
+    cli: ["-x"]
+    kind: "choice"
+    metavar: "LEVEL"
+    choices: ["4"]
+    defaults: ["4"]
+    role: "modifier"
+    group: "extra_processing"
+    include_in_search: true
+    description: "Extra encode processing level (0-6)"
+
+  - id: "28"
+    cli: ["-s"]
+    kind: "value"
+    metavar: "SHAPING"
+    value_template: "0"
+    defaults: ["0.5"]
+    role: "modifier"
+    group: "noise_shaping"
+    include_in_search: true
+    description: "Override noise shaping float in [-1.0, 1.0]"
+
+  - id: "29"
+    cli: ["--pre-quantize"]
+    kind: "value"
+    metavar: "BITS"
+    value_template: "20"
+    defaults: ["16"]
+    role: "modifier"
+    group: "quantize"
+    include_in_search: true
+    description: "Pre-quantize samples to BITS before encoding and MD5"
+
+  - id: "30"
+    cli: ["--optimize-int32"]
+    kind: "flag"
+    role: "modifier"
+    group: "opt"
+    include_in_search: true
+    description: "Enable optimizations for some 32-bit integer files"
+
+  # ---- Safety / prompts ----
+  - id: "31"
+    cli: ["-y"]
+    kind: "flag"
+    role: "modifier"
+    group: "prompts"
+    include_in_search: true
+    description: "Answer yes to all warnings (use with caution)"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "quality_preset"
+
+  - type: "at_most_one_from_group"
+    group: "threads"
+
+  - type: "at_most_one_from_group"
+    group: "input_kind"
+
+  - type: "at_most_one_from_group"
+    group: "block"

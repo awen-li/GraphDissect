@@ -1,0 +1,292 @@
+profile:
+  name: "wvunpack"
+  binary: "wvunpack"
+  domain: "wavpack"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "flagged"
+      flag: ["-o", "out.wav"]
+
+primary:
+  - id: "0"
+    cli: [""]
+    kind: "default"
+    role: "mode"
+    group: "default"
+    include_in_search: true
+    description: "Default decode (restores original format; requires input .wv or stdin)"
+
+  # ---- Output format selection (mutually exclusive) ----
+  - id: "1"
+    cli: ["-w"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to WAV/RF64"
+
+  - id: "2"
+    cli: ["--aif"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to AIFF"
+
+  - id: "3"
+    cli: ["--aif-le"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to AIFF-C/sowt (little-endian)"
+
+  - id: "4"
+    cli: ["--w64"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to Wave64"
+
+  - id: "5"
+    cli: ["--caf-be"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to CAF (big-endian)"
+
+  - id: "6"
+    cli: ["--caf-le"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to CAF (little-endian)"
+
+  - id: "7"
+    cli: ["--dff"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to DFF/DSDIFF (DSD only)"
+
+  - id: "8"
+    cli: ["--dsf"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force output to DSF (DSD only)"
+
+  - id: "9"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force raw audio decode (PCM/DSD) output"
+
+  - id: "10"
+    cli: ["--raw-pcm"]
+    kind: "flag"
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Force raw output; DSD files decoded to 24-bit PCM"
+
+  # ---- Decode behavior / integrity ----
+  - id: "11"
+    cli: ["-b"]
+    kind: "flag"
+    role: "mode"
+    group: "decode_mode"
+    include_in_search: true
+    description: "Blindly decode all stream blocks; ignore length info"
+
+  - id: "12"
+    cli: ["-i"]
+    kind: "flag"
+    role: "modifier"
+    group: "hybrid"
+    include_in_search: true
+    description: "Ignore .wvc file (forces hybrid lossy decompression)"
+
+  - id: "13"
+    cli: ["-m"]
+    kind: "flag"
+    role: "mode"
+    group: "integrity"
+    include_in_search: true
+    description: "Calculate/display MD5 signature; verify if lossless"
+
+  - id: "14"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    group: "verify"
+    include_in_search: true
+    description: "Verify source only (no output file created)"
+
+  - id: "15"
+    cli: ["-vv"]
+    kind: "flag"
+    role: "mode"
+    group: "verify"
+    include_in_search: true
+    description: "Quick verify (no output; version 5+ only)"
+
+  - id: "16"
+    cli: ["-vvv"]
+    kind: "flag"
+    role: "mode"
+    group: "verify"
+    include_in_search: true
+    description: "Quick verify verbose (debug)"
+
+  # ---- Tag / metadata extraction ----
+  - id: "17"
+    cli: ["-x"]
+    kind: "value"
+    metavar: "FIELD"
+    value_template: "Artist"
+    defaults: ["Artist"]
+    role: "mode"
+    group: "tag_extract"
+    include_in_search: true
+    description: "Extract specified tag field to stdout (no audio decode)"
+
+  - id: "18"
+    cli: ["-xx"]
+    kind: "value"
+    metavar: "FIELD=FILE"
+    value_template: "Artist=%a.txt"
+    defaults: ["Artist=%a.txt"]
+    role: "mode"
+    group: "tag_extract"
+    include_in_search: true
+    description: "Extract specified tag field to file (no audio decode)"
+
+  - id: "19"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "cuesheet"
+    include_in_search: true
+    description: "Extract cuesheet only to stdout (no audio decode)"
+
+  - id: "20"
+    cli: ["-cc"]
+    kind: "flag"
+    role: "mode"
+    group: "cuesheet"
+    include_in_search: true
+    description: "Extract cuesheet file (.cue) in addition to audio file"
+
+  - id: "21"
+    cli: ["-n"]
+    kind: "flag"
+    role: "mode"
+    group: "no_decode"
+    include_in_search: true
+    description: "No audio decoding (use with -xx to extract tags only)"
+
+  - id: "22"
+    cli: ["--no-utf8-convert"]
+    kind: "flag"
+    role: "modifier"
+    group: "metadata"
+    include_in_search: true
+    description: "Leave tag items in UTF-8 on extract/display"
+
+  # ---- Threading / overwrite / verbosity ----
+  - id: "23"
+    cli: ["--threads"]
+    kind: "value"
+    metavar: "N"
+    value_template: "2"
+    defaults: ["4"]
+    role: "modifier"
+    group: "threads"
+    include_in_search: true
+    description: "Use multiple threads (1-12)"
+
+  - id: "24"
+    cli: ["--no-threads"]
+    kind: "flag"
+    role: "modifier"
+    group: "threads"
+    include_in_search: true
+    description: "Disable multithreading (equivalent to --threads=1)"
+
+  - id: "25"
+    cli: ["--no-overwrite"]
+    kind: "flag"
+    role: "modifier"
+    group: "overwrite"
+    include_in_search: true
+    description: "Never overwrite existing files"
+
+  - id: "26"
+    cli: ["-q"]
+    kind: "flag"
+    role: "modifier"
+    group: "verbosity"
+    include_in_search: true
+    description: "Quiet mode"
+
+  # ---- Time range selection (positional decode slicing) ----
+  - id: "27"
+    cli: ["--skip"]
+    kind: "value"
+    metavar: "POS"
+    value_template: "0"
+    defaults: ["0", "1000"]
+    role: "modifier"
+    group: "range"
+    include_in_search: true
+    description: "Start decoding at specified sample/time"
+
+  - id: "28"
+    cli: ["--until"]
+    kind: "value"
+    metavar: "POS"
+    value_template: "10000"
+    defaults: ["10000"]
+    role: "modifier"
+    group: "range"
+    include_in_search: true
+    description: "Stop decoding at specified sample/time"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "format"
+
+  - type: "at_most_one_from_group"
+    group: "threads"
+
+  - type: "at_most_one_from_group"
+    group: "verify"
+
+  # Extract modes are mutually exclusive under 2-combo search
+  - type: "at_most_one_from_group"
+    group: "tag_extract"
+
+  # Range controls: avoid pairing --skip with --until if max_combination=2
+  - type: "at_most_one_from_group"
+    group: "range"
+
+  # "No audio decode" conflicts with actual decode output modes; keep it alone
+  - type: "at_most_one_from_group"
+    group: "no_decode"
+
+  - type: "at_most_one_from_group"
+    group: "cuesheet"
+

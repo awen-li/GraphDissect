@@ -28,7 +28,7 @@ declare -A BENCHMARK_EXECUTABLES=(
 
   # metadata_and_system_utilities
   ["git"]="git"
-  ["sleuthkit"]="istat img_stat tsk_recover fsstat blkcat tsk_image_info"
+  ["sleuthkit"]="istat img_stat tsk_recover"
   ["file"]="file"
 
   # parsing_and_document_processing

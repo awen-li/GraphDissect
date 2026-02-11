@@ -150,7 +150,7 @@ parse_args() {
           echo "[!] -e/--execs requires an argument (executable name)" >&2
           exit 1
         fi
-        bench_executables+=("$2")
+        read -r -a bench_executables <<< "${2:-}"
         shift 2
         ;;
       -h|--help)
@@ -299,20 +299,21 @@ cleanup_on_signal() {
 }
 
 is_in_bench_executables() {
-  # Found by default if array is unset or empty
-  if [[ ${#bench_executables[@]} -eq 0 ]]; then
+  local target="${1:-}"
+
+  # debug (stderr only)
+  echo "${#bench_executables[@]} --> ${target}" >&2
+
+  if [[ -z "${bench_executables+x}" || ${#bench_executables[@]} -eq 0 ]]; then
     return 1
   fi
 
-  local target="${1:-}"
   local x
   for x in "${bench_executables[@]}"; do
     [[ "$x" == "$target" ]] && return 1
   done
-
   return 0
 }
-
 
 init_queue() {
   local -a queue=()
@@ -330,7 +331,7 @@ init_queue() {
         if [[ $? -eq 0 ]]; then
           continue
         fi
-        
+
         queue+=("${b}:${e}")
       done
     else

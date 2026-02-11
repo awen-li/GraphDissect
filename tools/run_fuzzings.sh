@@ -299,20 +299,20 @@ cleanup_on_signal() {
 }
 
 is_in_bench_executables() {
-  echo "is_in_bench_executables --> ${bench_executables[@]}"
+  # Found by default if array is unset or empty
   if [[ ${#bench_executables[@]} -eq 0 ]]; then
     return 1
   fi
 
-  local target="$1"
+  local target="${1:-}"
   local x
   for x in "${bench_executables[@]}"; do
-    if [[ "$x" == "$target" ]]; then
-      return 0
-    fi
+    [[ "$x" == "$target" ]] && return 1
   done
-  return 1
+
+  return 0
 }
+
 
 init_queue() {
   local -a queue=()

@@ -32,7 +32,7 @@ declare -A BENCHMARK_EXECUTABLES=(
   ["file"]="file"
 
   # parsing_and_document_processing
-  ["xpdf"]="pdftotext pdfinfo pdftoppm"
+  ["xpdf"]="pdfdetach pdfinfo pdftops"
   ["libxml2"]="xmllint"
   ["jq"]="jq"
 
@@ -42,9 +42,9 @@ declare -A BENCHMARK_EXECUTABLES=(
   ["libdwarf"]="dwarfdump"
 
   # language_runtimes_and_interpreters
-  ["cpython"]="python"
+  ["cpython3"]="python"
   ["quickjs"]="qjs qjsc"
-  ["lua"]="lua luac"
+  ["lua"]="lua"
 
   # archive_and_compression
   ["libarchive"]="bsdtar bsdunzip"
@@ -108,6 +108,7 @@ tmux_new_session() {
 
 CONCURRENCY="${CONCURRENCY_DEFAULT}"
 FUZZ_FLAGS=()
+bench_executables=()
 
 print_usage() {
   cat <<EOF
@@ -141,6 +142,14 @@ parse_args() {
           exit 1
         fi
         FUZZ_FLAGS+=("-m" "$2")
+        shift 2
+        ;;
+      -e|--execs)
+        if [[ $# -lt 2 || -z "${2:-}" ]]; then
+          echo "[!] -e/--execs requires an argument (executable name)" >&2
+          exit 1
+        fi
+        bench_executables+=("$2")
         shift 2
         ;;
       -h|--help)
@@ -288,17 +297,35 @@ cleanup_on_signal() {
   exit 130
 }
 
+is_in_bench_executables() {
+  if [[ ${#bench_executables[@]} -eq 0 ]]; then
+    return 1
+  fi
+
+  local target="$1"
+  local x
+  for x in "${bench_executables[@]}"; do
+    if [[ "$x" == "$target" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
 init_queue() {
   local -a queue=()
 
   # Prioritize a few benches first (edit as you like)
   local -a first_benches=("libxml2" "snort3" "netcdf" "git" "xz" "upx" "leveldb" 
-                          "file" "jq" "cppcheck" "unbound" "cpython")
+                          "file" "jq" "cppcheck" "unbound" "cpython3")
 
   local b e
   for b in "${first_benches[@]}"; do
     if [[ -n "${BENCHMARK_EXECUTABLES[$b]:-}" ]]; then
       for e in ${BENCHMARK_EXECUTABLES[$b]}; do
+        if ! is_in_bench_executables "${e}"; then
+          continue
+        fi
         queue+=("${b}:${e}")
       done
     else
@@ -313,6 +340,7 @@ init_queue() {
     "lua" "libarchive"  "http-parser")
 
   for b in "${rest_benches[@]}"; do
+
     # skip benches already in first_benches to avoid duplicates
     case " ${first_benches[*]} " in
       *" $b "*) continue ;;
@@ -320,6 +348,9 @@ init_queue() {
 
     if [[ -n "${BENCHMARK_EXECUTABLES[$b]:-}" ]]; then
       for e in ${BENCHMARK_EXECUTABLES[$b]}; do
+        if ! is_in_bench_executables "${e}"; then
+          continue
+        fi
         queue+=("${b}:${e}")
       done
     else

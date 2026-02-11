@@ -57,7 +57,7 @@ declare -A BENCHMARK_EXECUTABLES=(
 )
 
 # CSV header
-echo "benchmark,executable,exe_dir,function_count,driver_count,faddr_id_map_path,drivers_dir_path"
+echo "benchmark,executable,exe_dir,function_count,driver_count,faddr_id_map_path,drivers_dir_path" > "benchinfo.csv"
 
 for bench in "${!BENCHMARK_EXECUTABLES[@]}"; do
   for exe in ${BENCHMARK_EXECUTABLES[$bench]}; do
@@ -90,6 +90,6 @@ for bench in "${!BENCHMARK_EXECUTABLES[@]}"; do
         | tr -cd '\0' | wc -c | tr -d '[:space:]'
     )"
 
-    echo "${bench},${exe},${exe_dir},${func_cnt},${drv_cnt},${fmap_path},${drivers_dir}"
+    echo "${bench},${exe},${exe_dir},${func_cnt},${drv_cnt},${fmap_path},${drivers_dir}" >> "benchinfo.csv"
   done
 done

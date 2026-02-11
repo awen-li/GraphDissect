@@ -118,6 +118,7 @@ Options:
   --concurrency N          Max number of concurrent tmux sessions (default: ${CONCURRENCY_DEFAULT})
   -m, --max_time SECONDS   Pass -m SECONDS to fuzzpilot (overall max fuzzing time)
                            Pass --disable-edge-drift to fuzzpilot
+  -e, --execs EXE_NAME     Only run fuzzing for executables matching EXE_NAME (can specify multiple)
   -h, --help               Show this help
 
 EOF
@@ -298,6 +299,7 @@ cleanup_on_signal() {
 }
 
 is_in_bench_executables() {
+  echo "is_in_bench_executables --> ${bench_executables[@]}"
   if [[ ${#bench_executables[@]} -eq 0 ]]; then
     return 1
   fi

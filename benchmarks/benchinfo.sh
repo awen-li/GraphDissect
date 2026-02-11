@@ -31,7 +31,7 @@ declare -A BENCHMARK_EXECUTABLES=(
   ["file"]="file"
 
   # parsing_and_document_processing
-  ["xpdf"]="pdftotext pdfinfo pdftoppm"
+  ["xpdf"]="pdfdetach pdfinfo pdftops"
   ["libxml2"]="xmllint"
   ["jq"]="jq"
 
@@ -41,9 +41,9 @@ declare -A BENCHMARK_EXECUTABLES=(
   ["libdwarf"]="dwarfdump"
 
   # language_runtimes_and_interpreters
-  ["cpython"]="python"
+  ["cpython3"]="python"
   ["quickjs"]="qjs qjsc"
-  ["lua"]="lua luac"
+  ["lua"]="lua"
 
   # archive_and_compression
   ["libarchive"]="bsdtar bsdunzip"

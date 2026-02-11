@@ -325,9 +325,12 @@ init_queue() {
   for b in "${first_benches[@]}"; do
     if [[ -n "${BENCHMARK_EXECUTABLES[$b]:-}" ]]; then
       for e in ${BENCHMARK_EXECUTABLES[$b]}; do
-        if ! is_in_bench_executables "${e}"; then
+
+        is_in_bench_executables "${e}"
+        if [[ $? -eq 0 ]]; then
           continue
         fi
+        
         queue+=("${b}:${e}")
       done
     else
@@ -350,9 +353,12 @@ init_queue() {
 
     if [[ -n "${BENCHMARK_EXECUTABLES[$b]:-}" ]]; then
       for e in ${BENCHMARK_EXECUTABLES[$b]}; do
-        if ! is_in_bench_executables "${e}"; then
+
+        is_in_bench_executables "${e}"
+        if [[ $? -eq 0 ]]; then
           continue
         fi
+
         queue+=("${b}:${e}")
       done
     else

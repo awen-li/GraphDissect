@@ -14,8 +14,8 @@ profile:
 primary:
   # Default: open mutated DB file and execute a minimal statement
   - id: "0"
-    cli: ["-noinit", "-batch", "-cmd", "SELECT 1;"]
-    kind: "default"
+    cli: ["-noinit -batch -cmd SELECT 1;"]
+    kind: "flag"
     role: "mode"
     group: "default"
     include_in_search: true
@@ -23,7 +23,7 @@ primary:
 
   # More query shapes (to drive planner / schema / btree paths)
   - id: "1"
-    cli: ["-noinit", "-batch", "-cmd", "SELECT name, type FROM sqlite_master;"]
+    cli: ["-noinit -batch -cmd SELECT name, type FROM sqlite_master;"]
     kind: "flag"
     role: "mode"
     group: "query"
@@ -31,7 +31,7 @@ primary:
     description: "Enumerate schema via sqlite_master"
 
   - id: "2"
-    cli: ["-noinit", "-batch", "-cmd", "PRAGMA integrity_check;"]
+    cli: ["-noinit -batch -cmd PRAGMA integrity_check;"]
     kind: "flag"
     role: "mode"
     group: "query"
@@ -39,7 +39,7 @@ primary:
     description: "Run integrity_check (deep traversal)"
 
   - id: "3"
-    cli: ["-noinit", "-batch", "-cmd", "PRAGMA quick_check;"]
+    cli: ["-noinit -batch -cmd PRAGMA quick_check;"]
     kind: "flag"
     role: "mode"
     group: "query"
@@ -47,7 +47,7 @@ primary:
     description: "Run quick_check"
 
   - id: "4"
-    cli: ["-noinit", "-batch", "-cmd", "PRAGMA schema_version; PRAGMA user_version;"]
+    cli: ["-noinit -batch -cmd PRAGMA schema_version; PRAGMA user_version;"]
     kind: "flag"
     role: "mode"
     group: "query"
@@ -55,15 +55,16 @@ primary:
     description: "Read common pragmas"
 
   - id: "5"
-    cli: ["-noinit", "-batch", "-cmd", "SELECT count(*) FROM sqlite_master;"]
+    cli: ["-noinit -batch -cmd SELECT count(*) FROM sqlite_master;"]
     kind: "flag"
     role: "mode"
     group: "query"
     include_in_search: true
     description: "Count objects in sqlite_master"
 
+second:
   # Open policy / safety knobs
-  - id: "6"
+  - id: "1"
     cli: ["-nofollow"]
     kind: "flag"
     role: "modifier"
@@ -71,7 +72,7 @@ primary:
     include_in_search: true
     description: "Refuse to open symlinks"
 
-  - id: "7"
+  - id: "2"
     cli: ["-safe"]
     kind: "flag"
     role: "modifier"
@@ -80,7 +81,7 @@ primary:
     description: "Enable safe-mode"
 
   # Output modes (small extra code paths)
-  - id: "8"
+  - id: "3"
     cli: ["-list"]
     kind: "flag"
     role: "modifier"
@@ -88,7 +89,7 @@ primary:
     include_in_search: true
     description: "List output mode"
 
-  - id: "9"
+  - id: "4"
     cli: ["-csv"]
     kind: "flag"
     role: "modifier"
@@ -96,7 +97,7 @@ primary:
     include_in_search: true
     description: "CSV output mode"
 
-  - id: "10"
+  - id: "5"
     cli: ["-json"]
     kind: "flag"
     role: "modifier"
@@ -105,8 +106,8 @@ primary:
     description: "JSON output mode"
 
   # Memory knobs (avoid too many in 2-combo mode)
-  - id: "11"
-    cli: ["-mmap", "1048576"]
+  - id: "6"
+    cli: ["-mmap"]
     kind: "value"
     metavar: "N"
     value_template: "1048576"

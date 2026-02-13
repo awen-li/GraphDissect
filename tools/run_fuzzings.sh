@@ -320,7 +320,7 @@ init_queue() {
   local -a queue=()
 
   # Prioritize a few benches first (edit as you like)
-  local -a first_benches=("libxml2" "snort3" "netcdf" "git" "xz" "upx" "leveldb" 
+  local -a first_benches=("libxml2" "snort3" "netcdf" "git" "xz" "upx" "sqlite3" 
                           "file" "jq" "cppcheck" "unbound" "cpython3")
 
   local b e
@@ -342,7 +342,7 @@ init_queue() {
 
   # The rest (edit ordering as desired)
   local -a rest_benches=(
-    "binutils" "xpdf" "ffmpeg" "libtiff" "libpng"
+    "binutils" "xpdf" "ffmpeg" "libtiff" "wavpack"
     "quickjs" "hdf5"  "sleuthkit" "libdwarf"
     "lua" "libarchive"  "http-parser")
 

@@ -23,7 +23,7 @@ declare -A BENCHMARK_EXECUTABLES=(
   # media_processing
   ["ffmpeg"]="ffmpeg ffprobe"
   ["libtiff"]="tiff2bw tiffinfo tiff2pdf"
-  ["libpng"]="pngfix pngimage pngvalid"
+  ["wavpack"]="wavpack wvunpack wvgain"
 
   # metadata_and_system_utilities
   ["git"]="git"
@@ -53,7 +53,8 @@ declare -A BENCHMARK_EXECUTABLES=(
   # database_and_storage
   ["hdf5"]="h5dump h5ls h5repack"
   ["netcdf"]="ncdump ncgen nccopy"
-  ["leveldb"]="leveldbutil"
+  ["sqlite3"]="sqlite3"
+  #["leveldb"]="leveldbutil"
 )
 
 # CSV header

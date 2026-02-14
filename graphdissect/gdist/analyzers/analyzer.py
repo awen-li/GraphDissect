@@ -6,24 +6,18 @@ from pathlib import Path
 from typing import Dict, Optional
 
 import pandas as pd
+from graph.graph import DrvGraph
 
 
 @dataclass
 class AnalysisContext:
-    """
-    Shared data for all analyzers.
-    Keep it flexible: analyzers can ignore what they don't need.
-    """
-    results_dir: Path
-    out_dir: Path
+    bench_dir: Path
 
-    # these will be filled by loaders
-    drivers: dict = field(default_factory=dict)      # driver_id -> Driver
+    # driver metadata
+    drivers: Dict[str, object] = field(default_factory=dict)  # driver_id -> Driver
 
-    dgraph: Graph = 
-    # configuration knobs
-    coverage_kind: str = "edge"   # "edge" or "func"
-    time_slice_sec: int = 300
+    # graphs
+    prog_graph: Optional[DrvGraph] = None
 
 
 @dataclass

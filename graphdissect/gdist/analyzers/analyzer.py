@@ -1,0 +1,61 @@
+# gdist/analyzers/analyzer.py
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Dict, Optional
+
+import pandas as pd
+
+
+@dataclass
+class AnalysisContext:
+    """
+    Shared data for all analyzers.
+    Keep it flexible: analyzers can ignore what they don't need.
+    """
+    results_dir: Path
+    out_dir: Path
+
+    # these will be filled by loaders
+    drivers: dict = field(default_factory=dict)      # driver_id -> Driver
+
+    dgraph: Graph = 
+    # configuration knobs
+    coverage_kind: str = "edge"   # "edge" or "func"
+    time_slice_sec: int = 300
+
+
+@dataclass
+class AnalysisResult:
+    tables: Dict[str, pd.DataFrame] = field(default_factory=dict)
+    artifacts: Dict[str, Path] = field(default_factory=dict)
+
+
+class Analyzer:
+    """
+    Base Analyzer API: implement compute(), and you get run()+write_tables() for free.
+    """
+    key: str = "base"
+    description: str = "base analyzer"
+
+    def run(self, ctx: AnalysisContext) -> AnalysisResult:
+        self._ensure_out(ctx)
+        res = self.compute(ctx)
+        self.write_tables(ctx, res)
+        return res
+
+    def compute(self, ctx: AnalysisContext) -> AnalysisResult:
+        raise NotImplementedError
+
+    def write_tables(self, ctx: AnalysisContext, res: AnalysisResult) -> None:
+        tables_dir = ctx.out_dir / "tables"
+        tables_dir.mkdir(parents=True, exist_ok=True)
+        for name, df in res.tables.items():
+            out = tables_dir / f"{self.key}__{name}.csv"
+            df.to_csv(out, index=False)
+
+    def _ensure_out(self, ctx: AnalysisContext) -> None:
+        ctx.out_dir.mkdir(parents=True, exist_ok=True)
+        (ctx.out_dir / "tables").mkdir(parents=True, exist_ok=True)
+        (ctx.out_dir / "plots").mkdir(parents=True, exist_ok=True)

@@ -3,56 +3,13 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
-
-
-BENCHMARK_EXECUTABLES: Dict[str, Dict[str, List[str]]] = {
-    "network_and_protocols": {
-        "snort3": ["snort", "snort2lua"],
-        "unbound": ["unbound-checkconf"],
-        "http-parser": ["parsertrace", "url_parser"],
-    },
-    "media_processing": {
-        "ffmpeg": ["ffmpeg", "ffprobe"],
-        "libtiff": ["tiff2bw", "tiffinfo", "tiff2pdf"],
-        "wavpack": ["wavpack", "wvunpack", "wvgain"],
-    },
-    "metadata_and_system_utilities": {
-        "git": ["git"],
-        "sleuthkit": ["istat", "img_stat", "tsk_recover"],
-        "file": ["file"],
-    },
-    "parsing_and_document_processing": {
-        "xpdf": ["pdfdetach", "pdfinfo", "pdftops"],
-        "libxml2": ["xmllint"],
-        "jq": ["jq"],
-    },
-    "toolchain_and_binary_utilities": {
-        "binutils": ["objdump", "readelf", "addr2line"],
-        "cppcheck": ["cppcheck"],
-        "libdwarf": ["dwarfdump"],
-    },
-    "language_runtimes_and_interpreters": {
-        "cpython3": ["python"],
-        "quickjs": ["qjs", "qjsc"],
-        "lua": ["lua"],
-    },
-    "archive_and_compression": {
-        "libarchive": ["bsdtar", "bsdcpio"],
-        "upx": ["upx"],
-        "xz": ["xz"],
-    },
-    "database_and_storage": {
-        "hdf5": ["h5dump", "h5stat", "h5repack"],
-        "netcdf": ["ncdump", "ncgen", "ncinfo"],
-        "sqlite3": ["sqlite3"],
-    },
-}
+import csv
 
 
 @dataclass(frozen=True)
 class Bench:
     name: str
-    executables: Tuple[str, ...]              # immutable
+    executables: Tuple[str, ...]
     root_dir: Optional[Path] = None
     meta: Dict[str, str] = field(default_factory=dict)
 
@@ -78,9 +35,10 @@ class Domain:
         return self.benches[name]
 
 
-@dataclass
 class Suite:
-    domains: Dict[str, Domain] = field(default_factory=dict)
+    def __init__(self, suitPath: Path | str):
+        self.suitPath = Path(suitPath)
+        self.domains: Dict[str, Domain] = {}
 
     def add_domain(self, dom: Domain) -> None:
         self.domains[dom.name] = dom
@@ -102,39 +60,26 @@ class Suite:
                 return dom.benches[bench_name]
         raise KeyError(f"bench not found: {bench_name}")
 
-    def flatten(self) -> List[Tuple[str, str, str]]:
-        """Return list of (domain, bench, executable)."""
-        out: List[Tuple[str, str, str]] = []
-        for dom in self.iter_domains():
-            for b in dom.iter_benches():
-                for exe in b.executables:
-                    out.append((dom.name, b.name, exe))
-        return out
-
-    def num_benches(self) -> int:
-        return sum(len(dom.benches) for dom in self.domains.values())
-
-    def num_executables(self) -> int:
-        return sum(len(b.executables) for b in self.iter_benches())
-
-    @classmethod
     def build_suite(
-        cls,
+        self,
         mapping: Optional[Dict[str, Dict[str, List[str]]]] = None,
         root: Optional[Path] = None,
-    ) -> "Suite":
+    ) -> None:
         """
         Build Suite from mapping[domain_name][bench_name] = [exe1, exe2, ...].
         If `root` is provided, Bench.root_dir = root/bench_name.
+        If `root` is None, this Suite's suitPath is used as root.
         """
         if mapping is None:
-            mapping = BENCHMARK_EXECUTABLES
+            raise ValueError("mapping is required (or pass BENCHMARK_EXECUTABLES)")
 
-        suite = cls()
+        if root is None:
+            root = self.suitPath
+
         for domain_name, benches in mapping.items():
             dom = Domain(name=domain_name)
             for bench_name, exes in benches.items():
-                b_root = (root / bench_name) if root else None
+                b_root = root / bench_name
                 dom.add_bench(
                     Bench(
                         name=bench_name,
@@ -142,5 +87,84 @@ class Suite:
                         root_dir=b_root,
                     )
                 )
-            suite.add_domain(dom)
-        return suite
+            self.add_domain(dom)
+
+    def show_suite(
+        self,
+        csv_path: Path | str = "benchinfo.csv",
+        warn: bool = True,
+    ) -> Path:
+        """
+        Replicates the shell script behavior:
+          <BENCH_ROOT>/<benchmark>/<executable>/faddr_id.map  -> function_count (line count)
+          <BENCH_ROOT>/<benchmark>/<executable>/drivers/*/    -> driver_count (immediate child dirs)
+        Writes CSV with header:
+          benchmark,executable,exe_dir,function_count,driver_count,faddr_id_map_path,drivers_dir_path
+        """
+        csv_path = Path(csv_path)
+
+        header = [
+            "benchmark",
+            "executable",
+            "exe_dir",
+            "function_count",
+            "driver_count",
+            "faddr_id_map_path",
+            "drivers_dir_path",
+        ]
+
+        def _count_lines(p: Path) -> int:
+            # Fast + robust line count (works for large files)
+            n = 0
+            with p.open("rb") as f:
+                for chunk in iter(lambda: f.read(1024 * 1024), b""):
+                    n += chunk.count(b"\n")
+            return n
+
+        def _count_immediate_subdirs(p: Path) -> int:
+            if not p.is_dir():
+                return 0
+            return sum(1 for x in p.iterdir() if x.is_dir())
+
+        with csv_path.open("w", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(header)
+
+            for dom in self.iter_domains():
+                for bench in dom.iter_benches():
+                    bench_name = bench.name
+                    bench_root = bench.root_dir if bench.root_dir is not None else (self.suitPath / bench_name)
+
+                    for exe in bench.executables:
+                        exe_dir = bench_root / exe
+                        if not exe_dir.is_dir():
+                            if warn:
+                                print(f"Warning: Executable directory not found: {exe_dir}")
+                            continue
+
+                        fid_map_file = exe_dir / "faddr_id.map"
+                        if not fid_map_file.is_file():
+                            if warn:
+                                print(f"Warning: faddr_id.map not found: {fid_map_file}")
+                            continue
+
+                        drivers_dir = exe_dir / "drivers"
+                        if not drivers_dir.is_dir():
+                            if warn:
+                                print(f"Warning: Drivers directory not found: {drivers_dir}")
+                            continue
+
+                        func_cnt = _count_lines(fid_map_file)
+                        drv_cnt = _count_immediate_subdirs(drivers_dir)
+
+                        w.writerow([
+                            bench_name,
+                            exe,
+                            str(exe_dir),
+                            func_cnt,
+                            drv_cnt,
+                            str(fid_map_file),
+                            str(drivers_dir),
+                        ])
+
+        return csv_path

@@ -5,6 +5,48 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
 import csv
 
+BENCHMARK_EXECUTABLES: Dict[str, Dict[str, List[str]]] = {
+    "network_and_protocols": {
+        "snort3": ["snort", "snort2lua"],
+        "unbound": ["unbound-checkconf"],
+        "http-parser": ["parsertrace", "url_parser"],
+    },
+    "media_processing": {
+        "ffmpeg": ["ffmpeg", "ffprobe"],
+        "libtiff": ["tiff2bw", "tiffinfo", "tiff2pdf"],
+        "wavpack": ["wavpack", "wvunpack", "wvgain"],
+    },
+    "metadata_and_system_utilities": {
+        "git": ["git"],
+        "sleuthkit": ["istat", "img_stat", "tsk_recover"],
+        "file": ["file"],
+    },
+    "parsing_and_document_processing": {
+        "xpdf": ["pdfdetach", "pdfinfo", "pdftops"],
+        "libxml2": ["xmllint"],
+        "jq": ["jq"],
+    },
+    "toolchain_and_binary_utilities": {
+        "binutils": ["objdump", "readelf", "addr2line"],
+        "cppcheck": ["cppcheck"],
+        "libdwarf": ["dwarfdump"],
+    },
+    "language_runtimes_and_interpreters": {
+        "cpython3": ["python"],
+        "quickjs": ["qjs", "qjsc"],
+        "lua": ["lua"],
+    },
+    "archive_and_compression": {
+        "libarchive": ["bsdtar", "bsdcpio"],
+        "upx": ["upx"],
+        "xz": ["xz"],
+    },
+    "database_and_storage": {
+        "hdf5": ["h5dump", "h5stat", "h5repack"],
+        "netcdf": ["ncdump", "ncgen", "ncinfo"],
+        "sqlite3": ["sqlite3"],
+    },
+}
 
 @dataclass(frozen=True)
 class Bench:
@@ -39,6 +81,7 @@ class Suite:
     def __init__(self, suitPath: Path | str):
         self.suitPath = Path(suitPath)
         self.domains: Dict[str, Domain] = {}
+        self.build_suite()
 
     def add_domain(self, dom: Domain) -> None:
         self.domains[dom.name] = dom
@@ -101,7 +144,7 @@ class Suite:
         Writes CSV with header:
           benchmark,executable,exe_dir,function_count,driver_count,faddr_id_map_path,drivers_dir_path
         """
-        csv_path = Path(csv_path)
+        csv_path = self.suitPath / csv_path
 
         header = [
             "benchmark",

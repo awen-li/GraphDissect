@@ -65,7 +65,7 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_list()
 
     if args.cmd == "list-benches":
-        return cmd_list_benches()
+        return cmd_list_benches(args)
 
     if args.cmd == "analyze":
         return cmd_analyze(args)

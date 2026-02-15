@@ -37,13 +37,13 @@ BENCHMARK_EXECUTABLES: Dict[str, Dict[str, List[str]]] = {
         "lua": ["lua"],
     },
     "archive_and_compression": {
-        "libarchive": ["bsdtar", "bsdcpio"],
+        "libarchive": ["bsdtar", "bsdunzip"],
         "upx": ["upx"],
         "xz": ["xz"],
     },
     "database_and_storage": {
-        "hdf5": ["h5dump", "h5stat", "h5repack"],
-        "netcdf": ["ncdump", "ncgen", "ncinfo"],
+        "hdf5": ["h5dump", "h5ls", "h5repack"],
+        "netcdf": ["ncdump", "ncgen", "nccopy"],
         "sqlite3": ["sqlite3"],
     },
 }
@@ -70,8 +70,8 @@ class Domain:
         self.benches[bench.name] = bench
 
     def iter_benches(self) -> Iterable[Bench]:
-        for k in sorted(self.benches.keys()):
-            yield self.benches[k]
+        for b in self.benches.values():
+            yield b
 
     def get_bench(self, name: str) -> Bench:
         return self.benches[name]
@@ -90,8 +90,8 @@ class Suite:
         return self.domains[name]
 
     def iter_domains(self) -> Iterable[Domain]:
-        for k in sorted(self.domains.keys()):
-            yield self.domains[k]
+        for d in self.domains.values():
+            yield d
 
     def iter_benches(self) -> Iterable[Bench]:
         for dom in self.iter_domains():

@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from graph.graph import DrvGraph
+from gdist.graph.graph import DrvGraph
 from gdist.benchs import Suite
 
 from gdist.analyzers.analyzer import AnalysisContext

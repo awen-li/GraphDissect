@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Dict, Optional
 
 import pandas as pd
-from graph.graph import DrvGraph
+from gdist.graph.graph import DrvGraph
 
 
 @dataclass

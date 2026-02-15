@@ -47,13 +47,11 @@ class DrvGraph:
     def _load_driver_spec(self, spec_path: Path) -> dict:
         return json.loads(spec_path.read_text())
 
-    def _load(self, strict: bool = True) -> None:
+    def _load_drivers(self) -> None:
         self.drvList.clear()
 
         if not self.driver_list_json.is_file():
             msg = f"missing driver_list.json: {self.driver_list_json}"
-            if strict:
-                raise FileNotFoundError(msg)
             print(f"Warning: {msg}")
             return
 
@@ -84,13 +82,5 @@ class DrvGraph:
                 continue
 
             spec = self._load_driver_spec(spec_path)
-
-            # optional strict sanity check
-            if strict:
-                if "id" in spec and int(spec["id"]) != drv_id:
-                    raise ValueError(f"id mismatch: list={drv_id} spec={spec.get('id')} ({spec_path})")
-                if "name" in spec and str(spec["name"]) != drv_name:
-                    raise ValueError(f"name mismatch: list={drv_name} spec={spec.get('name')} ({spec_path})")
-
             drv = Driver.from_dict(spec)
             self.drvList[drv.id] = drv

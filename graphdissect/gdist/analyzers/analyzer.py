@@ -11,13 +11,11 @@ from graph.graph import DrvGraph
 
 @dataclass
 class AnalysisContext:
-    bench_dir: Path
+    # directory of a bench, e.g., "bench/exp1"
+    benchDir: Path
 
     # driver metadata
-    drivers: Dict[str, object] = field(default_factory=dict)  # driver_id -> Driver
-
-    # graphs
-    prog_graph: Optional[DrvGraph] = None
+    drvGraph: DrvGraph = field(default_factory=DrvGraph)
 
 
 @dataclass

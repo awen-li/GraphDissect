@@ -24,8 +24,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     # analyze command
     a = sub.add_parser("analyze", help="Run analyzers on a directory of a bench")
-    a.add_argument("--bench", type=Path, required=True)
-    a.add_argument("--binary", type=Path, required=True)
+    a.add_argument("--suite", type=Path, required=True)
     return p
 
 
@@ -43,16 +42,20 @@ def cmd_list_benches(args: argparse.Namespace) -> int:
 
 
 def cmd_analyze(args: argparse.Namespace) -> int:
-    ctx = AnalysisContext(
-        benchDir=args.bench,
-        drvGraph=DrvGraph(args.bench, args.binary)
-    )
+    suite = Suite(args.suite)
+    for domains in suite.domains:
+        for bench in domains.benchs:
+            for exe in bench.exes:
+                print(f"Analyzing {domains}-{bench.name}-{exe}...")
+                ctx = AnalysisContext(
+                    benchDir=exe.exe_dir,
+                    drvGraph=DrvGraph(exe.exe_dir, exe.exe_name)
+                )
 
-    keys = [x.strip() for x in args.only.split(",") if x.strip()]
-    todo = select(keys) if keys else all_analyzers()
-
-    for an in todo:
-        an.run(ctx)
+                for an in select(analyzers, keys=None):
+                    print(f"  Running analyzer: {an.key} - {an.description}")
+                    res = an.run(ctx)
+                    print(f"    Done. Generated tables: {list(res.tables.keys())}")
 
     return 0
 

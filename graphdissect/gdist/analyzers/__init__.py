@@ -1,8 +1,10 @@
 # gdist/analyzers/__init__.py
+from __future__ import annotations
+from typing import Dict, List, Sequence, Type
 from .analyzer import Analyzer, AnalysisContext, AnalysisResult
 
 # bring analyzers into registry
-from .rq1 import RQ1Contribution
+from .rq1_contribution import RQ1Contribution
 #from .rq2 import RQ2Modularity
 #from .rq3 import RQ3Overlap
 #from .rq4 import RQ4Correlation

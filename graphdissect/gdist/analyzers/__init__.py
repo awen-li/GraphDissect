@@ -16,3 +16,23 @@ __all__ = [
 #    "RQ4Correlation", 
 #    "RQ5BlindSpots",
 ]
+
+
+# Register analyzer *classes* (not instances)
+_REG: Dict[str, Type[Analyzer]] = {
+    "rq1": RQ1Contribution,
+    # "rq2": RQ2Modularity,
+    # ...
+}
+
+def all_analyzers() -> List[Analyzer]:
+    return [ _REG[k] for k in sorted(_REG.keys()) ]
+
+
+def select(keys: Sequence[str]) -> List[Analyzer]:
+    out: List[Analyzer] = []
+    for k in keys:
+        if k not in _REG:
+            raise KeyError(f"Unknown analyzer '{k}'. Available: {sorted(_REG.keys())}")
+        out.append(_REG[k])
+    return out

@@ -4,8 +4,6 @@ from pathlib import Path
 from typing import Dict, Optional
 import pandas as pd
 from gdist.graph.graph import DrvGraph
-from gdist.registry import register
-
 
 @dataclass
 class AnalysisContext:
@@ -38,7 +36,6 @@ class AnalysisResult:
     tables: Dict[str, pd.DataFrame] = field(default_factory=dict)
     artifacts: Dict[str, Path] = field(default_factory=dict)
 
-@register
 class Analyzer:
     """
     Base Analyzer API: implement compute(), and you get run()+write_tables() for free.

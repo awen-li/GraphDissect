@@ -4,6 +4,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Optional, Any
+import sgmarker
 
 
 @dataclass
@@ -43,6 +44,9 @@ class DrvGraph:
         self.exe_dir = self.benchPath / self.binaryName
         self.drivers_dir = self.exe_dir / "drivers"
         self.driver_list_json = self.drivers_dir / "driver_list.json"
+
+        self._load_drivers()
+        sgmarker.init(self.benchPath)
 
     def _load_driver_spec(self, spec_path: Path) -> dict:
         return json.loads(spec_path.read_text())
@@ -84,3 +88,6 @@ class DrvGraph:
             spec = self._load_driver_spec(spec_path)
             drv = Driver.from_dict(spec)
             self.drvList[drv.id] = drv
+
+    def get_driver_graph(self, drv_id: int):
+        return sgmarker.get_driver_graph(drv_id)

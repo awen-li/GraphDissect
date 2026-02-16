@@ -2,7 +2,7 @@
 from .analyzer import Analyzer, AnalysisContext, AnalysisResult
 
 # bring analyzers into registry
-#from .rq1 import RQ1Contribution
+from .rq1 import RQ1Contribution
 #from .rq2 import RQ2Modularity
 #from .rq3 import RQ3Overlap
 #from .rq4 import RQ4Correlation
@@ -10,7 +10,7 @@ from .analyzer import Analyzer, AnalysisContext, AnalysisResult
 
 __all__ = [
     "Analyzer", "AnalysisContext", "AnalysisResult",
-#    "RQ1Contribution", 
+    "RQ1Contribution", 
 #    "RQ2Modularity", 
 #    "RQ3Overlap", 
 #    "RQ4Correlation", 

@@ -90,4 +90,4 @@ class DrvGraph:
             self.drvList[drv.id] = drv
 
     def get_driver_graph(self, drvId: int):
-        return sgmarker.get_driver_graph(drvId)
+        return sgmarker.getDriverGraph(drvId)

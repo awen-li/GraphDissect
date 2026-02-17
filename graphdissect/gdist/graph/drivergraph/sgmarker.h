@@ -28,6 +28,8 @@ public:
     void reportGlobalStats();
     void reportPerDriverStats();
 
+    void getDriverGraph(unsigned driverId, set<CGNode*>& drvNodes);
+
 };
 
 #endif

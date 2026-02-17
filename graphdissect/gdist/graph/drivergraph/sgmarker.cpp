@@ -17,3 +17,7 @@ void SubCgMarker::reportPerDriverStats() {
     cgmk->reportPerDriverStats(ofs, "");
     ofs.close();
 }
+
+void SubCgMarker::getDriverGraph(unsigned driverId, set<CGNode*>& drvNodes) {
+    cgmk->getDriverGraph(driverId, drvNodes);
+}

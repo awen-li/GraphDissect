@@ -25,6 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
     # analyze command
     a = sub.add_parser("analyze", help="Run analyzers on a directory of a bench")
     a.add_argument("--suite", type=Path, required=True)
+    a.add_argument("--analyzers", type=str, required=False, help="analyzers to run (default: all)")
     return p
 
 
@@ -45,16 +46,18 @@ def cmd_analyze(args: argparse.Namespace) -> int:
     suite = Suite(args.suite)
     suite_root = suite.suitPath
 
+    analyzer_classes: List[Type[Analyzer]] = select(getattr(args, "analyzers", None))
     for dname, domain in suite.domains.items():
         for bname, bench in domain.benches.items():
             for exe in bench.executables:
                 bench_dir = (suite_root / bench.name).resolve()
                 if not bench_dir.exists():
                     raise FileNotFoundError(f"benchDir not found: {bench_dir}")
-
                 print(f"Analyzing {dname}-{bench.name}-{exe}...")
-                ctx = AnalysisContext( benchDir=bench_dir/exe)
-                for an in select(analyzers, keys=None):
+
+                ctx = AnalysisContext( benchDir=bench_dir/exe)            
+                for an_cls in analyzer_classes:
+                    an = an_cls()  # instantiate
                     print(f"  Running analyzer: {an.key} - {an.description}")
                     res = an.run(ctx)
                     print(f"    Done. Generated tables: {list(res.tables.keys())}")

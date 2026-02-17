@@ -28,12 +28,18 @@ _REG: Dict[str, Type[Analyzer]] = {
     # ...
 }
 
-def all_analyzers() -> List[Analyzer]:
-    return [ _REG[k] for k in sorted(_REG.keys()) ]
+def all_analyzers() -> List[Type["Analyzer"]]:
+    return [_REG[k] for k in sorted(_REG.keys())]
 
+def select(keys: Optional[Sequence[str]] = None) -> List[Type["Analyzer"]]:
+    """
+    If keys is None or empty -> return all analyzers.
+    Otherwise -> return analyzers in the order of keys.
+    """
+    if not keys:
+        return all_analyzers()
 
-def select(keys: Sequence[str]) -> List[Analyzer]:
-    out: List[Analyzer] = []
+    out: List[Type["Analyzer"]] = []
     for k in keys:
         if k not in _REG:
             raise KeyError(f"Unknown analyzer '{k}'. Available: {sorted(_REG.keys())}")

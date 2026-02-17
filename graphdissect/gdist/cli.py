@@ -25,7 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
     # analyze command
     a = sub.add_parser("analyze", help="Run analyzers on a directory of a bench")
     a.add_argument("--suite", type=Path, required=True)
-    a.add_argument("--analyzers", type=str, required=False, help="analyzers to run (default: all)")
+    a.add_argument("--analyzers", type=str, nargs="+", required=False, help="analyzers to run (default: all)")
     return p
 
 

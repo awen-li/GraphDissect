@@ -49,7 +49,7 @@ class Analyzer:
         raise NotImplementedError
 
     def write_tables(self, ctx: AnalysisContext, res: AnalysisResult) -> None:
-        tables_dir = ctx.out_dir / "tables"
+        tables_dir = ctx.benchDir / "tables"
         tables_dir.mkdir(parents=True, exist_ok=True)
 
         for name, df in res.tables.items():

@@ -102,7 +102,7 @@ class RQ1Contribution(Analyzer):
     # (4) Tables
     # ----------------------------
     def _build_driver_table(self, exe_dir: Path, g, bench_name: str, exe_name: str) -> pd.DataFrame:
-        order = b.drvList.keys()
+        order = g.drvList.keys()
         order = [int(k) for k in g.drvList.keys()]
 
         rows: List[Dict[str, object]] = []

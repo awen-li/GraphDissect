@@ -79,7 +79,7 @@ class Domain:
 
 class Suite:
     def __init__(self, suitPath: Path | str):
-        self.suitPath = Path(suitPath)
+        self.suitPath = Path(suitPath).absolute()
         self.domains: Dict[str, Domain] = {}
         self.build_suite(mapping=BENCHMARK_EXECUTABLES)
 

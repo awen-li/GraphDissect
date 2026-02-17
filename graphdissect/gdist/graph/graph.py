@@ -41,12 +41,12 @@ class DrvGraph:
         # driver_id (int) -> Driver
         self.drvList: Dict[int, Driver] = {}
 
-        self.exe_dir = self.benchPath / self.binaryName
-        self.drivers_dir = self.exe_dir / "drivers"
-        self.driver_list_json = self.drivers_dir / "driver_list.json"
+        self.binaryDir      = self.benchPath / self.binaryName
+        self.driversDir     = self.binaryDir / "drivers"
+        self.driverListJson = self.driversDir / "driver_list.json"
 
         self._load_drivers()
-        sgmarker.init(self.benchPath)
+        sgmarker.init(str(self.binaryDir))
 
     def _load_driver_spec(self, spec_path: Path) -> dict:
         return json.loads(spec_path.read_text())
@@ -54,12 +54,12 @@ class DrvGraph:
     def _load_drivers(self) -> None:
         self.drvList.clear()
 
-        if not self.driver_list_json.is_file():
+        if not self.driverListJson.is_file():
             msg = f"missing driver_list.json: {self.driver_list_json}"
             print(f"Warning: {msg}")
             return
 
-        meta = json.loads(self.driver_list_json.read_text())
+        meta = json.loads(self.driverListJson.read_text())
         entries = meta.get("drivers", [])
         if not isinstance(entries, list):
             raise ValueError(f"Unexpected format: 'drivers' is {type(entries)}")
@@ -71,23 +71,23 @@ class DrvGraph:
                     raise ValueError(f"Bad driver_list entry: {one}")
                 continue
 
-            (drv_id_raw, drv_name_raw), = one.items()
-            drv_id = int(drv_id_raw)
-            drv_name = str(drv_name_raw)
+            (drvIdRaw, drvNameRaw), = one.items()
+            drvId = int(drvIdRaw)
+            drvName = str(drvNameRaw)
 
-            drv_dir = self.drivers_dir / drv_name
-            spec_path = drv_dir / f"{drv_name}.json"
+            drvDir = self.driversDir / drvName
+            specPath = drvDir / f"{drvName}.json"
 
-            if not spec_path.is_file():
-                msg = f"missing driver spec: {spec_path}"
+            if not specPath.is_file():
+                msg = f"missing driver spec: {specPath}"
                 if strict:
                     raise FileNotFoundError(msg)
                 print(f"Warning: {msg}")
                 continue
 
-            spec = self._load_driver_spec(spec_path)
+            spec = self._load_driver_spec(specPath)
             drv = Driver.from_dict(spec)
             self.drvList[drv.id] = drv
 
-    def get_driver_graph(self, drv_id: int):
-        return sgmarker.get_driver_graph(drv_id)
+    def get_driver_graph(self, drvId: int):
+        return sgmarker.get_driver_graph(drvId)

@@ -43,15 +43,17 @@ def cmd_list_benches(args: argparse.Namespace) -> int:
 
 def cmd_analyze(args: argparse.Namespace) -> int:
     suite = Suite(args.suite)
-    for domains in suite.domains:
-        for bench in domains.benchs:
-            for exe in bench.exes:
-                print(f"Analyzing {domains}-{bench.name}-{exe}...")
-                ctx = AnalysisContext(
-                    benchDir=exe.exe_dir,
-                    drvGraph=DrvGraph(exe.exe_dir, exe.exe_name)
-                )
+    suite_root = suite.suitPath
 
+    for dname, domain in suite.domains.items():
+        for bname, bench in domain.benches.items():
+            for exe in bench.executables:
+                bench_dir = (suite_root / bench.name).resolve()
+                if not bench_dir.exists():
+                    raise FileNotFoundError(f"benchDir not found: {bench_dir}")
+
+                print(f"Analyzing {dname}-{bench.name}-{exe}...")
+                ctx = AnalysisContext( benchDir=bench_dir/exe)
                 for an in select(analyzers, keys=None):
                     print(f"  Running analyzer: {an.key} - {an.description}")
                     res = an.run(ctx)

@@ -4,9 +4,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Set, Tuple, Optional
-
 import pandas as pd
-
 from gdist.analyzers.analyzer import Analyzer, AnalysisContext, AnalysisResult
 
 

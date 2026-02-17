@@ -24,12 +24,8 @@ class AnalysisContext:
         benchPath = self.benchDir.parent   # benchmarks/libxml2
         binaryName = self.benchDir.name    # xmllint
 
-        g = DrvGraph(benchPath=benchPath, binaryName=binaryName)
-        g._load(strict=False)
-        self.drvGraph = g
-        return g
-
-
+        self.drvGraph = DrvGraph(benchPath=benchPath, binaryName=binaryName)
+        return self.drvGraph
 
 @dataclass
 class AnalysisResult:

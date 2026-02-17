@@ -8,7 +8,7 @@ from gdist.benchs import Suite
 
 from gdist.analyzers.analyzer import AnalysisContext
 from gdist import analyzers 
-from gdist.registry import all_analyzers, select
+from gdist.analyzers import all_analyzers, select
 
 
 def build_parser() -> argparse.ArgumentParser:

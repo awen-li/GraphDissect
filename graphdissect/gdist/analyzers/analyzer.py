@@ -60,6 +60,4 @@ class Analyzer:
             res.artifacts[f"table:{name}"] = out
 
     def _ensure_out(self, ctx: AnalysisContext) -> None:
-        ctx.out_dir.mkdir(parents=True, exist_ok=True)
-        (ctx.out_dir / "tables").mkdir(parents=True, exist_ok=True)
-        (ctx.out_dir / "plots").mkdir(parents=True, exist_ok=True)
+        pass

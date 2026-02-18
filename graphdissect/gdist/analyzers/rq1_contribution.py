@@ -50,7 +50,8 @@ class RQ1Contribution(Analyzer):
         """
         out: Dict[int, Set[str]] = {}
         for drv_id in g.drvList.keys():
-            cov_functions = g.get_driver_graph(drv_id)  # must exist
+            # a tuple of (node_list, edge_list)
+            cov_functions, cov_edges = g.get_driver_graph(drv_id)
             out[int(drv_id)] = set(map(str, cov_functions))
         return out
 

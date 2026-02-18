@@ -26,8 +26,48 @@ public:
     {
     }
 
+    inline void SetDriverIdMask(unsigned DriverId)
+    {
+        if (DriverId == 0) return;
+
+        if (DriverIdMask.size() < DriverId) 
+        {
+            DriverIdMask.resize(DriverId);
+        }
+        DriverIdMask.set(DriverId - 1);
+    }
+
+    inline void SetDriverIdMask(boost::dynamic_bitset<>& drvIdMask)
+    {
+        if (DriverIdMask.size() != drvIdMask.size()) 
+        {
+            DriverIdMask.resize(drvIdMask.size());
+        }
+        DriverIdMask = drvIdMask;
+    }
+
+    inline bool HasDriverId(unsigned DriverId) const
+    {
+        if (DriverId == 0 || DriverId > DriverIdMask.size())
+        {
+            return false;
+        }
+
+        return DriverIdMask.test(DriverId - 1);
+    }
+
+
+    inline boost::dynamic_bitset<> GetDriverIdMask() const
+    {
+        return DriverIdMask;
+    }
+
+public: 
     unsigned HitNum;
     uint64_t Key;
+
+private:
+    boost::dynamic_bitset<> DriverIdMask;
 };
 
 
@@ -433,6 +473,25 @@ public:
     {
         string str = "color=black";
         return str;
+    }
+
+    inline string GetEdgeLabel(CGEdge *Edge) 
+    {
+        string edgeLabel = "";
+        const auto& mask = Edge->GetDriverIdMask();
+
+         if (mask.none()) 
+        {
+             edgeLabel = " (mask=0)";
+        } else 
+        {
+            // Convert bitmask to string
+            stringstream ss;
+            ss << " (mask=" << mask << ")";
+            edgeLabel = ss.str();
+        }
+
+        return edgeLabel;
     }
 
 private:

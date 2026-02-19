@@ -35,7 +35,6 @@ public:
     void dump(string markGraph="marked_callgraph");
 
     void markGraph(CGGraph* drvCg, unsigned drvId);
-    void markNode(unsigned nodeId, unsigned drvId);
     float computeDriverScore(CGGraph* drvCg, unsigned drvId);
 private:
     unsigned countPrivateNodes(unsigned driverId);

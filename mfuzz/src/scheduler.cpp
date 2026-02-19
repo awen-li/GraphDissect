@@ -2,51 +2,6 @@
 #include "scheduler.h"
 #include "driver.h"
 
-void Scheduler::switchDriver(unsigned drvId) 
-{
-    // 1: Compute coverage diff between current state and last backup
-    //  : Label the call graph with the newly covered set
-    // 2: Backup the current fcov state and switch active driver
-
-    if (activeDriver == 0 ) {
-        activeDriver = drvId;
-        return;
-    }
-
-    // 1
-    unsigned updatedNodes = 0;
-    unsigned newNodes = 0;
-    unsigned totalHitNodes = 0;
-    for (unsigned i = 0; i < backupFcov.size(); ++i) {
-        unsigned hitNum = getNodeHitNum(i);
-
-        if (hitNum != 0) {
-            totalHitNodes++;
-        }
-
-        if (hitNum == 0 || backupFcov[i] == hitNum) {
-            continue;
-        }
-
-        if (backupFcov[i] == 0) {
-            newNodes++;
-        }
-
-        // save it
-        backupFcov[i] = hitNum;
-
-        cgmk->markNode(i, activeDriver);
-        updatedNodes++;
-    }
-
-    // switch to new driver
-    activeDriver = drvId;
-    std::cout << "[Scheduler] Switched to driver " << drvId
-              << "[" <<totalHitNodes<<" / "<<backupFcov.size()<<"]"
-              << " (updated " << updatedNodes << " nodes with newly discovered "<<newNodes<<")\n";
-    return;
-}
-
 
 void Scheduler::synchronizeGraphs()
 {
@@ -54,28 +9,19 @@ void Scheduler::synchronizeGraphs()
         return;
     }
 
-    CGGraph* wCg = cgmk->getWholeCg();
-    unsigned cgNodeNum = wCg->GetNodeNum() + 32;
-    for (unsigned i = 1; i < cgNodeNum; ++i) {
+    
+    // 1. sync node hit num to graph
+    unsigned updatedNodes = 0;
+    unsigned totalHitNodes = 0;
+    vector<unsigned> newHitNodes = UpdateNodesHitNum(activeDriver, updatedNodes, totalHitNodes);
 
-        unsigned nodeId = i;
-        CGNode* node = wCg->GetGNode(nodeId);
-        if (node == NULL) {
-            continue;
-        }
+    // 2. sync edge hit num to graph
+    unsigned newHitEdges = UpdateEdgesHitNum(newHitNodes, activeDriver);
 
-        // update hit num for node
-        node->HitNum = getNodeHitNum(nodeId);
-        //if (node->HitNum != 0)
-        //    printf("[synchronizeGraphs]node:[%u]%s, covered:%u\r\n", 
-        //    nodeId, node->GetFName().c_str(), node->HitNum);
-
-        // update hit num for outgoing edges
-        for (auto it = node->OutEdgeBegin(); it != node->OutEdgeEnd(); ++it) {
-            CGEdge* edge = *it;
-            edge->HitNum = fcov_getEdgeHitNum(edge->Key);
-        }
-    }
+    std::cout << "[Scheduler] Switched to driver " << activeDriver
+              << "[" <<totalHitNodes<<" / "<<getGraphSize()<<"]"
+              << " (updated " << updatedNodes << " nodes with newly discovered "<<newHitNodes.size()
+              <<" nodes and "<<newHitEdges<<" edges)\n";
 }
 
 
@@ -127,7 +73,6 @@ void Scheduler::setActiveDriver(unsigned driverId, bool init)
     synchronizeGraphs();
 
     /* switch driver */
-    switchDriver(driverId);
     activeDriver = driverId;
     driverManger->setActiveDriver(activeDrvPath, activeDriver);
 

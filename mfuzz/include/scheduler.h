@@ -41,7 +41,6 @@ public:
         fcov_setPath(fcovPath.c_str());
 
         activeDriver = 0;
-        backupFcov.resize(getGraphSize()+32, 0);
     }
 
     ~Scheduler () 
@@ -54,7 +53,6 @@ public:
 
     void setActiveDriver(unsigned driverId, bool init=false);
     void synchronizeGraphs();
-    void switchDriver(unsigned drvId);
     set<unsigned> getCoveredFuncs();
     vector<unsigned> getAllDrvIds();
 
@@ -70,8 +68,6 @@ private:
     string sessionPath;
     string fcovPath;
     CgMarker* cgmk;
-
-    vector<unsigned> backupFcov;
 
     FaddrID *fAddrToID;
     map<uint64_t, CGEdge*> keyToEdge;
@@ -146,20 +142,86 @@ private:
         return fcov_getNodeHitNum(nodeKey);
     }
 
-    inline unsigned getEdgeHitNum(unsigned nodeId) 
+    inline vector<unsigned> UpdateNodesHitNum(unsigned drvId, 
+                                              unsigned& updatedNodes, 
+                                              unsigned& totalHitNodes) 
     {
-        if (nodeId == 0) {
-            return 0;
-        }
+        vector<unsigned> newHitNodes;
 
         CGGraph* wCg = cgmk->getWholeCg();
-        CGNode* node = wCg->GetGNode(nodeId);
-        if (node == nullptr) {
+        for (auto itr = wCg->begin(); itr != wCg->end(); itr++) {
+            CGNode* node = itr->second;
+
+            unsigned nodeId = node->GetId();
+            unsigned hitNum = getNodeHitNum(nodeId);
+
+            if (hitNum != 0) {
+                totalHitNodes++;
+            }
+    
+            if (hitNum == 0 || node->HitNum == hitNum) {
+                continue;
+            }
+    
+            if (node->HitNum == 0) {
+                newHitNodes.push_back(nodeId);
+            }
+            
+            node->HitNum = hitNum;
+            node->SetDriverIdMask(drvId);
+            updatedNodes++;
+        }
+    
+        return newHitNodes;
+    }
+
+    inline unsigned getEdgeHitNum(unsigned srcId, unsigned dstId) 
+    {
+        CGGraph* wCg = cgmk->getWholeCg();
+        CGNode* srcNode = wCg->GetGNode(srcId);
+        CGNode* dstNode = wCg->GetGNode(dstId);
+        if (srcNode == nullptr || dstNode == nullptr) {
             return 0;
         }
 
-        uint32_t nodeKey = node->Key;
-        return fcov_getNodeHitNum(nodeKey);
+        uint64_t edgeKey = getEdgeKey(srcNode->Key, dstNode->Key);
+        return fcov_getEdgeHitNum(edgeKey);
+    }
+
+    inline unsigned getEdgeHitNum(CGEdge* edge) 
+    {
+        return fcov_getEdgeHitNum(edge->Key);
+    }
+
+    inline unsigned UpdateEdgesHitNum(vector<unsigned>& newHitNodes, unsigned drvId) 
+    {
+        // for each newly hit node, update its outgoing edges' hit num
+        unsigned newHitEdges = 0;
+
+        CGGraph* wCg = cgmk->getWholeCg();
+        for (auto it = newHitNodes.begin(); it != newHitNodes.end(); ++it) {
+            unsigned nodeId = *it;       
+            CGNode* node = wCg->GetGNode(nodeId);
+            if (node == nullptr) {
+                continue;
+            }
+
+            for (auto eItr = node->OutEdgeBegin(); eItr != node->OutEdgeEnd(); eItr++) {
+                CGEdge* edge = *eItr;
+
+                unsigned hitNum = getEdgeHitNum(edge);
+                if (hitNum == 0 || edge->HitNum == hitNum) {
+                    continue;
+                }
+
+                edge->HitNum = hitNum;
+                newHitEdges++;
+
+                edge->SetDriverIdMask(drvId);
+            }
+        }
+   
+        return newHitEdges;
     }
 
 };

@@ -454,7 +454,8 @@ public:
         if (mask.none()) 
         {
              NdLabel += " (mask=0)";
-        } else 
+        } 
+        else 
         {
             // Convert bitmask to string
             stringstream ss;
@@ -489,14 +490,15 @@ public:
         string edgeLabel = "";
         const auto& mask = Edge->GetDriverIdMask();
 
-         if (mask.none()) 
+        if (mask.none()) 
         {
-             edgeLabel = " (mask=0)";
-        } else 
+             edgeLabel = "(mask=0)";
+        } 
+        else 
         {
             // Convert bitmask to string
             stringstream ss;
-            ss << " (mask=" << mask << ")";
+            ss << "(mask=" << mask << ")";
             edgeLabel = ss.str();
         }
 

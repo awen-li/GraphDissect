@@ -8,7 +8,6 @@ void Scheduler::synchronizeGraphs()
     if (activeDriver == 0 ) {
         return;
     }
-
     
     // 1. sync node hit num to graph
     unsigned updatedNodes = 0;

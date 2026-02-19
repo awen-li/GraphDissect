@@ -90,7 +90,7 @@ protected:
         string str;
 
         str = "\t" + GetNodeName (Edge->GetSrcNode()) + " -> " + GetNodeName (Edge->GetDstNode()) +
-              "[" + GetEdgeAttributes (Edge) + ",label=\"\"];";
+              "[" + GetEdgeAttributes (Edge) + ",label=\"" + GetEdgeLabel (Edge) + "\"];";
                
         fprintf(m_File, "%s\n", str.c_str());
         return; 

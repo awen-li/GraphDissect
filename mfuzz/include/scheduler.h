@@ -193,11 +193,33 @@ private:
                 continue;
             }
 
+            // outgoing edges
             for (auto eItr = node->OutEdgeBegin(); eItr != node->OutEdgeEnd(); eItr++) {
                 CGEdge* edge = *eItr;
 
                 unsigned hitNum = getEdgeHitNum(edge);
-                std::cout << "[UpdateEdgesHitNum] Edge (" 
+                std::cout << "[OutEdge][UpdateEdgesHitNum] Edge (" 
+                          << edge->GetSrcNode()->GetFName() << " -> " 
+                          << edge->GetDstNode()->GetFName() 
+                          << ") Key = " << edge->Key
+                          << ", Hit num: " << hitNum << "\n";
+
+                if (hitNum == 0 || edge->HitNum == hitNum) {
+                    continue;
+                }
+
+                edge->HitNum = hitNum;
+                newHitEdges++;
+
+                edge->SetDriverIdMask(drvId);
+            }
+
+            // incoming edges
+            for (auto eItr = node->InEdgeBegin(); eItr != node->InEdgeEnd(); eItr++) {
+                CGEdge* edge = *eItr;
+
+                unsigned hitNum = getEdgeHitNum(edge);
+                std::cout << "[InEdge][UpdateEdgesHitNum] Edge (" 
                           << edge->GetSrcNode()->GetFName() << " -> " 
                           << edge->GetDstNode()->GetFName() 
                           << ") Key = " << edge->Key

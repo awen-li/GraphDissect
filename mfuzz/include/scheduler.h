@@ -130,10 +130,10 @@ private:
     }
 
     inline vector<unsigned> UpdateNodesHitNum(unsigned drvId, 
-                                              unsigned& updatedNodes, 
+                                              unsigned& newHitNodes, 
                                               unsigned& totalHitNodes) 
     {
-        vector<unsigned> newHitNodes;
+        vector<unsigned> updatedNodes;
 
         CGGraph* wCg = cgmk->getWholeCg();
         for (auto itr = wCg->begin(); itr != wCg->end(); itr++) {
@@ -151,15 +151,15 @@ private:
             }
     
             if (node->HitNum == 0) {
-                newHitNodes.push_back(nodeId);
+                newHitNodes++;
             }
 
             node->HitNum = hitNum;
             node->SetDriverIdMask(drvId);
-            updatedNodes++;
+            updatedNodes.push_back(nodeId);
         }
     
-        return newHitNodes;
+        return updatedNodes;
     }
 
     inline unsigned getEdgeHitNum(unsigned srcId, unsigned dstId) 

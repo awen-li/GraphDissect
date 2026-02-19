@@ -10,17 +10,17 @@ void Scheduler::synchronizeGraphs()
     }
     
     // 1. sync node hit num to graph
-    unsigned updatedNodes = 0;
+    unsigned newHitNodes = 0;
     unsigned totalHitNodes = 0;
-    vector<unsigned> newHitNodes = UpdateNodesHitNum(activeDriver, updatedNodes, totalHitNodes);
+    vector<unsigned> updatedNodes = UpdateNodesHitNum(activeDriver, newHitNodes, totalHitNodes);
 
     // 2. sync edge hit num to graph
-    unsigned newHitEdges = UpdateEdgesHitNum(newHitNodes, activeDriver);
+    unsigned newHitEdges = UpdateEdgesHitNum(updatedNodes, activeDriver);
 
     std::cout << "[Scheduler] Switched to driver " << activeDriver
               << "[" <<totalHitNodes<<" / "<<getGraphSize()<<"]"
-              << " (updated " << updatedNodes << " nodes with newly discovered "<<newHitNodes.size()
-              <<" nodes and "<<newHitEdges<<" edges)\n";
+              << " (updated " << updatedNodes.size() 
+              << " nodes with newly discovered "<<newHitNodes<<" nodes and "<<newHitEdges<<" edges)\n";
 }
 
 

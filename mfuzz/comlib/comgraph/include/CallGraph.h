@@ -225,6 +225,15 @@ public:
         return GenericGraph::AddEdge (Edge);
     }
 
+    inline bool AddEdge (CGNode* S, CGNode* N, boost::dynamic_bitset<>& drvIdMask)
+    {
+        CGEdge *Edge = new CGEdge (S, N);
+        assert (Edge != NULL);
+        Edge->SetDriverIdMask(drvIdMask);
+
+        return GenericGraph::AddEdge (Edge);
+    }
+
     inline vector<CGNode*> GetZeroInDegreeNodes() const 
     {
         vector<CGNode*> zeroInNodes;

@@ -309,6 +309,40 @@ protected:
             s.pop_back();
     }
 
+    inline boost::dynamic_bitset<> GetBitMask(std::string& dataContent) 
+    {
+        auto maskPos = dataContent.find("(mask=");
+        assert (maskPos != string::npos);
+
+        auto start = maskPos + 6;
+        auto end = dataContent.find(')', start);
+        assert (end != string::npos);
+
+        // Convert mask string to dynamic_bitset (MSB-left)      
+        string maskStr = dataContent.substr(start, end - start);
+        boost::dynamic_bitset<> bitmask(maskStr.size(), 0);
+        for (size_t i = 0; i < maskStr.size(); ++i) 
+        {
+            if (maskStr[maskStr.size() - 1 - i] == '1') 
+            {
+                bitmask.set(i);
+            }
+        }
+        return bitmask;
+    }
+
+    inline unsigned GetBlockNum(string& dataContent) 
+    {
+        auto blockPos = dataContent.find("(blocks=");
+        assert (blockPos != string::npos);
+
+        auto start = blockPos + 8;
+        auto end = dataContent.find(')', start);
+        assert (end != string::npos);
+
+        return (unsigned)stoi(dataContent.substr(start, end - start));
+    }
+
     void ParseDotAif(GraphType& graph) 
     {
         ifstream Df(DotFile);
@@ -340,32 +374,10 @@ protected:
             NodeTy* node = graph.AddNode(nodeName);
             node->HitNum = 0;
 
-            auto maskPos = line.find("(mask=");
-            assert (maskPos != string::npos);
-
-            auto start = maskPos + 6;
-            auto end = line.find(')', start);
-            assert (end != string::npos);
-
-            // Convert mask string to dynamic_bitset (MSB-left)      
-            string maskStr = line.substr(start, end - start);
-            boost::dynamic_bitset<> bitmask(maskStr.size(), 0);
-            for (size_t i = 0; i < maskStr.size(); ++i) 
-            {
-                if (maskStr[maskStr.size() - 1 - i] == '1') 
-                {
-                    bitmask.set(i);
-                }
-            }
+            boost::dynamic_bitset<> bitmask = GetBitMask(line);
             node->SetDriverIdMask(bitmask);
 
-            auto blockPos = line.find("(blocks=");
-            assert (blockPos != string::npos);
-
-            start = blockPos + 8;
-            end = line.find(')', start);
-            assert (end != string::npos);
-            node->BlockNum = stoi(line.substr(start, end - start));
+            node->BlockNum = GetBlockNum(line);
         }
   
         Df.clear();
@@ -393,8 +405,13 @@ protected:
 
             if (srcNode && dstNode) 
             {
-                graph.AddEdge(srcNode, dstNode);
-            } else 
+                // parse edge label for driver id mask
+                // stubHashScannerFull -> xmlCtxtDumpEntityCallback[color=black,label="(mask=10000000000)"];
+                boost::dynamic_bitset<> bitmask = GetBitMask(line);
+
+                graph.AddEdge(srcNode, dstNode, bitmask);
+            } 
+            else 
             {
                 fprintf(stderr, 
                     "Warning: Could not find node(s): '%s' or '%s'\n",

@@ -49,7 +49,7 @@ static func_coverage_t* fcov_loadEdgecov(const char* fcovMapPath)
 }
 
 
-static inline uint64_t fcov_hash64(uint64_t x) 
+inline uint64_t fcov_hash64(uint64_t x) 
 {
     x ^= x >> 33;
     x *= HASH_SEED_FCOV_1;

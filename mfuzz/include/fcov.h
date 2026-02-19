@@ -47,6 +47,8 @@ typedef struct {
 void fcov_setPath(const char* fcovMapPath);
 void fcov_deinit();
 
+uint64_t fcov_hash64(uint64_t x);
+
 unsigned fcov_getEdgeHitNum(uint64_t edgeKey); // caller32<<32 | callee32 (graph edge)
 unsigned fcov_getNodeHitNum(uint32_t nodeKey); // low 32 bits of function address (node: function)
 

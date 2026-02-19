@@ -70,8 +70,6 @@ private:
     CgMarker* cgmk;
 
     FaddrID *fAddrToID;
-    map<uint64_t, CGEdge*> keyToEdge;
-
     DriverMng*  driverManger;
 
 private:
@@ -81,21 +79,11 @@ private:
         CGGraph* wCg = cgmk->getWholeCg();
         return wCg->GetNodeNum();
     }
-
-    inline uint64_t hash64(uint64_t x) 
-    {
-        x ^= x >> 33;
-        x *= 0xff51afd7ed558ccdULL;
-        x ^= x >> 33;
-        x *= 0xc4ceb9fe1a85ec53ULL;
-        x ^= x >> 33;
-        return x;
-    }
     
-    inline uint64_t getEdgeKey(unsigned srcId, unsigned dstId) 
+    inline uint64_t getEdgeKey(unsigned srcADDR, unsigned dstADDR) 
     {
-        uint64_t edgeId = srcId;
-        return (edgeId<<32 | dstId);
+        uint64_t edgeKey = srcADDR;
+        return (edgeKey<<32 | dstADDR);
     }
 
     inline void initEdgeKey() 
@@ -115,8 +103,7 @@ private:
 
                 // edge key
                 uint64_t edgeKey = getEdgeKey(srcFAddr, dstFAddr);
-                //printf("[initEdgeKey][%x, %x] --> %lx [hash = %lx]\n", srcFAddr, dstFAddr, edgeKey, hash64(edgeKey)&FCOV_EDGE_TAB_MASK);
-                keyToEdge[edgeKey] = edge;
+                //printf("[initEdgeKey][%x, %x] --> %lx [hash = %lx]\n", srcFAddr, dstFAddr, edgeKey, fcov_hash64(edgeKey)&FCOV_EDGE_TAB_MASK);
                 edge->Key = edgeKey;
 
                 // node key
@@ -166,7 +153,7 @@ private:
             if (node->HitNum == 0) {
                 newHitNodes.push_back(nodeId);
             }
-            
+
             node->HitNum = hitNum;
             node->SetDriverIdMask(drvId);
             updatedNodes++;
@@ -210,6 +197,12 @@ private:
                 CGEdge* edge = *eItr;
 
                 unsigned hitNum = getEdgeHitNum(edge);
+                std::cout << "[UpdateEdgesHitNum] Edge (" 
+                          << edge->GetSrcNode()->GetFName() << " -> " 
+                          << edge->GetDstNode()->GetFName() 
+                          << ") Key = " << edge->Key
+                          << ", Hit num: " << hitNum << "\n";
+
                 if (hitNum == 0 || edge->HitNum == hitNum) {
                     continue;
                 }

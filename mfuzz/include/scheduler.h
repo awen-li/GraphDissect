@@ -129,9 +129,9 @@ private:
         return fcov_getNodeHitNum(nodeKey);
     }
 
-    inline vector<unsigned> UpdateNodesHitNum(unsigned drvId, 
-                                              unsigned& newHitNodes, 
-                                              unsigned& totalHitNodes) 
+    inline vector<unsigned> synchronizeNodes(unsigned drvId, 
+                                             unsigned& newHitNodes, 
+                                             unsigned& totalHitNodes) 
     {
         vector<unsigned> updatedNodes;
 
@@ -180,9 +180,34 @@ private:
         return fcov_getEdgeHitNum(edge->Key);
     }
 
-    inline unsigned UpdateEdgesHitNum(vector<unsigned>& newHitNodes, unsigned drvId) 
+    inline unsigned synchronizeEdges(unsigned drvId) 
     {
-        // for each newly hit node, update its outgoing edges' hit num
+        unsigned newHitEdges = 0;
+        CGGraph* wCg = cgmk->getWholeCg();
+        for (auto itr = wCg->begin(); itr != wCg->end(); itr++) {
+            CGNode* srcNode = itr->second;
+            for (auto eItr = srcNode->OutEdgeBegin(); eItr != srcNode->OutEdgeEnd(); eItr++) {
+                CGEdge* edge    = *eItr;
+
+                unsigned hitNum = getEdgeHitNum(edge);
+                if (hitNum == 0 || edge->HitNum == hitNum) {
+                    continue;
+                }
+
+                if (edge->HitNum == 0) {
+                    newHitEdges++;
+                }
+
+                edge->HitNum = hitNum;
+                edge->SetDriverIdMask(drvId);
+            }
+        }
+
+        return newHitEdges;
+    }
+
+    inline unsigned synchronizeEdges(vector<unsigned>& newHitNodes, unsigned drvId) 
+    {
         unsigned newHitEdges = 0;
 
         CGGraph* wCg = cgmk->getWholeCg();
@@ -198,19 +223,21 @@ private:
                 CGEdge* edge = *eItr;
 
                 unsigned hitNum = getEdgeHitNum(edge);
-                std::cout << "[OutEdge][UpdateEdgesHitNum] Edge (" 
-                          << edge->GetSrcNode()->GetFName() << " -> " 
-                          << edge->GetDstNode()->GetFName() 
-                          << ") Key = " << edge->Key
-                          << ", Hit num: " << hitNum << "\n";
+                //std::cout << "[OutEdge][UpdateEdgesHitNum] Edge (" 
+                //          << edge->GetSrcNode()->GetFName() << " -> " 
+                //          << edge->GetDstNode()->GetFName() 
+                //          << ") Key = " << edge->Key
+                //          << ", Hit num: " << hitNum << "\n";
 
                 if (hitNum == 0 || edge->HitNum == hitNum) {
                     continue;
                 }
 
-                edge->HitNum = hitNum;
-                newHitEdges++;
+                if (edge->HitNum == 0) {
+                    newHitEdges++;
+                }
 
+                edge->HitNum = hitNum;
                 edge->SetDriverIdMask(drvId);
             }
 
@@ -219,19 +246,21 @@ private:
                 CGEdge* edge = *eItr;
 
                 unsigned hitNum = getEdgeHitNum(edge);
-                std::cout << "[InEdge][UpdateEdgesHitNum] Edge (" 
-                          << edge->GetSrcNode()->GetFName() << " -> " 
-                          << edge->GetDstNode()->GetFName() 
-                          << ") Key = " << edge->Key
-                          << ", Hit num: " << hitNum << "\n";
+                //std::cout << "[InEdge][UpdateEdgesHitNum] Edge (" 
+                //          << edge->GetSrcNode()->GetFName() << " -> " 
+                //          << edge->GetDstNode()->GetFName() 
+                //          << ") Key = " << edge->Key
+                //          << ", Hit num: " << hitNum << "\n";
 
                 if (hitNum == 0 || edge->HitNum == hitNum) {
                     continue;
                 }
 
-                edge->HitNum = hitNum;
-                newHitEdges++;
+                if (edge->HitNum == 0) {
+                    newHitEdges++;
+                }
 
+                edge->HitNum = hitNum;
                 edge->SetDriverIdMask(drvId);
             }
         }

@@ -17,7 +17,7 @@ function initialize ()
 	apt-get install texinfo
 	
 	if [ ! -d "$target" ]; then
-		git clone https://github.com/bminor/binutils-gdb
+		git clone https://sourceware.org/git/binutils-gdb.git
 	fi
 
 	cd $target/libiberty

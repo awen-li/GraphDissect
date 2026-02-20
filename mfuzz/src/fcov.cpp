@@ -78,13 +78,13 @@ static inline unsigned fcov_isEdgeVisited(func_coverage_t *fcov, uint64_t edgeKe
         uint64_t key = __atomic_load_n(&slot->key, __ATOMIC_RELAXED);
         if (key == 0) {
             // empty slot ? key was never inserted in this probe chain
-            //printf("[fcov_isEdgeVisited]%lx [hash: %lx] ---> %u @0\n", edgeKey, h, 0);
+            //printf("[fcov_isEdgeVisited]%lx [hash: %lx] - [pos: %u] ---> %u @0\n", edgeKey, h, pos, 0);
             return 0;
         }
 
         if (key == edgeKey) {
             uint64_t cnt = __atomic_load_n(&slot->count, __ATOMIC_RELAXED);
-            //printf("[fcov_isEdgeVisited]%lx [hash: %lx] ---> %u\n", edgeKey, h, (unsigned)cnt);
+            //printf("[fcov_isEdgeVisited]%lx [hash: %lx] - [pos: %u] ---> %u\n", edgeKey, h, pos, (unsigned)cnt);
             return (unsigned)cnt;
         }
     }

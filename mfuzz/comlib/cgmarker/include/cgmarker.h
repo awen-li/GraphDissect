@@ -36,6 +36,11 @@ public:
 
     void markGraph(CGGraph* drvCg, unsigned drvId);
     float computeDriverScore(CGGraph* drvCg, unsigned drvId);
+
+    void genFuncIdMap();
+    void setNodeKey(const string& FName, uint32_t FAddr);
+    void setEdgeKey(const string& srcFName, const string& dstFName, uint32_t retAddr);
+
 private:
     unsigned countPrivateNodes(unsigned driverId);
     void dumpFunctoIdMap(const string& outPath = "function_id.map");

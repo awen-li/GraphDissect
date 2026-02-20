@@ -23,16 +23,8 @@ public:
         this->benchPath   = benchPath;
         this->sessionPath = sessionPath;
 
-        cgmk = new CgMarker (benchPath);
+        cgmk = new CgMarker (benchPath, "marked_callgraph.dot");
         assert(cgmk != NULL);
-
-        string faddrMapPath = benchPath + "/faddr_id.map";
-        if (!fs::exists(faddrMapPath)) {
-            assert(getFAddrIdMap() == true && "Failed to get faddr_id.map"); 
-        }
-        fAddrToID = new FaddrID (benchPath + "/faddr_id.map");
-        assert(fAddrToID != NULL);
-        initEdgeKey();
 
         driverManger = new DriverMng(benchPath);
         assert(driverManger != NULL);
@@ -47,7 +39,6 @@ public:
     {
         dump();
         delete cgmk;
-        delete fAddrToID;
         delete driverManger;
     }
 
@@ -69,7 +60,6 @@ private:
     string fcovPath;
     CgMarker* cgmk;
 
-    FaddrID *fAddrToID;
     DriverMng*  driverManger;
 
 private:
@@ -80,39 +70,6 @@ private:
         return wCg->GetNodeNum();
     }
     
-    inline uint64_t getEdgeKey(unsigned srcADDR, unsigned dstADDR) 
-    {
-        uint64_t edgeKey = srcADDR;
-        return (edgeKey<<32 | dstADDR);
-    }
-
-    inline void initEdgeKey() 
-    {
-        CGGraph* wCg = cgmk->getWholeCg();
-        for (auto itr = wCg->begin(); itr != wCg->end(); itr++) {
-            CGNode* srcNode = itr->second;
-            for (auto itr = srcNode->OutEdgeBegin(); itr != srcNode->OutEdgeEnd(); itr++) {
-                CGEdge* edge    = *itr;
-                CGNode* dstNode = edge->GetDstNode();
-                
-                unsigned srcId = srcNode->GetId();
-                unsigned dstId = dstNode->GetId();
-
-                unsigned srcFAddr = fAddrToID->idToAddr(srcId);
-                unsigned dstFAddr = fAddrToID->idToAddr(dstId);
-
-                // edge key
-                uint64_t edgeKey = getEdgeKey(srcFAddr, dstFAddr);
-                //printf("[initEdgeKey][%x, %x] --> %lx [hash = %lx]\n", srcFAddr, dstFAddr, edgeKey, fcov_hash64(edgeKey)&FCOV_EDGE_TAB_MASK);
-                edge->Key = edgeKey;
-
-                // node key
-                dstNode->Key = dstFAddr;
-                srcNode->Key = srcFAddr;
-            }
-        }
-    }
-
     inline unsigned getNodeHitNum(unsigned nodeId) 
     {
         if (nodeId == 0) {
@@ -171,13 +128,23 @@ private:
             return 0;
         }
 
-        uint64_t edgeKey = getEdgeKey(srcNode->Key, dstNode->Key);
-        return fcov_getEdgeHitNum(edgeKey);
+        for (auto eItr = srcNode->OutEdgeBegin(); eItr != srcNode->OutEdgeEnd(); eItr++) {
+            CGEdge* edge = *eItr;
+            if (edge->GetDstNode() == dstNode) {
+                return getEdgeHitNum(edge);
+            }
+        }
+
+        return 0;
     }
 
     inline unsigned getEdgeHitNum(CGEdge* edge) 
     {
-        return fcov_getEdgeHitNum(edge->Key);
+        unsigned hitNum = 0;
+        for (uint64_t edgeKey : edge->Keys) {
+            hitNum += fcov_getEdgeHitNum(edgeKey);
+        }
+        return hitNum;
     }
 
     inline unsigned synchronizeEdges(unsigned drvId) 

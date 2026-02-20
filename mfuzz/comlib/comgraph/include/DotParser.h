@@ -343,6 +343,46 @@ protected:
         return (unsigned)stoi(dataContent.substr(start, end - start));
     }
 
+
+    inline std::vector<uint64_t> GetKeys(const std::string& s) {
+        std::vector<uint64_t> keys;
+
+        auto p = s.find("(Key=");
+        if (p == std::string::npos) return keys;
+
+        p += 5; // after "(Key="
+        auto q = s.find(')', p);
+        if (q == std::string::npos) return keys;
+
+        std::string inside = s.substr(p, q - p);
+        if (inside.empty()) return keys;
+
+        std::stringstream ss(inside);
+        std::string token;
+        while (std::getline(ss, token, ',')) {
+            if (token.empty()) continue;
+            uint64_t value = std::stoull(token, nullptr, 16);
+            keys.push_back(value);
+        }
+
+        return keys;
+    }
+
+    inline unsigned getHitNum(const std::string& s) 
+    {
+        auto p = s.find("(HitNum=");
+        if (p == std::string::npos) return 0;
+
+        p += 8; // after "(HitNum="
+        auto q = s.find(')', p);
+        if (q == std::string::npos) return 0;
+
+        std::string numStr = s.substr(p, q - p);
+        if (numStr.empty()) return 0;
+
+        return (unsigned)stoi(numStr);
+    }
+
     void ParseDotAif(GraphType& graph) 
     {
         ifstream Df(DotFile);
@@ -378,6 +418,13 @@ protected:
             node->SetDriverIdMask(bitmask);
 
             node->BlockNum = GetBlockNum(line);
+
+            vector<uint64_t> Keys = GetKeys(line);
+            if (!Keys.empty()) {
+                node->Key = Keys[0];
+            }
+
+            node->HitNum = getHitNum(line);
         }
   
         Df.clear();
@@ -408,8 +455,19 @@ protected:
                 // parse edge label for driver id mask
                 // stubHashScannerFull -> xmlCtxtDumpEntityCallback[color=black,label="(mask=10000000000)"];
                 boost::dynamic_bitset<> bitmask = GetBitMask(line);
-
                 graph.AddEdge(srcNode, dstNode, bitmask);
+
+                vector<uint64_t> Keys = GetKeys(line);
+                if (!Keys.empty()) {
+                    for (auto eItr = srcNode->OutEdgeBegin(); eItr != srcNode->OutEdgeEnd(); eItr++) {
+                        EdgeTy* edge = *eItr;
+                        if (edge->GetDstNode() == dstNode) {
+                            edge->Keys = Keys;
+                            edge->HitNum = getHitNum(line);
+                            break;
+                        }
+                    }
+                }   
             } 
             else 
             {

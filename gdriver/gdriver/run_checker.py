@@ -124,6 +124,7 @@ class RunChecker:
         # ---- 2) Non-zero rc, but may still be usable for profiling ----
         if rc not in self.default_ok_rc:
             if self._matches_any(stderr_lower, self.USAGE_FAILURE_PATTERNS):
+                print(stderr_lower)
                 return self._make_result(
                     RunStatus.SOFT_FAIL, "usage_error", rc, stderr_lower
                 )

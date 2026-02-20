@@ -329,11 +329,21 @@ static inline void fcov_record_func(func_coverage_t* fcov, uintptr_t faddr) {
     }
 }
 
+
+static inline uintptr_t pc_to_func_entry(uintptr_t pc) {
+  Dl_info info;
+  if (dladdr((void*)pc, &info) && info.dli_saddr) {
+    return (uintptr_t)info.dli_saddr;   // function entry (best-effort)
+  }
+  return pc;
+}
+
 static inline void fcov_record(uintptr_t caller,
                                uintptr_t callee) {
     func_coverage_t* fcov = g_fcov;
     if (!fcov || fcov->block_writes || !callee) return;
 
+    caller = pc_to_func_entry(caller);
     uint64_t edgeKey = fcov_make_edge_key(caller, callee);
     fcov_record_edge(fcov, edgeKey);
     fcov_record_func(fcov, callee);

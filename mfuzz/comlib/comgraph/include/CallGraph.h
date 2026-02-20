@@ -64,7 +64,7 @@ public:
 
 public: 
     unsigned HitNum;
-    uint64_t Key;
+    vector<uint64_t> Keys;
 
 private:
     boost::dynamic_bitset<> DriverIdMask;
@@ -465,6 +465,12 @@ public:
 
         NdLabel +=  " (blocks=" + to_string(Node->BlockNum) + ")";
 
+        std::stringstream ss;
+        ss << " (Key=0x" << std::hex << Node->Key << ")";
+        NdLabel += ss.str();
+
+        NdLabel += " (HitNum=" + to_string(Node->HitNum) + ")";
+
         return NdLabel;
     }
 
@@ -501,6 +507,22 @@ public:
             ss << "(mask=" << mask << ")";
             edgeLabel = ss.str();
         }
+
+        if (!Edge->Keys.empty()) {
+            std::ostringstream oss;
+            oss << " (Key=";
+            for (size_t i = 0; i < Edge->Keys.size(); ++i) {
+                if (i > 0) oss << ",";
+                oss << "0x" << std::hex << Edge->Keys[i];
+            }
+            oss << ")";
+            edgeLabel += oss.str();
+        } 
+        else {
+            edgeLabel += " (Key=)";
+        }
+
+        edgeLabel += " (HitNum=" + to_string(Edge->HitNum) + ")";
 
         return edgeLabel;
     }

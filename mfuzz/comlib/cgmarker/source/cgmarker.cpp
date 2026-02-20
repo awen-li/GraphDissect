@@ -307,3 +307,25 @@ void CgMarker::dumpFunctoIdMap(const string& outPath)
     }
 }
 
+void CgMarker::setNodeKey(const string& FName, uint32_t FAddr)
+{
+    CGNode* node = wholeCg.GetNode(FName);
+    if (node) {
+        node->Key = FAddr;
+    }
+}
+
+void CgMarker::setEdgeKey(const string& srcFName, const string& dstFName, uint32_t retAddr)
+{
+    CGNode* srcNode = wholeCg.GetNode(srcFName);
+    CGNode* dstNode = wholeCg.GetNode(dstFName);
+
+    for (auto eItr = srcNode->OutEdgeBegin(); eItr != srcNode->OutEdgeEnd(); eItr++) {
+        CGEdge* edge = *eItr;
+        if (edge->GetDstNode() == dstNode) {
+            uint64_t edgeKey =  static_cast<uint64_t>(retAddr) << 32 | dstNode->Key;
+            edge->Keys.push_back(edgeKey);
+            return;
+        }
+    }
+}

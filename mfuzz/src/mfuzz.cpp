@@ -157,10 +157,8 @@ double MFuzz::fuzz_one_unit(const std::vector<unsigned>& driver_list, double tim
 
     unsigned interval = 0;
     while (!stopped && escape < time_budget) {
-        std::this_thread::sleep_for(
-            std::chrono::milliseconds(static_cast<int>(1 * 1000))
-            );
-        
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+          
         interval++;
         if (interval < switch_interval) {
             continue;
@@ -174,7 +172,10 @@ double MFuzz::fuzz_one_unit(const std::vector<unsigned>& driver_list, double tim
 
         double start_time = UTIL::getCurrentTimeSec();
         scheduler->setActiveDriver(active_driver);
-        escape += UTIL::getCurrentTimeSec() - start_time;
+        double drv_switch_cost = UTIL::getCurrentTimeSec() - start_time;
+        escape += drv_switch_cost;
+
+        logDriverSwitchCost(drv_switch_cost);
     }
 
     // log the coverage of this fuzzing unit: timestammp + number of covered funcs

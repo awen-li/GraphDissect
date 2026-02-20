@@ -32,6 +32,9 @@ public:
         mfuzz_logfile = bench_path + "/mfuzz_f_coverage.log";
         std::error_code ec;
         fs::remove(mfuzz_logfile, ec);
+
+        mfuzz_drv_switch_logfile = bench_path + "/mfuzz_drv_switch_cost.log";
+        fs::remove(mfuzz_drv_switch_logfile, ec);
     }
 
     ~MFuzz() 
@@ -96,8 +99,11 @@ private:
     bool stopped;
     std::string mfuzz_logfile;
 
+    std::string mfuzz_drv_switch_logfile;
+    unsigned drv_switch_count = 0;
+
 private:
-    void logCoverage(const std::set<unsigned>& covered_funcs)
+    inline void logCoverage(const std::set<unsigned>& covered_funcs)
     {
         // get current timestamp (seconds since epoch)
         auto now = std::chrono::system_clock::now();
@@ -111,5 +117,17 @@ private:
         }
 
         ofs << ts << "," << covered_funcs.size() << "\n";
+    }
+
+    inline void logDriverSwitchCost(double drv_switch_cost)
+    {
+        drv_switch_count++;
+        std::ofstream ofs(mfuzz_drv_switch_logfile, std::ios::out | std::ios::app);
+        if (!ofs.is_open()) {
+            // optional: handle error
+            return;
+        }
+
+        ofs << drv_switch_count << ":" << drv_switch_cost << "\n";
     }
 };

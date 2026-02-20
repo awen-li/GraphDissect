@@ -35,7 +35,7 @@ function wllvm_compile ()
 	make -j4
 	cd -
 	
-	handle_executable build/xpdf $executables
+	handle_executable build/xpdf "${executables[@]}"
 }
 
 function hfuzz_compile ()
@@ -50,7 +50,7 @@ function hfuzz_compile ()
 	make -j4
 	cd -
 
-	copy_executable build/xpdf $executables
+	copy_executable build/xpdf "${executables[@]}"
 }
 
 

@@ -147,4 +147,12 @@ std::string abs_path(const std::string& in)
     }
 }
 
+double getCurrentTimeSec() 
+{
+    using clock = std::chrono::steady_clock;
+    static const auto t0 = clock::now();
+    const auto now = clock::now();
+    return std::chrono::duration<double>(now - t0).count();
+}
+
 }

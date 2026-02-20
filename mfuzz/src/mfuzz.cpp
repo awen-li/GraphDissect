@@ -171,7 +171,10 @@ double MFuzz::fuzz_one_unit(const std::vector<unsigned>& driver_list, double tim
 
         driver_index = (driver_index + 1) % driver_list.size();
         active_driver = driver_list[driver_index];
+
+        double start_time = UTIL::getCurrentTimeSec();
         scheduler->setActiveDriver(active_driver);
+        escape += UTIL::getCurrentTimeSec() - start_time;
     }
 
     // log the coverage of this fuzzing unit: timestammp + number of covered funcs

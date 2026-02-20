@@ -169,7 +169,7 @@ function copy_executable ()
         fi
 
 		# Generate function address to ID mappingAdd commentMore actions
-        FAddr2Gid --bench "$benchpath" --binary "$executable"
+        cgx --bench "$benchpath" --binary "$executable"
 	done
 }
 

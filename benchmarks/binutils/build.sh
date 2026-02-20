@@ -60,7 +60,7 @@ function wllvm_compile ()
 	make -j4
 	cd ..
 
-	handle_executable $build_dir/binutils $executables
+	handle_executable $build_dir/binutils "${executables[@]}"
 }
 
 function hfuzz_compile ()
@@ -82,7 +82,7 @@ function hfuzz_compile ()
 	make -j4
 	cd -
 
-	copy_executable $build_dir/binutils $executables
+	copy_executable $build_dir/binutils "${executables[@]}"
 }
 
 

@@ -290,23 +290,6 @@ void CgMarker::reportDriverGraph(std::ostream& os,
     }
 }
 
-void CgMarker::dumpFunctoIdMap(const string& outPath)
-{
-    std::ofstream ofs(outPath);
-    if (!ofs) {
-        std::cerr << "WARN: failed to open " << outPath << " for writing.\n";
-        return;
-    }
-
-    for (auto itr = wholeCg.begin(); itr != wholeCg.end(); ++itr) {
-        CGNode* node = itr->second;
-        unsigned nodeId = node->GetId();
-        const string& fname = node->GetFName();
-
-        ofs << fname << ":" << nodeId << "\n";
-    }
-}
-
 void CgMarker::setNodeKey(const string& FName, uint32_t FAddr)
 {
     CGNode* node = wholeCg.GetNode(FName);

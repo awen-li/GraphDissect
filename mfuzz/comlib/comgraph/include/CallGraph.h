@@ -20,6 +20,7 @@ class CGEdge : public GenericEdge<CGNode>
 public:
     CGEdge(CGNode* s, CGNode* d):GenericEdge<CGNode>(s, d)                       
     {
+        HitNum = 0;
     }
 
     virtual ~CGEdge() 
@@ -83,8 +84,11 @@ public:
 public:
     CGNode(DWORD Id, string FName): GenericNode<CGEdge>(Id), FuncName(FName)
     {
-        Depth = 0;
+        Depth    = 0;
         BlockNum = 0;
+        HitNum   = 0;
+        Key      = 0;
+        lastHit  = 0;
     }
 
     inline string GetFName ()

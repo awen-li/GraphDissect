@@ -2,6 +2,7 @@ import os
 import re
 from collections import defaultdict
 import subprocess
+from tqdm import tqdm
 import cgxmarker
 
 CALL_RE = re.compile(
@@ -40,26 +41,27 @@ class CgxMap:
     def __init__(self, bench: str, binary: str):
         self.bench_path  = bench
         self.binary_path = os.path.join(bench, binary)
+
         cgxmarker.initMarker(self.bench_path)
+        self.functions = cgxmarker.getAllFunctions()
 
     def update_cgmap(self):
-        func_to_id, func_to_ids = self.load_function_id_map()
-        if func_to_id is None:
-            return None
-
         # parse functions
-        self.parse_functions(func_to_id)
+        print("CGX: parsing functions...")
+        self.parse_functions(self.functions)
 
         # parse callsites
-        self.parse_callsites(func_to_id)
+        print("CGX: parsing callsites...")
+        self.parse_callsites(self.functions)
 
         # dump graph
+        print("CGX: dumping graph...")
         cgxmarker.dumpGraph()
         return True
 
-    def parse_functions(self, func_to_id):
+    def parse_functions(self, functions):
         """
-        Parse function addresses using `nm` and set node keys for functions in func_to_id.
+        Parse function addresses using `nm` and set node keys for functions in functions.
         Assumes non-stripped binary.
         """
         # nm output: "00000000004010b0 T foo"
@@ -85,7 +87,7 @@ class CgxMap:
             name2addr[name] = addr
 
         # update node keys only for functions in callgraph
-        for fn in func_to_id.keys():
+        for fn in functions:
             fname = fn
             if "." in fn:
                 fname = fn.rsplit(".", 1)[0]
@@ -93,13 +95,14 @@ class CgxMap:
             addr = name2addr.get(fname)
             if addr is None:
                 continue
-            
+
             cgxmarker.setNodeKey(fn, addr)
 
         return
 
-    def parse_callsites(self, func_to_id):
-        for fn in func_to_id.keys():
+    def parse_callsites(self, functions):
+        funcs = list(functions)
+        for fn in tqdm(funcs, desc="Parsing callsites", unit="func"):
             fname = fn
             if "." in fn:
                 fname = fn.rsplit(".", 1)[0]
@@ -118,7 +121,7 @@ class CgxMap:
                     continue
 
                 # Only keep callees that are in your callgraph set
-                if callee in func_to_id:
+                if callee in functions:
                     direct_callees.add(callee)
                     cgxmarker.setEdgeKey(fn, callee, retsite)
 
@@ -128,39 +131,3 @@ class CgxMap:
                 for retsite in indirect_retsites:
                     cgxmarker.setEdgeKey(fn, callee, retsite)
         
-
-    def load_function_id_map(self):
-        """
-        Loads the function name to ID mapping from `function_id.map`.
-
-        Returns:
-            func_to_id:  dict[str, int]
-            func_to_ids: dict[str, list[int]] (stripped name -> list of IDs)
-        """
-        func_to_ids = defaultdict(list)
-        func_to_id  = {}
-
-        path = os.path.join(self.bench_path, "function_id.map")
-        try:
-            with open(path, "r") as f:
-                for line in f:
-                    line = line.strip()
-                    if not line or ':' not in line:
-                        continue
-                    name, id_str = line.split(":", 1)
-
-                    try:
-                        fid = int(id_str)
-                        func_to_id[name] = fid
-
-                        # conservative mapping for names like fft1024.21526 -> fft1024
-                        if "." in name:
-                            real_name = name.rsplit(".", 1)[0]
-                            func_to_ids[real_name].append(fid)
-                    except ValueError:
-                        continue
-        except FileNotFoundError:
-            print(f"[!] File not found: {path}")
-            return None, None
-
-        return func_to_id, func_to_ids

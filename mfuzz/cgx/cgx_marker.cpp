@@ -22,6 +22,22 @@ PyObject* initMarker(PyObject *self, PyObject *args) {
     Py_RETURN_TRUE;
 }
 
+PyObject* getAllFunctions(PyObject *self, PyObject *args) {
+    if (g_marker == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "Marker not initialized");
+        Py_RETURN_FALSE;
+    }
+
+    CGGraph* wCg = g_marker->getWholeCg();
+    PyObject* pyList = PyList_New(wCg->GetNodeNum());
+    size_t index = 0;
+    for (auto itr = wCg->begin(); itr != wCg->end(); ++itr) {
+        CGNode* node = itr->second;
+        PyList_SetItem(pyList, index++, PyUnicode_FromString(node->GetFName().c_str()));
+    }
+    return pyList;
+}
+
 PyObject* setNodeKey(PyObject *self, PyObject *args) {
     char* FName;
     uint32_t FAddr;
@@ -104,6 +120,7 @@ PyObject* getCallees(PyObject *self, PyObject *args) {
 
 static PyMethodDef markMethods[] = {
     {"initMarker",      initMarker, METH_VARARGS, "Initialize the marker with a bench path"},
+    {"getAllFunctions", getAllFunctions, METH_VARARGS, "Get all functions in the call graph"},
     {"setNodeKey",      setNodeKey, METH_VARARGS, "Set node key for profiling"},
     {"setEdgeKey",      setEdgeKey, METH_VARARGS, "Set edge key for profiling"},
     {"getCallees",      getCallees, METH_VARARGS, "Get callees for a function"},

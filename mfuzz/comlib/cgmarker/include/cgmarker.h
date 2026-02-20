@@ -30,14 +30,16 @@ public:
     void reportGlobalStats(std::ostream& os = std::cout);
     void reportPerDriverStats(std::ostream& os = std::cout, std::string drvIDs="");
     void reportDriverGraph(std::ostream& os,
+                           const std::string& drvIDs,
+                           const std::string& functions,
                            const std::string& outDir=".");
 
     void dump(string markGraph="marked_callgraph");
 
     void markGraph(CGGraph* drvCg, unsigned drvId);
+    void markNode(unsigned nodeId, unsigned drvId);
     float computeDriverScore(CGGraph* drvCg, unsigned drvId);
 
-    void genFuncIdMap();
     void setNodeKey(const string& FName, uint32_t FAddr);
     void setEdgeKey(const string& srcFName, const string& dstFName, uint32_t retAddr);
 

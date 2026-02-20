@@ -61,6 +61,17 @@ void CgMarker::dump(string markGraph) {
 }
 
 
+void CgMarker::markNode(unsigned nodeId, unsigned drvId) {
+    CGNode* wholeNode = wholeCg.GetGNode(nodeId);
+    if (!wholeNode) {
+        //std::cerr << "[!] Missing node in wholeCg: " << nodeId << "\n";
+        return;
+    }
+    wholeNode->SetDriverIdMask(drvId);
+    return;
+}
+
+
 void CgMarker::markGraph(CGGraph* drvCg, unsigned drvId) {
     std::lock_guard<std::mutex> lock(cg_mutex); 
     
@@ -146,6 +157,28 @@ static std::set<unsigned> parseDriverIdSet(const std::string& drvIDs) {
     }
 
     return idSet;
+}
+
+static std::set<std::string> parseFunctionSet(const std::string& functions) {
+    std::set<std::string> fSet;
+
+    // Replace commas with spaces to unify separators
+    std::string normalized = functions;
+    std::replace(normalized.begin(), normalized.end(), ',', ' ');
+
+    std::stringstream ss(normalized);
+    std::string token;
+
+    while (ss >> token) {  // automatically skips repeated spaces
+        try {
+            std::string f = token;
+            fSet.insert(f);
+        } catch (...) {
+            // ignore non-numeric tokens if any malformed input
+        }
+    }
+
+    return fSet;
 }
 
 
@@ -236,10 +269,14 @@ void CgMarker::reportPerDriverStats(std::ostream& os, std::string drvIDs) {
 // In cgmarker.cpp
 
 void CgMarker::reportDriverGraph(std::ostream& os,
+                                 const std::string& drvIDs,
+                                 const std::string& functions,
                                  const std::string& outDir /* = "." */) 
 {
     // Per-driver node lists
     std::map<unsigned, std::vector<CGNode*> > driverNodes;
+
+    std::set<std::string> functionSet = parseFunctionSet(functions);
 
     for (auto itr = wholeCg.begin(); itr != wholeCg.end(); ++itr) {
         CGNode* node = itr->second;
@@ -287,6 +324,30 @@ void CgMarker::reportDriverGraph(std::ostream& os,
                 ofs << n->GetFName() << '\n';
             }
         }
+    }
+
+    // get a merge set of nodes for the drivers specified
+    std::set<unsigned> idSet = parseDriverIdSet(drvIDs);
+    std::set<CGNode*> mergedNodes;
+    for (unsigned drvId : idSet) {
+        const auto& nodes = driverNodes[drvId];
+        for (CGNode* node : nodes) {
+            mergedNodes.insert(node);
+        }
+    }  
+    printf("there are total %u functions in the merged driver graph\n", (unsigned)mergedNodes.size());
+
+    // dump function covered info
+    for (auto f: functionSet) {
+        std::string fname = f;
+        CGNode* node = wholeCg.GetNode(fname);
+        if (node == nullptr) {
+            os << "Function " << fname << " not found in call graph.\n";
+            continue;
+        }
+
+        const auto& mask = node->GetDriverIdMask();
+        printf("Function %s is covered by %u drivers: \r\n", fname.c_str(), (unsigned)mask.count());
     }
 }
 

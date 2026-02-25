@@ -12,7 +12,7 @@ class RQ1Contribution(Analyzer):
     description = "RQ1: per-driver function/block coverage and bug discovery contributions"
 
     def __init__(self):
-        self.func_cov: Dict[int, Set[str]] = {}
+        self.cg_cov: Dict[int, Set[str]] = {}
         self.block_cov: Dict[int, int] = {}
         self.bug_cnt: Dict[int, int] = {}
 
@@ -22,8 +22,8 @@ class RQ1Contribution(Analyzer):
         bench_name = exe_dir.parent.name
         exe_name = exe_dir.name
 
-        # (1) function coverage
-        self.func_cov = self._compute_function_coverage(g)
+        # (1) callgraph coverage
+        self.cg_cov = self._compute_callgraph_coverage(g)
 
         # (2) block/edge coverage
         self.block_cov = self._compute_block_coverage(exe_dir, g)
@@ -52,7 +52,8 @@ class RQ1Contribution(Analyzer):
         for drv_id in g.drvList.keys():
             # a tuple of (node_list, edge_list)
             cov_functions, cov_edges = g.get_driver_graph(drv_id)
-            out[int(drv_id)] = set(map(str, cov_functions))
+            out[int(drv_id)] = (set(map(str, cov_functions)),
+                                set(map(str, cov_edges)))
         return out
 
     # ----------------------------
@@ -116,7 +117,8 @@ class RQ1Contribution(Analyzer):
                 "exe": exe_name,
                 "driver_id": int(drv_id),
                 "driver_name": drv_name,
-                "func_own": len(self.func_cov.get(int(drv_id), set())),
+                "cg_node_own": len(self.cg_cov.get(int(drv_id), (set(), set()))[0]),
+                "cd_edge_own": len(self.cg_cov.get(int(drv_id), (set(), set()))[1]),
                 "block_own": int(self.block_cov.get(int(drv_id), 0)),
                 "bug_count": int(self.bug_cnt.get(int(drv_id), 0)),
             })

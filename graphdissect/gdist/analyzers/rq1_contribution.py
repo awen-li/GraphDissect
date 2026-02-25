@@ -42,9 +42,9 @@ class RQ1Contribution(Analyzer):
         })
 
     # ----------------------------
-    # (1) Function coverage
+    # (1) callgraph coverage
     # ----------------------------
-    def _compute_function_coverage(self, g) -> Dict[int, Set[str]]:
+    def _compute_callgraph_coverage(self, g) -> Dict[int, Set[str]]:
         """
         get per-driver function coverage from final_marked_callgraph.dot.
         """

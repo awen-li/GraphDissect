@@ -380,7 +380,8 @@ protected:
         std::string numStr = s.substr(p, q - p);
         if (numStr.empty()) return 0;
 
-        return (unsigned)stoi(numStr);
+        unsigned long v = std::stoul(numStr);
+        return static_cast<unsigned>(v);
     }
 
     void ParseDotAif(GraphType& graph) 

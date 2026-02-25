@@ -135,7 +135,8 @@ class RQ1Contribution(Analyzer):
             "exe": exe_name,
             "exe_dir": str(exe_dir),
             "num_drivers": int(len(df_drivers)),
-            "sum_func_own": int(df_drivers["func_own"].sum()) if not df_drivers.empty else 0,
+            "sum_cg_node_own": int(df_drivers["cg_node_own"].sum()) if not df_drivers.empty else 0,
+            "sum_cd_edge_own": int(df_drivers["cd_edge_own"].sum()) if not df_drivers.empty else 0,
             "sum_block_own": int(df_drivers["block_own"].sum()) if not df_drivers.empty else 0,
             "sum_bug_count": int(df_drivers["bug_count"].sum()) if not df_drivers.empty else 0
         }])

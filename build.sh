@@ -8,9 +8,7 @@ apt install libjson-c-dev
 
 if [ "$Action" == "clean" ]; then
 	cd $BASE_DIR/honggfuzz && make clean
-
-	rm -rf $BASE_DIR/fuzzpilot/build
-	rm -rf $BASE_DIR/fuzzpilot/FuzzPilot.egg*
+	rm -rf $BASE_DIR/graphdissect/*egg-info*
 
 	cd $BASE_DIR/SVF
 	if [ -d "Release-build" ]; then rm -rf Release-build z3.obj; fi
@@ -24,7 +22,6 @@ fi
 # 1. build honggfuzz
 cd $BASE_DIR/honggfuzz && make
 
-
 # 2. build SVF
 cd $BASE_DIR/SVF
 if [ -d "Release-build" ]; then
@@ -37,4 +34,8 @@ fi
 cd $BASE_DIR/mfuzz/comlib && make clean && make
 cd $BASE_DIR/mfuzz && ./build.sh && cd $BASE_DIR
 cd $BASE_DIR/mfuzz && pip install .
+
+# 4. build graphdissect
+cd $BASE_DIR/graphdissect && pip install .
+cd $BASE_DIR/graphdissect/gdriver && pip install .
 

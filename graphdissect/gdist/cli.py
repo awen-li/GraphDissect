@@ -9,6 +9,8 @@ from gdist.benchs import Suite
 from gdist.analyzers.analyzer import AnalysisContext
 from gdist import analyzers 
 from gdist.analyzers import all_analyzers, select
+from gdist.present import Present
+from gdist.present.rq1_present import RQ1Present
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -26,8 +28,13 @@ def build_parser() -> argparse.ArgumentParser:
     a = sub.add_parser("analyze", help="Run analyzers on a directory of a bench")
     a.add_argument("--suite", type=Path, required=True)
     a.add_argument("--analyzers", type=str, nargs="+", required=False, help="analyzers to run (default: all)")
-    return p
 
+    # present command
+    pt = sub.add_parser("present", help="Run presenter to generate tables/figures for paper")
+    pt.add_argument("--suite", type=Path, required=True)
+    pt.add_argument("--analyzers", type=str, nargs="+", required=False, help="analyzers to run (default: all)")
+
+    return p
 
 def cmd_list() -> int:
     for an in all_analyzers():
@@ -64,6 +71,14 @@ def cmd_analyze(args: argparse.Namespace) -> int:
 
     return 0
 
+def cmd_present(args: argparse.Namespace) -> int:
+    suite = Suite(args.suite)
+    suite_root = suite.suitPath
+
+    if "rq1" in getattr(args, "analyzers", []) or getattr(args, "analyzers", None) == None:
+        p = RQ1Present(suite_root)
+        print(f"Running presenter: {p.name}")
+        p.run()
 
 def main(argv: list[str] | None = None) -> int:
     p = build_parser()
@@ -74,6 +89,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "list-benches":
         return cmd_list_benches(args)
+
+    if args.cmd == "present":
+        return cmd_present(args)
 
     if args.cmd == "analyze":
         return cmd_analyze(args)

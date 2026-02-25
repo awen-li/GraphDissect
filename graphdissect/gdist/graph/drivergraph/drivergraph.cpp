@@ -63,9 +63,27 @@ PyObject* getDriverGraph(PyObject *self, PyObject *args) {
     return result;
 }
 
+PyObject* getGraphCov(PyObject *self, PyObject *args) {
+    if (subCgMarker == NULL) {
+        Py_RETURN_NONE;
+    }
+
+    unsigned covNodes = 0;
+    unsigned covEdges = 0;
+    subCgMarker->getGraphCov(covNodes, covEdges);
+
+    // Return a tuple of (covNodes, covEdges)
+    PyObject* result = PyTuple_New(2);
+    PyTuple_SetItem(result, 0, PyLong_FromUnsignedLong(covNodes));
+    PyTuple_SetItem(result, 1, PyLong_FromUnsignedLong(covEdges));
+
+    return result;
+}
+
 static PyMethodDef markMethods[] = {
     {"init",          initMaker, METH_VARARGS, "Init graph marker module"},
     {"getDriverGraph",getDriverGraph, METH_VARARGS, "Get driver graph for a given driver ID"},
+    {"getGraphCov",   getGraphCov, METH_VARARGS, "Get overall graph coverage"},
     {NULL, NULL, 0, NULL}
 };
 

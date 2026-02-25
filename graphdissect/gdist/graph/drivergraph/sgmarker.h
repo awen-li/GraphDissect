@@ -29,6 +29,7 @@ public:
     void reportPerDriverStats();
 
     void getDriverGraph(unsigned driverId, set<CGNode*>& drvNodes);
+    void getGraphCov(unsigned& covNodes, unsigned& covEdges);
 
 };
 

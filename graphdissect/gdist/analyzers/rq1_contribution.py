@@ -146,7 +146,7 @@ class RQ1Contribution(Analyzer):
             return pd.DataFrame(columns=["metric", "bench", "exe", "driver_id", "driver_name", "value"])
 
         frames: List[pd.DataFrame] = []
-        for metric in ["func_own", "block_own", "bug_count"]:
+        for metric in ["cg_node_own", "cd_edge_own", "block_own", "bug_count"]:
             t = df_drivers.sort_values(metric, ascending=False).head().copy()
             t = t[["bench", "exe", "driver_id", "driver_name", metric]]
             t = t.rename(columns={metric: "value"})

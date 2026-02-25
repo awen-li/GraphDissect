@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+hdf5,h5dump,<= 10,12,0.0,2.0,0.5
+hdf5,h5dump,11–25,0,,,
+hdf5,h5dump,26–50,0,,,
+hdf5,h5dump,51–100,0,,,
+hdf5,h5dump,101–200,0,,,
+hdf5,h5dump,201–500,0,,,
+hdf5,h5dump,501–1000,0,,,
+hdf5,h5dump,> 1000,0,,,

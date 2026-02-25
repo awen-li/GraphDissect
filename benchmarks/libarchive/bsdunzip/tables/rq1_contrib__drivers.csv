@@ -1,0 +1,14 @@
+bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
+libarchive,bsdunzip,1,1_l,178,374,714,0
+libarchive,bsdunzip,2,2_t,217,468,343,0
+libarchive,bsdunzip,3,3_p,221,478,81,0
+libarchive,bsdunzip,4,4_o,227,490,79,0
+libarchive,bsdunzip,5,5_n,225,485,20,0
+libarchive,bsdunzip,6,6_q,226,485,13,0
+libarchive,bsdunzip,7,7_v,178,374,7,0
+libarchive,bsdunzip,8,8_Z1,178,374,18,0
+libarchive,bsdunzip,9,9_d_out,223,482,26,0
+libarchive,bsdunzip,10,10_x_txt,230,491,22,0
+libarchive,bsdunzip,11,11_x,230,491,18,0
+libarchive,bsdunzip,12,12_O_UTF_8,229,493,42,0
+libarchive,bsdunzip,13,13_I_UTF_8,229,493,11,0

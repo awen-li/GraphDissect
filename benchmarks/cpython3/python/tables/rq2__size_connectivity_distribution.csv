@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+cpython3,python,<= 10,23,0.0,2.0,0.5
+cpython3,python,11–25,0,,,
+cpython3,python,26–50,0,,,
+cpython3,python,51–100,0,,,
+cpython3,python,101–200,0,,,
+cpython3,python,201–500,0,,,
+cpython3,python,501–1000,0,,,
+cpython3,python,> 1000,0,,,

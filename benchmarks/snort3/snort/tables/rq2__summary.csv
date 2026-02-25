@@ -1,0 +1,2 @@
+bench,exe,exe_dir,num_drivers,nodes_min,nodes_median,nodes_max,density_median,num_cc_median,lcc_ratio_median
+snort3,snort,/root/GraphDissect/benchmarks/snort3/snort,9,2,2.0,2,0.0,2.0,0.5

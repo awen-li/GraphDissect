@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+sqlite3,sqlite3,<= 10,48,0.0,2.0,0.5
+sqlite3,sqlite3,11–25,0,,,
+sqlite3,sqlite3,26–50,0,,,
+sqlite3,sqlite3,51–100,0,,,
+sqlite3,sqlite3,101–200,0,,,
+sqlite3,sqlite3,201–500,0,,,
+sqlite3,sqlite3,501–1000,0,,,
+sqlite3,sqlite3,> 1000,0,,,

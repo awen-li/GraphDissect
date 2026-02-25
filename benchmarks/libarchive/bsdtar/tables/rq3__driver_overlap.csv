@@ -1,0 +1,16 @@
+bench,exe,driver_id,driver_name,func_total,edges_total,edges_delta,avg_iou,max_iou,num_pairs
+libarchive,bsdtar,1,1_t,2,2136,3,0.0,0.0,14
+libarchive,bsdtar,2,2_x,2,948,114,0.0,0.0,14
+libarchive,bsdtar,3,3_c,2,4,0,0.0,0.0,14
+libarchive,bsdtar,4,4_f,2,2,0,0.5,1.0,14
+libarchive,bsdtar,5,5_z,2,1,0,0.5,1.0,14
+libarchive,bsdtar,6,6_j,2,1,0,0.5,1.0,14
+libarchive,bsdtar,7,7_J,2,1,0,0.5,1.0,14
+libarchive,bsdtar,8,8_lzma,2,9,0,0.5,1.0,14
+libarchive,bsdtar,9,9_format_ustar,2,3,0,0.21428571428571427,1.0,14
+libarchive,bsdtar,10,10_format_pax,2,0,0,0.21428571428571427,1.0,14
+libarchive,bsdtar,11,11_format_cpio,2,0,0,0.21428571428571427,1.0,14
+libarchive,bsdtar,12,12_format_shar,2,0,0,0.21428571428571427,1.0,14
+libarchive,bsdtar,13,13_v,2,1,0,0.5,1.0,14
+libarchive,bsdtar,14,14_O,2,1,0,0.5,1.0,14
+libarchive,bsdtar,15,15_m,2,1,0,0.5,1.0,14

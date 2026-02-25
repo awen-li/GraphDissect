@@ -1,0 +1,6 @@
+bench,exe,x,y,pearson_r
+ffmpeg,ffmpeg,avg_iou,edges_delta,-0.9035624609139908
+ffmpeg,ffmpeg,avg_iou,func_total,0.0
+ffmpeg,ffmpeg,max_iou,edges_delta,-0.9035624609139908
+ffmpeg,ffmpeg,max_iou,func_total,0.0
+ffmpeg,ffmpeg,growth_proxy,edges_delta,0.0

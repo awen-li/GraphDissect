@@ -1,0 +1,6 @@
+bench,exe,x,y,pearson_r
+sleuthkit,img_stat,avg_iou,edges_total,-0.5397512886870293
+sleuthkit,img_stat,avg_iou,func_total,0.0
+sleuthkit,img_stat,max_iou,edges_total,-0.6345328023993604
+sleuthkit,img_stat,max_iou,func_total,0.0
+sleuthkit,img_stat,growth_proxy,edges_total,0.0

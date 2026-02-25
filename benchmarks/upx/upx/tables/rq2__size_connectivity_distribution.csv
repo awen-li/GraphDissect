@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+upx,upx,<= 10,22,0.0,2.0,0.5
+upx,upx,11–25,0,,,
+upx,upx,26–50,0,,,
+upx,upx,51–100,0,,,
+upx,upx,101–200,0,,,
+upx,upx,201–500,0,,,
+upx,upx,501–1000,0,,,
+upx,upx,> 1000,0,,,

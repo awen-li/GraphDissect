@@ -1,0 +1,2 @@
+bench,exe,num_pairs,iou_min,iou_p25,iou_median,iou_p75,iou_p90,iou_p99,iou_max,share_iou_ge_0_5,share_iou_ge_0_8
+ffmpeg,ffmpeg,171,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.7017543859649122,0.7017543859649122

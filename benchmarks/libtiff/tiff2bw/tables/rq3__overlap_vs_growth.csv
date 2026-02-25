@@ -1,0 +1,6 @@
+bench,exe,x,y,pearson_r
+libtiff,tiff2bw,avg_iou,edges_delta,0.34156502553198664
+libtiff,tiff2bw,avg_iou,func_total,0.0
+libtiff,tiff2bw,max_iou,edges_delta,0.16666666666666669
+libtiff,tiff2bw,max_iou,func_total,0.0
+libtiff,tiff2bw,growth_proxy,edges_delta,0.0

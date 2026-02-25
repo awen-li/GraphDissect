@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+libarchive,bsdunzip,<= 10,13,0.0,2.0,0.5
+libarchive,bsdunzip,11–25,0,,,
+libarchive,bsdunzip,26–50,0,,,
+libarchive,bsdunzip,51–100,0,,,
+libarchive,bsdunzip,101–200,0,,,
+libarchive,bsdunzip,201–500,0,,,
+libarchive,bsdunzip,501–1000,0,,,
+libarchive,bsdunzip,> 1000,0,,,

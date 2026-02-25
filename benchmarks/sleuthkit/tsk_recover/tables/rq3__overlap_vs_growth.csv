@@ -1,0 +1,6 @@
+bench,exe,x,y,pearson_r
+sleuthkit,tsk_recover,avg_iou,edges_total,0.0
+sleuthkit,tsk_recover,avg_iou,func_total,0.0
+sleuthkit,tsk_recover,max_iou,edges_total,0.0
+sleuthkit,tsk_recover,max_iou,func_total,0.0
+sleuthkit,tsk_recover,growth_proxy,edges_total,0.0

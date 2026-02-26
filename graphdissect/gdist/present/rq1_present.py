@@ -14,13 +14,18 @@ class RQ1Present(Present):
     """
     RQ1 (final-only): Driver effectiveness under equal time budgets.
 
-    Input per benchmark tables_dir:
-      - rq1_contrib__drivers.csv
-        columns (observed):
-          bench, exe, driver_id, driver_name,
-          cg_node_own, cd_edge_own, block_own, bug_count
+    IMPORTANT (design choice):
+      - We only use CFG-derived coverage for RQ1 (e.g., block coverage),
+        because call-graph-derived metrics can heavily overlap and do not
+        faithfully represent per-driver discovered behavior.
 
-    Outputs:
+    Expected input (per benchmark tables_dir):
+      - rq1_contrib__drivers.csv
+        observed columns:
+          bench, exe, driver_id, driver_name,
+          block_own, bug_count
+
+    Outputs (written to presenter output dir):
       - rq1_present__summary.csv
       - rq1_present__topk_curve.csv
       - rq1_present__cdf.csv
@@ -38,25 +43,25 @@ class RQ1Present(Present):
     # IO helpers
     # -----------------------
     def _get_out_dir(self) -> Path:
-        return self.out_dir
+        for attr in ("out_dir", "output_dir", "present_dir", "results_dir"):
+            p = getattr(self, attr, None)
+            if p is not None:
+                return Path(p)
+        return Path.cwd()
 
     def _write_csv(self, fname: str, df: pd.DataFrame) -> None:
         out_dir = self._get_out_dir()
         out_dir.mkdir(parents=True, exist_ok=True)
         df.to_csv(out_dir / fname, index=False)
 
-    def _load_driver_df(self, bt: "BenchTables") -> pd.DataFrame:
-        return pd.read_csv(Path(bt.tables_dir) / "rq1_contrib__drivers.csv")
+    def _load_driver_df(self, bench_dr) -> pd.DataFrame:
+        return pd.read_csv(Path(bench_dr) / "tables/rq1_contrib__drivers.csv")
 
     # -----------------------
     # Curves
     # -----------------------
     def _topk_curve(self, arr: np.ndarray) -> pd.DataFrame:
-        """
-        Top-k cumulative contribution curve:
-          x = fraction of drivers used (sorted desc)
-          y = cumulative fraction of total contribution
-        """
+        """Top-k cumulative contribution curve (sorted desc)."""
         x = np.asarray(arr, dtype=np.float64)
         x = x[~np.isnan(x)]
         if x.size == 0:
@@ -73,16 +78,11 @@ class RQ1Present(Present):
         return pd.DataFrame({"x": xs, "y": ys})
 
     def _cdf_curve(self, arr: np.ndarray) -> pd.DataFrame:
-        """
-        True CDF of values:
-          x = value
-          y = fraction of drivers with value <= x
-        """
+        """True CDF of values."""
         x = np.asarray(arr, dtype=np.float64)
         x = x[~np.isnan(x)]
         if x.size == 0:
             return pd.DataFrame({"x": [0.0], "y": [0.0]})
-
         x = np.sort(x)
         y = np.arange(1, x.size + 1, dtype=np.float64) / float(x.size)
         return pd.DataFrame({"x": x, "y": y})
@@ -96,7 +96,6 @@ class RQ1Present(Present):
         if x.size == 0:
             return float("nan")
 
-        # shift if negative (shouldn't happen, but robust)
         mn = float(np.min(x))
         if mn < 0:
             x = x - mn
@@ -112,9 +111,8 @@ class RQ1Present(Present):
 
     def _summarize_metric(self, v: np.ndarray) -> Dict[str, float]:
         """
-        Summary for one metric within one benchmark.
-
-        We KEEP zeros because "%zero" is an important finding for RQ1.
+        Keep zeros: pct_zero is a key RQ1 observation.
+        Tail: pct_lt_5pct_of_max uses < 5% of best driver within the benchmark.
         """
         x = np.asarray(v, dtype=np.float64)
         x = x[~np.isnan(x)]
@@ -188,51 +186,50 @@ class RQ1Present(Present):
         cdf_frames: List[pd.DataFrame] = []
         top_rows: List[dict] = []
 
-        # Metrics available in rq1_contrib__drivers.csv
-        metrics = [
-            ("cg_node_own", "cg_node_own"),
-            ("cd_edge_own", "cd_edge_own"),
-            ("block_own", "block_own")
+        # RQ1 metrics (CFG only) + crashes
+        # - block_own: CFG basic-block coverage/contribution
+        # - bug_count: crash count
+        # Optional future extensions: cfg_edge_own / edge_own if you add them.
+        candidate_metrics = [
+            ("block_own", ["block_own", "bb_own", "block_cov", "bb_cov"]),
+            ("bug_count", ["bug_count", "crash_count", "bugs", "crashes"]),
+            ("cfg_edge_own", ["cfg_edge_own", "edge_own", "edge_cov"]),  # optional if exists
         ]
 
-        TOPN = 10  # for appendix/top table
-
-        for _bench_key, bt in benches.items():
+        TOPN = 10
+        for bench in self.benchs:
+            _bench_key = Path(bench).name
             try:
-                df = self._load_driver_df(bt)
+                df = self._load_driver_df(bench)
             except FileNotFoundError:
+                print(f"Warning: driver contribution file not found for bench {bench}, skipping.")
                 continue
 
-            # Ensure expected columns exist; skip missing ones gracefully.
-            if "bench" not in df.columns or "exe" not in df.columns:
-                # fallback to bt metadata if needed
-                df["bench"] = getattr(bt, "bench_key", _bench_key)
-                df["exe"] = getattr(bt, "exe", _bench_key)
-
-            bench = str(df["bench"].iloc[0])
-            exe = str(df["exe"].iloc[0])
+            # bench/exe from file if present, else fallback
+            bench = str(df["bench"].iloc[0]) if "bench" in df.columns else getattr(bt, "bench_key", _bench_key)
+            exe = str(df["exe"].iloc[0]) if "exe" in df.columns else getattr(bt, "exe", _bench_key)
 
             drv_id_col = "driver_id" if "driver_id" in df.columns else None
             drv_name_col = "driver_name" if "driver_name" in df.columns else None
 
-            for metric_name, col in metrics:
-                if col not in df.columns:
+            for metric_name, aliases in candidate_metrics:
+                col = next((c for c in aliases if c in df.columns), None)
+                if col is None:
                     continue
 
                 vals = df[col].to_numpy(dtype=np.float64)
 
-                # Summary stats per benchmark × metric
                 stats = self._summarize_metric(vals)
                 summary_rows.append(
                     {
                         "bench": bench,
                         "exe": exe,
                         "metric": metric_name,
+                        "col": col,
                         **stats,
                     }
                 )
 
-                # Curves for plotting
                 topk = self._topk_curve(vals)
                 topk.insert(0, "metric", metric_name)
                 topk.insert(0, "exe", exe)
@@ -245,35 +242,37 @@ class RQ1Present(Present):
                 cdf.insert(0, "bench", bench)
                 cdf_frames.append(cdf)
 
-                # Top-N drivers (for appendix / qualitative examples)
-                # Tie-break by driver_id if present to keep stable ordering.
-                sub = df[[c for c in [drv_id_col, drv_name_col, col] if c is not None]].copy()
-                sub = sub.rename(columns={col: "value"})
-                sub["metric"] = metric_name
-                sub["bench"] = bench
-                sub["exe"] = exe
-                sort_cols = ["value"]
-                ascending = [False]
-                if drv_id_col is not None:
-                    sort_cols.append(drv_id_col)
-                    ascending.append(True)
-                sub = sub.sort_values(sort_cols, ascending=ascending).head(TOPN)
+                # Top-N drivers for appendix (skip if no driver columns)
+                cols = [c for c in (drv_id_col, drv_name_col, col) if c is not None]
+                if cols:
+                    sub = df[cols].copy().rename(columns={col: "value"})
+                    sub["metric"] = metric_name
+                    sub["bench"] = bench
+                    sub["exe"] = exe
 
-                # Normalize output columns
-                if drv_id_col is None:
-                    sub["driver_id"] = np.nan
-                else:
-                    sub = sub.rename(columns={drv_id_col: "driver_id"})
-                if drv_name_col is None:
-                    sub["driver_name"] = np.nan
-                else:
-                    sub = sub.rename(columns={drv_name_col: "driver_name"})
+                    sort_cols = ["value"]
+                    ascending = [False]
+                    if drv_id_col is not None:
+                        sort_cols.append(drv_id_col)
+                        ascending.append(True)
 
-                top_rows.extend(
-                    sub[["metric", "bench", "exe", "driver_id", "driver_name", "value"]]
-                    .to_dict(orient="records")
-                )
+                    sub = sub.sort_values(sort_cols, ascending=ascending).head(TOPN)
 
+                    if drv_id_col is None:
+                        sub["driver_id"] = np.nan
+                    else:
+                        sub = sub.rename(columns={drv_id_col: "driver_id"})
+                    if drv_name_col is None:
+                        sub["driver_name"] = np.nan
+                    else:
+                        sub = sub.rename(columns={drv_name_col: "driver_name"})
+
+                    top_rows.extend(
+                        sub[["metric", "bench", "exe", "driver_id", "driver_name", "value"]]
+                        .to_dict(orient="records")
+                    )
+
+        print(f"Generated summary for {len(summary_rows)} bench-metric combinations.")
         summary_df = pd.DataFrame(summary_rows).sort_values(["bench", "exe", "metric"])
         topk_df = pd.concat(topk_frames, ignore_index=True) if topk_frames else pd.DataFrame()
         cdf_df = pd.concat(cdf_frames, ignore_index=True) if cdf_frames else pd.DataFrame()

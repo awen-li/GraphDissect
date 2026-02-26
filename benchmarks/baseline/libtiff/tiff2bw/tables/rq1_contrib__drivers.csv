@@ -1,8 +1,0 @@
-bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
-libtiff,tiff2bw,1,1_c_none,3,16,5,0
-libtiff,tiff2bw,2,2_c_lzw,3,16,0,0
-libtiff,tiff2bw,3,3_R_30,195,2011,972,0
-libtiff,tiff2bw,4,4_G_59,195,2011,94,0
-libtiff,tiff2bw,5,5_B_11,195,2011,120,0
-libtiff,tiff2bw,6,6_r_32,195,2011,79,0
-libtiff,tiff2bw,7,7_default,6,22,5,0

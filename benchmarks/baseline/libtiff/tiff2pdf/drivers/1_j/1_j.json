@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_j",
+    "driver": "tiff2pdf",
+    "args": [
+        "-j"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Compress PDF image data with JPEG"
+}

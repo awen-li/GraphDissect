@@ -1,8 +1,0 @@
-bench,exe,driver_id,driver_name,n_nodes,n_edges,density,num_cc,lcc_size,lcc_ratio,avg_cc_size
-libtiff,tiff2bw,1,1_c_none,2,0,0.0,2,1,0.5,1.0
-libtiff,tiff2bw,2,2_c_lzw,2,0,0.0,2,1,0.5,1.0
-libtiff,tiff2bw,3,3_R_30,2,0,0.0,2,1,0.5,1.0
-libtiff,tiff2bw,4,4_G_59,2,0,0.0,2,1,0.5,1.0
-libtiff,tiff2bw,5,5_B_11,2,0,0.0,2,1,0.5,1.0
-libtiff,tiff2bw,6,6_r_32,2,0,0.0,2,1,0.5,1.0
-libtiff,tiff2bw,7,7_default,2,0,0.0,2,1,0.5,1.0

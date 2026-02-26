@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_f_NONE",
+    "driver": "h5repack",
+    "args": [
+        "-f NONE"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Filter specification string (GZIP, SZIP, SHUF, FLET, NBIT, SOFF, UD, NONE)."
+}

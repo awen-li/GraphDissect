@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_A",
+    "driver": "h5dump",
+    "args": [
+        "-A"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print header and value of attributes; optional value 0 suppresses."
+}

@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_o",
+    "driver": "bsdunzip",
+    "args": [
+        "-o"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Overwrite existing files without prompting"
+}

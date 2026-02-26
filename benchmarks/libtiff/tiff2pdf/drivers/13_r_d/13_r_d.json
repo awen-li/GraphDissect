@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_r_d",
+    "driver": "tiff2pdf",
+    "args": [
+        "-r d"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "'d' = use resolution default, 'o' = resolution override"
+}

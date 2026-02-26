@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_R_30",
+    "driver": "tiff2bw",
+    "args": [
+        "-R 30"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.tif",
+    "priority": 1.0,
+    "description": "Use PCT% from red channel when forming greyscale"
+}

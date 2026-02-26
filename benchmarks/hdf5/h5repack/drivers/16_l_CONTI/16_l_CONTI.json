@@ -1,0 +1,12 @@
+{
+    "id": 16,
+    "name": "16_l_CONTI",
+    "driver": "h5repack",
+    "args": [
+        "-l CONTI"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Layout specification string (CHUNK/COMPA/CONTI)."
+}

@@ -1,0 +1,12 @@
+{
+    "id": 7,
+    "name": "7_j",
+    "driver": "tiffinfo",
+    "args": [
+        "-j"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show JPEG tables (if present)"
+}

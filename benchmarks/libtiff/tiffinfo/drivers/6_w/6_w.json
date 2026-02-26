@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_w",
+    "driver": "tiffinfo",
+    "args": [
+        "-w"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display raw data as 16-bit words instead of bytes"
+}

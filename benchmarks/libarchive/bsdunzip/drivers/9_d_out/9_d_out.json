@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_d_out",
+    "driver": "bsdunzip",
+    "args": [
+        "-d out"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Extract into directory"
+}

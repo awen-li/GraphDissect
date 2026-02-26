@@ -1,0 +1,12 @@
+{
+    "id": 11,
+    "name": "11_x",
+    "driver": "bsdunzip",
+    "args": [
+        "-x *"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Exclude files matching pattern"
+}

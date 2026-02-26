@@ -1,0 +1,13 @@
+{
+    "id": 12,
+    "name": "12_format_shar",
+    "driver": "bsdtar",
+    "args": [
+        "--format shar",
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Select archive format"
+}

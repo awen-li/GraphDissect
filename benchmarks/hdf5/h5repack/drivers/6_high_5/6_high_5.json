@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_high_5",
+    "driver": "h5repack",
+    "args": [
+        "--high 5"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "High bound for library release versions (H5F_LIBVER_* index)."
+}

@@ -1,0 +1,12 @@
+{
+    "id": 19,
+    "name": "19_f",
+    "driver": "tiff2pdf",
+    "args": [
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Set PDF 'Fit Window' user preference"
+}

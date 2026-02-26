@@ -1,0 +1,18 @@
+# binary_path: bsdunzip
+# executable:  bsdunzip
+# source:      bsdunzip/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	bsdunzip/bsdunzip -l @@
+2	bsdunzip/bsdunzip -t @@
+3	bsdunzip/bsdunzip -p @@
+4	bsdunzip/bsdunzip -o @@
+5	bsdunzip/bsdunzip -n @@
+6	bsdunzip/bsdunzip -q @@
+7	bsdunzip/bsdunzip -v @@
+8	bsdunzip/bsdunzip -Z1 @@
+9	bsdunzip/bsdunzip -d out @@
+10	bsdunzip/bsdunzip -x *.txt @@
+11	bsdunzip/bsdunzip -x * @@
+12	bsdunzip/bsdunzip -O UTF-8 @@
+13	bsdunzip/bsdunzip -I UTF-8 @@

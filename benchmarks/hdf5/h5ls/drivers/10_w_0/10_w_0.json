@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_w_0",
+    "driver": "h5ls",
+    "args": [
+        "-w 0"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Set number of columns of output."
+}

@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_B_11",
+    "driver": "tiff2bw",
+    "args": [
+        "-B 11"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.tif",
+    "priority": 1.0,
+    "description": "Use PCT% from blue channel when forming greyscale"
+}

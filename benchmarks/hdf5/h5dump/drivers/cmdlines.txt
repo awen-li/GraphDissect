@@ -1,0 +1,17 @@
+# binary_path: h5dump
+# executable:  h5dump
+# source:      h5dump/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	h5dump/h5dump -n @@
+2	h5dump/h5dump -B @@
+3	h5dump/h5dump -H @@
+4	h5dump/h5dump -A @@
+5	h5dump/h5dump -e @@
+6	h5dump/h5dump -r @@
+7	h5dump/h5dump -y @@
+8	h5dump/h5dump -m %.3g @@
+9	h5dump/h5dump -m %e @@
+10	h5dump/h5dump -L %.3Lg @@
+11	h5dump/h5dump -w 0 @@
+12	h5dump/h5dump -w 80 @@

@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_i",
+    "driver": "tiff2pdf",
+    "args": [
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Invert image colors"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 21,
+    "name": "21_M_4096",
+    "driver": "h5repack",
+    "args": [
+        "-M 4096"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Metadata block size for H5Pset_meta_block_size."
+}

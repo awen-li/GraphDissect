@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_f_SHUF",
+    "driver": "h5repack",
+    "args": [
+        "-f SHUF"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Filter specification string (GZIP, SZIP, SHUF, FLET, NBIT, SOFF, UD, NONE)."
+}

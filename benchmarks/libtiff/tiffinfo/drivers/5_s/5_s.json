@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_s",
+    "driver": "tiffinfo",
+    "args": [
+        "-s"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display strip offsets and byte counts"
+}

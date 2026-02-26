@@ -1,0 +1,12 @@
+{
+    "id": 8,
+    "name": "8_u_m",
+    "driver": "tiff2pdf",
+    "args": [
+        "-u m"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Distance unit: 'i' = inch, 'm' = centimeter"
+}

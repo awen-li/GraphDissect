@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_p_letter",
+    "driver": "tiff2pdf",
+    "args": [
+        "-p letter"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "PDF paper size"
+}

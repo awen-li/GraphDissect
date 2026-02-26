@@ -1,0 +1,20 @@
+# binary_path: bsdtar
+# executable:  bsdtar
+# source:      bsdtar/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	bsdtar/bsdtar -t -f @@
+2	bsdtar/bsdtar -x -f @@
+3	bsdtar/bsdtar -c -f @@
+4	bsdtar/bsdtar -f @@ -f @@
+5	bsdtar/bsdtar -z -f @@
+6	bsdtar/bsdtar -j -f @@
+7	bsdtar/bsdtar -J -f @@
+8	bsdtar/bsdtar --lzma -f @@
+9	bsdtar/bsdtar --format ustar -f @@
+10	bsdtar/bsdtar --format pax -f @@
+11	bsdtar/bsdtar --format cpio -f @@
+12	bsdtar/bsdtar --format shar -f @@
+13	bsdtar/bsdtar -v -f @@
+14	bsdtar/bsdtar -O -f @@
+15	bsdtar/bsdtar -m -f @@

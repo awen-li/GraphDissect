@@ -1,0 +1,13 @@
+{
+    "id": 11,
+    "name": "11_format_cpio",
+    "driver": "bsdtar",
+    "args": [
+        "--format cpio",
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Select archive format"
+}

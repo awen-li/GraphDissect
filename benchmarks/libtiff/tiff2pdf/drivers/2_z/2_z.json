@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_z",
+    "driver": "tiff2pdf",
+    "args": [
+        "-z"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Compress PDF image data with Zip/Deflate"
+}

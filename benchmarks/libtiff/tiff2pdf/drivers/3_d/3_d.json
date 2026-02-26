@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_d",
+    "driver": "tiff2pdf",
+    "args": [
+        "-d"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Do not compress (decompress), except monochrome \u2192 CCITT G4"
+}

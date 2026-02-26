@@ -1,0 +1,12 @@
+{
+    "id": 11,
+    "name": "11_w_0",
+    "driver": "h5dump",
+    "args": [
+        "-w 0"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Set number of columns of output (0 means max 65535)."
+}

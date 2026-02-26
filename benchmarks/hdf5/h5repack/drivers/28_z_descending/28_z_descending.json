@@ -1,0 +1,12 @@
+{
+    "id": 28,
+    "name": "28_z_descending",
+    "driver": "h5repack",
+    "args": [
+        "-z descending"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Sort order: 'ascending' or 'descending'."
+}

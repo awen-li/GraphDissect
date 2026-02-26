@@ -1,0 +1,13 @@
+{
+    "id": 13,
+    "name": "13_v",
+    "driver": "bsdtar",
+    "args": [
+        "-v",
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Verbose"
+}

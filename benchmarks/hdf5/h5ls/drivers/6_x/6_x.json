@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_x",
+    "driver": "h5ls",
+    "args": [
+        "-x"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show raw data in hexadecimal format."
+}

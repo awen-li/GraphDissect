@@ -1,0 +1,12 @@
+{
+    "id": 35,
+    "name": "35_T_1",
+    "driver": "h5repack",
+    "args": [
+        "-T 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Minimum size of free-space sections to track."
+}

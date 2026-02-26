@@ -1,0 +1,12 @@
+# binary_path: tiff2bw
+# executable:  tiff2bw
+# source:      tiff2bw/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	tiff2bw/tiff2bw -c none @@ out.tif
+2	tiff2bw/tiff2bw -c lzw @@ out.tif
+3	tiff2bw/tiff2bw -R 30 @@ out.tif
+4	tiff2bw/tiff2bw -G 59 @@ out.tif
+5	tiff2bw/tiff2bw -B 11 @@ out.tif
+6	tiff2bw/tiff2bw -r 32 @@ out.tif
+7	tiff2bw/tiff2bw @@ out.tif

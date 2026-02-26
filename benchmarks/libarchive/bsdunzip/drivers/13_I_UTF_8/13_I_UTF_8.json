@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_I_UTF_8",
+    "driver": "bsdunzip",
+    "args": [
+        "-I UTF-8"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Set input character encoding"
+}

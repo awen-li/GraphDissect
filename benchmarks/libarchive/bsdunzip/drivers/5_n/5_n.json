@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_n",
+    "driver": "bsdunzip",
+    "args": [
+        "-n"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Never overwrite existing files"
+}

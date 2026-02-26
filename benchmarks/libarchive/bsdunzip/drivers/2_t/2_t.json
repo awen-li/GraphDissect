@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_t",
+    "driver": "bsdunzip",
+    "args": [
+        "-t"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Test archive integrity"
+}

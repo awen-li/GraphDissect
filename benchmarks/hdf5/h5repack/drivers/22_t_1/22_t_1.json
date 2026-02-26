@@ -1,0 +1,12 @@
+{
+    "id": 22,
+    "name": "22_t_1",
+    "driver": "h5repack",
+    "args": [
+        "-t 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Threshold for H5Pset_alignment."
+}

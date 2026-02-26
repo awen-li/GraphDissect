@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_F",
+    "driver": "tiff2pdf",
+    "args": [
+        "-F"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Make the TIFF image fill the PDF page"
+}

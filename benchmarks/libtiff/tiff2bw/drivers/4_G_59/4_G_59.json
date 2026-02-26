@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_G_59",
+    "driver": "tiff2bw",
+    "args": [
+        "-G 59"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.tif",
+    "priority": 1.0,
+    "description": "Use PCT% from green channel when forming greyscale"
+}

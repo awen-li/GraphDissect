@@ -1,0 +1,12 @@
+{
+    "id": 7,
+    "name": "7_merge",
+    "driver": "h5repack",
+    "args": [
+        "--merge"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Follow external soft links recursively and merge data."
+}

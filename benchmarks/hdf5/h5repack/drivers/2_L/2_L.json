@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_L",
+    "driver": "h5repack",
+    "args": [
+        "-L"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Use latest file format; takes precedence over --low/--high."
+}

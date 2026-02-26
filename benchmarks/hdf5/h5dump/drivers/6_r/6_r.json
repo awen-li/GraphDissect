@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_r",
+    "driver": "h5dump",
+    "args": [
+        "-r"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print 1-byte integer datasets as ASCII."
+}

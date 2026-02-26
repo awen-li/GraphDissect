@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_r_32",
+    "driver": "tiff2bw",
+    "args": [
+        "-r 32"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.tif",
+    "priority": 1.0,
+    "description": "Make each strip have no more than ROWS rows"
+}

@@ -1,0 +1,26 @@
+# binary_path: tiff2pdf
+# executable:  tiff2pdf
+# source:      tiff2pdf/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	tiff2pdf/tiff2pdf -j @@ -o out
+2	tiff2pdf/tiff2pdf -z @@ -o out
+3	tiff2pdf/tiff2pdf -d @@ -o out
+4	tiff2pdf/tiff2pdf -n @@ -o out
+5	tiff2pdf/tiff2pdf -q 75 @@ -o out
+6	tiff2pdf/tiff2pdf -i @@ -o out
+7	tiff2pdf/tiff2pdf -u i @@ -o out
+8	tiff2pdf/tiff2pdf -u m @@ -o out
+9	tiff2pdf/tiff2pdf -x 300 @@ -o out
+10	tiff2pdf/tiff2pdf -y 300 @@ -o out
+11	tiff2pdf/tiff2pdf -w 8.5 @@ -o out
+12	tiff2pdf/tiff2pdf -l 11.0 @@ -o out
+13	tiff2pdf/tiff2pdf -r d @@ -o out
+14	tiff2pdf/tiff2pdf -r o @@ -o out
+15	tiff2pdf/tiff2pdf -p letter @@ -o out
+16	tiff2pdf/tiff2pdf -p legal @@ -o out
+17	tiff2pdf/tiff2pdf -p A4 @@ -o out
+18	tiff2pdf/tiff2pdf -F @@ -o out
+19	tiff2pdf/tiff2pdf -f @@
+20	tiff2pdf/tiff2pdf -b @@ -o out
+21	tiff2pdf/tiff2pdf -m 256 @@ -o out

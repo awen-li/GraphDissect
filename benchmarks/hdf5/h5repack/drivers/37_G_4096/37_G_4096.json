@@ -1,0 +1,12 @@
+{
+    "id": 37,
+    "name": "37_G_4096",
+    "driver": "h5repack",
+    "args": [
+        "-G 4096"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "File space page size (>=512) for PAGE strategy."
+}

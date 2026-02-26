@@ -1,0 +1,13 @@
+{
+    "id": 7,
+    "name": "7_J",
+    "driver": "bsdtar",
+    "args": [
+        "-J",
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "xz compression"
+}

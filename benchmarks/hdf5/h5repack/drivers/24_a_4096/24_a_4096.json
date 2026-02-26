@@ -1,0 +1,12 @@
+{
+    "id": 24,
+    "name": "24_a_4096",
+    "driver": "h5repack",
+    "args": [
+        "-a 4096"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Alignment value for H5Pset_alignment (>0)."
+}

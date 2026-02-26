@@ -1,0 +1,13 @@
+{
+    "id": 1,
+    "name": "1_t",
+    "driver": "bsdtar",
+    "args": [
+        "-t",
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "List archive entries"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_n",
+    "driver": "h5repack",
+    "args": [
+        "-n"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Use native HDF5 types when repacking."
+}

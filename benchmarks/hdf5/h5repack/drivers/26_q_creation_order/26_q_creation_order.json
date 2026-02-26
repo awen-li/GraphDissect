@@ -1,0 +1,12 @@
+{
+    "id": 26,
+    "name": "26_q_creation_order",
+    "driver": "h5repack",
+    "args": [
+        "-q creation_order"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Sort index type: 'name' or 'creation_order'."
+}

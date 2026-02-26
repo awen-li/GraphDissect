@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_q",
+    "driver": "bsdunzip",
+    "args": [
+        "-q"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Quiet mode"
+}

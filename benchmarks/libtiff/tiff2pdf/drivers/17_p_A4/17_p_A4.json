@@ -1,0 +1,12 @@
+{
+    "id": 17,
+    "name": "17_p_A4",
+    "driver": "tiff2pdf",
+    "args": [
+        "-p A4"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "PDF paper size"
+}

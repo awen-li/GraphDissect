@@ -1,0 +1,12 @@
+{
+    "id": 34,
+    "name": "34_P_1",
+    "driver": "h5repack",
+    "args": [
+        "-P 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Persist (1) or not persist (0) free-space."
+}

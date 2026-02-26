@@ -1,0 +1,12 @@
+# binary_path: tiffinfo
+# executable:  tiffinfo
+# source:      tiffinfo/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	tiffinfo/tiffinfo -D @@
+2	tiffinfo/tiffinfo -c @@
+3	tiffinfo/tiffinfo -d @@
+4	tiffinfo/tiffinfo -r @@
+5	tiffinfo/tiffinfo -s @@
+6	tiffinfo/tiffinfo -w @@
+7	tiffinfo/tiffinfo -j @@

@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_s",
+    "driver": "h5ls",
+    "args": [
+        "-s"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print 1-byte integer datasets as ASCII."
+}

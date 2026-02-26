@@ -1,0 +1,12 @@
+{
+    "id": 8,
+    "name": "8_prune",
+    "driver": "h5repack",
+    "args": [
+        "--prune"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Do not follow external soft links and remove link (or dangling)."
+}

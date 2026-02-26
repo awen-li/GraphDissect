@@ -1,0 +1,12 @@
+{
+    "id": 11,
+    "name": "11_w_8_5",
+    "driver": "tiff2pdf",
+    "args": [
+        "-w 8.5"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Image width in units (per -u)"
+}

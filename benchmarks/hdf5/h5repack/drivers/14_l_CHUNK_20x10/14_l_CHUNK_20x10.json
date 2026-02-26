@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "name": "14_l_CHUNK_20x10",
+    "driver": "h5repack",
+    "args": [
+        "-l CHUNK=20x10"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Layout specification string (CHUNK/COMPA/CONTI)."
+}

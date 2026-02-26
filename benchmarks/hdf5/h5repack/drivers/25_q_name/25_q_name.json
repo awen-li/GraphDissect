@@ -1,0 +1,12 @@
+{
+    "id": 25,
+    "name": "25_q_name",
+    "driver": "h5repack",
+    "args": [
+        "-q name"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "Sort index type: 'name' or 'creation_order'."
+}

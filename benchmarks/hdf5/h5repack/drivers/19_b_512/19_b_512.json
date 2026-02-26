@@ -1,0 +1,12 @@
+{
+    "id": 19,
+    "name": "19_b_512",
+    "driver": "h5repack",
+    "args": [
+        "-b 512"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.h5",
+    "priority": 1.0,
+    "description": "User block size (>=512 and power of 2)."
+}

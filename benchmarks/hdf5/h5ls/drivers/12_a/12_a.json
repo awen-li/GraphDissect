@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_a",
+    "driver": "h5ls",
+    "args": [
+        "-a"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print raw data address; must be used with -v/--verbose."
+}

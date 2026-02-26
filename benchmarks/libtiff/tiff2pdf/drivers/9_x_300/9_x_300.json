@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_x_300",
+    "driver": "tiff2pdf",
+    "args": [
+        "-x 300"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Default X resolution in dots per unit"
+}

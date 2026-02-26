@@ -1,0 +1,79 @@
+profile:
+  name: "tiffinfo"
+  binary: "tiffinfo"
+  domain: "image"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"    # one or more input TIFFs
+      flag: ""
+    output:
+      kind: "positional"    
+      flag: ""
+
+primary:
+  # ===== Core display modes / what to dump =====
+
+  - id: "1"
+    cli: ["-D"]
+    kind: "flag"
+    role: "mode"
+    group: "data"
+    include_in_search: true
+    description: "Read image data (forces input data read rather than header-only)"
+
+  - id: "2"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "info_detail"
+    include_in_search: true
+    description: "Display grey/color response curve or colormap data"
+
+  - id: "3"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "info_detail"
+    include_in_search: true
+    description: "Display raw/decoded image data"
+
+  - id: "4"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "decode_mode"
+    include_in_search: true
+    description: "Read/display raw image data instead of decoded data"
+
+  - id: "5"
+    cli: ["-s"]
+    kind: "flag"
+    role: "mode"
+    group: "layout_info"
+    include_in_search: true
+    description: "Display strip offsets and byte counts"
+
+  - id: "6"
+    cli: ["-w"]
+    kind: "flag"
+    role: "mode"
+    group: "word_view"
+    include_in_search: true
+    description: "Display raw data as 16-bit words instead of bytes"
+
+  - id: "7"
+    cli: ["-j"]
+    kind: "flag"
+    role: "mode"
+    group: "jpeg_info"
+    include_in_search: true
+    description: "Show JPEG tables (if present)"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "fillorder"
+
+  - type: "at_most_one_from_group"
+    group: "directory"

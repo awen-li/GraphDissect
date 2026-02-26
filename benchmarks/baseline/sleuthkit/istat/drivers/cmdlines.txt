@@ -1,9 +1,0 @@
-# binary_path: istat
-# executable:  istat
-# source:      istat/drivers/driver_list.json
-# format: <id>\t<command line>
-
-1	istat/istat -V @@
-2	istat/istat -i list @@
-3	istat/istat -f list @@
-4	istat/istat -P list @@

@@ -1,0 +1,108 @@
+profile:
+  name: "h5ls"
+  binary: "h5ls"
+  domain: "data"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-d", "--data"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print the values of datasets."
+
+  - id: "2"
+    cli: ["-g", "--group"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Show information about a group, not its contents."
+
+  - id: "3"
+    cli: ["-r", "--recursive"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "List all groups recursively, avoiding cycles."
+
+  - id: "4"
+    cli: ["-s", "--string"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print 1-byte integer datasets as ASCII."
+
+  - id: "5"
+    cli: ["-S", "--simple"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Use a machine-readable (simple) output format."
+
+  - id: "6"
+    cli: ["-x", "--hexdump"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Show raw data in hexadecimal format."
+
+  # ===== Path / label / verbosity =====
+
+  - id: "7"
+    cli: ["-f", "--full"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print full path names instead of base names."
+
+  - id: "8"
+    cli: ["-l", "--label"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Label members of compound datasets."
+
+  - id: "9"
+    cli: ["-v", "--verbose"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Generate more verbose output."
+
+  - id: "10"
+    cli: ["-w", "--width"]
+    kind: "value"
+    metavar: "N"
+    value_template: "80"
+    defaults: ["0", "80"]
+    role: "mode"
+    include_in_search: true
+    description: "Set number of columns of output."
+
+  - id: "11"
+    cli: ["-a", "--address"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print raw data address; must be used with -v/--verbose."
+
+
+constraints:
+  # Address requires verbose mode
+  - type: "requires"
+    option: "11"            # -a / --address
+    requires_any_of: ["9"]  # -v / --verbose
+
+  # no-dangling-links requires follow-symlinks
+  - type: "requires"
+    option: "2"             # --no-dangling-links
+    requires_any_of: ["1"]  # --follow-symlinks

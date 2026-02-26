@@ -1,0 +1,169 @@
+profile:
+  name: "h5dump"
+  binary: "h5dump"
+  domain: "data"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""    
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  # ===== File-level inspection modes =====
+
+  - id: "1"
+    cli: ["-n", "--contents"]
+    kind: "flag"
+    role: "mode"
+    group: "file_mode"
+    include_in_search: true
+    description: "Print file contents list; optional value 1 prints attributes."
+
+  - id: "2"
+    cli: ["-B", "--superblock"]
+    kind: "flag"
+    role: "mode"
+    group: "file_mode"
+    include_in_search: true
+    description: "Print the content of the superblock."
+
+  - id: "3"
+    cli: ["-H", "--header"]
+    kind: "flag"
+    role: "mode"
+    group: "file_mode"
+    include_in_search: true
+    description: "Print only headers, no raw data."
+
+  # ===== Object selection =====
+
+  - id: "4"
+    cli: ["-a", "--attribute"]
+    kind: "value"
+    metavar: "PATH"
+    value_template: "./foo/bar"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    description: "Print the specified attribute (escape / with \\/)."
+
+  - id: "5"
+    cli: ["-d", "--dataset"]
+    kind: "value"
+    metavar: "PATH"
+    value_template: "./dataset"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    description: "Print the specified dataset."
+
+  - id: "6"
+    cli: ["-g", "--group"]
+    kind: "value"
+    metavar: "PATH"
+    value_template: "./group"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    description: "Print the specified group and all members."
+
+  - id: "7"
+    cli: ["-l", "--soft-link"]
+    kind: "value"
+    metavar: "PATH"
+    value_template: "./link"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    description: "Print values of the specified soft link."
+
+  - id: "8"
+    cli: ["-t", "--datatype"]
+    kind: "value"
+    metavar: "PATH"
+    value_template: "./dtype"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    description: "Print the specified named datatype."
+
+  - id: "9"
+    cli: ["-N", "--any_path"]
+    kind: "value"
+    metavar: "PATH"
+    value_template: "./any"
+    defaults: []
+    role: "mode"
+    include_in_search: true
+    description: "Print any object (attribute/dataset/group/datatype/link) matching PATH."
+
+  - id: "10"
+    cli: ["-A", "--onlyattr"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print header and value of attributes; optional value 0 suppresses."
+
+  # ===== Dataset formatting & output behavior =====
+
+  - id: "11"
+    cli: ["-e", "--escape"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Escape non-printable characters."
+
+  - id: "12"
+    cli: ["-r", "--string"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print 1-byte integer datasets as ASCII."
+
+  - id: "13"
+    cli: ["-y", "--noindex"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Do not print array indices."
+
+  - id: "14"
+    cli: ["-m", "--format"]
+    kind: "value"
+    metavar: "FMT"
+    value_template: "%.3g"
+    defaults: ["%.3g", "%e"]
+    role: "mode"
+    include_in_search: true
+    description: "Floating-point output format."
+
+  - id: "15"
+    cli: ["-L", "--lformat"]
+    kind: "value"
+    metavar: "FMT"
+    value_template: "%.3Lg"
+    defaults: ["%.3Lg"]
+    role: "mode"
+    include_in_search: true
+    description: "Floating-point long double output format."
+
+  - id: "16"
+    cli: ["-w", "--width"]
+    kind: "value"
+    metavar: "N"
+    value_template: "80"
+    defaults: ["0", "80"]
+    role: "mode"
+    include_in_search: true
+    description: "Set number of columns of output (0 means max 65535)."
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "file_mode"
+
+  - type: "at_most_one_from_group"
+    group: "xml_mode"

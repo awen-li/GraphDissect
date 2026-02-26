@@ -1,11 +1,8 @@
 {
-    "number": 2,
+    "number": 1,
     "drivers": [
         {
             "1": "1_connect"
-        },
-        {
-            "2": "2_get"
         }
     ]
 }

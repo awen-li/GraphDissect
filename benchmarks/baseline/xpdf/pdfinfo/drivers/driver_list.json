@@ -1,80 +1,8 @@
 {
-    "number": 25,
+    "number": 1,
     "drivers": [
         {
-            "1": "1_default"
-        },
-        {
             "2": "2_box"
-        },
-        {
-            "3": "3_meta"
-        },
-        {
-            "4": "4_rawdates"
-        },
-        {
-            "5": "5_custom"
-        },
-        {
-            "6": "6_f_1"
-        },
-        {
-            "7": "7_l_3"
-        },
-        {
-            "8": "8_enc_utf_8"
-        },
-        {
-            "9": "9_cfg_xpdfrc"
-        },
-        {
-            "10": "10_box_f_1"
-        },
-        {
-            "11": "11_box_l_3"
-        },
-        {
-            "12": "12_box_enc_utf_8"
-        },
-        {
-            "13": "13_box_cfg_xpdfrc"
-        },
-        {
-            "14": "14_meta_f_1"
-        },
-        {
-            "15": "15_meta_l_3"
-        },
-        {
-            "16": "16_meta_enc_utf_8"
-        },
-        {
-            "17": "17_meta_cfg_xpdfrc"
-        },
-        {
-            "18": "18_rawdates_f_1"
-        },
-        {
-            "19": "19_rawdates_l_3"
-        },
-        {
-            "20": "20_rawdates_enc_utf_8"
-        },
-        {
-            "21": "21_rawdates_cfg_xpdfrc"
-        },
-        {
-            "22": "22_custom_f_1"
-        },
-        {
-            "23": "23_custom_l_3"
-        },
-        {
-            "24": "24_custom_enc_utf_8"
-        },
-        {
-            "25": "25_custom_cfg_xpdfrc"
         }
     ]
 }

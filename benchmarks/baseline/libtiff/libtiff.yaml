@@ -1,0 +1,6 @@
+project: libtiff
+oss_fuzz_project_dir: projects/libtiff
+main_repo: https://gitlab.com/libtiff/libtiff
+language: c++
+domain: media
+loc: 91882

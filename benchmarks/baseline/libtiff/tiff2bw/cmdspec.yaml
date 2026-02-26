@@ -1,0 +1,105 @@
+profile:
+  name: "tiff2bw"
+  binary: "tiff2bw"
+  domain: "image"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"   # input.tif
+      flag: ""
+    output:
+      kind: "positional"   # output.tif (harness provides a fixed name/path)
+      flag: ""
+
+primary:
+  # ===== Compression (restricted to known-working modes) =====
+
+  - id: "1"
+    cli: ["-c"]
+    kind: "choice"
+    metavar: "COMP"
+    # Only keep modes we have confirmed work on this build
+    choices:
+      - "none"
+      - "lzw"
+    defaults: ["none", "lzw"]
+    role: "mode"
+    group: "compression"
+    include_in_search: true
+    output: "out.tif"
+    description: "Compression method for output TIFF (restricted to none and LZW for this build)"
+
+  # ===== Channel weights (red / green / blue) =====
+  # The manual uses uppercase -R/-G/-B in the help; keep those.
+
+  - id: "2"
+    cli: ["-R"]
+    kind: "value"
+    metavar: "PCT"
+    value_template: "30"
+    defaults: ["30"]
+    role: "mode"
+    group: "channel_weight"
+    include_in_search: true
+    output: "out.tif"
+    description: "Use PCT% from red channel when forming greyscale"
+
+  - id: "3"
+    cli: ["-G"]
+    kind: "value"
+    metavar: "PCT"
+    value_template: "59"
+    defaults: ["59"]
+    role: "mode"
+    group: "channel_weight"
+    include_in_search: true
+    output: "out.tif"
+    description: "Use PCT% from green channel when forming greyscale"
+
+  - id: "4"
+    cli: ["-B"]
+    kind: "value"
+    metavar: "PCT"
+    value_template: "11"
+    defaults: ["11"]
+    role: "mode"
+    group: "channel_weight"
+    include_in_search: true
+    output: "out.tif"
+    description: "Use PCT% from blue channel when forming greyscale"
+
+  # ===== Strip layout =====
+
+  - id: "5"
+    cli: ["-r"]
+    kind: "value"
+    metavar: "ROWS"
+    value_template: "32"
+    defaults: ["32"]
+    role: "mode"
+    group: "strip_rows"
+    include_in_search: true
+    output: "out.tif"
+    description: "Make each strip have no more than ROWS rows"
+
+  - id: "6"
+    cli: [""]
+    kind: "value"
+    metavar: "ROWS"
+    value_template: "32"
+    defaults: [""]
+    role: "mode"
+    group: "strip_rows"
+    include_in_search: true
+    output: "out.tif"
+    description: "Make each strip have no more than ROWS rows"
+
+second:
+  # tiff2bw doesn't really have many secondary flags that are useful for fuzzing.
+  # We leave this empty for now, but keep the key for schema consistency.
+  []
+
+constraints:
+  # No special mutual exclusions beyond the tool's natural semantics.
+  []

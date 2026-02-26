@@ -1,0 +1,215 @@
+profile:
+  name: "tiff2pdf"
+  binary: "tiff2pdf"
+  domain: "image"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"   # input.tiff
+      flag: ""
+    output:
+      kind: "flagged"      # -o output.pdf
+      flag: "-o"
+
+primary:
+  # ===== Core compression / data handling =====
+  - id: "1"
+    cli: ["-j"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    output: "out"
+    description: "Compress PDF image data with JPEG"
+
+  - id: "2"
+    cli: ["-z"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    output: "out"
+    description: "Compress PDF image data with Zip/Deflate"
+
+  - id: "3"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "compress"
+    include_in_search: true
+    output: "out"
+    description: "Do not compress (decompress), except monochrome → CCITT G4"
+
+  - id: "4"
+    cli: ["-n"]
+    kind: "flag"
+    role: "mode"
+    group: "passthrough"
+    include_in_search: true
+    output: "out"
+    description: "Disable compressed data passthrough"
+
+  - id: "5"
+    cli: ["-q"]
+    kind: "value"
+    metavar: "QUALITY"
+    value_template: "75"
+    defaults: ["75"]
+    role: "mode"
+    group: "compress_quality"
+    include_in_search: true
+    output: "out"
+    description: "Compression quality (typically 0–100)"
+
+  - id: "6"
+    cli: ["-i"]
+    kind: "flag"
+    role: "mode"
+    group: "colors"
+    include_in_search: true
+    output: "out"
+    description: "Invert image colors"
+
+  # ===== Geometry / resolution =====
+  - id: "7"
+    cli: ["-u"]
+    kind: "choice"
+    metavar: "UNIT"
+    choices:
+      - "i"
+      - "m"
+    defaults: ["i", "m"]
+    role: "mode"
+    group: "unit"
+    include_in_search: true
+    output: "out"
+    description: "Distance unit: 'i' = inch, 'm' = centimeter"
+
+  - id: "8"
+    cli: ["-x"]
+    kind: "value"
+    metavar: "XRES"
+    value_template: "300"
+    defaults: ["300"]
+    role: "mode"
+    group: "resolution"
+    include_in_search: true
+    output: "out"
+    description: "Default X resolution in dots per unit"
+
+  - id: "9"
+    cli: ["-y"]
+    kind: "value"
+    metavar: "YRES"
+    value_template: "300"
+    defaults: ["300"]
+    role: "mode"
+    group: "resolution"
+    include_in_search: true
+    output: "out"
+    description: "Default Y resolution in dots per unit"
+
+  - id: "10"
+    cli: ["-w"]
+    kind: "value"
+    metavar: "WIDTH"
+    value_template: "8.5"
+    defaults: ["8.5"]
+    role: "mode"
+    group: "geometry"
+    include_in_search: true
+    output: "out"
+    description: "Image width in units (per -u)"
+
+  - id: "11"
+    cli: ["-l"]
+    kind: "value"
+    metavar: "LENGTH"
+    value_template: "11.0"
+    defaults: ["11.0"]
+    role: "mode"
+    group: "geometry"
+    include_in_search: true
+    output: "out"
+    description: "Image length in units (per -u)"
+
+  - id: "12"
+    cli: ["-r"]
+    kind: "choice"
+    metavar: "MODE"
+    choices:
+      - "d"
+      - "o"
+    defaults: ["d", "o"]
+    role: "mode"
+    group: "res_mode"
+    include_in_search: true
+    output: "out"
+    description: "'d' = use resolution default, 'o' = resolution override"
+
+  - id: "13"
+    cli: ["-p"]
+    kind: "choice"
+    metavar: "PAPER"
+    choices:
+      - "letter"
+      - "legal"
+      - "A4"
+    defaults: ["letter", "A4"]
+    role: "mode"
+    group: "paper"
+    include_in_search: true
+    output: "out"
+    description: "PDF paper size"
+
+  - id: "14"
+    cli: ["-F"]
+    kind: "flag"
+    role: "mode"
+    group: "page_fit"
+    include_in_search: true
+    output: "out"
+    description: "Make the TIFF image fill the PDF page"
+
+  - id: "15"
+    cli: ["-f"]
+    kind: "flag"
+    role: "mode"
+    group: "page_fit_pref"
+    include_in_search: true
+    description: "Set PDF 'Fit Window' user preference"
+
+  - id: "16"
+    cli: ["-b"]
+    kind: "flag"
+    role: "mode"
+    group: "interp"
+    include_in_search: true
+    output: "out"
+    description: "Set PDF 'Interpolate' user preference"
+
+  - id: "17"
+    cli: ["-m"]
+    kind: "value"
+    metavar: "MEM_MB"
+    value_template: "256"
+    defaults: ["256"]
+    role: "mode"
+    group: "memory"
+    include_in_search: true
+    output: "out"
+    description: "Memory allocation limit in MiB (0 disables the limit)"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "compress"
+
+  - type: "at_most_one_from_group"
+    group: "unit"
+
+  - type: "at_most_one_from_group"
+    group: "paper"
+
+  - type: "at_most_one_from_group"
+    group: "res_mode"

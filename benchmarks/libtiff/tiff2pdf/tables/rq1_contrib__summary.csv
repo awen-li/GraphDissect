@@ -1,2 +1,2 @@
 bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-libtiff,tiff2pdf,/root/GraphDissect/benchmarks/libtiff/tiff2pdf,21,6230,79818,2233,0
+libtiff,tiff2pdf,/root/GraphDissect/benchmarks/libtiff/tiff2pdf,21,315,3942,2233,0

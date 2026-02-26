@@ -1,2 +1,2 @@
 bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-cpython3,python,/root/GraphDissect/benchmarks/cpython3/python,23,69177,560438,21062,0
+cpython3,python,/root/GraphDissect/benchmarks/cpython3/python,23,3948,31126,21062,0

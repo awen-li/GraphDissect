@@ -1,2 +1,2 @@
 bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-jq,jq,/root/GraphDissect/benchmarks/jq/jq,18,2618,10597,1876,0
+jq,jq,/root/GraphDissect/benchmarks/jq/jq,18,390,1658,1876,0

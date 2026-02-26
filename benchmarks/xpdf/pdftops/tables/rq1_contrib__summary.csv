@@ -1,2 +1,2 @@
 bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-xpdf,pdftops,/root/GraphDissect/benchmarks/xpdf/pdftops,66,7420,24128,2947,0
+xpdf,pdftops,/root/GraphDissect/benchmarks/xpdf/pdftops,66,744,2224,2947,0

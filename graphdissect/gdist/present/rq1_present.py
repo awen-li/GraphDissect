@@ -11,6 +11,22 @@ from .present import Present, BenchTables
 
 
 class RQ1Present(Present):
+    """
+    RQ1 (final-only): Driver effectiveness under equal time budgets.
+
+    Input per benchmark tables_dir:
+      - rq1_contrib__drivers.csv
+        columns (observed):
+          bench, exe, driver_id, driver_name,
+          cg_node_own, cd_edge_own, block_own, bug_count
+
+    Outputs:
+      - rq1_present__summary.csv
+      - rq1_present__topk_curve.csv
+      - rq1_present__cdf.csv
+      - rq1_present__top_by_metric.csv
+    """
+
     name = "rq1"
     required_files = (
         "rq1_contrib__drivers.csv",
@@ -18,111 +34,261 @@ class RQ1Present(Present):
         "rq1_contrib__top_by_metric.csv",
     )
 
-    def _guess_cols(self, df: pd.DataFrame):
-        # Customize to your actual column names for stability
-        cols = {c.lower(): c for c in df.columns}
-        drv = cols.get("drv_id") or cols.get("driver_id") or cols.get("driver") or df.columns[0]
-        fc  = cols.get("fcov") or cols.get("func_cov") or cols.get("functions") or None
-        ec  = cols.get("ecov") or cols.get("edge_cov") or cols.get("edges") or None
-        return drv, fc, ec
+    # -----------------------
+    # IO helpers
+    # -----------------------
+    def _get_out_dir(self) -> Path:
+        return self.out_dir
 
-    def _cdf(self, arr: np.ndarray) -> pd.DataFrame:
-        arr = np.asarray(arr, dtype=np.float64)
-        arr = arr[~np.isnan(arr)]
-        arr = arr[arr > 0]
-        if arr.size == 0:
+    def _write_csv(self, fname: str, df: pd.DataFrame) -> None:
+        out_dir = self._get_out_dir()
+        out_dir.mkdir(parents=True, exist_ok=True)
+        df.to_csv(out_dir / fname, index=False)
+
+    def _load_driver_df(self, bt: "BenchTables") -> pd.DataFrame:
+        return pd.read_csv(Path(bt.tables_dir) / "rq1_contrib__drivers.csv")
+
+    # -----------------------
+    # Curves
+    # -----------------------
+    def _topk_curve(self, arr: np.ndarray) -> pd.DataFrame:
+        """
+        Top-k cumulative contribution curve:
+          x = fraction of drivers used (sorted desc)
+          y = cumulative fraction of total contribution
+        """
+        x = np.asarray(arr, dtype=np.float64)
+        x = x[~np.isnan(x)]
+        if x.size == 0:
             return pd.DataFrame({"x": [0.0], "y": [0.0]})
-        arr = np.sort(arr)[::-1]
-        cum = np.cumsum(arr)
-        x = np.arange(1, arr.size + 1) / arr.size
-        y = cum / cum[-1]
+
+        x = np.sort(x)[::-1]
+        tot = float(np.sum(x))
+        if tot <= 0:
+            return pd.DataFrame({"x": [0.0], "y": [0.0]})
+
+        cum = np.cumsum(x)
+        xs = np.arange(1, x.size + 1, dtype=np.float64) / float(x.size)
+        ys = cum / tot
+        return pd.DataFrame({"x": xs, "y": ys})
+
+    def _cdf_curve(self, arr: np.ndarray) -> pd.DataFrame:
+        """
+        True CDF of values:
+          x = value
+          y = fraction of drivers with value <= x
+        """
+        x = np.asarray(arr, dtype=np.float64)
+        x = x[~np.isnan(x)]
+        if x.size == 0:
+            return pd.DataFrame({"x": [0.0], "y": [0.0]})
+
+        x = np.sort(x)
+        y = np.arange(1, x.size + 1, dtype=np.float64) / float(x.size)
         return pd.DataFrame({"x": x, "y": y})
 
+    # -----------------------
+    # Stats
+    # -----------------------
+    def _gini(self, arr: np.ndarray) -> float:
+        x = np.asarray(arr, dtype=np.float64)
+        x = x[~np.isnan(x)]
+        if x.size == 0:
+            return float("nan")
+
+        # shift if negative (shouldn't happen, but robust)
+        mn = float(np.min(x))
+        if mn < 0:
+            x = x - mn
+
+        s = float(np.sum(x))
+        if s == 0:
+            return 0.0
+
+        x = np.sort(x)
+        n = x.size
+        i = np.arange(1, n + 1, dtype=np.float64)
+        return float((2.0 * np.sum(i * x)) / (n * s) - (n + 1) / n)
+
+    def _summarize_metric(self, v: np.ndarray) -> Dict[str, float]:
+        """
+        Summary for one metric within one benchmark.
+
+        We KEEP zeros because "%zero" is an important finding for RQ1.
+        """
+        x = np.asarray(v, dtype=np.float64)
+        x = x[~np.isnan(x)]
+        n = int(x.size)
+
+        if n == 0:
+            return {
+                "n": 0,
+                "mean": np.nan,
+                "std": np.nan,
+                "cv": np.nan,
+                "min": np.nan,
+                "p25": np.nan,
+                "median": np.nan,
+                "p75": np.nan,
+                "max": np.nan,
+                "pct_zero": np.nan,
+                "pct_lt_5pct_of_max": np.nan,
+                "top10_share": np.nan,
+                "top20_share": np.nan,
+                "gini": np.nan,
+            }
+
+        mean = float(np.mean(x))
+        std = float(np.std(x, ddof=1)) if n > 1 else 0.0
+        if mean > 0:
+            cv = float(std / mean)
+        else:
+            cv = float("inf") if std > 0 else 0.0
+
+        xmin = float(np.min(x))
+        xmax = float(np.max(x))
+        p25, med, p75 = np.percentile(x, [25, 50, 75])
+
+        pct_zero = float(np.mean(x <= 0.0) * 100.0)
+        pct_lt_5pct_of_max = float(np.mean(x < 0.05 * xmax) * 100.0) if xmax > 0 else 100.0
+
+        xs = np.sort(x)[::-1]
+        tot = float(np.sum(xs))
+        k10 = max(1, int(np.ceil(0.10 * n)))
+        k20 = max(1, int(np.ceil(0.20 * n)))
+        top10_share = float(np.sum(xs[:k10]) / tot) if tot > 0 else 0.0
+        top20_share = float(np.sum(xs[:k20]) / tot) if tot > 0 else 0.0
+
+        return {
+            "n": n,
+            "mean": mean,
+            "std": std,
+            "cv": cv,
+            "min": xmin,
+            "p25": float(p25),
+            "median": float(med),
+            "p75": float(p75),
+            "max": xmax,
+            "pct_zero": pct_zero,
+            "pct_lt_5pct_of_max": pct_lt_5pct_of_max,
+            "top10_share": top10_share,
+            "top20_share": top20_share,
+            "gini": self._gini(x),
+        }
+
+    # -----------------------
+    # Main
+    # -----------------------
     def run(self) -> None:
         benches = self.discover_tables()
-        print(f"Discovered {len(benches)} with tables for RQ1Present.")
+        print(f"Discovered {len(benches)} benchmarks with tables for RQ1Present.")
 
         summary_rows: List[dict] = []
-        cdf_data: Dict[str, pd.DataFrame] = {}
+        topk_frames: List[pd.DataFrame] = []
+        cdf_frames: List[pd.DataFrame] = []
+        top_rows: List[dict] = []
 
-        for bkey, t in benches.items():
-            if not self.validate_tables(t):
+        # Metrics available in rq1_contrib__drivers.csv
+        metrics = [
+            ("cg_node_own", "cg_node_own"),
+            ("cd_edge_own", "cd_edge_own"),
+            ("block_own", "block_own")
+        ]
+
+        TOPN = 10  # for appendix/top table
+
+        for _bench_key, bt in benches.items():
+            try:
+                df = self._load_driver_df(bt)
+            except FileNotFoundError:
                 continue
 
-            df_sum = self.read_csv(t, "rq1_contrib__summary.csv")
-            df_drv = self.read_csv(t, "rq1_contrib__drivers.csv")
+            # Ensure expected columns exist; skip missing ones gracefully.
+            if "bench" not in df.columns or "exe" not in df.columns:
+                # fallback to bt metadata if needed
+                df["bench"] = getattr(bt, "bench_key", _bench_key)
+                df["exe"] = getattr(bt, "exe", _bench_key)
 
-            row = {"benchmark": bkey, "exe": t.exe}
-            if len(df_sum) > 0:
-                row.update(df_sum.iloc[0].to_dict())
+            bench = str(df["bench"].iloc[0])
+            exe = str(df["exe"].iloc[0])
 
-            # derive top10_share from per-driver if not already present
-            drv_col, fc_col, ec_col = self._guess_cols(df_drv)
+            drv_id_col = "driver_id" if "driver_id" in df.columns else None
+            drv_name_col = "driver_name" if "driver_name" in df.columns else None
 
-            # choose main metric for RQ1 plots/tables: function coverage first
-            cov_col = fc_col or ec_col
-            if cov_col is not None:
-                vals = np.asarray(df_drv[cov_col], dtype=np.float64)
-                vals = vals[~np.isnan(vals)]
-                vals = np.sort(vals)[::-1]
-                if vals.size > 0 and vals.sum() > 0:
-                    k = max(1, int(np.ceil(0.10 * vals.size)))
-                    row.setdefault("top10_share", float(vals[:k].sum() / vals.sum()))
-                    cdf_data[bkey] = self._cdf(vals)
+            for metric_name, col in metrics:
+                if col not in df.columns:
+                    continue
 
-            row.setdefault("n_drivers", int(len(df_drv)))
-            summary_rows.append(row)
+                vals = df[col].to_numpy(dtype=np.float64)
 
-        if not summary_rows:
-            raise RuntimeError("RQ1Present: no benchmarks with rq1 tables were found.")
+                # Summary stats per benchmark × metric
+                stats = self._summarize_metric(vals)
+                summary_rows.append(
+                    {
+                        "bench": bench,
+                        "exe": exe,
+                        "metric": metric_name,
+                        **stats,
+                    }
+                )
 
-        df_summary = pd.DataFrame(summary_rows)
+                # Curves for plotting
+                topk = self._topk_curve(vals)
+                topk.insert(0, "metric", metric_name)
+                topk.insert(0, "exe", exe)
+                topk.insert(0, "bench", bench)
+                topk_frames.append(topk)
 
-        # ---------- (1) LaTeX summary table ----------
-        # Pick columns that exist (avoid breaking when some benches miss fields)
-        cols = ["benchmark", "n_drivers"]
-        for c in ["total_fcov", "total_ecov", "top10_share", "crashes"]:
-            if c in df_summary.columns:
-                cols.append(c)
+                cdf = self._cdf_curve(vals)
+                cdf.insert(0, "metric", metric_name)
+                cdf.insert(0, "exe", exe)
+                cdf.insert(0, "bench", bench)
+                cdf_frames.append(cdf)
 
-        headers = ["Benchmark", "\\#Drv"]
-        for c in cols[2:]:
-            if c == "top10_share":
-                headers.append("Top-10\\% share")
-            elif c == "total_fcov":
-                headers.append("Cov$_f$")
-            elif c == "total_ecov":
-                headers.append("Cov$_e$")
-            else:
-                headers.append(c.replace("_", "\\_"))
+                # Top-N drivers (for appendix / qualitative examples)
+                # Tie-break by driver_id if present to keep stable ordering.
+                sub = df[[c for c in [drv_id_col, drv_name_col, col] if c is not None]].copy()
+                sub = sub.rename(columns={col: "value"})
+                sub["metric"] = metric_name
+                sub["bench"] = bench
+                sub["exe"] = exe
+                sort_cols = ["value"]
+                ascending = [False]
+                if drv_id_col is not None:
+                    sort_cols.append(drv_id_col)
+                    ascending.append(True)
+                sub = sub.sort_values(sort_cols, ascending=ascending).head(TOPN)
 
-        # sort by skew if available
-        if "top10_share" in df_summary.columns:
-            df_summary = df_summary.sort_values("top10_share", ascending=False)
+                # Normalize output columns
+                if drv_id_col is None:
+                    sub["driver_id"] = np.nan
+                else:
+                    sub = sub.rename(columns={drv_id_col: "driver_id"})
+                if drv_name_col is None:
+                    sub["driver_name"] = np.nan
+                else:
+                    sub = sub.rename(columns={drv_name_col: "driver_name"})
 
-        tex = self.to_booktabs(
-            df=df_summary,
-            columns=cols,
-            headers=headers,
-            caption="RQ1 summary: driver contribution skew under equal fuzzing budgets.",
-            label="tab:rq1_summary",
-            align="l" + "r" * (len(cols) - 1),
+                top_rows.extend(
+                    sub[["metric", "bench", "exe", "driver_id", "driver_name", "value"]]
+                    .to_dict(orient="records")
+                )
+
+        summary_df = pd.DataFrame(summary_rows).sort_values(["bench", "exe", "metric"])
+        topk_df = pd.concat(topk_frames, ignore_index=True) if topk_frames else pd.DataFrame()
+        cdf_df = pd.concat(cdf_frames, ignore_index=True) if cdf_frames else pd.DataFrame()
+        top_df = pd.DataFrame(top_rows)
+
+        self._write_csv("rq1_present__summary.csv", summary_df)
+        if not topk_df.empty:
+            self._write_csv("rq1_present__topk_curve.csv", topk_df)
+        if not cdf_df.empty:
+            self._write_csv("rq1_present__cdf.csv", cdf_df)
+        if not top_df.empty:
+            self._write_csv("rq1_present__top_by_metric.csv", top_df)
+
+        print(
+            f"[RQ1Present] wrote: summary({len(summary_df)} rows), "
+            f"topk({len(topk_df)} rows), cdf({len(cdf_df)} rows), top({len(top_df)} rows) "
+            f"to {self._get_out_dir()}"
         )
-        self.write_tex("rq1_summary.tex", tex)
-
-        # ---------- (2) Representative CDF figure ----------
-        rep = df_summary["benchmark"].head(3).tolist()
-
-        plt.figure()
-        for b in rep:
-            if b not in cdf_data:
-                continue
-            d = cdf_data[b]
-            plt.plot(d["x"], d["y"], label=b)
-        plt.xlabel("Fraction of drivers")
-        plt.ylabel("Fraction of total coverage")
-        plt.legend(fontsize="small")
-        plt.tight_layout()
-        plt.savefig(self.fig_dir / "rq1_cdf.pdf", format="pdf")
-        plt.close()
-        

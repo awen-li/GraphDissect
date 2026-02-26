@@ -32,7 +32,7 @@ class RQ1Contribution(Analyzer):
         self.bug_cnt = self._compute_bug_contribution(exe_dir, g)
 
         df_drivers = self._build_driver_table(exe_dir, g, bench_name, exe_name)
-        df_summary = self._build_summary_table(exe_dir, bench_name, exe_name, df_drivers)
+        df_summary = self._build_summary_table(exe_dir, bench_name, exe_name, df_drivers, g)
         df_top = self._compute_top_contributions(df_drivers)
 
         return AnalysisResult(tables={
@@ -129,14 +129,15 @@ class RQ1Contribution(Analyzer):
                              exe_dir: Path, 
                              bench_name: str, 
                              exe_name: str, 
-                             df_drivers: pd.DataFrame) -> pd.DataFrame:
+                             df_drivers: pd.DataFrame, g) -> pd.DataFrame:
+        nodeCov, edgeCov = g.get_graph_coverage()
         return pd.DataFrame([{
             "bench": bench_name,
             "exe": exe_name,
             "exe_dir": str(exe_dir),
             "num_drivers": int(len(df_drivers)),
-            "sum_cg_node_own": int(df_drivers["cg_node_own"].sum()) if not df_drivers.empty else 0,
-            "sum_cd_edge_own": int(df_drivers["cd_edge_own"].sum()) if not df_drivers.empty else 0,
+            "sum_cg_node_own": nodeCov if nodeCov is not None else 0,
+            "sum_cd_edge_own": edgeCov if edgeCov is not None else 0,
             "sum_block_own": int(df_drivers["block_own"].sum()) if not df_drivers.empty else 0,
             "sum_bug_count": int(df_drivers["bug_count"].sum()) if not df_drivers.empty else 0
         }])

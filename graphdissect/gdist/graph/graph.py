@@ -55,7 +55,7 @@ class DrvGraph:
         self.drvList.clear()
 
         if not self.driverListJson.is_file():
-            msg = f"missing driver_list.json: {self.driver_list_json}"
+            msg = f"missing driver_list.json: {self.driverListJson}"
             print(f"Warning: {msg}")
             return
 
@@ -91,3 +91,7 @@ class DrvGraph:
 
     def get_driver_graph(self, drvId: int):
         return sgmarker.getDriverGraph(drvId)
+
+    def get_graph_coverage(self):
+        # (nodeCov, edgeCov)
+        return sgmarker.getGraphCov()

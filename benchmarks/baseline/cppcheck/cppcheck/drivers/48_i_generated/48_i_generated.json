@@ -1,0 +1,15 @@
+{
+    "id": 48,
+    "name": "48_i_generated",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "-i *generated*"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Ignore files/dirs matching pattern."
+}

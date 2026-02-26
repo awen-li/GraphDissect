@@ -1,0 +1,13 @@
+{
+    "id": 3,
+    "name": "3_c_conf_dns_lua",
+    "driver": "snort",
+    "args": [
+        "-c conf/dns.lua",
+        "-r"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Select Snort3 Lua config profile (main driver dimension)."
+}

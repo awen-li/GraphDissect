@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_e_N_qjsc_data",
+    "driver": "qjsc",
+    "args": [
+        "-e -N qjsc_data"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Emit main() plus bytecode to a C file instead of an executable. + Set the C symbol name for the generated data."
+}

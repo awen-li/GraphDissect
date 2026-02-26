@@ -1,0 +1,15 @@
+{
+    "id": 36,
+    "name": "36_checkers_report_out_checkers_txt",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--checkers-report out/checkers.txt"
+    ],
+    "seed_dir": "seeds",
+    "output": "--output-file out/checkers.txt",
+    "priority": 1.0,
+    "description": "Write report of active checkers."
+}

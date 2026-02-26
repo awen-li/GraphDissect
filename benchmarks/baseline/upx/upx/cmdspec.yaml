@@ -1,0 +1,248 @@
+profile:
+  name: "upx"
+  binary: "upx"
+  domain: "archive"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  # Keep runs deterministic / non-interactive; avoid overwriting unless fuzz harness uses temp dirs.
+  base_args: ["-q"]
+
+  io:
+    input:
+      kind: "positional"     # input files are positional: file..
+    output:
+      kind: "flagged"
+      flag: "-o"
+
+primary:
+  # ===== Driver mode: operation =====
+  - id: "1"
+    cli: [""]
+    kind: "choice"
+    metavar: "COMMAND"
+    role: "mode"
+    include_in_search: true
+    choices:
+      # default is compress if neither -d/-l/-t used; we model explicitly via options below
+      - "compress"
+      - "decompress"
+      - "list"
+      - "test"
+      - "fileinfo"
+    description: "UPX operation mode over input executable(s)."
+
+  # ===== Global verbosity / safety toggles =====
+  - id: "2"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    group: "verbosity"
+    include_in_search: true
+    description: "Verbose output."
+
+  - id: "3"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    group: "verbosity"
+    include_in_search: false
+    description: "Quiet mode (already in base_args)."
+
+  - id: "4"
+    cli: ["--no-color"]
+    kind: "flag"
+    role: "mode"
+    group: "color"
+    include_in_search: true
+    description: "Disable color output."
+
+  - id: "5"
+    cli: ["--no-progress"]
+    kind: "flag"
+    role: "mode"
+    group: "progress"
+    include_in_search: true
+    description: "Disable progress output."
+
+  # ===== Output control =====
+  - id: "6"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "OUTFILE"
+    value_template: "out.bin"
+    defaults: ["out.bin"]
+    role: "output"
+    include_in_search: true
+    output: "out.bin"
+    description: "Write output to the specified file (single-input driver recommended)."
+
+  - id: "7"
+    cli: ["--force-overwrite"]
+    kind: "flag"
+    role: "mode"
+    group: "overwrite"
+    include_in_search: true
+    description: "Force overwrite of output file."
+
+  # ===== Operation flags (map to COMMAND choices) =====
+  - id: "8"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "op"
+    include_in_search: true
+    description: "Decompress input file."
+
+  - id: "9"
+    cli: ["-l"]
+    kind: "flag"
+    role: "mode"
+    group: "op"
+    include_in_search: true
+    description: "List compressed file."
+
+  - id: "10"
+    cli: ["-t"]
+    kind: "flag"
+    role: "mode"
+    group: "op"
+    include_in_search: true
+    description: "Test compressed file integrity."
+
+  - id: "11"
+    cli: ["--fileinfo"]
+    kind: "flag"
+    role: "mode"
+    group: "op"
+    include_in_search: true
+    description: "Show parameters of already-compressed file."
+
+  # ===== Compression level =====
+  - id: "12"
+    cli: ["-1"]
+    kind: "flag"
+    role: "mode"
+    group: "level"
+    include_in_search: true
+    description: "Compress faster."
+
+  - id: "13"
+    cli: ["-9"]
+    kind: "flag"
+    role: "mode"
+    group: "level"
+    include_in_search: true
+    description: "Compress better."
+
+  - id: "14"
+    cli: ["--best"]
+    kind: "flag"
+    role: "mode"
+    group: "level"
+    include_in_search: true
+    description: "Compress best (slow)."
+
+  # ===== Compression method tuning =====
+  - id: "15"
+    cli: ["--lzma"]
+    kind: "flag"
+    role: "mode"
+    group: "method"
+    include_in_search: true
+    description: "Try LZMA method."
+
+  - id: "16"
+    cli: ["--brute"]
+    kind: "flag"
+    role: "mode"
+    group: "method"
+    include_in_search: true
+    description: "Try all available compression methods & filters (slow)."
+
+  - id: "17"
+    cli: ["--ultra-brute"]
+    kind: "flag"
+    role: "mode"
+    group: "method"
+    include_in_search: true
+    description: "Try even more compression variants (very slow)."
+
+  # ===== Overlay handling (important for PE/ELF quirks) =====
+  - id: "18"
+    cli: ["--overlay=copy"]
+    kind: "flag"
+    role: "mode"
+    group: "overlay"
+    include_in_search: true
+    description: "Copy any extra overlay data (default)."
+
+  - id: "19"
+    cli: ["--overlay=skip"]
+    kind: "flag"
+    role: "mode"
+    group: "overlay"
+    include_in_search: true
+    description: "Skip files with overlays."
+
+  # ===== Misc switches that exercise more code paths =====
+  - id: "20"
+    cli: ["-f"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Force compression of suspicious files."
+
+constraints:
+  # only one verbosity choice
+  - type: "at_most_one_from_group"
+    group: "verbosity"
+
+  # only one operation flag among -d/-l/-t/--fileinfo; compress is the implicit default
+  - type: "at_most_one_from_group"
+    group: "op"
+
+  # only one compression level selector
+  - type: "at_most_one_from_group"
+    group: "level"
+
+  # only one method tuning option (brute/ultra-brute/lzma); keep combos small
+  - type: "at_most_one_from_group"
+    group: "method"
+
+  # overlay policy: choose at most one
+  - type: "at_most_one_from_group"
+    group: "overlay"
+
+  # For non-compress operations, an output file isn't needed; for compress/decompress, prefer -o.
+  - type: "requires"
+    when:
+      command: "compress"
+    require_any: [["-o"]]
+
+  - type: "requires"
+    when:
+      command: "decompress"
+    require_any: [["-o"]]
+
+examples:
+  - id: "ex1"
+    cmd: ["upx", "-q", "-9", "-o", "out.bin", "seeds/elf/hello_amd64.elf"]
+    description: "Compress an ELF input with level -9."
+
+  - id: "ex2"
+    cmd: ["upx", "-q", "--lzma", "--overlay=copy", "-o", "out.bin", "seeds/pe/tiny.exe"]
+    description: "Compress a PE input using LZMA."
+
+  - id: "ex3"
+    cmd: ["upx", "-q", "-t", "seeds/upx/already_packed.bin"]
+    description: "Test a packed file."
+
+  - id: "ex4"
+    cmd: ["upx", "-q", "-l", "seeds/upx/already_packed.bin"]
+    description: "List info for a packed file."
+
+  - id: "ex5"
+    cmd: ["upx", "-q", "-d", "-o", "out.bin", "seeds/upx/already_packed.bin"]
+    description: "Decompress a packed file into out.bin."
+

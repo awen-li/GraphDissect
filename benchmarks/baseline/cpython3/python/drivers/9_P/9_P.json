@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_P",
+    "driver": "python",
+    "args": [
+        "-P"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Do not prepend potentially unsafe path to sys.path"
+}

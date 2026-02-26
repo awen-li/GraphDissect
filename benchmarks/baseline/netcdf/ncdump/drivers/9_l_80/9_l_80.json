@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_l_80",
+    "driver": "ncdump",
+    "args": [
+        "-l 80"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Max line length in data section"
+}

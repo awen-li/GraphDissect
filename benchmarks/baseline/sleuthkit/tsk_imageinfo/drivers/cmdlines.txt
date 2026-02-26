@@ -1,0 +1,11 @@
+# binary_path: tsk_imageinfo
+# executable:  tsk_imageinfo
+# source:      tsk_imageinfo/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	tsk_imageinfo/tsk_imageinfo -v @@
+2	tsk_imageinfo/tsk_imageinfo -V @@
+3	tsk_imageinfo/tsk_imageinfo -i raw @@
+4	tsk_imageinfo/tsk_imageinfo -i list @@
+5	tsk_imageinfo/tsk_imageinfo -b 512 @@
+6	tsk_imageinfo/tsk_imageinfo -b 4096 @@

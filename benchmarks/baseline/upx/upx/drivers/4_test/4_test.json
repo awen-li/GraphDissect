@@ -1,0 +1,13 @@
+{
+    "id": 4,
+    "name": "4_test",
+    "driver": "upx",
+    "args": [
+        "-q",
+        " test"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "UPX operation mode over input executable(s)."
+}

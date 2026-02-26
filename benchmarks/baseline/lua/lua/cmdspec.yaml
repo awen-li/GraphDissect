@@ -1,0 +1,80 @@
+profile:
+  name: "lua"
+  binary: "lua"
+  domain: "language"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  io:
+    input:
+      kind: "positional"
+      flag: ""          # lua [options] [script [args]]
+    output:
+      kind: "none"
+      flag: ""          # lua has no positional output file
+
+
+primary:
+  # ===== Primary execution modes =====
+  # Default: run a script file (fuzzed input is the script)
+  - id: "1"
+    cli: []
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Run Lua script file (default mode)"
+
+  # Execute an inline statement before running script (exercises -e parsing + init)
+  - id: "2"
+    cli: ["-e"]
+    kind: "value"
+    metavar: "STAT"
+    value_template: "local _=1"
+    defaults: ["local _=1", "local a=1+2", "print(1)"]
+    role: "mode"
+    include_in_search: true
+    description: "Execute a statement before running the script"
+
+  # Require a module before running script (exercises module loader)
+  - id: "3"
+    cli: ["-l"]
+    kind: "value"
+    metavar: "MOD"
+    value_template: "math"
+    defaults: ["math", "string", "table", "coroutine", "utf8"]
+    role: "mode"
+    include_in_search: true
+    description: "Require a standard library module before running script"
+
+
+second:
+  # ===== Modifiers (can be combined with primary) =====
+
+  - id: "10"
+    cli: ["-E"]
+    kind: "flag"
+    role: "modifier"
+    include_in_search: true
+    description: "Ignore environment variables (reduce nondeterminism)"
+
+  - id: "11"
+    cli: ["-W"]
+    kind: "flag"
+    role: "modifier"
+    include_in_search: true
+    description: "Turn warnings on"
+
+  - id: "12"
+    cli: ["--"]
+    kind: "flag"
+    role: "modifier"
+    include_in_search: true
+    description: "Stop handling options (useful if script name begins with '-')"
+
+
+constraints:
+  # Avoid nonsensical combos or ones that change IO model.
+  # (We intentionally do NOT include '-' stdin mode, since you don't fuzz stdin.)
+  - type: "at_most_one_from_group"
+    group: "mode"
+

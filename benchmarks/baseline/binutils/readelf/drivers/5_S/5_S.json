@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_S",
+    "driver": "readelf",
+    "args": [
+        "-S"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display section headers"
+}

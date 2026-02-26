@@ -1,0 +1,12 @@
+{
+    "id": 62,
+    "name": "62_form_f_1",
+    "driver": "pdftops",
+    "args": [
+        "-form -f 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-form.ps",
+    "priority": 1.0,
+    "description": "Generate a PostScript form + First page to print"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_i_list",
+    "driver": "img_stat",
+    "args": [
+        "-i list"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Image format type (use 'list' for supported types)."
+}

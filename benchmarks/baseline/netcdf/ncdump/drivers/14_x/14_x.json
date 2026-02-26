@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "name": "14_x",
+    "driver": "ncdump",
+    "args": [
+        "-x"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Output XML (NcML) instead of CDL"
+}

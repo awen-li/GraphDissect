@@ -1,0 +1,15 @@
+{
+    "id": 1,
+    "name": "1_a",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-a"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print all DWARF debug_* sections (bounded by -H)."
+}

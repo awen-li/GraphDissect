@@ -1,0 +1,13 @@
+{
+    "id": 18,
+    "name": "18_devices",
+    "driver": "ffprobe",
+    "args": [
+        "-devices",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show available devices."
+}

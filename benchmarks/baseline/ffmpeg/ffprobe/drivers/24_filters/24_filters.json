@@ -1,0 +1,13 @@
+{
+    "id": 24,
+    "name": "24_filters",
+    "driver": "ffprobe",
+    "args": [
+        "-filters",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show available filters."
+}

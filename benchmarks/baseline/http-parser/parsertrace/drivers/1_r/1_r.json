@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_r",
+    "driver": "parsertrace",
+    "args": [
+        "-r"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Parse file as HTTP Response"
+}

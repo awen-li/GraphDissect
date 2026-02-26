@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_i",
+    "driver": "file",
+    "args": [
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Output MIME type strings (equivalent to --mime-type and --mime-encoding)"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 22,
+    "name": "22_level1sep_f_1",
+    "driver": "pdftops",
+    "args": [
+        "-level1sep -f 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level1sep.ps",
+    "priority": 1.0,
+    "description": "Generate Level 1 separable PostScript + First page to print"
+}

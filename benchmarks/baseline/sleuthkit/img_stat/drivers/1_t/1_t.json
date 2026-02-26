@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_t",
+    "driver": "img_stat",
+    "args": [
+        "-t"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display image type only."
+}

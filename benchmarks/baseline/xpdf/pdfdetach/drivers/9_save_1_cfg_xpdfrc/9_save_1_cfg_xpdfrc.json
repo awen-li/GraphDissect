@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_save_1_cfg_xpdfrc",
+    "driver": "pdfdetach",
+    "args": [
+        "-save 1 -cfg xpdfrc"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Save the embedded file with the given index + Configuration file to use instead of .xpdfrc"
+}

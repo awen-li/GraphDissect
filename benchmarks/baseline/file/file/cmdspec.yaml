@@ -1,0 +1,126 @@
+profile:
+  name: "file"
+  binary: "file"
+  domain: "utils"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: "" 
+
+primary:
+  # ===== Core behaviors =====
+
+  - id: "1"
+    cli: ["-b", "--brief"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Do not prepend filenames to output lines"
+
+  - id: "2"
+    cli: ["-i", "--mime"]
+    kind: "flag"
+    role: "mode"
+    group: "mime"
+    include_in_search: true
+    description: "Output MIME type strings (equivalent to --mime-type and --mime-encoding)"
+
+  - id: "3"
+    cli: ["--mime-type"]
+    kind: "flag"
+    role: "mode"
+    group: "mime"
+    include_in_search: true
+    description: "Output only MIME type"
+
+  - id: "4"
+    cli: ["--mime-encoding"]
+    kind: "flag"
+    role: "mode"
+    group: "mime"
+    include_in_search: true
+    description: "Output only MIME encoding"
+
+  - id: "5"
+    cli: ["--extension"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Output a slash-separated list of extensions"
+
+  # ===== Compressed / nested formats =====
+
+  - id: "6"
+    cli: ["-z", "--uncompress"]
+    kind: "flag"
+    role: "mode"
+    group: "uncompress"
+    include_in_search: true
+    description: "Try to look inside compressed files"
+
+  - id: "7"
+    cli: ["-Z", "--uncompress-noreport"]
+    kind: "flag"
+    role: "mode"
+    group: "uncompress"
+    include_in_search: true
+    description: "Only print the contents of compressed files (no report)"
+
+  - id: "8"
+    cli: ["-k", "--keep-going"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Do not stop at the first match"
+
+  # ===== Magic selection (fuzz-relevant, but keep simple) =====
+
+  - id: "9"
+    cli: ["-m", "--magic-file"]
+    kind: "value"
+    metavar: "LIST"
+    value_template: "magic.mgc"
+    defaults: ["magic.mgc"]
+    role: "mode"
+    include_in_search: true
+    description: "Use a colon-separated list of magic files (use a prepared magic file in seeds)"
+
+  - id: "10"
+    cli: ["-C", "--compile"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Compile the file specified by -m (compile custom magic rules)"
+
+  # ===== Symlink handling (stable and common) =====
+
+  - id: "11"
+    cli: ["-L", "--dereference"]
+    kind: "flag"
+    role: "mode"
+    group: "deref"
+    include_in_search: true
+    description: "Follow symlinks"
+
+  - id: "12"
+    cli: ["-h", "--no-dereference"]
+    kind: "flag"
+    role: "mode"
+    group: "deref"
+    include_in_search: true
+    description: "Do not follow symlinks (default)"
+
+constraints:
+  # MIME modes are mutually exclusive (choose at most one)
+  - type: "at_most_one_from_group"
+    group: "mime"
+
+  # Uncompress modes are mutually exclusive (choose at most one)
+  - type: "at_most_one_from_group"
+    group: "uncompress"
+
+  # Dereference behavior is mutually exclusive (choose at most one)
+  - type: "at_most_one_from_group"
+    group: "deref"

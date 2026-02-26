@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_default",
+    "driver": "pdftops",
+    "args": [
+        ""
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-default.ps",
+    "priority": 1.0,
+    "description": "Default PostScript output"
+}

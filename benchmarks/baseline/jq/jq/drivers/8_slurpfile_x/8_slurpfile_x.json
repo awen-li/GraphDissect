@@ -1,0 +1,12 @@
+{
+    "id": 8,
+    "name": "8_slurpfile_x",
+    "driver": "jq",
+    "args": [
+        "--slurpfile x "
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Set $name to array of JSON values read from file"
+}

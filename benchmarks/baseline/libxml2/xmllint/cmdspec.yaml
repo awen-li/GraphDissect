@@ -1,0 +1,418 @@
+profile:
+  name: "xmllint"
+  binary: "xmllint"
+  domain: "libxml2"
+  seed_dir: "seeds"
+  max_combination: 2
+
+primary:
+  # ---- Core behaviors / parsing modes ----
+  - id: "0"
+    cli: [""]
+    kind: "default"
+    role: "mode"
+    group: "default"
+    include_in_search: true
+    description: "default driver"
+
+  - id: "1"
+    cli: ["--debug"]
+    kind: "flag"
+    role: "mode"
+    group: "view"
+    include_in_search: true
+    description: "Dump a debug tree of the in-memory document"
+
+  - id: "2"
+    cli: ["--shell"]
+    kind: "flag"
+    role: "mode"
+    group: "interactive"
+    include_in_search: false
+    description: "Run an interactive navigating shell"
+
+  - id: "3"
+    cli: ["--debugent"]
+    kind: "flag"
+    role: "mode"
+    group: "view"
+    include_in_search: true
+    description: "Debug entities defined in the document"
+
+  - id: "4"
+    cli: ["--copy"]
+    kind: "flag"
+    role: "mode"
+    group: "test"
+    include_in_search: true
+    description: "Test the internal copy implementation"
+
+  - id: "5"
+    cli: ["--recover"]
+    kind: "flag"
+    role: "mode"
+    group: "robustness"
+    include_in_search: true
+    description: "Output what is parsable from broken XML documents"
+
+  - id: "6"
+    cli: ["--huge"]
+    kind: "flag"
+    role: "mode"
+    group: "limits"
+    include_in_search: true
+    description: "Remove internal arbitrary parser limits"
+
+  - id: "7"
+    cli: ["--noent"]
+    kind: "flag"
+    role: "modifier"
+    group: "entities"
+    include_in_search: true
+    description: "Substitute entity references by their value"
+
+  - id: "8"
+    cli: ["--noenc"]
+    kind: "flag"
+    role: "modifier"
+    group: "encoding"
+    include_in_search: true
+    description: "Ignore any encoding specified inside the document"
+
+  - id: "9"
+    cli: ["--noout"]
+    kind: "flag"
+    role: "mode"
+    group: "output"
+    include_in_search: true
+    description: "Do not output the result tree"
+
+  - id: "10"
+    cli: ["--html"]
+    kind: "flag"
+    role: "mode"
+    group: "parser_kind"
+    include_in_search: true
+    description: "Use the HTML parser"
+
+  - id: "11"
+    cli: ["--xmlout"]
+    kind: "flag"
+    role: "modifier"
+    group: "serializer"
+    include_in_search: true
+    description: "Force XML serializer when using --html"
+
+  - id: "12"
+    cli: ["--nodefdtd"]
+    kind: "flag"
+    role: "modifier"
+    group: "doctype"
+    include_in_search: true
+    description: "Do not default HTML doctype"
+
+  - id: "13"
+    cli: ["--push"]
+    kind: "flag"
+    role: "mode"
+    group: "parse_mode"
+    include_in_search: true
+    description: "Use push parser mode"
+
+  - id: "14"
+    cli: ["--pushsmall"]
+    kind: "flag"
+    role: "mode"
+    group: "parse_mode"
+    include_in_search: true
+    description: "Use push parser mode with tiny increments"
+
+  - id: "15"
+    cli: ["--memory"]
+    kind: "flag"
+    role: "mode"
+    group: "source"
+    include_in_search: true
+    description: "Parse document from memory"
+
+  - id: "16"
+    cli: ["--stream"]
+    kind: "flag"
+    role: "mode"
+    group: "parse_mode"
+    include_in_search: true
+    description: "Use streaming interface for very large files"
+
+  - id: "17"
+    cli: ["--walker"]
+    kind: "flag"
+    role: "mode"
+    group: "view"
+    include_in_search: true
+    description: "Create a reader and walk through the resulting document"
+
+  # ---- Validation & DTD / schema options ----
+
+  - id: "18"
+    cli: ["--valid"]
+    kind: "flag"
+    role: "mode"
+    group: "validation"
+    include_in_search: true
+    description: "Validate document in addition to well-formedness check"
+
+  - id: "19"
+    cli: ["--postvalid"]
+    kind: "flag"
+    role: "mode"
+    group: "validation"
+    include_in_search: true
+    description: "Perform validation after parsing (a posteriori)"
+
+  - id: "20"
+    cli: ["--dtdattr"]
+    kind: "flag"
+    role: "modifier"
+    group: "dtd_load"
+    include_in_search: true
+    description: "Load DTD and populate tree with inherited attributes"
+
+  - id: "21"
+    cli: ["--xinclude"]
+    kind: "flag"
+    role: "mode"
+    group: "xinclude"
+    include_in_search: true
+    description: "Perform XInclude processing"
+
+  - id: "22"
+    cli: ["--noxincludenode"]
+    kind: "flag"
+    role: "modifier"
+    group: "xinclude"
+    include_in_search: true
+    description: "Do XInclude but do not generate XInclude nodes"
+
+  - id: "23"
+    cli: ["--nofixup-base-uris"]
+    kind: "flag"
+    role: "modifier"
+    group: "base_uri"
+    include_in_search: true
+    description: "Do not fix up xml:base URIs"
+
+  - id: "24"
+    cli: ["--relaxng"]
+    kind: "value"
+    metavar: "SCHEMA"
+    value_template: "schema.rng"
+    defaults:
+      - "schema.rng"
+    role: "mode"
+    group: "schema"
+    include_in_search: true
+    description: "Validate document against RelaxNG schema"
+
+  - id: "25"
+    cli: ["--schema"]
+    kind: "value"
+    metavar: "SCHEMA"
+    value_template: "schema.xsd"
+    defaults:
+      - "schema.xsd"
+    role: "mode"
+    group: "schema"
+    include_in_search: true
+    description: "Validate document against WXS schema"
+
+  - id: "26"
+    cli: ["--schematron"]
+    kind: "value"
+    metavar: "SCHEMA"
+    value_template: "rules.sch"
+    defaults:
+      - "rules.sch"
+    role: "mode"
+    group: "schema"
+    include_in_search: true
+    description: "Validate document against Schematron schema"
+
+  - id: "27"
+    cli: ["--xpath"]
+    kind: "value"
+    metavar: "EXPR"
+    value_template: "//node()"
+    defaults:
+      - "/root/*"
+    role: "mode"
+    group: "query"
+    include_in_search: true
+    description: "Evaluate XPath expression (implies --noout)"
+
+  - id: "28"
+    cli: ["--path"]
+    kind: "value"
+    metavar: "PATHS"
+    value_template: "/tmp"
+    defaults:
+      - "/tmp"
+    role: "modifier"
+    group: "paths"
+    include_in_search: true
+    description: "Provide a set of search paths for resources"
+
+  - id: "29"
+    cli: ["--load-trace"]
+    kind: "flag"
+    role: "modifier"
+    group: "debug_io"
+    include_in_search: true
+    description: "Print trace of all external entities loaded"
+
+  - id: "30"
+    cli: ["--nonet"]
+    kind: "flag"
+    role: "modifier"
+    group: "net"
+    include_in_search: true
+    description: "Refuse to fetch DTDs or entities over network"
+
+  - id: "31"
+    cli: ["--catalogs"]
+    kind: "flag"
+    role: "mode"
+    group: "catalogs"
+    include_in_search: true
+    description: "Use SGML/XML catalogs (default behavior)"
+
+  - id: "32"
+    cli: ["--nocatalogs"]
+    kind: "flag"
+    role: "mode"
+    group: "catalogs"
+    include_in_search: true
+    description: "Deactivate all catalogs"
+
+  - id: "33"
+    cli: ["--testIO"]
+    kind: "flag"
+    role: "mode"
+    group: "test"
+    include_in_search: true
+    description: "Test user I/O support"
+
+  - id: "34"
+    cli: ["--auto"]
+    kind: "flag"
+    role: "mode"
+    group: "source"
+    include_in_search: true
+    description: "Generate a small document on the fly"
+
+  - id: "35"
+    cli: ["--output", "-o"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "out.xml"
+    defaults:
+      - "out.xml"
+    role: "modifier"
+    group: "output"
+    include_in_search: true
+    description: "Save output to FILE"
+
+  - id: "36"
+    cli: ["--format"]
+    kind: "flag"
+    role: "modifier"
+    group: "pretty"
+    include_in_search: true
+    description: "Reformat and reindent the output"
+
+  - id: "37"
+    cli: ["--pretty"]
+    kind: "choice"
+    metavar: "STYLE"
+    choices:
+      - "indent"
+      - "spaced"
+    defaults:
+      - "indent"
+      - "spaced"
+    role: "modifier"
+    group: "pretty"
+    include_in_search: true
+    description: "Pretty-print style: indent, spaced, or compressed"
+
+  - id: "38"
+    cli: ["--encode"]
+    kind: "value"
+    metavar: "ENC"
+    value_template: "UTF-8"
+    defaults:
+      - "UTF-8"
+    role: "modifier"
+    group: "encoding"
+    include_in_search: true
+    description: "Output in the given encoding"
+
+  - id: "39"
+    cli: ["--c14n"]
+    kind: "flag"
+    role: "mode"
+    group: "canonical"
+    include_in_search: true
+    description: "Save in W3C canonical XML 1.0 format (with comments)"
+
+  - id: "40"
+    cli: ["--c14n11"]
+    kind: "flag"
+    role: "mode"
+    group: "canonical"
+    include_in_search: true
+    description: "Save in W3C canonical XML 1.1 format (with comments)"
+
+  - id: "41"
+    cli: ["--htmlout"]
+    kind: "flag"
+    role: "modifier"
+    group: "serializer"
+    include_in_search: true
+    description: "Output results as HTML"
+
+  - id: "42"
+    cli: ["--sax1"]
+    kind: "flag"
+    role: "modifier"
+    group: "sax"
+    include_in_search: true
+    description: "Use old SAX1 interfaces for processing"
+
+  - id: "43"
+    cli: ["--sax"]
+    kind: "flag"
+    role: "modifier"
+    group: "sax"
+    include_in_search: true
+    description: "Do not build a tree, work at SAX level only"
+
+  - id: "44"
+    cli: ["--insert"]
+    kind: "flag"
+    role: "mode"
+    group: "test"
+    include_in_search: true
+    description: "Test node insertion behavior (from prior drivers)"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "catalogs"
+
+  - type: "at_most_one_from_group"
+    group: "canonical"
+
+  - type: "at_most_one_from_group"
+    group: "schema"
+
+  - type: "at_most_one_from_group"
+    group: "sax"

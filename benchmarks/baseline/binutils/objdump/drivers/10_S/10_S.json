@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_S",
+    "driver": "objdump",
+    "args": [
+        "-S"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Intermix source code with disassembly"
+}

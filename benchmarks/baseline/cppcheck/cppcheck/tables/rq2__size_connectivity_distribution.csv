@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+cppcheck,cppcheck,<= 10,48,0.0,2.0,0.5
+cppcheck,cppcheck,11–25,0,,,
+cppcheck,cppcheck,26–50,0,,,
+cppcheck,cppcheck,51–100,0,,,
+cppcheck,cppcheck,101–200,0,,,
+cppcheck,cppcheck,201–500,0,,,
+cppcheck,cppcheck,501–1000,0,,,
+cppcheck,cppcheck,> 1000,0,,,

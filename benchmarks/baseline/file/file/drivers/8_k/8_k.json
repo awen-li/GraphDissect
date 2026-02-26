@@ -1,0 +1,12 @@
+{
+    "id": 8,
+    "name": "8_k",
+    "driver": "file",
+    "args": [
+        "-k"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Do not stop at the first match"
+}

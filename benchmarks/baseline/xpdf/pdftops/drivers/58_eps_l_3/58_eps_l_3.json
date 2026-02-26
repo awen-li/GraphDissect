@@ -1,0 +1,12 @@
+{
+    "id": 58,
+    "name": "58_eps_l_3",
+    "driver": "pdftops",
+    "args": [
+        "-eps -l 3"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-eps.ps",
+    "priority": 1.0,
+    "description": "Generate Encapsulated PostScript (EPS) + Last page to print"
+}

@@ -1,0 +1,13 @@
+{
+    "id": 14,
+    "name": "14_buildconf",
+    "driver": "ffprobe",
+    "args": [
+        "-buildconf",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show build configuration."
+}

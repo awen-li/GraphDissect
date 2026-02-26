@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_memory",
+    "driver": "xmllint",
+    "args": [
+        "--memory"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Parse document from memory"
+}

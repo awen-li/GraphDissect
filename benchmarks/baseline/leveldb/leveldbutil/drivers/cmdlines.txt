@@ -1,0 +1,6 @@
+# binary_path: leveldbutil
+# executable:  leveldbutil
+# source:      leveldbutil/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	leveldbutil/leveldbutil dump @@

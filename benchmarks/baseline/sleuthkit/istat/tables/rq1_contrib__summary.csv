@@ -1,0 +1,2 @@
+bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
+sleuthkit,istat,/root/GraphDissect/benchmarks/sleuthkit/istat,4,74,204,89,0

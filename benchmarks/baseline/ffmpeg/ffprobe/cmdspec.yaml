@@ -1,0 +1,366 @@
+profile:
+  name: "ffprobe"
+  binary: "ffprobe"
+  domain: "media"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "flagged"
+      flag: "-i"
+    output:
+      kind: "flagged"
+      flag: "-o"
+
+primary:
+  # ---- Core show* modes over an input file ----
+  - id: "1"
+    cli: ["-show_streams"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show streams info."
+
+  - id: "2"
+    cli: ["-show_format"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show container/format info."
+
+  - id: "3"
+    cli: ["-show_packets"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show packet-level info."
+
+  - id: "4"
+    cli: ["-show_frames"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show frame-level info."
+
+  - id: "5"
+    cli: ["-show_chapters"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show chapter info."
+
+  - id: "6"
+    cli: ["-show_programs"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show programs info."
+
+  - id: "7"
+    cli: ["-show_stream_groups"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show stream groups info."
+
+  - id: "8"
+    cli: ["-show_data"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: false
+    description: "Show packet data (may be huge)."
+
+  - id: "9"
+    cli: ["-show_data_hash"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: true
+    description: "Show packet data hashes."
+
+  - id: "10"
+    cli: ["-show_error"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: false
+    description: "Show probing error details."
+
+  - id: "11"
+    cli: ["-show_log"]
+    kind: "flag"
+    role: "mode"
+    group: "show"
+    include_in_search: false
+    description: "Show log messages in the output."
+
+  - id: "12"
+    cli: ["-sections"]
+    kind: "flag"
+    role: "mode"
+    group: "meta"
+    include_in_search: true
+    description: "Print sections structure and exit."
+
+  - id: "13"
+    cli: ["-show_program_version"]
+    kind: "flag"
+    role: "mode"
+    group: "meta"
+    include_in_search: false
+    description: "Show ffprobe program version."
+
+  - id: "14"
+    cli: ["-show_library_versions"]
+    kind: "flag"
+    role: "mode"
+    group: "meta"
+    include_in_search: false
+    description: "Show library versions."
+
+  - id: "15"
+    cli: ["-show_versions"]
+    kind: "flag"
+    role: "mode"
+    group: "meta"
+    include_in_search: false
+    description: "Show program and library versions."
+
+  - id: "16"
+    cli: ["-show_pixel_formats"]
+    kind: "flag"
+    role: "mode"
+    group: "meta"
+    include_in_search: false
+    description: "Show pixel format descriptions."
+
+  - id: "17"
+    cli: ["-show_optional_fields"]
+    kind: "flag"
+    role: "mode"
+    group: "meta"
+    include_in_search: false
+    description: "Show optional fields."
+
+  - id: "18"
+    cli: ["-show_private_data"]
+    kind: "flag"
+    role: "mode"
+    group: "meta"
+    include_in_search: true
+    description: "Show private data (alias: -private)."
+
+  - id: "19"
+    cli: ["-analyze_frames"]
+    kind: "flag"
+    role: "mode"
+    group: "analysis"
+    include_in_search: true
+    description: "Analyze frames for extra stream-level information."
+
+  - id: "20"
+    cli: ["-bitexact"]
+    kind: "flag"
+    role: "mode"
+    group: "analysis"
+    include_in_search: true
+    description: "Force bitexact output."
+
+  # ---- Meta / listing modes that don't need -i (keep out of search) ----
+  - id: "21"
+    cli: ["-L"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show license."
+
+  - id: "22"
+    cli: ["-license"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: false
+    description: "Show license."
+
+  - id: "23"
+    cli: ["-h"]
+    kind: "value"
+    role: "mode"
+    group: "info"
+    metavar: "TOPIC"
+    value_template: "help"
+    include_in_search: true
+    description: "Show help for topic (aliases: -?, -help, --help)."
+
+  - id: "24"
+    cli: ["-version"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: false
+    description: "Show version."
+
+  - id: "25"
+    cli: ["-buildconf"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show build configuration."
+
+  - id: "26"
+    cli: ["-formats"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available formats."
+
+  - id: "27"
+    cli: ["-muxers"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available muxers."
+
+  - id: "28"
+    cli: ["-demuxers"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available demuxers."
+
+  - id: "29"
+    cli: ["-devices"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available devices."
+
+  - id: "30"
+    cli: ["-codecs"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available codecs."
+
+  - id: "31"
+    cli: ["-decoders"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available decoders."
+
+  - id: "32"
+    cli: ["-encoders"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available encoders."
+
+  - id: "33"
+    cli: ["-bsfs"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available bitstream filters."
+
+  - id: "34"
+    cli: ["-protocols"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available protocols."
+
+  - id: "35"
+    cli: ["-filters"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show available filters."
+
+  - id: "36"
+    cli: ["-pix_fmts"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: false
+    description: "Show pixel formats."
+
+  - id: "37"
+    cli: ["-layouts"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show standard channel layouts."
+
+  - id: "38"
+    cli: ["-sample_fmts"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show audio sample formats."
+
+  - id: "39"
+    cli: ["-dispositions"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show stream dispositions."
+
+  - id: "40"
+    cli: ["-colors"]
+    kind: "flag"
+    role: "mode"
+    group: "info"
+    include_in_search: true
+    description: "Show color names."
+
+  - id: "41"
+    cli: ["-sources"]
+    kind: "value"
+    role: "mode"
+    group: "device"
+    metavar: "DEVICE"
+    value_template: "default"
+    include_in_search: true
+    description: "List sources of the input device."
+
+  - id: "42"
+    cli: ["-sinks"]
+    kind: "value"
+    role: "mode"
+    group: "device"
+    metavar: "DEVICE"
+    value_template: "default"
+    include_in_search: true
+    description: "List sinks of the input device."
+
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "loglevel"
+
+  - type: "at_most_one_from_group"
+    group: "output_format"

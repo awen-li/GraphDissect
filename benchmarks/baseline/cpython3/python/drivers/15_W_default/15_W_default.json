@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_W_default",
+    "driver": "python",
+    "args": [
+        "-W default"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Warning control (action:message:category:module:lineno)"
+}

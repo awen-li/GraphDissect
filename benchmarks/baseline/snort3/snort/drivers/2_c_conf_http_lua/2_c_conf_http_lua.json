@@ -1,0 +1,13 @@
+{
+    "id": 2,
+    "name": "2_c_conf_http_lua",
+    "driver": "snort",
+    "args": [
+        "-c conf/http.lua",
+        "-r"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Select Snort3 Lua config profile (main driver dimension)."
+}

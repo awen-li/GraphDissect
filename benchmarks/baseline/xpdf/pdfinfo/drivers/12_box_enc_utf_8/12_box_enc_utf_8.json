@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_box_enc_utf_8",
+    "driver": "pdfinfo",
+    "args": [
+        "-box -enc utf-8"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print the page bounding boxes + Output text encoding name"
+}

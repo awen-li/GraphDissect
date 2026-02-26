@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_save_1",
+    "driver": "pdfdetach",
+    "args": [
+        "-save 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Save the embedded file with the given index"
+}

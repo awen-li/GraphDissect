@@ -1,0 +1,214 @@
+profile:
+  name: "ncgen"
+  binary: "ncgen"
+  domain: "database_storage"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    input:
+      kind: "positional"
+      flag: "" 
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-k"]
+    kind: "value"
+    metavar: "KIND"
+    value_template: "classic"
+    defaults:
+      - "classic"
+      - "64-bit offset"
+      - "cdf5"
+      - "netCDF-4"
+      - "netCDF-4 classic model"
+    role: "mode"
+    group: "out_kind"
+    include_in_search: true
+    description: "Specify kind of netCDF output format"
+
+  - id: "2"
+    cli: ["-3"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "Classic netCDF output (shortcut kind)"
+
+  - id: "3"
+    cli: ["-6"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "64-bit offset output (shortcut kind)"
+
+  - id: "4"
+    cli: ["-4"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "netCDF-4 output (shortcut kind)"
+
+  - id: "5"
+    cli: ["-7"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "netCDF-4 classic model output (shortcut kind)"
+
+  - id: "6"
+    cli: ["-5"]
+    kind: "flag"
+    role: "mode"
+    group: "out_kind_short"
+    include_in_search: true
+    description: "CDF5 output (shortcut kind)"
+
+  # ===== Output file / naming =====
+
+  - id: "7"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "OUTFILE"
+    value_template: "out.nc"
+    defaults: ["out.nc"]
+    role: "mode"
+    group: "output"
+    include_in_search: true
+    description: "Output file path"
+
+  - id: "8"
+    cli: ["-N"]
+    kind: "value"
+    metavar: "DATASETNAME"
+    value_template: "dataset"
+    defaults: ["dataset"]
+    role: "mode"
+    group: "naming"
+    include_in_search: true
+    description: "Dataset name"
+
+  # ===== Language output (mutually exclusive) =====
+
+  - id: "9"
+    cli: ["-l"]
+    kind: "choice"
+    metavar: "LANG"
+    choices: ["b", "c", "f77", "java"]
+    defaults: ["b", "c"]
+    role: "mode"
+    group: "lang"
+    include_in_search: true
+    description: "Output language (b|c|f77|java)"
+
+  # ===== Common toggles =====
+
+  - id: "10"
+    cli: ["-b"]
+    kind: "flag"
+    role: "mode"
+    group: "gen_mode"
+    include_in_search: true
+    description: "Binary output mode toggle (-b)"
+
+  - id: "11"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "gen_mode"
+    include_in_search: true
+    description: "Enable generation of data values (-d)"
+
+  - id: "12"
+    cli: ["-x"]
+    kind: "flag"
+    role: "mode"
+    group: "gen_mode"
+    include_in_search: true
+    description: "Extra generation mode toggle (-x)"
+
+  - id: "13"
+    cli: ["-n"]
+    kind: "flag"
+    role: "mode"
+    group: "gen_mode"
+    include_in_search: true
+    description: "Name-related toggle (-n)"
+
+  - id: "14"
+    cli: ["-1"]
+    kind: "flag"
+    role: "mode"
+    group: "gen_mode"
+    include_in_search: true
+    description: "Compatibility mode toggle (-1)"
+
+  - id: "15"
+    cli: ["-P"]
+    kind: "flag"
+    role: "mode"
+    group: "gen_mode"
+    include_in_search: true
+    description: "Processing toggle (-P)"
+
+  - id: "16"
+    cli: ["-W"]
+    kind: "flag"
+    role: "mode"
+    group: "gen_mode"
+    include_in_search: true
+    description: "Generate whole var upload (-W)"
+
+  # ===== Debug / logging (keep simple) =====
+
+  - id: "17"
+    cli: ["-D"]
+    kind: "value"
+    metavar: "LEVEL"
+    value_template: "0"
+    defaults: ["2"]
+    role: "mode"
+    group: "debug"
+    include_in_search: false
+    description: "Debug level"
+
+  - id: "18"
+    cli: ["-L"]
+    kind: "value"
+    metavar: "LEVEL"
+    value_template: "0"
+    defaults: ["1"]
+    role: "mode"
+    group: "loglevel"
+    include_in_search: false
+    description: "Log level"
+
+  - id: "19"
+    cli: ["-H"]
+    kind: "flag"
+    role: "mode"
+    group: "help_mode"
+    include_in_search: false
+    description: "Help / extra help toggle (-H)"
+
+constraints:
+  # Output kind: choose at most one of -k or the short-form kind flags
+  - type: "at_most_one_from_group"
+    group: "out_kind"
+
+  - type: "at_most_one_from_group"
+    group: "out_kind_short"
+
+  # Language selection is single-choice
+  - type: "at_most_one_from_group"
+    group: "lang"
+
+  # Avoid mixing -H (help) with other toggles in driver search
+  - type: "at_most_one_from_group"
+    group: "help_mode"

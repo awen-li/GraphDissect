@@ -1,0 +1,26 @@
+profile:
+  name: "leveldbutil"
+  binary: "leveldbutil"
+  domain: "database_storage"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["dump"]
+    kind: "flag"
+    role: "mode"
+    group: "mode"
+    include_in_search: true
+    description: "Dump contents of specified LevelDB files"
+
+constraints:
+  - type: "exactly_one_from_group"
+    group: "mode"

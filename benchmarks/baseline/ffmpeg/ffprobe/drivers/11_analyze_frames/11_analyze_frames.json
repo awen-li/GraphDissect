@@ -1,0 +1,13 @@
+{
+    "id": 11,
+    "name": "11_analyze_frames",
+    "driver": "ffprobe",
+    "args": [
+        "-analyze_frames",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Analyze frames for extra stream-level information."
+}

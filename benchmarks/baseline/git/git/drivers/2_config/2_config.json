@@ -1,0 +1,18 @@
+{
+    "id": 2,
+    "name": "2_config",
+    "driver": "git",
+    "args": [
+        "-c",
+        "core.pager=cat",
+        "-c",
+        "advice.detachedHead=false",
+        "-c",
+        "advice.statusHints=false",
+        " config"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "File-driven, offline-safe Git subcommands."
+}

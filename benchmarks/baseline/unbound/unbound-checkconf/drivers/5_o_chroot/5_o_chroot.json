@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_o_chroot",
+    "driver": "unbound-checkconf",
+    "args": [
+        "-o chroot"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print value of a configuration option to stdout (e.g., pidfile)."
+}

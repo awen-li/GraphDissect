@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_walker",
+    "driver": "xmllint",
+    "args": [
+        "--walker"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Create a reader and walk through the resulting document"
+}

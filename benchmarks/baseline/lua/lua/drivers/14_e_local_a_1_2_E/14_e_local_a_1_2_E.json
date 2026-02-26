@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "name": "14_e_local_a_1_2_E",
+    "driver": "lua",
+    "args": [
+        "-e local a=1+2 -E"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Execute a statement before running the script + Ignore environment variables (reduce nondeterminism)"
+}

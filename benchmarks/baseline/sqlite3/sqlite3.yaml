@@ -1,0 +1,6 @@
+project: sqlite3
+oss_fuzz_project_dir: projects/sqlite3
+main_repo: https://sqlite.org/src/dir
+language: c++
+domain: database_storage
+loc: 0

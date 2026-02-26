@@ -1,0 +1,179 @@
+profile:
+  name: "istat"
+  binary: "istat"
+  domain: "metadata"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    # istat ... image inum
+    # File-only: the first positional IMAGE is fuzzed from seed_dir.
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "none"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Display run list instead of list of block addresses."
+
+  - id: "2"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Verbose output to stderr."
+
+  - id: "3"
+    cli: ["-V"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print version and exit."
+
+  - id: "4"
+    cli: ["-i"]
+    kind: "choice"
+    metavar: "IMGTYPE"
+    choices:
+      - "raw"
+      - "aff"
+      - "ewf"
+      - "list"
+    defaults: ["raw", "list"]
+    role: "mode"
+    include_in_search: true
+    description: "Image format type (use 'list' for supported types)."
+
+  - id: "5"
+    cli: ["-b"]
+    kind: "value"
+    metavar: "DEV_SECTOR_SIZE"
+    value_template: "512"
+    defaults: ["512", "4096"]
+    role: "mode"
+    include_in_search: true
+    description: "Device sector size in bytes."
+
+  - id: "6"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "IMGOFFSET"
+    value_template: "0"
+    defaults: ["0", "2048"]
+    role: "mode"
+    include_in_search: true
+    description: "Offset of the file system in the image (in sectors)."
+
+  - id: "7"
+    cli: ["-f"]
+    kind: "choice"
+    metavar: "FSTYPE"
+    choices:
+      - "list"
+      - "ext"
+      - "ntfs"
+      - "fat"
+      - "hfs"
+      - "iso9660"
+    defaults: ["list", "ext"]
+    role: "mode"
+    include_in_search: true
+    description: "File system type (use 'list' for supported types)."
+
+  - id: "8"
+    cli: ["-P"]
+    kind: "choice"
+    metavar: "POOLTYPE"
+    choices:
+      - "list"
+      - "apfs"
+      - "lvm"
+      - "bitlocker"
+    defaults: ["list"]
+    role: "mode"
+    include_in_search: true
+    description: "Pool container type (use 'list' for supported types)."
+
+  - id: "9"
+    cli: ["-B"]
+    kind: "value"
+    metavar: "POOL_VOLUME_BLOCK"
+    value_template: "0"
+    defaults: ["0", "1", "4096"]
+    role: "mode"
+    include_in_search: true
+    description: "Starting block (for pool volumes only; requires -P)."
+
+  - id: "10"
+    cli: ["-N"]
+    kind: "value"
+    metavar: "NUM"
+    value_template: "12"
+    defaults: ["4", "12", "16"]
+    role: "mode"
+    include_in_search: true
+    description: "Force display of NUM addresses of block pointers."
+
+  - id: "11"
+    cli: ["-z"]
+    kind: "value"
+    metavar: "ZONE"
+    value_template: "UTC"
+    defaults: ["UTC", "GMT", "EST5EDT"]
+    role: "mode"
+    include_in_search: true
+    description: "Time zone of original machine (e.g., EST5EDT or GMT)."
+
+  - id: "12"
+    cli: ["-s"]
+    kind: "value"
+    metavar: "SECONDS"
+    value_template: "0"
+    defaults: ["0", "60", "-60", "3600"]
+    role: "mode"
+    include_in_search: true
+    description: "Time skew of original machine (in seconds)."
+
+  - id: "13"
+    cli: ["-S"]
+    kind: "value"
+    metavar: "SNAP_ID"
+    value_template: "0"
+    defaults: ["0", "1"]
+    role: "mode"
+    include_in_search: true
+    description: "Snapshot ID (for APFS only)."
+
+  - id: "14"
+    cli: ["-k"]
+    kind: "value"
+    metavar: "PASSWORD"
+    value_template: "password"
+    defaults: ["password", "1234", "test"]
+    role: "mode"
+    include_in_search: true
+    description: "Decryption password for encrypted volumes."
+
+constraints:
+  - type: "exclusive"
+    option: "-V"
+
+  - type: "requires"
+    if_present: ["-B"]
+    require_any: [["-P"]]
+
+  - type: "at_most_one_from_group"
+    group: "run_mode"
+    options: ["-r", "-N"]
+
+  - type: "requires"
+    if_present: ["-S"]
+    require_any: [["-P"]]
+

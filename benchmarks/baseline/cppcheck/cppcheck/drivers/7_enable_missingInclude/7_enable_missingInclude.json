@@ -1,0 +1,15 @@
+{
+    "id": 7,
+    "name": "7_enable_missingInclude",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--enable missingInclude"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Enable checks grouped by severity (increases analysis surface)."
+}

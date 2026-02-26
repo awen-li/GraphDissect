@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_v_var1",
+    "driver": "nccopy",
+    "args": [
+        "-v var1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Include data only for listed variables (keep all definitions)"
+}

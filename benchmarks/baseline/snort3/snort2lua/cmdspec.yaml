@@ -1,0 +1,123 @@
+profile:
+  name: "snort2lua"
+  binary: "snort2lua"
+  domain: "network"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: ["-q"]
+
+  io:
+    input:
+      kind: "flagged"
+      flag: "-c"
+    output:
+      kind: "flagged"
+      flag: "-o"
+
+primary:
+  - id: "1"
+    cli: ["-a", "--print-all"]
+    kind: "flag"
+    role: "mode"
+    group: "print_mode"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Print all converted data."
+
+  - id: "2"
+    cli: ["-d", "--print-differences"]
+    kind: "flag"
+    role: "mode"
+    group: "print_mode"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Only print differences between Snort2 and Snort3 configs."
+
+  - id: "3"
+    cli: ["-i", "--dont-parse-includes"]
+    kind: "flag"
+    role: "mode"
+    group: "include_parse"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Do not parse include/policy files referenced by the input config."
+
+  - id: "4"
+    cli: ["-m", "--remark"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Add a remark to the end of every converted rule."
+
+  - id: "5"
+    cli: ["--bind-wizard"]
+    kind: "flag"
+    role: "mode"
+    group: "binding"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Add default wizard to bindings."
+
+  - id: "6"
+    cli: ["--bind-port"]
+    kind: "flag"
+    role: "mode"
+    group: "binding"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Convert port bindings."
+
+  - id: "7"
+    cli: ["-e", "--error-file"]
+    kind: "value"
+    metavar: "ERROR_FILE"
+    value_template: "snort.rej"
+    defaults: ["snort.rej"]
+    role: "mode"
+    group: "error_file"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Write conversion errors to file."
+
+  - id: "8"
+    cli: ["-r", "--rule-file"]
+    kind: "value"
+    metavar: "RULE_FILE"
+    value_template: "converted.rules"
+    defaults: ["converted.rules"]
+    role: "mode"
+    group: "rule_file"
+    include_in_search: true
+    output: "snort.lua"
+    description: "Write converted rules to a separate file."
+
+  - id: "9"
+    cli: ["-s", "--single-rule-file"]
+    kind: "flag"
+    role: "mode"
+    group: "include_mode"
+    include_in_search: true
+    output: "snort.lua"
+    description: "When parsing includes, write include rules to rule-file (ignored if -i is set)."
+
+  - id: "10"
+    cli: ["-t", "--single-conf-file"]
+    kind: "flag"
+    role: "mode"
+    group: "include_mode"
+    include_in_search: true
+    output: "snort.lua"
+    description: "When parsing includes, write include non-rule info to output-file (ignored if -i is set)."
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "print_mode"
+
+  - type: "at_most_one_from_group"
+    group: "include_mode"
+
+  # Prevent meaningless combos: -i makes -s/-t irrelevant
+  - type: "incompatible_groups"
+    groups: ["include_parse", "include_mode"]
+

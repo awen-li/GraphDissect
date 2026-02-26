@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_d",
+    "driver": "ncgen",
+    "args": [
+        "-d"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Enable generation of data values (-d)"
+}

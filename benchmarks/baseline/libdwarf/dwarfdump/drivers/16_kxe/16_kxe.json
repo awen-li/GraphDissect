@@ -1,0 +1,15 @@
+{
+    "id": 16,
+    "name": "16_kxe",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-kxe"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Extended frame checks."
+}

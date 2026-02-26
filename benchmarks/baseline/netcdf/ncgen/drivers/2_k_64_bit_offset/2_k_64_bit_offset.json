@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_k_64_bit_offset",
+    "driver": "ncgen",
+    "args": [
+        "-k 64-bit offset"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Specify kind of netCDF output format"
+}

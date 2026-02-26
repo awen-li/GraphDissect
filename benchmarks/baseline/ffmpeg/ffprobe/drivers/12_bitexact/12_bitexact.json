@@ -1,0 +1,13 @@
+{
+    "id": 12,
+    "name": "12_bitexact",
+    "driver": "ffprobe",
+    "args": [
+        "-bitexact",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Force bitexact output."
+}

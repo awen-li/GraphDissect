@@ -1,0 +1,156 @@
+profile:
+  name: "tsk_recover"
+  binary: "tsk_recover"
+  domain: "metadata"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    input:
+      # tsk_recover takes: image [image] output_dir
+      # We treat the fuzzed input as the first positional image file.
+      kind: "positional"
+      flag: ""
+    output:
+      # output_dir must be provided by the harness (e.g., workdir/out)
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Verbose output to stderr."
+
+  - id: "2"
+    cli: ["-V"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print version and exit."
+
+  - id: "3"
+    cli: ["-a"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Recover allocated files only."
+
+  - id: "4"
+    cli: ["-e"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Recover all files (allocated and unallocated)."
+
+  - id: "5"
+    cli: ["-i"]
+    kind: "choice"
+    metavar: "IMGTYPE"
+    choices:
+      - "raw"
+      - "aff"
+      - "ewf"
+      - "list"
+    defaults: ["raw", "list"]
+    role: "mode"
+    include_in_search: true
+    description: "Image format type (use 'list' for supported types)."
+
+  - id: "6"
+    cli: ["-b"]
+    kind: "value"
+    metavar: "DEV_SECTOR_SIZE"
+    value_template: "512"
+    defaults: ["512", "4096"]
+    role: "mode"
+    include_in_search: true
+    description: "Device sector size in bytes."
+
+  - id: "7"
+    cli: ["-f"]
+    kind: "choice"
+    metavar: "FSTYPE"
+    choices:
+      - "list"
+      - "ext"
+      - "ntfs"
+      - "fat"
+      - "hfs"
+      - "iso9660"
+    defaults: ["list", "ext"]
+    role: "mode"
+    include_in_search: true
+    description: "File system type (use 'list' for supported types)."
+
+  - id: "8"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "SECTOR_OFFSET"
+    value_template: "0"
+    defaults: ["0", "2048"]
+    role: "mode"
+    include_in_search: true
+    description: "Sector offset for a volume to recover (recovers only that volume)."
+
+  - id: "9"
+    cli: ["-P"]
+    kind: "choice"
+    metavar: "POOLTYPE"
+    choices:
+      - "list"
+      - "apfs"
+      - "lvm"
+      - "bitlocker"
+    defaults: ["list"]
+    role: "mode"
+    include_in_search: true
+    description: "Pool container type (use 'list' for supported types)."
+
+  - id: "10"
+    cli: ["-B"]
+    kind: "value"
+    metavar: "POOL_VOLUME_BLOCK"
+    value_template: "0"
+    defaults: ["0", "1", "4096"]
+    role: "mode"
+    include_in_search: true
+    description: "Starting block (for pool volumes only; requires -P)."
+
+  - id: "11"
+    cli: ["-d"]
+    kind: "value"
+    metavar: "DIR_INUM"
+    value_template: "2"
+    defaults: ["2", "5", "10"]
+    role: "mode"
+    include_in_search: true
+    description: "Directory inum to recover from (requires specific partition via -o, or no volume system)."
+
+  - id: "12"
+    cli: ["-k"]
+    kind: "value"
+    metavar: "PASSWORD"
+    value_template: "password"
+    defaults: ["password", "1234", "test"]
+    role: "mode"
+    include_in_search: true
+    description: "Decryption password for encrypted volumes."
+
+constraints:
+  - type: "exclusive"
+    option: "-V"
+
+  - type: "at_most_one_from_group"
+    group: "recover_mode"
+
+  - type: "requires"
+    if_present: ["-B"]
+    require_any: [["-P"]]
+
+  - type: "requires"
+    if_present: ["-d"]
+    require_any: [["-o"]]
+

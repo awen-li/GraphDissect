@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+libdwarf,dwarfdump,<= 10,29,0.0,2.0,0.5
+libdwarf,dwarfdump,11–25,0,,,
+libdwarf,dwarfdump,26–50,0,,,
+libdwarf,dwarfdump,51–100,0,,,
+libdwarf,dwarfdump,101–200,0,,,
+libdwarf,dwarfdump,201–500,0,,,
+libdwarf,dwarfdump,501–1000,0,,,
+libdwarf,dwarfdump,> 1000,0,,,

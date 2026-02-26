@@ -1,0 +1,126 @@
+profile:
+  name: "wvgain"
+  binary: "wvgain"
+  domain: "wavpack"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "none"
+
+primary:
+  - id: "0"
+    cli: [""]
+    kind: "default"
+    role: "mode"
+    group: "default"
+    include_in_search: true
+    description: "Default ReplayGain analysis (may update files)"
+
+  # ---- Core operation modes (prefer not to combine with each other) ----
+  - id: "1"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "op_mode"
+    include_in_search: true
+    description: "Clean ReplayGain values from files (no analysis)"
+
+  - id: "2"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "op_mode"
+    include_in_search: true
+    description: "Display calculated values only (no files modified)"
+
+  - id: "3"
+    cli: ["-s"]
+    kind: "flag"
+    role: "mode"
+    group: "op_mode"
+    include_in_search: true
+    description: "Show stored values only (no analysis)"
+
+  # ---- Scan scope / skipping ----
+  - id: "4"
+    cli: ["-a"]
+    kind: "flag"
+    role: "modifier"
+    group: "scope"
+    include_in_search: true
+    description: "Album mode (treat all scanned files as one album)"
+
+  - id: "5"
+    cli: ["-n"]
+    kind: "flag"
+    role: "modifier"
+    group: "skip_policy"
+    include_in_search: true
+    description: "New files only (skip files with existing track/album info)"
+
+  # ---- Hybrid handling ----
+  - id: "6"
+    cli: ["-i"]
+    kind: "flag"
+    role: "modifier"
+    group: "hybrid"
+    include_in_search: true
+    description: "Ignore .wvc file (forces hybrid lossy)"
+
+  # ---- Threading (mutually exclusive) ----
+  - id: "7"
+    cli: ["-t"]
+    kind: "flag"
+    role: "modifier"
+    group: "threads"
+    include_in_search: true
+    description: "Use multiple threads for faster operation"
+
+  - id: "8"
+    cli: ["-1"]
+    kind: "flag"
+    role: "modifier"
+    group: "threads"
+    include_in_search: true
+    description: "Do not use multiple threads"
+
+  # ---- Verbosity / misc ----
+  - id: "9"
+    cli: ["-q"]
+    kind: "flag"
+    role: "modifier"
+    group: "verbosity"
+    include_in_search: true
+    description: "Quiet mode"
+
+  - id: "10"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    group: "version"
+    include_in_search: true
+    description: "Print version and exit"
+
+  - id: "11"
+    cli: ["-z1"]
+    kind: "flag"
+    role: "modifier"
+    group: "ui"
+    include_in_search: true
+    description: "Set console title to indicate progress"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "op_mode"
+
+  - type: "at_most_one_from_group"
+    group: "threads"
+
+  # Optional: keep "version" alone (usually exits immediately)
+  - type: "at_most_one_from_group"
+    group: "version"
+

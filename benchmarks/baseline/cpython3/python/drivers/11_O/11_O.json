@@ -1,0 +1,12 @@
+{
+    "id": 11,
+    "name": "11_O",
+    "driver": "python",
+    "args": [
+        "-O"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Remove assert and __debug__-dependent statements"
+}

@@ -1,0 +1,15 @@
+{
+    "id": 38,
+    "name": "38_output_format_sarif",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--output-format sarif"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Select output format."
+}

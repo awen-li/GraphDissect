@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+netcdf,nccopy,<= 10,30,0.0,2.0,0.5
+netcdf,nccopy,11–25,0,,,
+netcdf,nccopy,26–50,0,,,
+netcdf,nccopy,51–100,0,,,
+netcdf,nccopy,101–200,0,,,
+netcdf,nccopy,201–500,0,,,
+netcdf,nccopy,501–1000,0,,,
+netcdf,nccopy,> 1000,0,,,

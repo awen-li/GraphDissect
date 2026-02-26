@@ -1,0 +1,203 @@
+profile:
+  name: "git"
+  binary: "git"
+  domain: "metadata"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  base_args:
+    - "-c"
+    - "core.pager=cat"
+    - "-c"
+    - "advice.detachedHead=false"
+    - "-c"
+    - "advice.statusHints=false"
+
+  io:
+    input:
+      kind: "positional"   # all inputs are file paths in argv
+    output:
+      kind: "none"
+
+primary:
+  # ===== Driver mode: subcommand selection =====
+  - id: "1"
+    cli: [""]
+    kind: "choice"
+    metavar: "COMMAND"
+    role: "mode"
+    include_in_search: true
+    choices:
+      - "apply"
+      - "config"
+      - "hash-object"
+      - "diff"
+      - "grep"
+    description: "File-driven, offline-safe Git subcommands."
+
+  # Run in sandbox repo/workdir if your harness provides it (optional for diff --no-index / hash-object).
+  - id: "2"
+    cli: ["-C"]
+    kind: "value"
+    metavar: "PATH"
+    value_template: "workdir"
+    defaults: ["workdir"]
+    role: "env"
+    include_in_search: true
+    description: "Run git as if started in <path> (sandbox)."
+
+  # ===== apply =====
+  - id: "3"
+    cli: ["--check"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "apply: check patch applicability without writing."
+
+  - id: "4"
+    cli: ["--unsafe-paths"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "apply: allow paths outside work tree (sandbox only)."
+
+  # ===== config (file-driven) =====
+  - id: "5"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "CONFIG_FILE"
+    value_template: "seeds/config/gitconfig"
+    defaults: ["seeds/config/gitconfig"]
+    role: "input"
+    include_in_search: true
+    description: "config: read config from the specified file."
+
+  - id: "6"
+    cli: ["--list"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "config: list all config variables."
+
+  - id: "7"
+    cli: ["--get"]
+    kind: "value"
+    metavar: "NAME"
+    value_template: "core.repositoryformatversion"
+    defaults: ["core.repositoryformatversion", "core.pager", "user.name"]
+    role: "query"
+    include_in_search: true
+    description: "config: get value for a key (used with -f)."
+
+  # ===== hash-object (file-driven) =====
+  - id: "8"
+    cli: ["-w"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "hash-object: write object into object database (inside workdir repo)."
+
+  - id: "9"
+    cli: ["-t"]
+    kind: "value"
+    metavar: "TYPE"
+    value_template: "blob"
+    defaults: ["blob", "tree", "commit", "tag"]
+    role: "mode"
+    include_in_search: true
+    description: "hash-object: pretend the object is of the given type."
+
+  # ===== diff (file-driven, no repo needed) =====
+  - id: "10"
+    cli: ["--no-index"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "diff: compare two paths without using a git repository."
+
+  - id: "11"
+    cli: ["--word-diff"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "diff: show word-level differences (parser/formatter exercise)."
+
+  # ===== grep (file-driven) =====
+  - id: "12"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "PATTERN_FILE"
+    value_template: "seeds/grep/patterns.txt"
+    defaults: ["seeds/grep/patterns.txt"]
+    role: "input"
+    include_in_search: true
+    description: "grep: take patterns from a file."
+
+  - id: "13"
+    cli: ["-E"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "grep: extended regexp."
+
+  - id: "14"
+    cli: ["-F"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "grep: fixed strings."
+
+constraints:
+  # If your harness always provides workdir, keep this required; otherwise you can relax it.
+  - type: "require_any"
+    any: [["-C"]]
+
+  # apply should avoid writing; keep --check enabled in search
+  - type: "requires"
+    when:
+      command: "apply"
+    require_any: [["--check"]]
+
+  # config: -f should be present for file-driven parsing
+  - type: "requires"
+    when:
+      command: "config"
+    require_any: [["-f"]]
+
+  # diff: file-only mode should use --no-index
+  - type: "requires"
+    when:
+      command: "diff"
+    require_any: [["--no-index"]]
+
+  # grep: choose at most one pattern mode flag
+  - type: "at_most_one"
+    when:
+      command: "grep"
+    options: ["-E", "-F"]
+
+examples:
+  - id: "ex1"
+    cmd: ["git", "-C", "workdir", "apply", "--check", "seeds/patch/input.patch"]
+    description: "Parse a patch file (no stdin)."
+
+  - id: "ex2"
+    cmd: ["git", "-C", "workdir", "config", "-f", "seeds/config/gitconfig", "--list"]
+    description: "Parse and list a config file."
+
+  - id: "ex3"
+    cmd: ["git", "-C", "workdir", "config", "-f", "seeds/config/gitconfig", "--get", "core.pager"]
+    description: "Parse config file and query one key."
+
+  - id: "ex4"
+    cmd: ["git", "-C", "workdir", "hash-object", "-t", "blob", "seeds/blob/input.bin"]
+    description: "Hash a file as an object (file input)."
+
+  - id: "ex5"
+    cmd: ["git", "-C", "workdir", "diff", "--no-index", "seeds/diff/a.txt", "seeds/diff/b.txt"]
+    description: "Diff two files without a repo."
+
+  - id: "ex6"
+    cmd: ["git", "-C", "workdir", "grep", "-f", "seeds/grep/patterns.txt", "--", "seeds/grep/target.txt"]
+    description: "Grep with patterns from a file over a target file."
+

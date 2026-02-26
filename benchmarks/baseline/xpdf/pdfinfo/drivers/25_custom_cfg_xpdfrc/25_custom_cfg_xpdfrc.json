@@ -1,0 +1,12 @@
+{
+    "id": 25,
+    "name": "25_custom_cfg_xpdfrc",
+    "driver": "pdfinfo",
+    "args": [
+        "-custom -cfg xpdfrc"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print the custom info dictionary fields + Configuration file to use instead of .xpdfrc"
+}

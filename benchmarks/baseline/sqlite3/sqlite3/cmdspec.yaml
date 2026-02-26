@@ -1,0 +1,131 @@
+profile:
+  name: "sqlite3"
+  binary: "sqlite3"
+  domain: "sqlite3"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "none"
+
+primary:
+  # Default: open mutated DB file and execute a minimal statement
+  - id: "0"
+    cli: ["-noinit -batch -cmd SELECT 1;"]
+    kind: "flag"
+    role: "mode"
+    group: "default"
+    include_in_search: true
+    description: "Open DB file and run a minimal query (no ~/.sqliterc, batch mode)"
+
+  # More query shapes (to drive planner / schema / btree paths)
+  - id: "1"
+    cli: ["-noinit -batch -cmd SELECT name, type FROM sqlite_master;"]
+    kind: "flag"
+    role: "mode"
+    group: "query"
+    include_in_search: true
+    description: "Enumerate schema via sqlite_master"
+
+  - id: "2"
+    cli: ["-noinit -batch -cmd PRAGMA integrity_check;"]
+    kind: "flag"
+    role: "mode"
+    group: "query"
+    include_in_search: true
+    description: "Run integrity_check (deep traversal)"
+
+  - id: "3"
+    cli: ["-noinit -batch -cmd PRAGMA quick_check;"]
+    kind: "flag"
+    role: "mode"
+    group: "query"
+    include_in_search: true
+    description: "Run quick_check"
+
+  - id: "4"
+    cli: ["-noinit -batch -cmd PRAGMA schema_version; PRAGMA user_version;"]
+    kind: "flag"
+    role: "mode"
+    group: "query"
+    include_in_search: true
+    description: "Read common pragmas"
+
+  - id: "5"
+    cli: ["-noinit -batch -cmd SELECT count(*) FROM sqlite_master;"]
+    kind: "flag"
+    role: "mode"
+    group: "query"
+    include_in_search: true
+    description: "Count objects in sqlite_master"
+
+second:
+  # Open policy / safety knobs
+  - id: "1"
+    cli: ["-nofollow"]
+    kind: "flag"
+    role: "modifier"
+    group: "open_policy"
+    include_in_search: true
+    description: "Refuse to open symlinks"
+
+  - id: "2"
+    cli: ["-safe"]
+    kind: "flag"
+    role: "modifier"
+    group: "safety"
+    include_in_search: true
+    description: "Enable safe-mode"
+
+  # Output modes (small extra code paths)
+  - id: "3"
+    cli: ["-list"]
+    kind: "flag"
+    role: "modifier"
+    group: "output_mode"
+    include_in_search: true
+    description: "List output mode"
+
+  - id: "4"
+    cli: ["-csv"]
+    kind: "flag"
+    role: "modifier"
+    group: "output_mode"
+    include_in_search: true
+    description: "CSV output mode"
+
+  - id: "5"
+    cli: ["-json"]
+    kind: "flag"
+    role: "modifier"
+    group: "output_mode"
+    include_in_search: true
+    description: "JSON output mode"
+
+  # Memory knobs (avoid too many in 2-combo mode)
+  - id: "6"
+    cli: ["-mmap"]
+    kind: "value"
+    metavar: "N"
+    value_template: "1048576"
+    defaults: ["0", "1048576"]
+    role: "modifier"
+    group: "mem"
+    include_in_search: true
+    description: "Set default mmap size"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "query"
+
+  - type: "at_most_one_from_group"
+    group: "output_mode"
+
+  - type: "at_most_one_from_group"
+    group: "safety"
+
+  - type: "at_most_one_from_group"
+    group: "mem"

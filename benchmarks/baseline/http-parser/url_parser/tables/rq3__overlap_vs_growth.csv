@@ -1,0 +1,6 @@
+bench,exe,x,y,pearson_r
+http-parser,url_parser,avg_iou,edges_total,0.0
+http-parser,url_parser,avg_iou,func_total,0.0
+http-parser,url_parser,max_iou,edges_total,0.0
+http-parser,url_parser,max_iou,func_total,0.0
+http-parser,url_parser,growth_proxy,edges_total,0.0

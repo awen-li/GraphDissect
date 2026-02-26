@@ -1,0 +1,15 @@
+{
+    "id": 47,
+    "name": "47_i_third_party",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "-i *third_party*"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Ignore files/dirs matching pattern."
+}

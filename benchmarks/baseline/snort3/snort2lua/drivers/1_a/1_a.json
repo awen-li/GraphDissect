@@ -1,0 +1,14 @@
+{
+    "id": 1,
+    "name": "1_a",
+    "driver": "snort2lua",
+    "args": [
+        "-q",
+        "-a",
+        "-c"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o snort.lua",
+    "priority": 1.0,
+    "description": "Print all converted data."
+}

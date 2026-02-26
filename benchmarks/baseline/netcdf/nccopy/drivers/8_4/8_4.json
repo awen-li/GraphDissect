@@ -1,0 +1,12 @@
+{
+    "id": 8,
+    "name": "8_4",
+    "driver": "nccopy",
+    "args": [
+        "-4"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "netCDF-4 output (same as -k 'netCDF-4')"
+}

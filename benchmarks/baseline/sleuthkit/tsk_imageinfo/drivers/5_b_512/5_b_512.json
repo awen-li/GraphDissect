@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_b_512",
+    "driver": "tsk_imageinfo",
+    "args": [
+        "-b 512"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Device sector size in bytes."
+}

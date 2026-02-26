@@ -1,0 +1,2 @@
+bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
+wavpack,wvgain,/root/GraphDissect/benchmarks/wavpack/wvgain,12,15,52,71,0

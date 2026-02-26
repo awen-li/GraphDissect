@@ -1,0 +1,175 @@
+profile:
+  name: "jq"
+  binary: "jq"
+  domain: "document"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []         
+  io:
+    input:
+      kind: "positional"
+      flag: ""          
+    output:
+      kind: "stdout"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: [""]
+    kind: "value"
+    metavar: "FILTER"
+    value_template: "."
+    defaults:
+      - "."
+      - "keys"
+      - ".[]"
+      - "to_entries"
+    role: "mode"
+    group: "filter_mode"
+    include_in_search: true
+    description: "jq filter expression (kept to a small default set)"
+
+  # ===== File-based filter / module inputs =====
+
+  - id: "2"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "FILTER_FILE"
+    value_template: "basic.jq"
+    defaults:
+      - "filters/basic.jq"
+      - "filters/alt.jq"
+    role: "mode"
+    group: "filter_source"
+    include_in_search: true
+    description: "Load jq filter from a file"
+
+  - id: "3"
+    cli: ["-L"]
+    kind: "value"
+    metavar: "LIB_DIR"
+    value_template: "modules"
+    defaults: ["modules"]
+    role: "mode"
+    group: "module_path"
+    include_in_search: true
+    description: "Search jq modules from the directory (file-system input)"
+
+  # ===== File-valued arguments (explicit file reads) =====
+
+  - id: "4"
+    cli: ["--slurpfile"]
+    kind: "value"
+    metavar: "NAME FILE"
+    value_template: "x "
+    defaults:
+      - "x "
+    role: "mode"
+    group: "file_args"
+    include_in_search: true
+    description: "Set $name to array of JSON values read from file"
+
+  - id: "5"
+    cli: ["--rawfile"]
+    kind: "value"
+    metavar: "NAME FILE"
+    value_template: "x "
+    defaults:
+      - "x "
+    role: "mode"
+    group: "file_args"
+    include_in_search: true
+    description: "Set $name to string contents of file"
+
+  - id: "6"
+    cli: ["-R"]
+    kind: "flag"
+    role: "mode"
+    group: "input_mode"
+    include_in_search: true
+    description: "Raw input: read each line as string instead of JSON (applies to file inputs too)"
+
+  - id: "7"
+    cli: ["-s"]
+    kind: "flag"
+    role: "mode"
+    group: "input_mode"
+    include_in_search: true
+    description: "Slurp: read all inputs into an array as single input value"
+
+  - id: "8"
+    cli: ["--stream"]
+    kind: "flag"
+    role: "mode"
+    group: "parse_mode"
+    include_in_search: true
+    description: "Parse input in streaming fashion"
+
+  - id: "9"
+    cli: ["--seq"]
+    kind: "flag"
+    role: "mode"
+    group: "parse_mode"
+    include_in_search: true
+    description: "Parse input/output as application/json-seq"
+
+  - id: "10"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "output_fmt"
+    include_in_search: true
+    description: "Compact output"
+
+  - id: "11"
+    cli: ["-r"]
+    kind: "flag"
+    role: "mode"
+    group: "output_fmt"
+    include_in_search: true
+    description: "Raw output (strings without quotes/escapes)"
+
+  - id: "12"
+    cli: ["-S"]
+    kind: "flag"
+    role: "mode"
+    group: "output_fmt"
+    include_in_search: true
+    description: "Sort keys on output"
+
+  - id: "13"
+    cli: ["--indent"]
+    kind: "value"
+    metavar: "N"
+    value_template: "2"
+    defaults: ["2", "4"]
+    role: "mode"
+    group: "indent"
+    include_in_search: true
+    description: "Indentation spaces (max 7)"
+
+  - id: "14"
+    cli: ["-e"]
+    kind: "flag"
+    role: "mode"
+    group: "exit_mode"
+    include_in_search: true
+    description: "Set exit status code based on output"
+
+constraints:
+  # Either inline filter OR -f filter file, but not both
+  - type: "at_most_one_from_group"
+    group: "filter_source"
+
+  # Input modes that change interpretation are mutually exclusive
+  - type: "at_most_one_from_group"
+    group: "input_mode"
+
+  # Parse modes are mutually exclusive
+  - type: "at_most_one_from_group"
+    group: "parse_mode"
+
+  # Output format knobs that conflict (you can relax if your runner allows)
+  - type: "at_most_one_from_group"
+    group: "output_fmt"
+

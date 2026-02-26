@@ -1,0 +1,12 @@
+{
+    "id": 24,
+    "name": "24_m_D_worker_js",
+    "driver": "qjsc",
+    "args": [
+        "-m -D worker.js"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compile input as ES6 module (default is autodetect). + Compile a dynamically loaded module or worker."
+}

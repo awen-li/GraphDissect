@@ -1,0 +1,2 @@
+bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
+xz,xz,/root/GraphDissect/benchmarks/xz/xz,17,216,758,789,0

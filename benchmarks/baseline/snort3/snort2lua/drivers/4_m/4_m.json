@@ -1,0 +1,14 @@
+{
+    "id": 4,
+    "name": "4_m",
+    "driver": "snort2lua",
+    "args": [
+        "-q",
+        "-m",
+        "-c"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o snort.lua",
+    "priority": 1.0,
+    "description": "Add a remark to the end of every converted rule."
+}

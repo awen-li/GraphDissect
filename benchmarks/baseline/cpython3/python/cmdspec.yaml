@@ -1,0 +1,179 @@
+profile:
+  name: "cpython3"
+  binary: "python"
+  domain: "language_runtime"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "none"
+      flag: ""
+
+primary:
+
+  - id: "1"
+    cli: ["-x"]
+    kind: "flag"
+    role: "mode"
+    group: "parse_mode"
+    include_in_search: true
+    description: "Skip first line of source (affects script parsing)"
+
+  - id: "2"
+    cli: ["-B"]
+    kind: "flag"
+    role: "mode"
+    group: "pyc"
+    include_in_search: true
+    description: "Do not write .pyc files on import"
+
+  - id: "3"
+    cli: ["--check-hash-based-pycs"]
+    kind: "choice"
+    metavar: "POLICY"
+    choices: ["always", "default", "never"]
+    defaults: ["default", "never"]
+    role: "mode"
+    group: "pyc"
+    include_in_search: true
+    description: "Control invalidation policy for hash-based .pyc files"
+
+  - id: "4"
+    cli: ["-S"]
+    kind: "flag"
+    role: "mode"
+    group: "site"
+    include_in_search: true
+    description: "Do not imply 'import site' on initialization"
+
+  - id: "5"
+    cli: ["-s"]
+    kind: "flag"
+    role: "mode"
+    group: "site"
+    include_in_search: true
+    description: "Do not add user site directory to sys.path"
+
+  - id: "6"
+    cli: ["-E"]
+    kind: "flag"
+    role: "mode"
+    group: "env"
+    include_in_search: true
+    description: "Ignore PYTHON* environment variables"
+
+  - id: "7"
+    cli: ["-P"]
+    kind: "flag"
+    role: "mode"
+    group: "sys_path"
+    include_in_search: true
+    description: "Do not prepend potentially unsafe path to sys.path"
+
+  - id: "8"
+    cli: ["-I"]
+    kind: "flag"
+    role: "mode"
+    group: "env"
+    include_in_search: true
+    description: "Isolated mode (implies -E, -P, -s)"
+
+  - id: "9"
+    cli: ["-O"]
+    kind: "flag"
+    role: "mode"
+    group: "opt_level"
+    include_in_search: true
+    description: "Remove assert and __debug__-dependent statements"
+
+  - id: "10"
+    cli: ["-OO"]
+    kind: "flag"
+    role: "mode"
+    group: "opt_level"
+    include_in_search: true
+    description: "Like -O and also discard docstrings"
+
+  - id: "11"
+    cli: ["-b"]
+    kind: "flag"
+    role: "mode"
+    group: "bytes_warn"
+    include_in_search: true
+    description: "Warn on bytes<->str conversion/comparison (deprecated toggles)"
+
+  - id: "12"
+    cli: ["-bb"]
+    kind: "flag"
+    role: "mode"
+    group: "bytes_warn"
+    include_in_search: true
+    description: "Turn bytes warnings into errors (deprecated toggles)"
+
+  - id: "13"
+    cli: ["-W"]
+    kind: "value"
+    metavar: "WARN"
+    value_template: "default"
+    defaults: ["default", "error", "ignore"]
+    role: "mode"
+    group: "warnings"
+    include_in_search: true
+    description: "Warning control (action:message:category:module:lineno)"
+
+  - id: "14"
+    cli: ["-X"]
+    kind: "value"
+    metavar: "XOPT"
+    value_template: "utf8"
+    defaults: ["utf8", "dev"]
+    role: "mode"
+    group: "xoptions"
+    include_in_search: true
+    description: "Implementation-specific option (see --help-xoptions)"
+
+  - id: "15"
+    cli: ["-u"]
+    kind: "flag"
+    role: "mode"
+    group: "stdio"
+    include_in_search: true
+    description: "Unbuffer stdout/stderr (no effect on stdin)"
+
+  - id: "16"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    group: "verbose"
+    include_in_search: true
+    description: "Verbose import tracing (repeatable in real Python)"
+
+  - id: "17"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    group: "startup"
+    include_in_search: true
+    description: "Quiet startup banner"
+
+  - id: "18"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "debug"
+    include_in_search: true
+    description: "Parser debug output (debug builds only)"
+
+constraints:
+  - type: "exactly_one_from_group"
+    group: "run_mode"
+
+  - type: "at_most_one_from_group"
+    group: "opt_level"
+
+  - type: "at_most_one_from_group"
+    group: "bytes_warn"

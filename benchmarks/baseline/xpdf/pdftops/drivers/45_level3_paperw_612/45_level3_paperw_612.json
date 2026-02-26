@@ -1,0 +1,12 @@
+{
+    "id": 45,
+    "name": "45_level3_paperw_612",
+    "driver": "pdftops",
+    "args": [
+        "-level3 -paperw 612"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level3.ps",
+    "priority": 1.0,
+    "description": "Generate Level 3 PostScript + Paper width, in points"
+}

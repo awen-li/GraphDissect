@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_T_0",
+    "driver": "xz",
+    "args": [
+        "-T 0"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Use at most NUM threads (0 = as many as cores)"
+}

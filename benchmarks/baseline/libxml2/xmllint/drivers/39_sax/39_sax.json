@@ -1,0 +1,12 @@
+{
+    "id": 39,
+    "name": "39_sax",
+    "driver": "xmllint",
+    "args": [
+        "--sax"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Do not build a tree, work at SAX level only"
+}

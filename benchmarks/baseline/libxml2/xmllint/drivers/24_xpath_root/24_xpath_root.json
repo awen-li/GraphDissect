@@ -1,0 +1,12 @@
+{
+    "id": 24,
+    "name": "24_xpath_root",
+    "driver": "xmllint",
+    "args": [
+        "--xpath /root/*"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Evaluate XPath expression (implies --noout)"
+}

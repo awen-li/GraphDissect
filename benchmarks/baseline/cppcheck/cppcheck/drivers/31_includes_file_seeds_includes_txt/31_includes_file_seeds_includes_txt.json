@@ -1,0 +1,15 @@
+{
+    "id": 31,
+    "name": "31_includes_file_seeds_includes_txt",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--includes-file seeds/includes.txt"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Read include search paths from file."
+}

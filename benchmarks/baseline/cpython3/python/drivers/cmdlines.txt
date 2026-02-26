@@ -1,0 +1,28 @@
+# binary_path: python
+# executable:  python
+# source:      python/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	python/python -x @@
+2	python/python -B @@
+3	python/python --check-hash-based-pycs always @@
+4	python/python --check-hash-based-pycs default @@
+5	python/python --check-hash-based-pycs never @@
+6	python/python -S @@
+7	python/python -s @@
+8	python/python -E @@
+9	python/python -P @@
+10	python/python -I @@
+11	python/python -O @@
+12	python/python -OO @@
+13	python/python -b @@
+14	python/python -bb @@
+15	python/python -W default @@
+16	python/python -W error @@
+17	python/python -W ignore @@
+18	python/python -X utf8 @@
+19	python/python -X dev @@
+20	python/python -u @@
+21	python/python -v @@
+22	python/python -q @@
+23	python/python -d @@

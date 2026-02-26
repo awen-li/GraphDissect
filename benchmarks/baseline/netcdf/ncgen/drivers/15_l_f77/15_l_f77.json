@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_l_f77",
+    "driver": "ncgen",
+    "args": [
+        "-l f77"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Output language (b|c|f77|java)"
+}

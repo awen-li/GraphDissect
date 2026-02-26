@@ -1,0 +1,2 @@
+bench,exe,exe_dir,num_drivers,nodes_min,nodes_median,nodes_max,density_median,num_cc_median,lcc_ratio_median
+xpdf,pdftops,/root/GraphDissect/benchmarks/xpdf/pdftops,66,1,1.0,2,0.0,1.0,1.0

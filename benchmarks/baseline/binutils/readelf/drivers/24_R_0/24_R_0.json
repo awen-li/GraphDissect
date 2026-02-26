@@ -1,0 +1,12 @@
+{
+    "id": 24,
+    "name": "24_R_0",
+    "driver": "readelf",
+    "args": [
+        "-R 0"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Dump relocated contents of the given section"
+}

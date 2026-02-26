@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_f",
+    "driver": "objdump",
+    "args": [
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display overall file header"
+}

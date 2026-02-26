@@ -1,0 +1,12 @@
+{
+    "id": 17,
+    "name": "17_M_4096",
+    "driver": "nccopy",
+    "args": [
+        "-M 4096"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Set minimum chunk size (bytes)"
+}

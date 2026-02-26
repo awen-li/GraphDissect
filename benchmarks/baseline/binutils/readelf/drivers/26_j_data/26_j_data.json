@@ -1,0 +1,12 @@
+{
+    "id": 26,
+    "name": "26_j_data",
+    "driver": "readelf",
+    "args": [
+        "-j .data"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display contents of the indicated section (can be repeated)"
+}

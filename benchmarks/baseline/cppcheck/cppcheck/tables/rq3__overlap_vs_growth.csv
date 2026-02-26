@@ -1,0 +1,6 @@
+bench,exe,x,y,pearson_r
+cppcheck,cppcheck,avg_iou,edges_total,0.06538814602673979
+cppcheck,cppcheck,avg_iou,func_total,0.0
+cppcheck,cppcheck,max_iou,edges_total,0.023209733246887267
+cppcheck,cppcheck,max_iou,func_total,0.0
+cppcheck,cppcheck,growth_proxy,edges_total,0.0

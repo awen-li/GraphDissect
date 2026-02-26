@@ -1,0 +1,15 @@
+{
+    "id": 11,
+    "name": "11_check_level_exhaustive",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--check-level exhaustive"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Configure how deep valueflow analysis goes."
+}

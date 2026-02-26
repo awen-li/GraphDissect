@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_g",
+    "driver": "objdump",
+    "args": [
+        "-g"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display debug information"
+}

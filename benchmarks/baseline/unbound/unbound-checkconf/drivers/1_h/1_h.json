@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_h",
+    "driver": "unbound-checkconf",
+    "args": [
+        "-h"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show usage help and exit."
+}

@@ -1,0 +1,12 @@
+{
+    "id": 11,
+    "name": "11_box_l_3",
+    "driver": "pdfinfo",
+    "args": [
+        "-box -l 3"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print the page bounding boxes + Last page to report"
+}

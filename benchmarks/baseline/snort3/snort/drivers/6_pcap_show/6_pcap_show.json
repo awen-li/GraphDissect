@@ -1,0 +1,13 @@
+{
+    "id": 6,
+    "name": "6_pcap_show",
+    "driver": "snort",
+    "args": [
+        "--pcap-show",
+        "-r"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show pcap processing info (forces additional reporting paths)."
+}

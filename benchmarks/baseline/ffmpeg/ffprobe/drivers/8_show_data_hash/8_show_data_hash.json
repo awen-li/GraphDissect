@@ -1,0 +1,13 @@
+{
+    "id": 8,
+    "name": "8_show_data_hash",
+    "driver": "ffprobe",
+    "args": [
+        "-show_data_hash",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show packet data hashes."
+}

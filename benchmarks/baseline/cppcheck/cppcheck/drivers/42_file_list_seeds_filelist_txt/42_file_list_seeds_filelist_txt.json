@@ -1,0 +1,15 @@
+{
+    "id": 42,
+    "name": "42_file_list_seeds_filelist_txt",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--file-list seeds/filelist.txt"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Specify list of files to analyze (one per line)."
+}

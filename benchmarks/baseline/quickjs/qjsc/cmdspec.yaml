@@ -1,0 +1,124 @@
+profile:
+  name: "quickjs-qjsc"
+  binary: "qjsc"
+  domain: "language"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"   # JS files are positional: [files]
+      flag: ""             # no flag
+    output:
+      kind: "flagged"
+      flag: "-o"           # -o <output>
+
+primary:
+  # Core output / compilation modes
+  - id: "1"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "output_mode"
+    include_in_search: true
+    description: "Emit bytecode to a C file (no executable)."
+
+  - id: "2"
+    cli: ["-e"]
+    kind: "flag"
+    role: "mode"
+    group: "output_mode"
+    include_in_search: true
+    description: "Emit main() plus bytecode to a C file instead of an executable."
+
+  - id: "3"
+    cli: ["-m"]
+    kind: "flag"
+    role: "mode"
+    group: "module_mode"
+    include_in_search: true
+    description: "Compile input as ES6 module (default is autodetect)."
+
+
+second:
+  # Output filename / C symbol naming
+  - id: "1"
+    cli: ["-o"]
+    kind: "value"
+    role: "modifier"
+    metavar: "OUTPUT"
+    value_template: "out"
+    defaults: ["a.out"]
+    include_in_search: true
+    output: "out"
+    description: "Set output filename (executable or C file)."
+
+  - id: "2"
+    cli: ["-N"]
+    kind: "value"
+    role: "modifier"
+    metavar: "CNAME"
+    value_template: "qjsc_data"
+    defaults: ["qjsc_data", "qjsc_blob"]
+    include_in_search: true
+    description: "Set the C symbol name for the generated data."
+
+  - id: "3"
+    cli: ["-p"]
+    kind: "value"
+    role: "modifier"
+    metavar: "PREFIX"
+    value_template: "qjsc_"
+    defaults: ["qjsc_"]
+    include_in_search: true
+    description: "Set prefix used in generated C symbol names."
+
+  # Dynamic modules / workers
+  - id: "4"
+    cli: ["-D"]
+    kind: "value"
+    role: "mode"
+    group: "dyn_module"
+    metavar: "MODULE"
+    value_template: "mod.js"
+    defaults: ["worker.js"]
+    include_in_search: true
+    description: "Compile a dynamically loaded module or worker."
+
+  - id: "5"
+    cli: ["-M"]
+    kind: "value"
+    role: "modifier"
+    group: "c_module_init"
+    metavar: "MODULE[,CNAME]"
+    value_template: "mod.so,mod_init"
+    defaults: ["mod.so,mod_init"]
+    include_in_search: true
+    description: "Add initialization code for an external C module."
+
+  # Code generation / representation tweaks
+  - id: "6"
+    cli: ["-x"]
+    kind: "flag"
+    role: "modifier"
+    group: "byte_order"
+    include_in_search: true
+    description: "Use byte-swapped output (endian-swapped bytecode)."
+
+  - id: "7"
+    cli: ["-S"]
+    kind: "value"
+    role: "modifier"
+    metavar: "STACK"
+    value_template: "1048576"
+    defaults: ["262144"]
+    include_in_search: true
+    description: "Set maximum stack size in bytes (default 1048576)."
+
+constraints:
+  # Only one low-level output mode at a time (-c vs -e)
+  - type: "at_most_one_from_group"
+    group: "output_mode"
+
+  # Only one debug-info policy at a time (-s vs --keep-source)
+  - type: "at_most_one_from_group"
+    group: "debug_info"

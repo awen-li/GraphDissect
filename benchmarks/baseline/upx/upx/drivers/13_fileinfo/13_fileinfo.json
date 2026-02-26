@@ -1,0 +1,13 @@
+{
+    "id": 13,
+    "name": "13_fileinfo",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "--fileinfo"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show parameters of already-compressed file."
+}

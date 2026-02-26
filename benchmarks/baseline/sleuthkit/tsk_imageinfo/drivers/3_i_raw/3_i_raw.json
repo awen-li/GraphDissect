@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_i_raw",
+    "driver": "tsk_imageinfo",
+    "args": [
+        "-i raw"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Image format type (use 'list' for supported types)."
+}

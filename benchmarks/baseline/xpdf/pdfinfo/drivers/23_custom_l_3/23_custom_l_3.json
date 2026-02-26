@@ -1,0 +1,12 @@
+{
+    "id": 23,
+    "name": "23_custom_l_3",
+    "driver": "pdfinfo",
+    "args": [
+        "-custom -l 3"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print the custom info dictionary fields + Last page to report"
+}

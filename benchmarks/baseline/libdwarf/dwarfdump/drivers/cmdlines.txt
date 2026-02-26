@@ -1,0 +1,34 @@
+# binary_path: dwarfdump
+# executable:  dwarfdump
+# source:      dwarfdump/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -a @@
+2	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -i @@
+3	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -l @@
+4	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -ls @@
+5	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -f @@
+6	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -F @@
+7	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -p @@
+8	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -y @@
+9	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -r @@
+10	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -N @@
+11	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -m @@
+12	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -s @@
+13	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -ka @@
+14	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -kb @@
+15	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -kx @@
+16	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -kxe @@
+17	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -kR @@
+18	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -ky @@
+19	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -ku @@
+20	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets --check-functions @@
+21	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -d @@
+22	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -e @@
+23	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -M @@
+24	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -C @@
+25	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -H 4 @@
+26	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -H 8 @@
+27	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -H 16 @@
+28	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -v @@
+29	dwarfdump/dwarfdump -H8 --format-suppress-data --format-suppress-offsets -vv @@

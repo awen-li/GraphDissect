@@ -1,0 +1,12 @@
+# binary_path: unbound-checkconf
+# executable:  unbound-checkconf
+# source:      unbound-checkconf/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	unbound-checkconf/unbound-checkconf -h @@
+2	unbound-checkconf/unbound-checkconf -q @@
+3	unbound-checkconf/unbound-checkconf -f @@
+4	unbound-checkconf/unbound-checkconf -o pidfile @@
+5	unbound-checkconf/unbound-checkconf -o chroot @@
+6	unbound-checkconf/unbound-checkconf -o directory @@
+7	unbound-checkconf/unbound-checkconf -o username @@

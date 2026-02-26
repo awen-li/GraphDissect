@@ -1,0 +1,12 @@
+{
+    "id": 8,
+    "name": "8_0",
+    "driver": "xz",
+    "args": [
+        "-0"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compression preset 0 (fastest)"
+}

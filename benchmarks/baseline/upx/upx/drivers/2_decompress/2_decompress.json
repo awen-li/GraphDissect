@@ -1,0 +1,13 @@
+{
+    "id": 2,
+    "name": "2_decompress",
+    "driver": "upx",
+    "args": [
+        "-q",
+        " decompress"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "UPX operation mode over input executable(s)."
+}

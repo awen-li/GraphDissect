@@ -1,0 +1,184 @@
+profile:
+  name: "ncdump"
+  binary: "ncdump"
+  domain: "database_storage"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    input:
+      kind: "positional"
+      flag: ""          # ncdump [opts] file
+    output:
+      kind: "stdout"
+      flag: ""
+
+primary:
+  # ===== Output scope (mutually exclusive) =====
+  - id: "1"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "scope"
+    include_in_search: true
+    description: "Coordinate variable data and header information"
+
+  - id: "2"
+    cli: ["-h"]
+    kind: "flag"
+    role: "mode"
+    group: "scope"
+    include_in_search: true
+    description: "Header information only (no data)"
+
+  # ===== Selection (file-driven) =====
+  - id: "3"
+    cli: ["-v"]
+    kind: "value"
+    metavar: "VARS"
+    value_template: "var1"
+    defaults: ["var1"]
+    role: "mode"
+    group: "select_vars"
+    include_in_search: true
+    description: "Dump data for selected variable(s) only (comma-separated)"
+
+  - id: "4"
+    cli: ["-g"]
+    kind: "value"
+    metavar: "GROUPS"
+    value_template: "grp1"
+    defaults: ["grp1"]
+    role: "mode"
+    group: "select_groups"
+    include_in_search: true
+    description: "Dump data/metadata for selected group(s) only (comma-separated)"
+
+  # ===== Annotation style (mutually exclusive) =====
+  - id: "5"
+    cli: ["-b"]
+    kind: "choice"
+    metavar: "IDX"
+    choices: ["c", "f"]
+    defaults: ["c", "f"]
+    role: "mode"
+    group: "annot"
+    include_in_search: true
+    description: "Brief annotations for C or Fortran indices in data"
+
+  - id: "6"
+    cli: ["-f"]
+    kind: "choice"
+    metavar: "IDX"
+    choices: ["c", "f"]
+    defaults: ["c", "f"]
+    role: "mode"
+    group: "annot"
+    include_in_search: true
+    description: "Full annotations for C or Fortran indices in data"
+
+  # ===== Formatting knobs =====
+  - id: "7"
+    cli: ["-l"]
+    kind: "value"
+    metavar: "LEN"
+    value_template: "80"
+    defaults: ["80"]
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Max line length in data section"
+
+  - id: "8"
+    cli: ["-n"]
+    kind: "value"
+    metavar: "NAME"
+    value_template: "ncname"
+    defaults: ["ncname"]
+    role: "mode"
+    group: "format"
+    include_in_search: true
+    description: "Name for netCDF (default derived from file name)"
+
+  - id: "9"
+    cli: ["-p"]
+    kind: "value"
+    metavar: "N[,N]"
+    value_template: "6,6"
+    defaults: ["6,6"]
+    role: "mode"
+    group: "precision"
+    include_in_search: true
+    description: "Display floating-point values with less precision"
+
+  # ===== Alternative output formats / attributes =====
+  - id: "10"
+    cli: ["-k"]
+    kind: "flag"
+    role: "mode"
+    group: "alt_output"
+    include_in_search: true
+    description: "Output kind of netCDF file"
+
+  - id: "11"
+    cli: ["-s"]
+    kind: "flag"
+    role: "mode"
+    group: "alt_output"
+    include_in_search: true
+    description: "Output special (virtual) attributes"
+
+  - id: "12"
+    cli: ["-x"]
+    kind: "flag"
+    role: "mode"
+    group: "alt_output"
+    include_in_search: true
+    description: "Output XML (NcML) instead of CDL"
+
+  - id: "13"
+    cli: ["-F"]
+    kind: "flag"
+    role: "mode"
+    group: "alt_output"
+    include_in_search: true
+    description: "Output _Filter/_Codecs instead of _Fletcher32/_Shuffle/_Deflate"
+
+  # ===== Time formatting (mutually exclusive) =====
+  - id: "14"
+    cli: ["-t"]
+    kind: "flag"
+    role: "mode"
+    group: "time_fmt"
+    include_in_search: true
+    description: "Output time data as date-time strings"
+
+  - id: "15"
+    cli: ["-i"]
+    kind: "flag"
+    role: "mode"
+    group: "time_fmt"
+    include_in_search: true
+    description: "Output time data as ISO-8601 with 'T' separator"
+
+  # ===== Logging (keep simple) =====
+  - id: "16"
+    cli: ["-L"]
+    kind: "value"
+    metavar: "N"
+    value_template: "0"
+    defaults: ["0"]
+    role: "mode"
+    group: "loglevel"
+    include_in_search: false
+    description: "Set log level to n (>=0); ignored if logging not enabled"
+
+constraints:
+  - type: "at_most_one_from_group"
+    group: "scope"
+
+  - type: "at_most_one_from_group"
+    group: "annot"
+
+  - type: "at_most_one_from_group"
+    group: "time_fmt"

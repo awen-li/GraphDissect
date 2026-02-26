@@ -1,0 +1,12 @@
+{
+    "id": 26,
+    "name": "26_load_trace",
+    "driver": "xmllint",
+    "args": [
+        "--load-trace"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print trace of all external entities loaded"
+}

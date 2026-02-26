@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_k",
+    "driver": "xz",
+    "args": [
+        "-k"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Keep input files (don't delete)"
+}

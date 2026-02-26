@@ -1,0 +1,12 @@
+{
+    "id": 21,
+    "name": "21_nofixup_base_uris",
+    "driver": "xmllint",
+    "args": [
+        "--nofixup-base-uris"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Do not fix up xml:base URIs"
+}

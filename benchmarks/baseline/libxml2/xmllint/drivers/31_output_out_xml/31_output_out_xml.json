@@ -1,0 +1,12 @@
+{
+    "id": 31,
+    "name": "31_output_out_xml",
+    "driver": "xmllint",
+    "args": [
+        "--output out.xml"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Save output to FILE"
+}

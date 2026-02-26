@@ -1,0 +1,142 @@
+profile:
+  name: "fsstat"
+  binary: "fsstat"
+  domain: "metadata"
+  seed_dir: "seeds"
+  max_combination: 2
+  io:
+    input:
+      kind: "positional"
+      flag: ""
+    output:
+      kind: "positional"
+      flag: ""
+
+primary:
+  - id: "1"
+    cli: ["-t"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Display file system type only."
+
+  - id: "2"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Verbose output to stderr."
+
+  - id: "3"
+    cli: ["-V"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Print version and exit."
+    
+  - id: "4"
+    cli: ["-i"]
+    kind: "value"
+    metavar: "IMGTYPE"
+    value_template: "raw"
+    defaults: ["raw", "aff", "ewf"]
+    role: "mode"
+    include_in_search: true
+    description: "Image format type (use '-i list' to print supported types)."
+
+  - id: "5"
+    cli: ["-f"]
+    kind: "value"
+    metavar: "FSTYPE"
+    value_template: "ext"
+    defaults: ["ext", "ntfs", "fat", "hfs", "iso9660"]
+    role: "mode"
+    include_in_search: true
+    description: "Filesystem type (use '-f list' to print supported types)."
+
+  - id: "6"
+    cli: ["-b"]
+    kind: "value"
+    metavar: "DEV_SECTOR_SIZE"
+    value_template: "512"
+    defaults: ["512"]
+    role: "mode"
+    include_in_search: true
+    description: "Device sector size in bytes."
+
+  - id: "7"
+    cli: ["-o"]
+    kind: "value"
+    metavar: "IMGOFFSET"
+    value_template: "0"
+    defaults: ["2048"]
+    role: "mode"
+    include_in_search: true
+    description: "Filesystem offset in image (in sectors)."
+
+  - id: "8"
+    cli: ["-P"]
+    kind: "value"
+    metavar: "POOLTYPE"
+    value_template: "apfs"
+    defaults: ["apfs", "lvm", "bde", "bitlocker"]
+    role: "mode"
+    include_in_search: true
+    description: "Pool/container type (use '-P list' for supported types)."
+
+  - id: "9"
+    cli: ["-B"]
+    kind: "value"
+    metavar: "POOL_VOLUME_BLOCK"
+    value_template: "0"
+    defaults: ["4096"]
+    role: "mode"
+    include_in_search: true
+    description: "Starting block for pool volumes (requires -P)."
+
+  - id: "10"
+    cli: ["-k"]
+    kind: "value"
+    metavar: "PASSWORD"
+    value_template: "password"
+    defaults: ["password", "1234", "test"]
+    role: "mode"
+    include_in_search: true
+    description: "Decryption password for encrypted volumes."
+
+constraints:
+  # File-only input always required (except -V).
+  - type: "require_input_file_unless"
+    unless_any: [["-V"]]
+
+  # -B only makes sense if -P is present.
+  - type: "requires"
+    if_present: ["-B"]
+    require_any: [["-P"]]
+
+  # Keep -V as a standalone mode (avoid pairing with other flags in search).
+  - type: "exclusive"
+    option: "-V"
+
+examples:
+  - id: "ex1"
+    cmd: ["fsstat", "seeds/images/sample.img"]
+    description: "Default analysis on an image file."
+
+  - id: "ex2"
+    cmd: ["fsstat", "-t", "seeds/images/sample.img"]
+    description: "Type-only mode."
+
+  - id: "ex3"
+    cmd: ["fsstat", "-i", "raw", "-o", "2048", "seeds/images/sample.img"]
+    description: "Specify raw image + offset."
+
+  - id: "ex4"
+    cmd: ["fsstat", "-f", "ntfs", "-b", "4096", "seeds/images/sample.img"]
+    description: "Force filesystem type + sector size."
+
+  - id: "ex5"
+    cmd: ["fsstat", "-P", "apfs", "-B", "0", "seeds/images/sample.img"]
+    description: "Pool/container mode with starting block."
+
+

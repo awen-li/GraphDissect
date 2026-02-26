@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_list_o_output_bin",
+    "driver": "pdfdetach",
+    "args": [
+        "-list -o output.bin"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "List all embedded files in the PDF + File name for the saved embedded file"
+}

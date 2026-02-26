@@ -1,0 +1,17 @@
+# binary_path: pdfdetach
+# executable:  pdfdetach
+# source:      pdfdetach/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	pdfdetach/pdfdetach -list @@
+2	pdfdetach/pdfdetach -save 1 @@
+3	pdfdetach/pdfdetach -saveall @@
+4	pdfdetach/pdfdetach -list -o output.bin @@
+5	pdfdetach/pdfdetach -list -enc UTF-8 @@
+6	pdfdetach/pdfdetach -list -cfg xpdfrc @@
+7	pdfdetach/pdfdetach -save 1 -o output.bin @@
+8	pdfdetach/pdfdetach -save 1 -enc UTF-8 @@
+9	pdfdetach/pdfdetach -save 1 -cfg xpdfrc @@
+10	pdfdetach/pdfdetach -saveall -o output.bin @@
+11	pdfdetach/pdfdetach -saveall -enc UTF-8 @@
+12	pdfdetach/pdfdetach -saveall -cfg xpdfrc @@

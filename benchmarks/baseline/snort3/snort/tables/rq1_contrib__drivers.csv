@@ -1,0 +1,10 @@
+bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
+snort3,snort,1,1_c_conf_min_lua,5573,9402,9464,0
+snort3,snort,2,2_c_conf_http_lua,3704,6226,0,0
+snort3,snort,3,3_c_conf_dns_lua,4291,7103,0,0
+snort3,snort,4,4_c_conf_tls_lua,4175,6994,0,0
+snort3,snort,5,5_c_conf_stream_lua,4793,7705,0,0
+snort3,snort,6,6_pcap_show,4405,7183,23,0
+snort3,snort,7,7_rule_path_rules_min,4188,7427,22,0
+snort3,snort,8,8_rule_path_rules_http,4062,7258,0,0
+snort3,snort,9,9_rule_path_rules_dns,4524,8046,0,0

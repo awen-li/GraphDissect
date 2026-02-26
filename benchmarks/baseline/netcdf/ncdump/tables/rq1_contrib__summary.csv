@@ -1,0 +1,2 @@
+bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
+netcdf,ncdump,/root/GraphDissect/benchmarks/netcdf/ncdump,17,443,2505,1922,8

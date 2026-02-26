@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_rawdates_f_1",
+    "driver": "pdfinfo",
+    "args": [
+        "-rawdates -f 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print undecoded date strings directly from the PDF file + First page to report"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 20,
+    "name": "20_noxincludenode",
+    "driver": "xmllint",
+    "args": [
+        "--noxincludenode"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Do XInclude but do not generate XInclude nodes"
+}

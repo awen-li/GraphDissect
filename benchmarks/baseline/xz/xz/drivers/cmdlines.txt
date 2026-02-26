@@ -1,0 +1,22 @@
+# binary_path: xz
+# executable:  xz
+# source:      xz/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	xz/xz -z @@
+2	xz/xz -d @@
+3	xz/xz -t @@
+4	xz/xz -l @@
+5	xz/xz -k @@
+6	xz/xz -f @@
+7	xz/xz -c @@
+8	xz/xz -0 @@
+9	xz/xz -3 @@
+10	xz/xz -6 @@
+11	xz/xz -9 @@
+12	xz/xz -e @@
+13	xz/xz -T 1 @@
+14	xz/xz -T 2 @@
+15	xz/xz -T 0 @@
+16	xz/xz -q @@
+17	xz/xz -v @@

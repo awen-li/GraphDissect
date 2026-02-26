@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_f_ntfs",
+    "driver": "fsstat",
+    "args": [
+        "-f ntfs"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Filesystem type (use '-f list' to print supported types)."
+}

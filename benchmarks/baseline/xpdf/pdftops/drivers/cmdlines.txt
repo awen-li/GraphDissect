@@ -1,0 +1,71 @@
+# binary_path: pdftops
+# executable:  pdftops
+# source:      pdftops/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	pdftops/pdftops @@ ps-default.ps
+2	pdftops/pdftops -level1 @@ ps-level1.ps
+3	pdftops/pdftops -level1sep @@ ps-level1sep.ps
+4	pdftops/pdftops -level2 @@ ps-level2.ps
+5	pdftops/pdftops -level2gray @@ ps-level2gray.ps
+6	pdftops/pdftops -level2sep @@ ps-level2sep.ps
+7	pdftops/pdftops -level3 @@ ps-level3.ps
+8	pdftops/pdftops -level3gray @@ ps-level3gray.ps
+9	pdftops/pdftops -level3sep @@ ps-level3sep.ps
+10	pdftops/pdftops -eps @@ ps-eps.ps
+11	pdftops/pdftops -form @@ ps-form.ps
+12	pdftops/pdftops -f 1 @@ ps-default.ps
+13	pdftops/pdftops -l 3 @@ ps-default.ps
+14	pdftops/pdftops -paper letter @@ ps-default.ps
+15	pdftops/pdftops -paperw 612 @@ ps-default.ps
+16	pdftops/pdftops -paperh 792 @@ ps-default.ps
+17	pdftops/pdftops -level1 -f 1 @@ ps-level1.ps
+18	pdftops/pdftops -level1 -l 3 @@ ps-level1.ps
+19	pdftops/pdftops -level1 -paper letter @@ ps-level1.ps
+20	pdftops/pdftops -level1 -paperw 612 @@ ps-level1.ps
+21	pdftops/pdftops -level1 -paperh 792 @@ ps-level1.ps
+22	pdftops/pdftops -level1sep -f 1 @@ ps-level1sep.ps
+23	pdftops/pdftops -level1sep -l 3 @@ ps-level1sep.ps
+24	pdftops/pdftops -level1sep -paper letter @@ ps-level1sep.ps
+25	pdftops/pdftops -level1sep -paperw 612 @@ ps-level1sep.ps
+26	pdftops/pdftops -level1sep -paperh 792 @@ ps-level1sep.ps
+27	pdftops/pdftops -level2 -f 1 @@ ps-level2.ps
+28	pdftops/pdftops -level2 -l 3 @@ ps-level2.ps
+29	pdftops/pdftops -level2 -paper letter @@ ps-level2.ps
+30	pdftops/pdftops -level2 -paperw 612 @@ ps-level2.ps
+31	pdftops/pdftops -level2 -paperh 792 @@ ps-level2.ps
+32	pdftops/pdftops -level2gray -f 1 @@ ps-level2gray.ps
+33	pdftops/pdftops -level2gray -l 3 @@ ps-level2gray.ps
+34	pdftops/pdftops -level2gray -paper letter @@ ps-level2gray.ps
+35	pdftops/pdftops -level2gray -paperw 612 @@ ps-level2gray.ps
+36	pdftops/pdftops -level2gray -paperh 792 @@ ps-level2gray.ps
+37	pdftops/pdftops -level2sep -f 1 @@ ps-level2sep.ps
+38	pdftops/pdftops -level2sep -l 3 @@ ps-level2sep.ps
+39	pdftops/pdftops -level2sep -paper letter @@ ps-level2sep.ps
+40	pdftops/pdftops -level2sep -paperw 612 @@ ps-level2sep.ps
+41	pdftops/pdftops -level2sep -paperh 792 @@ ps-level2sep.ps
+42	pdftops/pdftops -level3 -f 1 @@ ps-level3.ps
+43	pdftops/pdftops -level3 -l 3 @@ ps-level3.ps
+44	pdftops/pdftops -level3 -paper letter @@ ps-level3.ps
+45	pdftops/pdftops -level3 -paperw 612 @@ ps-level3.ps
+46	pdftops/pdftops -level3 -paperh 792 @@ ps-level3.ps
+47	pdftops/pdftops -level3gray -f 1 @@ ps-level3gray.ps
+48	pdftops/pdftops -level3gray -l 3 @@ ps-level3gray.ps
+49	pdftops/pdftops -level3gray -paper letter @@ ps-level3gray.ps
+50	pdftops/pdftops -level3gray -paperw 612 @@ ps-level3gray.ps
+51	pdftops/pdftops -level3gray -paperh 792 @@ ps-level3gray.ps
+52	pdftops/pdftops -level3sep -f 1 @@ ps-level3sep.ps
+53	pdftops/pdftops -level3sep -l 3 @@ ps-level3sep.ps
+54	pdftops/pdftops -level3sep -paper letter @@ ps-level3sep.ps
+55	pdftops/pdftops -level3sep -paperw 612 @@ ps-level3sep.ps
+56	pdftops/pdftops -level3sep -paperh 792 @@ ps-level3sep.ps
+57	pdftops/pdftops -eps -f 1 @@ ps-eps.ps
+58	pdftops/pdftops -eps -l 3 @@ ps-eps.ps
+59	pdftops/pdftops -eps -paper letter @@ ps-eps.ps
+60	pdftops/pdftops -eps -paperw 612 @@ ps-eps.ps
+61	pdftops/pdftops -eps -paperh 792 @@ ps-eps.ps
+62	pdftops/pdftops -form -f 1 @@ ps-form.ps
+63	pdftops/pdftops -form -l 3 @@ ps-form.ps
+64	pdftops/pdftops -form -paper letter @@ ps-form.ps
+65	pdftops/pdftops -form -paperw 612 @@ ps-form.ps
+66	pdftops/pdftops -form -paperh 792 @@ ps-form.ps

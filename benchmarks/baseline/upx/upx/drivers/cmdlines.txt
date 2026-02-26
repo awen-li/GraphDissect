@@ -1,0 +1,27 @@
+# binary_path: upx
+# executable:  upx
+# source:      upx/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	upx/upx -q compress @@
+2	upx/upx -q decompress @@
+3	upx/upx -q list @@
+4	upx/upx -q test @@
+5	upx/upx -q fileinfo @@
+6	upx/upx -q -v @@
+7	upx/upx -q --no-color @@
+8	upx/upx -q --no-progress @@
+9	upx/upx -q --force-overwrite @@
+10	upx/upx -q -d @@
+11	upx/upx -q -l @@
+12	upx/upx -q -t @@
+13	upx/upx -q --fileinfo @@
+14	upx/upx -q -1 @@
+15	upx/upx -q -9 @@
+16	upx/upx -q --best @@
+17	upx/upx -q --lzma @@
+18	upx/upx -q --brute @@
+19	upx/upx -q --ultra-brute @@
+20	upx/upx -q --overlay=copy @@
+21	upx/upx -q --overlay=skip @@
+22	upx/upx -q -f @@

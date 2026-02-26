@@ -1,0 +1,4 @@
+bench,exe,driver_id,driver_name,n_nodes,n_edges,density,num_cc,lcc_size,lcc_ratio,avg_cc_size
+http-parser,parsertrace,1,1_r,2,0,0.0,2,1,0.5,1.0
+http-parser,parsertrace,2,2_q,2,0,0.0,2,1,0.5,1.0
+http-parser,parsertrace,3,3_b,2,0,0.0,2,1,0.5,1.0

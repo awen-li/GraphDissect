@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+unbound,unbound-checkconf,<= 10,7,0.0,2.0,0.5
+unbound,unbound-checkconf,11–25,0,,,
+unbound,unbound-checkconf,26–50,0,,,
+unbound,unbound-checkconf,51–100,0,,,
+unbound,unbound-checkconf,101–200,0,,,
+unbound,unbound-checkconf,201–500,0,,,
+unbound,unbound-checkconf,501–1000,0,,,
+unbound,unbound-checkconf,> 1000,0,,,

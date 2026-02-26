@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+xpdf,pdfdetach,<= 10,12,0.0,2.0,0.5
+xpdf,pdfdetach,11–25,0,,,
+xpdf,pdfdetach,26–50,0,,,
+xpdf,pdfdetach,51–100,0,,,
+xpdf,pdfdetach,101–200,0,,,
+xpdf,pdfdetach,201–500,0,,,
+xpdf,pdfdetach,501–1000,0,,,
+xpdf,pdfdetach,> 1000,0,,,

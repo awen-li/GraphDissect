@@ -1,0 +1,15 @@
+{
+    "id": 12,
+    "name": "12_inconclusive",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--inconclusive"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Report even if analysis is inconclusive (more paths / warnings)."
+}

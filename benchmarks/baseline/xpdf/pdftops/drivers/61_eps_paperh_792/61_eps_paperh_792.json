@@ -1,0 +1,12 @@
+{
+    "id": 61,
+    "name": "61_eps_paperh_792",
+    "driver": "pdftops",
+    "args": [
+        "-eps -paperh 792"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-eps.ps",
+    "priority": 1.0,
+    "description": "Generate Encapsulated PostScript (EPS) + Paper height, in points"
+}

@@ -1,0 +1,13 @@
+{
+    "id": 7,
+    "name": "7_C_gnu_v3",
+    "driver": "addr2line",
+    "args": [
+        "-C gnu-v3",
+        "-e"
+    ],
+    "seed_dir": "seeds",
+    "output": "0x435fb0",
+    "priority": 1.0,
+    "description": "Demangle function names (optional style)"
+}

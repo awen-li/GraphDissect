@@ -1,0 +1,12 @@
+{
+    "id": 20,
+    "name": "20_m_o_a_out",
+    "driver": "qjsc",
+    "args": [
+        "-m -o a.out"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o out",
+    "priority": 1.0,
+    "description": "Compile input as ES6 module (default is autodetect). + Set output filename (executable or C file)."
+}

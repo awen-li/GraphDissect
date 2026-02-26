@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_i_list",
+    "driver": "blkstat",
+    "args": [
+        "-i list"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Image format type (use 'list' for supported types)."
+}

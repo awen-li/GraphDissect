@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_c",
+    "driver": "jq",
+    "args": [
+        "-c"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compact output"
+}

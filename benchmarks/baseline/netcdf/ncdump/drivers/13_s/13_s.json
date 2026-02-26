@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_s",
+    "driver": "ncdump",
+    "args": [
+        "-s"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Output special (virtual) attributes"
+}

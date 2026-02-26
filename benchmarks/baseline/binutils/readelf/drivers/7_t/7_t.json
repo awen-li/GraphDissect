@@ -1,0 +1,12 @@
+{
+    "id": 7,
+    "name": "7_t",
+    "driver": "readelf",
+    "args": [
+        "-t"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display per-section details"
+}

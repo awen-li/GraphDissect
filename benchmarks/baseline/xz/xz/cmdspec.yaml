@@ -1,0 +1,162 @@
+profile:
+  name: "xz"
+  binary: "xz"
+  domain: "archive"
+  seed_dir: "seeds"
+  max_combination: 2
+  base_args: []
+  io:
+    input:
+      kind: "positional"
+      flag: ""           
+    output:
+      kind: "positional"
+      flag: ""             
+
+primary:
+
+  - id: "1"
+    cli: ["-z"]
+    kind: "flag"
+    role: "mode"
+    group: "op_mode"
+    include_in_search: true
+    description: "Force compression"
+
+  - id: "2"
+    cli: ["-d"]
+    kind: "flag"
+    role: "mode"
+    group: "op_mode"
+    include_in_search: true
+    description: "Force decompression"
+
+  - id: "3"
+    cli: ["-t"]
+    kind: "flag"
+    role: "mode"
+    group: "op_mode"
+    include_in_search: true
+    description: "Test compressed file integrity"
+
+  - id: "4"
+    cli: ["-l"]
+    kind: "flag"
+    role: "mode"
+    group: "op_mode"
+    include_in_search: true
+    description: "List information about .xz files"
+
+  # ===== File handling =====
+
+  - id: "5"
+    cli: ["-k"]
+    kind: "flag"
+    role: "mode"
+    group: "file_handling"
+    include_in_search: true
+    description: "Keep input files (don't delete)"
+
+  - id: "6"
+    cli: ["-f"]
+    kind: "flag"
+    role: "mode"
+    group: "file_handling"
+    include_in_search: true
+    description: "Force overwrite of output file and (de)compress links"
+
+  - id: "7"
+    cli: ["-c"]
+    kind: "flag"
+    role: "mode"
+    group: "output_mode"
+    include_in_search: true
+    description: "Write to stdout and don't delete input files"
+
+  # ===== Compression level / tuning =====
+
+  - id: "8"
+    cli: ["-0"]
+    kind: "flag"
+    role: "mode"
+    group: "preset"
+    include_in_search: true
+    description: "Compression preset 0 (fastest)"
+
+  - id: "9"
+    cli: ["-3"]
+    kind: "flag"
+    role: "mode"
+    group: "preset"
+    include_in_search: true
+    description: "Compression preset 3"
+
+  - id: "10"
+    cli: ["-6"]
+    kind: "flag"
+    role: "mode"
+    group: "preset"
+    include_in_search: true
+    description: "Compression preset 6 (default)"
+
+  - id: "11"
+    cli: ["-9"]
+    kind: "flag"
+    role: "mode"
+    group: "preset"
+    include_in_search: true
+    description: "Compression preset 9 (best compression)"
+
+  - id: "12"
+    cli: ["-e"]
+    kind: "flag"
+    role: "mode"
+    group: "tuning"
+    include_in_search: true
+    description: "Extreme mode (more CPU for better ratio)"
+
+  - id: "13"
+    cli: ["-T"]
+    kind: "value"
+    metavar: "NUM"
+    value_template: "1"
+    defaults: ["1", "2", "0"]
+    role: "mode"
+    group: "threads"
+    include_in_search: true
+    description: "Use at most NUM threads (0 = as many as cores)"
+
+  # ===== Verbosity =====
+
+  - id: "14"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    group: "verbosity"
+    include_in_search: true
+    description: "Quiet (suppress warnings; repeat for more)"
+
+  - id: "15"
+    cli: ["-v"]
+    kind: "flag"
+    role: "mode"
+    group: "verbosity"
+    include_in_search: true
+    description: "Verbose (repeat for more)"
+
+constraints:
+  # Choose at most one primary operation mode; default behavior (compress) can be allowed by selecting none.
+  - type: "at_most_one_from_group"
+    group: "op_mode"
+
+  # Presets are mutually exclusive
+  - type: "at_most_one_from_group"
+    group: "preset"
+
+  # Quiet vs verbose
+  - type: "at_most_one_from_group"
+    group: "verbosity"
+
+  # Listing/testing don't meaningfully combine with compression preset knobs;
+  # keep it simple by preventing tuning when op is list/test.
+  # (If your constraint engine doesn't support conditionals, ignore this comment.)

@@ -1,0 +1,13 @@
+{
+    "id": 16,
+    "name": "16_best",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "--best"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compress best (slow)."
+}

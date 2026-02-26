@@ -1,0 +1,278 @@
+profile:
+  name: "cppcheck"
+  binary: "cppcheck"
+  domain: "toolchain"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  # keep output stable and reduce noise
+  base_args:
+    - "--quiet"
+    - "--template={file}:{line}:{severity}:{id}:{message}"
+    - "--output-format=text"
+
+  io:
+    input:
+      kind: "positional"   # file(s) / directory path(s) passed as argv
+    output:
+      kind: "flagged"
+      flag: "--output-file"
+
+primary:
+  # ===== Core analysis mode knobs =====
+
+  - id: "1"
+    cli: ["--enable"]
+    kind: "choice"
+    metavar: "SEVERITY"
+    role: "mode"
+    include_in_search: true
+    choices:
+      - "warning"
+      - "performance"
+      - "portability"
+      - "style"
+      - "information"
+      - "unusedFunction"
+      - "missingInclude"
+      - "all"
+    defaults: ["warning", "performance", "portability", "style", "all"]
+    description: "Enable checks grouped by severity (increases analysis surface)."
+
+  - id: "2"
+    cli: ["--check-level"]
+    kind: "choice"
+    metavar: "LEVEL"
+    role: "mode"
+    include_in_search: true
+    choices: ["reduced", "normal", "exhaustive"]
+    defaults: ["normal", "exhaustive"]
+    description: "Configure how deep valueflow analysis goes."
+
+  - id: "3"
+    cli: ["--inconclusive"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Report even if analysis is inconclusive (more paths / warnings)."
+
+  - id: "4"
+    cli: ["-f", "--force"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    description: "Force checking of all configurations."
+
+  - id: "5"
+    cli: ["--max-configs"]
+    kind: "value"
+    metavar: "LIMIT"
+    value_template: "24"
+    defaults: ["12", "24"]
+    role: "mode"
+    include_in_search: true
+    description: "Max number of preprocessor configurations per file."
+
+  # ===== Language / standard toggles =====
+
+  - id: "6"
+    cli: ["--language"]
+    kind: "choice"
+    metavar: "LANG"
+    role: "mode"
+    include_in_search: true
+    choices: ["c", "c++"]
+    defaults: ["c", "c++"]
+    description: "Force analysis language mode."
+
+  - id: "7"
+    cli: ["--std"]
+    kind: "choice"
+    metavar: "STD"
+    role: "mode"
+    include_in_search: true
+    choices: ["c99", "c11", "c++11", "c++14", "c++17", "c++20"]
+    defaults: ["c11", "c++11", "c++20"]
+    description: "Set language standard."
+
+  # ===== Preprocessor configuration knobs =====
+
+  - id: "8"
+    cli: ["-D"]
+    kind: "value"
+    metavar: "ID[=VAL]"
+    value_template: "DEBUG=1"
+    defaults: ["DEBUG=1", "__cplusplus", "_GNU_SOURCE=1"]
+    role: "mode"
+    include_in_search: true
+    description: "Define preprocessor symbols."
+
+  - id: "9"
+    cli: ["-U"]
+    kind: "value"
+    metavar: "ID"
+    value_template: "NDEBUG"
+    defaults: ["NDEBUG", "DEBUG"]
+    role: "mode"
+    include_in_search: true
+    description: "Undefine preprocessor symbols."
+
+  - id: "10"
+    cli: ["-I"]
+    kind: "value"
+    metavar: "DIR"
+    value_template: "seeds/inc"
+    defaults: ["seeds/inc", "seeds/project/include"]
+    role: "input"
+    include_in_search: true
+    description: "Add include directory (exercise include resolution)."
+
+  - id: "11"
+    cli: ["--includes-file"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "seeds/includes.txt"
+    defaults: ["seeds/includes.txt"]
+    role: "input"
+    include_in_search: true
+    description: "Read include search paths from file."
+
+  - id: "12"
+    cli: ["--include"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "seeds/inc/forced.h"
+    defaults: ["seeds/inc/forced.h"]
+    role: "input"
+    include_in_search: true
+    description: "Force-include a header before analysis."
+
+  # ===== Project / compilation database driven =====
+
+  - id: "13"
+    cli: ["--project"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "seeds/compile_commands/compile_commands.json"
+    defaults: ["seeds/compile_commands/compile_commands.json"]
+    role: "input"
+    include_in_search: true
+    description: "Use compile_commands.json / project file to drive analysis."
+
+  # ===== Dump / intermediate artifacts =====
+
+  - id: "14"
+    cli: ["--dump"]
+    kind: "flag"
+    role: "mode"
+    include_in_search: true
+    output: "."
+    description: "Write .dump files per translation unit (AST/token/valueflow)."
+
+  - id: "15"
+    cli: ["--cppcheck-build-dir"]
+    kind: "value"
+    metavar: "DIR"
+    value_template: "out/builddir"
+    defaults: ["out/builddir"]
+    role: "env"
+    include_in_search: true
+    output: "."
+    description: "Enable work folder for caching + whole program analysis."
+
+  - id: "16"
+    cli: ["--checkers-report"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "out/checkers.txt"
+    defaults: ["out/checkers.txt"]
+    role: "mode"
+    include_in_search: true
+    output: "out/checkers.txt"
+    description: "Write report of active checkers."
+
+  # ===== Output formats =====
+
+  - id: "17"
+    cli: ["--output-format"]
+    kind: "choice"
+    metavar: "FMT"
+    role: "mode"
+    include_in_search: true
+    choices: ["text", "sarif", "xmlv2", "xmlv3"]
+    defaults: ["text", "sarif"]
+    description: "Select output format."
+
+  - id: "18"
+    cli: ["--output-file"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "out/cppcheck.out"
+    defaults: ["out/cppcheck.out"]
+    role: "output"
+    include_in_search: true
+    output: "out/cppcheck.out"
+    description: "Write results to file instead of stderr."
+
+  # ===== Filtering / file selection knobs =====
+
+  - id: "19"
+    cli: ["--file-list"]
+    kind: "value"
+    metavar: "FILE"
+    value_template: "seeds/filelist.txt"
+    defaults: ["seeds/filelist.txt"]
+    role: "input"
+    include_in_search: true
+    description: "Specify list of files to analyze (one per line)."
+
+  - id: "20"
+    cli: ["--file-filter"]
+    kind: "value"
+    metavar: "GLOB"
+    value_template: "*"
+    defaults: ["*main*", "*test*", "*parser*"]
+    role: "mode"
+    include_in_search: true
+    description: "Restrict analysis to files matching filter."
+
+  - id: "21"
+    cli: ["-i"]
+    kind: "value"
+    metavar: "IGNORE"
+    value_template: "seeds/ignore"
+    defaults: ["seeds/ignore", "*third_party*", "*generated*"]
+    role: "mode"
+    include_in_search: true
+    description: "Ignore files/dirs matching pattern."
+
+constraints:
+  # keep output file always present for stable harness
+  - type: "require_any"
+    any: [["--output-file"]]
+
+  # if using includes-file, it should exist; you’ll provide it in seeds
+  - type: "requires"
+    when:
+      has_any: [["--includes-file"]]
+    require_any: [["--includes-file"]]
+
+  # project mode typically replaces positional source selection (avoid mixing)
+  - type: "forbid_all"
+    when:
+      has_any: [["--project"]]
+    options: ["--file-list", "--file-filter"]
+
+examples:
+  - id: "ex1"
+    cmd: ["cppcheck", "--quiet", "--enable=all", "--inconclusive", "--output-file=out/cppcheck.out", "seeds/project"]
+    description: "Analyze a small seed project directory recursively."
+
+  - id: "ex2"
+    cmd: ["cppcheck", "--quiet", "--project=seeds/compile_commands/compile_commands.json", "--cppcheck-build-dir=out/builddir", "--output-file=out/cppcheck.out"]
+    description: "Drive analysis from compile_commands.json (whole-program-ish)."
+
+  - id: "ex3"
+    cmd: ["cppcheck", "--quiet", "--enable=performance", "--check-level=exhaustive", "--dump", "--output-file=out/cppcheck.out", "seeds/project/src/main.c"]
+    description: "Deeper valueflow + dump intermediate representation."
+

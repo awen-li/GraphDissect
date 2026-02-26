@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_e_p_qjsc",
+    "driver": "qjsc",
+    "args": [
+        "-e -p qjsc_"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Emit main() plus bytecode to a C file instead of an executable. + Set prefix used in generated C symbol names."
+}

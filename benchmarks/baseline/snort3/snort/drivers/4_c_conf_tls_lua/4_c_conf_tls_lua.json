@@ -1,0 +1,13 @@
+{
+    "id": 4,
+    "name": "4_c_conf_tls_lua",
+    "driver": "snort",
+    "args": [
+        "-c conf/tls.lua",
+        "-r"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Select Snort3 Lua config profile (main driver dimension)."
+}

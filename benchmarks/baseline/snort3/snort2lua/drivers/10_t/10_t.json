@@ -1,0 +1,14 @@
+{
+    "id": 10,
+    "name": "10_t",
+    "driver": "snort2lua",
+    "args": [
+        "-q",
+        "-t",
+        "-c"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o snort.lua",
+    "priority": 1.0,
+    "description": "When parsing includes, write include non-rule info to output-file (ignored if -i is set)."
+}

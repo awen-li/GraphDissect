@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+wavpack,wvgain,<= 10,12,0.0,2.0,0.5
+wavpack,wvgain,11–25,0,,,
+wavpack,wvgain,26–50,0,,,
+wavpack,wvgain,51–100,0,,,
+wavpack,wvgain,101–200,0,,,
+wavpack,wvgain,201–500,0,,,
+wavpack,wvgain,501–1000,0,,,
+wavpack,wvgain,> 1000,0,,,

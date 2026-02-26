@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "name": "14_G",
+    "driver": "objdump",
+    "args": [
+        "-G"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display raw STABS info"
+}

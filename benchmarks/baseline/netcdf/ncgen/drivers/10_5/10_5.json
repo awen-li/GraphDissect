@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_5",
+    "driver": "ncgen",
+    "args": [
+        "-5"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "CDF5 output (shortcut kind)"
+}

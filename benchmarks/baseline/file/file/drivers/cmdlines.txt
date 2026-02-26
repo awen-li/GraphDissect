@@ -1,0 +1,17 @@
+# binary_path: file
+# executable:  file
+# source:      file/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	file/file -b @@
+2	file/file -i @@
+3	file/file --mime-type @@
+4	file/file --mime-encoding @@
+5	file/file --extension @@
+6	file/file -z @@
+7	file/file -Z @@
+8	file/file -k @@
+9	file/file -m magic.mgc @@
+10	file/file -C @@
+11	file/file -L @@
+12	file/file -h @@

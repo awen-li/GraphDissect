@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "name": "14_meta_f_1",
+    "driver": "pdfinfo",
+    "args": [
+        "-meta -f 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print the document metadata (XML) + First page to report"
+}

@@ -1,0 +1,11 @@
+# binary_path: git
+# executable:  git
+# source:      git/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	git/git -c core.pager=cat -c advice.detachedHead=false -c advice.statusHints=false apply @@
+2	git/git -c core.pager=cat -c advice.detachedHead=false -c advice.statusHints=false config @@
+3	git/git -c core.pager=cat -c advice.detachedHead=false -c advice.statusHints=false hash-object @@
+4	git/git -c core.pager=cat -c advice.detachedHead=false -c advice.statusHints=false diff @@
+5	git/git -c core.pager=cat -c advice.detachedHead=false -c advice.statusHints=false grep @@
+6	git/git -c core.pager=cat -c advice.detachedHead=false -c advice.statusHints=false -C workdir @@

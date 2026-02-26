@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_eps",
+    "driver": "pdftops",
+    "args": [
+        "-eps"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-eps.ps",
+    "priority": 1.0,
+    "description": "Generate Encapsulated PostScript (EPS)"
+}

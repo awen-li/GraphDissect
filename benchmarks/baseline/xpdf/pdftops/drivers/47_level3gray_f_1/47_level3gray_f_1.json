@@ -1,0 +1,12 @@
+{
+    "id": 47,
+    "name": "47_level3gray_f_1",
+    "driver": "pdftops",
+    "args": [
+        "-level3gray -f 1"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level3gray.ps",
+    "priority": 1.0,
+    "description": "Generate Level 3 grayscale PostScript + First page to print"
+}

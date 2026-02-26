@@ -1,0 +1,12 @@
+{
+    "id": 19,
+    "name": "19_x_text",
+    "driver": "readelf",
+    "args": [
+        "-x .text"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Dump contents of the given section as bytes (by name or index)"
+}

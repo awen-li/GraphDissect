@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_OO",
+    "driver": "python",
+    "args": [
+        "-OO"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Like -O and also discard docstrings"
+}

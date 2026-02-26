@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_b_f",
+    "driver": "ncdump",
+    "args": [
+        "-b f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Brief annotations for C or Fortran indices in data"
+}

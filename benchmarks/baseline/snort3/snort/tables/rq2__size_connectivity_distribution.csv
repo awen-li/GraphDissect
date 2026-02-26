@@ -1,0 +1,9 @@
+bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
+snort3,snort,<= 10,9,0.0,2.0,0.5
+snort3,snort,11–25,0,,,
+snort3,snort,26–50,0,,,
+snort3,snort,51–100,0,,,
+snort3,snort,101–200,0,,,
+snort3,snort,201–500,0,,,
+snort3,snort,501–1000,0,,,
+snort3,snort,> 1000,0,,,

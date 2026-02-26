@@ -1,0 +1,18 @@
+{
+    "id": 6,
+    "name": "6_C_workdir",
+    "driver": "git",
+    "args": [
+        "-c",
+        "core.pager=cat",
+        "-c",
+        "advice.detachedHead=false",
+        "-c",
+        "advice.statusHints=false",
+        "-C workdir"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Run git as if started in <path> (sandbox)."
+}

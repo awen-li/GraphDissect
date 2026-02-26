@@ -1,0 +1,12 @@
+{
+    "id": 23,
+    "name": "23_m_p_qjsc",
+    "driver": "qjsc",
+    "args": [
+        "-m -p qjsc_"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compile input as ES6 module (default is autodetect). + Set prefix used in generated C symbol names."
+}

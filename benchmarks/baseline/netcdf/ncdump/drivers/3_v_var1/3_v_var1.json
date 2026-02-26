@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_v_var1",
+    "driver": "ncdump",
+    "args": [
+        "-v var1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Dump data for selected variable(s) only (comma-separated)"
+}

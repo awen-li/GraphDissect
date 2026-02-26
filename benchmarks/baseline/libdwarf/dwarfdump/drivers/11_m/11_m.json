@@ -1,0 +1,15 @@
+{
+    "id": 11,
+    "name": "11_m",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-m"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print DWARF macro sections (.debug_macro/.debug_macinfo)."
+}

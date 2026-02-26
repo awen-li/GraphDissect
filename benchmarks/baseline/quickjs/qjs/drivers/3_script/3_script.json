@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_script",
+    "driver": "qjs",
+    "args": [
+        "--script"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Load input as ES6 script"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_c_x",
+    "driver": "qjsc",
+    "args": [
+        "-c -x"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Emit bytecode to a C file (no executable). + Use byte-swapped output (endian-swapped bytecode)."
+}

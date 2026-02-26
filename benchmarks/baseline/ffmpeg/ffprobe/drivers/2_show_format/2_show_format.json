@@ -1,0 +1,13 @@
+{
+    "id": 2,
+    "name": "2_show_format",
+    "driver": "ffprobe",
+    "args": [
+        "-show_format",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show container/format info."
+}

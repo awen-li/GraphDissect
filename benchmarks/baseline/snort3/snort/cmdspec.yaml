@@ -1,0 +1,129 @@
+profile:
+  name: "snort3"
+  binary: "snort"
+  domain: "network"
+  seed_dir: "seeds"
+  max_combination: 2
+
+  # Keep output noise down and avoid interactivity.
+  # (snort3 doesn't use stdin normally, but keep it stable.)
+  base_args: []
+
+  io:
+    input:
+      kind: "flagged"
+      flag: "-r"      # offline pcap read
+    output:
+      kind: "none"
+      flag: ""
+
+primary:
+  # ===== Core file-driven mode =====
+
+  - id: "1"
+    cli: ["-c"]
+    kind: "choice"
+    metavar: "CONF"
+    # You provide these files; each config defines a distinct analysis surface.
+    # Start with 3-6 small configs, scale up later.
+    choices:
+      - "conf/min.lua"
+      - "conf/http.lua"
+      - "conf/dns.lua"
+      - "conf/tls.lua"
+      - "conf/stream.lua"
+    defaults:
+      - "conf/min.lua"
+      - "conf/http.lua"
+    role: "mode"
+    group: "config_profile"
+    include_in_search: true
+    description: "Select Snort3 Lua config profile (main driver dimension)."
+
+  # ===== PCAP-related behavior =====
+
+  - id: "2"
+    cli: ["--pcap-show"]
+    kind: "flag"
+    role: "mode"
+    group: "pcap_behavior"
+    include_in_search: true
+    description: "Show pcap processing info (forces additional reporting paths)."
+
+  # If your snort build supports these, keep them. If not, remove.
+  # (Some builds have different pcap flags; you can validate by ./snort -? or --help-options)
+  - id: "3"
+    cli: ["--pcap-limit"]
+    kind: "value"
+    metavar: "NPKTS"
+    value_template: "1000"
+    defaults: ["200", "1000"]
+    role: "mode"
+    group: "pcap_behavior"
+    include_in_search: true
+    description: "Stop after processing N packets from the pcap (stability/timeout control)."
+
+  # ===== Policy / module switching =====
+
+  - id: "4"
+    cli: ["--policy-id"]
+    kind: "value"
+    metavar: "PID"
+    value_template: "1"
+    defaults: ["0", "1", "2"]
+    role: "mode"
+    group: "policy"
+    include_in_search: true
+    description: "Select policy id (effective only if config defines multiple policies)."
+
+  # ===== Logging / verbosity controls (keep deterministic) =====
+
+  - id: "5"
+    cli: ["--quiet"]
+    kind: "flag"
+    role: "mode"
+    group: "verbosity"
+    include_in_search: true
+    description: "Reduce console output (stabilizes fuzzing throughput)."
+
+  - id: "6"
+    cli: ["-q"]
+    kind: "flag"
+    role: "mode"
+    group: "verbosity"
+    include_in_search: false
+    description: "Alias for quiet output (if supported)."
+
+  # ===== Rule path toggles (file-driven secondary dimension) =====
+
+  - id: "7"
+    cli: ["--rule-path"]
+    kind: "choice"
+    metavar: "RULEDIR"
+    choices:
+      - "rules/min"
+      - "rules/http"
+      - "rules/dns"
+    defaults:
+      - "rules/min"
+    role: "mode"
+    group: "rules"
+    include_in_search: true
+    description: "Select rule directory profile (optional; keep small and deterministic)."
+
+constraints:
+  # At most one verbosity mode
+  - type: "at_most_one_from_group"
+    group: "verbosity"
+
+  # At most one config profile (the main driver)
+  - type: "at_most_one_from_group"
+    group: "config_profile"
+
+  # At most one rule directory
+  - type: "at_most_one_from_group"
+    group: "rules"
+
+  # Policy id only makes sense for specific configs; keep it optional and bounded.
+  # You can refine later with conditional constraints if your grammar supports it.
+

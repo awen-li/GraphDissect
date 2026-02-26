@@ -1,0 +1,15 @@
+{
+    "id": 10,
+    "name": "10_r_24",
+    "driver": "ffmpeg",
+    "args": [
+        "-nostdin",
+        "-y",
+        "-r 24",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Override input framerate / set output video framerate (fps)"
+}

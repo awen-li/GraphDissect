@@ -1,0 +1,12 @@
+{
+    "id": 25,
+    "name": "25_m_M_mod_so_mod_init",
+    "driver": "qjsc",
+    "args": [
+        "-m -M mod.so,mod_init"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compile input as ES6 module (default is autodetect). + Add initialization code for an external C module."
+}

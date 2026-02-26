@@ -1,0 +1,12 @@
+{
+    "id": 21,
+    "name": "21_e_print_1",
+    "driver": "lua",
+    "args": [
+        "-e print(1) --"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Execute a statement before running the script + Stop handling options (useful if script name begins with '-')"
+}

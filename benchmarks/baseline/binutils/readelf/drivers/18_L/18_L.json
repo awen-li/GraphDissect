@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_L",
+    "driver": "readelf",
+    "args": [
+        "-L"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Enable consistency checks and warning messages"
+}

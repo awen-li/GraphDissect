@@ -1,0 +1,12 @@
+{
+    "id": 16,
+    "name": "16_q",
+    "driver": "xz",
+    "args": [
+        "-q"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Quiet (suppress warnings; repeat for more)"
+}

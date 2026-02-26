@@ -1,0 +1,9 @@
+# binary_path: tsk_recover
+# executable:  tsk_recover
+# source:      tsk_recover/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	tsk_recover/tsk_recover -V @@
+2	tsk_recover/tsk_recover -i list @@
+3	tsk_recover/tsk_recover -f list @@
+4	tsk_recover/tsk_recover -P list @@

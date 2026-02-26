@@ -1,0 +1,12 @@
+{
+    "id": 27,
+    "name": "27_nonet",
+    "driver": "xmllint",
+    "args": [
+        "--nonet"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Refuse to fetch DTDs or entities over network"
+}

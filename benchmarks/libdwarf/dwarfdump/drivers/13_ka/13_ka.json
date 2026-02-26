@@ -1,0 +1,15 @@
+{
+    "id": 13,
+    "name": "13_ka",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-ka"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Run all DWARF integrity checks."
+}

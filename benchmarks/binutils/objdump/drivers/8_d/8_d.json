@@ -1,0 +1,12 @@
+{
+    "id": 8,
+    "name": "8_d",
+    "driver": "objdump",
+    "args": [
+        "-d"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Disassemble executable sections"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_t",
+    "driver": "xz",
+    "args": [
+        "-t"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Test compressed file integrity"
+}

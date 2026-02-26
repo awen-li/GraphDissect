@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_f",
+    "driver": "unbound-checkconf",
+    "args": [
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Output full pathname with chroot applied (typically used with -o pidfile)."
+}

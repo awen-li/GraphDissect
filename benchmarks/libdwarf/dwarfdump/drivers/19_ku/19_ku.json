@@ -1,0 +1,15 @@
+{
+    "id": 19,
+    "name": "19_ku",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-ku"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print usage summaries (tag-tag / tag-attr / attr-form)."
+}

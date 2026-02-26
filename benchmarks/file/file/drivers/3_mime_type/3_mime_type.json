@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_mime_type",
+    "driver": "file",
+    "args": [
+        "--mime-type"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Output only MIME type"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_e",
+    "driver": "readelf",
+    "args": [
+        "-e"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show file, program, and section headers (equivalent to -h -l -S)"
+}

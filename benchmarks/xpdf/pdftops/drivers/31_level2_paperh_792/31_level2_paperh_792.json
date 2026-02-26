@@ -1,0 +1,12 @@
+{
+    "id": 31,
+    "name": "31_level2_paperh_792",
+    "driver": "pdftops",
+    "args": [
+        "-level2 -paperh 792"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level2.ps",
+    "priority": 1.0,
+    "description": "Generate Level 2 PostScript + Paper height, in points"
+}

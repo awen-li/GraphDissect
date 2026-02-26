@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_c_N_qjsc_blob",
+    "driver": "qjsc",
+    "args": [
+        "-c -N qjsc_blob"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Emit bytecode to a C file (no executable). + Set the C symbol name for the generated data."
+}

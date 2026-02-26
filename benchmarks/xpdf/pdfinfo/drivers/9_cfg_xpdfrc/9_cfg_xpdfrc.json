@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_cfg_xpdfrc",
+    "driver": "pdfinfo",
+    "args": [
+        " -cfg xpdfrc"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Default document information output + Configuration file to use instead of .xpdfrc"
+}

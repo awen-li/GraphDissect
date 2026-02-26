@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_e",
+    "driver": "xz",
+    "args": [
+        "-e"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Extreme mode (more CPU for better ratio)"
+}

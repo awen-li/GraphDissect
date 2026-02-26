@@ -1,0 +1,12 @@
+{
+    "id": 20,
+    "name": "20_n",
+    "driver": "ncgen",
+    "args": [
+        "-n"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Name-related toggle (-n)"
+}

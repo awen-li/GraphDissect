@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_e_print_1_E",
+    "driver": "lua",
+    "args": [
+        "-e print(1) -E"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Execute a statement before running the script + Ignore environment variables (reduce nondeterminism)"
+}

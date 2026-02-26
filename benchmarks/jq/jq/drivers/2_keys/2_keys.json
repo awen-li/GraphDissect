@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_keys",
+    "driver": "jq",
+    "args": [
+        " keys"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "jq filter expression (kept to a small default set)"
+}

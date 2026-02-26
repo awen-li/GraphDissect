@@ -1,0 +1,12 @@
+{
+    "id": 5,
+    "name": "5_level2gray",
+    "driver": "pdftops",
+    "args": [
+        "-level2gray"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level2gray.ps",
+    "priority": 1.0,
+    "description": "Generate Level 2 grayscale PostScript"
+}

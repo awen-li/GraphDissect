@@ -1,0 +1,15 @@
+{
+    "id": 4,
+    "name": "4_ls",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-ls"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print .debug_line without printing <pc> addresses."
+}

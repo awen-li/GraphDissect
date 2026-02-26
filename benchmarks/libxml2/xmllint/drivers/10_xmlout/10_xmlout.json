@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_xmlout",
+    "driver": "xmllint",
+    "args": [
+        "--xmlout"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Force XML serializer when using --html"
+}

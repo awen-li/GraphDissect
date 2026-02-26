@@ -1,0 +1,12 @@
+{
+    "id": 22,
+    "name": "22_p_strtab",
+    "driver": "readelf",
+    "args": [
+        "-p .strtab"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Dump contents of the given section as strings"
+}

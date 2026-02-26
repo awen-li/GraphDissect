@@ -1,0 +1,14 @@
+{
+    "id": 8,
+    "name": "8_r_converted_rules",
+    "driver": "snort2lua",
+    "args": [
+        "-q",
+        "-r converted.rules",
+        "-c"
+    ],
+    "seed_dir": "seeds",
+    "output": "-o snort.lua",
+    "priority": 1.0,
+    "description": "Write converted rules to a separate file."
+}

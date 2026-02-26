@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_S",
+    "driver": "python",
+    "args": [
+        "-S"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Do not imply 'import site' on initialization"
+}

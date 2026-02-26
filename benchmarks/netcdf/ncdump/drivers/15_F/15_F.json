@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_F",
+    "driver": "ncdump",
+    "args": [
+        "-F"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Output _Filter/_Codecs instead of _Fletcher32/_Shuffle/_Deflate"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_o_pidfile",
+    "driver": "unbound-checkconf",
+    "args": [
+        "-o pidfile"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print value of a configuration option to stdout (e.g., pidfile)."
+}

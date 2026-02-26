@@ -1,0 +1,12 @@
+{
+    "id": 35,
+    "name": "35_l_coroutine",
+    "driver": "lua",
+    "args": [
+        "-l coroutine --"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Require a standard library module before running script + Stop handling options (useful if script name begins with '-')"
+}

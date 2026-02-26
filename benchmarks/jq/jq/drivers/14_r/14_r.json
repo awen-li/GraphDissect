@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "name": "14_r",
+    "driver": "jq",
+    "args": [
+        "-r"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Raw output (strings without quotes/escapes)"
+}

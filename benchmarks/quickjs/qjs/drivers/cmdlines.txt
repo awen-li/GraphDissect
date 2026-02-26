@@ -1,0 +1,11 @@
+# binary_path: qjs
+# executable:  qjs
+# source:      qjs/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	qjs/qjs -e 1+2 @@
+2	qjs/qjs -m @@
+3	qjs/qjs --script @@
+4	qjs/qjs --strict @@
+5	qjs/qjs -T @@
+6	qjs/qjs -d @@

@@ -1,0 +1,15 @@
+{
+    "id": 22,
+    "name": "22_e",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-e"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Use short names for tags/attrs, etc."
+}

@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_X_utf8",
+    "driver": "python",
+    "args": [
+        "-X utf8"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Implementation-specific option (see --help-xoptions)"
+}

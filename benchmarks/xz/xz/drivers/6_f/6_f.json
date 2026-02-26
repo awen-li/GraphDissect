@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_f",
+    "driver": "xz",
+    "args": [
+        "-f"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Force overwrite of output file and (de)compress links"
+}

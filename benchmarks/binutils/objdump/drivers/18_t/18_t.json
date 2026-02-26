@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_t",
+    "driver": "objdump",
+    "args": [
+        "-t"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display symbol table(s)"
+}

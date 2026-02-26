@@ -1,0 +1,15 @@
+{
+    "id": 24,
+    "name": "24_D_DEBUG_1",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "-D DEBUG=1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Define preprocessor symbols."
+}

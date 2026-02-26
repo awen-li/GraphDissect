@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_level3sep",
+    "driver": "pdftops",
+    "args": [
+        "-level3sep"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level3sep.ps",
+    "priority": 1.0,
+    "description": "Generate Level 3 separable PostScript"
+}

@@ -1,0 +1,15 @@
+{
+    "id": 45,
+    "name": "45_file_filter_parser",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--file-filter *parser*"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Restrict analysis to files matching filter."
+}

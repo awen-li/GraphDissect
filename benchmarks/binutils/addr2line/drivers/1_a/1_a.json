@@ -1,0 +1,13 @@
+{
+    "id": 1,
+    "name": "1_a",
+    "driver": "addr2line",
+    "args": [
+        "-a",
+        "-e"
+    ],
+    "seed_dir": "seeds",
+    "output": "0x435fb0",
+    "priority": 1.0,
+    "description": "Show addresses in the output"
+}

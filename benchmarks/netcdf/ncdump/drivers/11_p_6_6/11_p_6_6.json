@@ -1,0 +1,12 @@
+{
+    "id": 11,
+    "name": "11_p_6_6",
+    "driver": "ncdump",
+    "args": [
+        "-p 6,6"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display floating-point values with less precision"
+}

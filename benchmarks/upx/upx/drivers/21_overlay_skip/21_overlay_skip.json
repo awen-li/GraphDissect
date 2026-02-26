@@ -1,0 +1,13 @@
+{
+    "id": 21,
+    "name": "21_overlay_skip",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "--overlay=skip"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Skip files with overlays."
+}

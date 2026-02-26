@@ -1,0 +1,13 @@
+{
+    "id": 8,
+    "name": "8_no_progress",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "--no-progress"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Disable progress output."
+}

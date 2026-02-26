@@ -1,0 +1,12 @@
+{
+    "id": 29,
+    "name": "29_nocatalogs",
+    "driver": "xmllint",
+    "args": [
+        "--nocatalogs"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Deactivate all catalogs"
+}

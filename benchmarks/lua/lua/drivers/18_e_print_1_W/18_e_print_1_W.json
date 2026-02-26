@@ -1,0 +1,12 @@
+{
+    "id": 18,
+    "name": "18_e_print_1_W",
+    "driver": "lua",
+    "args": [
+        "-e print(1) -W"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Execute a statement before running the script + Turn warnings on"
+}

@@ -1,0 +1,15 @@
+{
+    "id": 13,
+    "name": "13_vcodec_mpeg4",
+    "driver": "ffmpeg",
+    "args": [
+        "-nostdin",
+        "-y",
+        "-vcodec mpeg4",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Alias for -c:v (select encoder/decoder for video streams)"
+}

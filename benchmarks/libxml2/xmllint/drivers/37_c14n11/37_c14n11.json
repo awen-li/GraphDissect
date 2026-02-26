@@ -1,0 +1,12 @@
+{
+    "id": 37,
+    "name": "37_c14n11",
+    "driver": "xmllint",
+    "args": [
+        "--c14n11"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Save in W3C canonical XML 1.1 format (with comments)"
+}

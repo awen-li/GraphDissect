@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_list_cfg_xpdfrc",
+    "driver": "pdfdetach",
+    "args": [
+        "-list -cfg xpdfrc"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "List all embedded files in the PDF + Configuration file to use instead of .xpdfrc"
+}

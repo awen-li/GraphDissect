@@ -1,0 +1,15 @@
+{
+    "id": 29,
+    "name": "29_vv",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-vv"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show even more information."
+}

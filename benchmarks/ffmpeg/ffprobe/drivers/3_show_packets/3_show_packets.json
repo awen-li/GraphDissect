@@ -1,0 +1,13 @@
+{
+    "id": 3,
+    "name": "3_show_packets",
+    "driver": "ffprobe",
+    "args": [
+        "-show_packets",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show packet-level info."
+}

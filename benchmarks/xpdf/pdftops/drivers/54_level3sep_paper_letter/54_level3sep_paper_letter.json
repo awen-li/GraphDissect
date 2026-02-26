@@ -1,0 +1,12 @@
+{
+    "id": 54,
+    "name": "54_level3sep_paper_letter",
+    "driver": "pdftops",
+    "args": [
+        "-level3sep -paper letter"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level3sep.ps",
+    "priority": 1.0,
+    "description": "Generate Level 3 separable PostScript + Paper size (letter, legal, A4, A3, match)"
+}

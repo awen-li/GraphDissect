@@ -1,0 +1,12 @@
+{
+    "id": 21,
+    "name": "21_1",
+    "driver": "ncgen",
+    "args": [
+        "-1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compatibility mode toggle (-1)"
+}

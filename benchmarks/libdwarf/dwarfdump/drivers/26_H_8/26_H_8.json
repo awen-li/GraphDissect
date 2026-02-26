@@ -1,0 +1,15 @@
+{
+    "id": 26,
+    "name": "26_H_8",
+    "driver": "dwarfdump",
+    "args": [
+        "-H8",
+        "--format-suppress-data",
+        "--format-suppress-offsets",
+        "-H 8"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Stop after N major units (limits output/runtime)."
+}

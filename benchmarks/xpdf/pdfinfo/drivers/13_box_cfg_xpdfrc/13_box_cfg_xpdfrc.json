@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_box_cfg_xpdfrc",
+    "driver": "pdfinfo",
+    "args": [
+        "-box -cfg xpdfrc"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print the page bounding boxes + Configuration file to use instead of .xpdfrc"
+}

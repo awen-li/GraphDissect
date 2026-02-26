@@ -1,0 +1,15 @@
+{
+    "id": 40,
+    "name": "40_output_format_xmlv3",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--output-format xmlv3"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Select output format."
+}

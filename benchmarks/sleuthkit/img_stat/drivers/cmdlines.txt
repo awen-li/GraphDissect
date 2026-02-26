@@ -1,0 +1,12 @@
+# binary_path: img_stat
+# executable:  img_stat
+# source:      img_stat/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	img_stat/img_stat -t @@
+2	img_stat/img_stat -v @@
+3	img_stat/img_stat -V @@
+4	img_stat/img_stat -i raw @@
+5	img_stat/img_stat -i list @@
+6	img_stat/img_stat -b 512 @@
+7	img_stat/img_stat -b 4096 @@

@@ -1,0 +1,15 @@
+{
+    "id": 22,
+    "name": "22_std_c_17",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--std c++17"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Set language standard."
+}

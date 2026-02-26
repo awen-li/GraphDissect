@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_c_var_1_1",
+    "driver": "nccopy",
+    "args": [
+        "-c var:1,1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Specify chunking for variables/dimensions"
+}

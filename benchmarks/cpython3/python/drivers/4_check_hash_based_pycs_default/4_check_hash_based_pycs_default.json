@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_check_hash_based_pycs_default",
+    "driver": "python",
+    "args": [
+        "--check-hash-based-pycs default"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Control invalidation policy for hash-based .pyc files"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_k_classic",
+    "driver": "nccopy",
+    "args": [
+        "-k classic"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Specify netCDF output format kind"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_default",
+    "driver": "pdfinfo",
+    "args": [
+        ""
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Default document information output"
+}

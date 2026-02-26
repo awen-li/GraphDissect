@@ -1,0 +1,12 @@
+{
+    "id": 59,
+    "name": "59_eps_paper_letter",
+    "driver": "pdftops",
+    "args": [
+        "-eps -paper letter"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-eps.ps",
+    "priority": 1.0,
+    "description": "Generate Encapsulated PostScript (EPS) + Paper size (letter, legal, A4, A3, match)"
+}

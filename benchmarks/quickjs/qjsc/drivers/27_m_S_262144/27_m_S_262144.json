@@ -1,0 +1,12 @@
+{
+    "id": 27,
+    "name": "27_m_S_262144",
+    "driver": "qjsc",
+    "args": [
+        "-m -S 262144"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compile input as ES6 module (default is autodetect). + Set maximum stack size in bytes (default 1048576)."
+}

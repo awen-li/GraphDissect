@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_to_entries",
+    "driver": "jq",
+    "args": [
+        " to_entries"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "jq filter expression (kept to a small default set)"
+}

@@ -1,0 +1,13 @@
+{
+    "id": 9,
+    "name": "9_force_overwrite",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "--force-overwrite"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Force overwrite of output file."
+}

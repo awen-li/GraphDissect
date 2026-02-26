@@ -1,0 +1,15 @@
+{
+    "id": 14,
+    "name": "14_max_configs_12",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--max-configs 12"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Max number of preprocessor configurations per file."
+}

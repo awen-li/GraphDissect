@@ -1,0 +1,12 @@
+{
+    "id": 19,
+    "name": "19_xinclude",
+    "driver": "xmllint",
+    "args": [
+        "--xinclude"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Perform XInclude processing"
+}

@@ -1,0 +1,13 @@
+{
+    "id": 20,
+    "name": "20_overlay_copy",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "--overlay=copy"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Copy any extra overlay data (default)."
+}

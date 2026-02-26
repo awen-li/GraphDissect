@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_c",
+    "driver": "qjsc",
+    "args": [
+        "-c"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Emit bytecode to a C file (no executable)."
+}

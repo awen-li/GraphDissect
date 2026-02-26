@@ -1,0 +1,12 @@
+{
+    "id": 43,
+    "name": "43_level3_l_3",
+    "driver": "pdftops",
+    "args": [
+        "-level3 -l 3"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level3.ps",
+    "priority": 1.0,
+    "description": "Generate Level 3 PostScript + Last page to print"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 17,
+    "name": "17_indent_4",
+    "driver": "jq",
+    "args": [
+        "--indent 4"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Indentation spaces (max 7)"
+}

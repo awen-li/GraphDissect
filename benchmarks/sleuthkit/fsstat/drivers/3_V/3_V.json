@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_V",
+    "driver": "fsstat",
+    "args": [
+        "-V"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Print version and exit."
+}

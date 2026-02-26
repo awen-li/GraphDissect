@@ -1,0 +1,13 @@
+{
+    "id": 14,
+    "name": "14_1",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "-1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compress faster."
+}

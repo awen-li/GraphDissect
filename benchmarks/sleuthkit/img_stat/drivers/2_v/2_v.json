@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_v",
+    "driver": "img_stat",
+    "args": [
+        "-v"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Verbose output to stderr."
+}

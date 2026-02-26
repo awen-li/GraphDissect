@@ -1,0 +1,12 @@
+{
+    "id": 7,
+    "name": "7_save_1_o_output_bin",
+    "driver": "pdfdetach",
+    "args": [
+        "-save 1 -o output.bin"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Save the embedded file with the given index + File name for the saved embedded file"
+}

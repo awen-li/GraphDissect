@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_C",
+    "driver": "file",
+    "args": [
+        "-C"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Compile the file specified by -m (compile custom magic rules)"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 36,
+    "name": "36_level2gray_paperh_792",
+    "driver": "pdftops",
+    "args": [
+        "-level2gray -paperh 792"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level2gray.ps",
+    "priority": 1.0,
+    "description": "Generate Level 2 grayscale PostScript + Paper height, in points"
+}

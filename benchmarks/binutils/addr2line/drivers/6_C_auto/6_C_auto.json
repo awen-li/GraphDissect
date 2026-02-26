@@ -1,0 +1,13 @@
+{
+    "id": 6,
+    "name": "6_C_auto",
+    "driver": "addr2line",
+    "args": [
+        "-C auto",
+        "-e"
+    ],
+    "seed_dir": "seeds",
+    "output": "0x435fb0",
+    "priority": 1.0,
+    "description": "Demangle function names (optional style)"
+}

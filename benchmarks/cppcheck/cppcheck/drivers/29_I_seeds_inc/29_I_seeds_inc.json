@@ -1,0 +1,15 @@
+{
+    "id": 29,
+    "name": "29_I_seeds_inc",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "-I seeds/inc"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Add include directory (exercise include resolution)."
+}

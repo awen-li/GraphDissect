@@ -1,0 +1,13 @@
+{
+    "id": 5,
+    "name": "5_fileinfo",
+    "driver": "upx",
+    "args": [
+        "-q",
+        " fileinfo"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "UPX operation mode over input executable(s)."
+}

@@ -1,0 +1,15 @@
+{
+    "id": 2,
+    "name": "2_t_1",
+    "driver": "ffmpeg",
+    "args": [
+        "-nostdin",
+        "-y",
+        "-t 1",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "out.flac",
+    "priority": 1.0,
+    "description": "Stop transcoding after specified duration (seconds)"
+}

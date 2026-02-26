@@ -1,0 +1,15 @@
+{
+    "id": 7,
+    "name": "7_ss_00_00_01",
+    "driver": "ffmpeg",
+    "args": [
+        "-nostdin",
+        "-y",
+        "-ss 00:00:01",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Start transcoding at specified time offset"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 17,
+    "name": "17_W_ignore",
+    "driver": "python",
+    "args": [
+        "-W ignore"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Warning control (action:message:category:module:lineno)"
+}

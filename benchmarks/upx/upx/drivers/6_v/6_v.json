@@ -1,0 +1,13 @@
+{
+    "id": 6,
+    "name": "6_v",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "-v"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Verbose output."
+}

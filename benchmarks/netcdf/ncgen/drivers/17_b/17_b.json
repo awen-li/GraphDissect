@@ -1,0 +1,12 @@
+{
+    "id": 17,
+    "name": "17_b",
+    "driver": "ncgen",
+    "args": [
+        "-b"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Binary output mode toggle (-b)"
+}

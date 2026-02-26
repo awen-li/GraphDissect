@@ -1,0 +1,12 @@
+{
+    "id": 53,
+    "name": "53_level3sep_l_3",
+    "driver": "pdftops",
+    "args": [
+        "-level3sep -l 3"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level3sep.ps",
+    "priority": 1.0,
+    "description": "Generate Level 3 separable PostScript + Last page to print"
+}

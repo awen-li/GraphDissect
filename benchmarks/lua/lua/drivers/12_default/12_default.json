@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_default",
+    "driver": "lua",
+    "args": [
+        " --"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Run Lua script file (default mode) + Stop handling options (useful if script name begins with '-')"
+}

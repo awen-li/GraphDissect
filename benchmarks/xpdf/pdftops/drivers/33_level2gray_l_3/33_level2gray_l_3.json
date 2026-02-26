@@ -1,0 +1,12 @@
+{
+    "id": 33,
+    "name": "33_level2gray_l_3",
+    "driver": "pdftops",
+    "args": [
+        "-level2gray -l 3"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level2gray.ps",
+    "priority": 1.0,
+    "description": "Generate Level 2 grayscale PostScript + Last page to print"
+}

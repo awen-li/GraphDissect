@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "name": "14_d",
+    "driver": "readelf",
+    "args": [
+        "-d"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display the dynamic section"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_q",
+    "driver": "parsertrace",
+    "args": [
+        "-q"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Parse file as HTTP reQuest"
+}

@@ -1,0 +1,15 @@
+{
+    "id": 9,
+    "name": "9_c_mpeg4",
+    "driver": "ffmpeg",
+    "args": [
+        "-nostdin",
+        "-y",
+        "-c mpeg4",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Generic per-stream codec selector (with optional stream specifier)"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "name": "15_W_info",
+    "driver": "objdump",
+    "args": [
+        "-W info"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display DWARF info"
+}

@@ -1,0 +1,15 @@
+{
+    "id": 46,
+    "name": "46_i_seeds_ignore",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "-i seeds/ignore"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Ignore files/dirs matching pattern."
+}

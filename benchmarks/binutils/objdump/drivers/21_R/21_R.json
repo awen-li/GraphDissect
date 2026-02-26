@@ -1,0 +1,12 @@
+{
+    "id": 21,
+    "name": "21_R",
+    "driver": "objdump",
+    "args": [
+        "-R"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display dynamic relocation entries"
+}

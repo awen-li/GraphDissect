@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_l",
+    "driver": "readelf",
+    "args": [
+        "-l"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display program headers / segments"
+}

@@ -1,0 +1,15 @@
+{
+    "id": 32,
+    "name": "32_include_seeds_inc_forced_h",
+    "driver": "cppcheck",
+    "args": [
+        "--quiet",
+        "--template={file}:{line}:{severity}:{id}:{message}",
+        "--output-format=text",
+        "--include seeds/inc/forced.h"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Force-include a header before analysis."
+}

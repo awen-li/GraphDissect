@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_d_0",
+    "driver": "nccopy",
+    "args": [
+        "-d 0"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Deflation compression level (0..9)"
+}

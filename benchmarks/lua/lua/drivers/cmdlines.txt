@@ -1,0 +1,41 @@
+# binary_path: lua
+# executable:  lua
+# source:      lua/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	lua/lua @@
+2	lua/lua -e local _=1 @@
+3	lua/lua -e local a=1+2 @@
+4	lua/lua -e print(1) @@
+5	lua/lua -l math @@
+6	lua/lua -l string @@
+7	lua/lua -l table @@
+8	lua/lua -l coroutine @@
+9	lua/lua -l utf8 @@
+10	lua/lua -E @@
+11	lua/lua -W @@
+12	lua/lua -- @@
+13	lua/lua -e local _=1 -E @@
+14	lua/lua -e local a=1+2 -E @@
+15	lua/lua -e print(1) -E @@
+16	lua/lua -e local _=1 -W @@
+17	lua/lua -e local a=1+2 -W @@
+18	lua/lua -e print(1) -W @@
+19	lua/lua -e local _=1 -- @@
+20	lua/lua -e local a=1+2 -- @@
+21	lua/lua -e print(1) -- @@
+22	lua/lua -l math -E @@
+23	lua/lua -l string -E @@
+24	lua/lua -l table -E @@
+25	lua/lua -l coroutine -E @@
+26	lua/lua -l utf8 -E @@
+27	lua/lua -l math -W @@
+28	lua/lua -l string -W @@
+29	lua/lua -l table -W @@
+30	lua/lua -l coroutine -W @@
+31	lua/lua -l utf8 -W @@
+32	lua/lua -l math -- @@
+33	lua/lua -l string -- @@
+34	lua/lua -l table -- @@
+35	lua/lua -l coroutine -- @@
+36	lua/lua -l utf8 -- @@

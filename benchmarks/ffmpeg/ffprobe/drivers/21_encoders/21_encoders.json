@@ -1,0 +1,13 @@
+{
+    "id": 21,
+    "name": "21_encoders",
+    "driver": "ffprobe",
+    "args": [
+        "-encoders",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show available encoders."
+}

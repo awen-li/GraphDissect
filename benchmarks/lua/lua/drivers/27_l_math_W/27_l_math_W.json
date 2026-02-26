@@ -1,0 +1,12 @@
+{
+    "id": 27,
+    "name": "27_l_math_W",
+    "driver": "lua",
+    "args": [
+        "-l math -W"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Require a standard library module before running script + Turn warnings on"
+}

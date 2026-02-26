@@ -1,0 +1,30 @@
+# binary_path: pdfinfo
+# executable:  pdfinfo
+# source:      pdfinfo/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	pdfinfo/pdfinfo @@
+2	pdfinfo/pdfinfo -box @@
+3	pdfinfo/pdfinfo -meta @@
+4	pdfinfo/pdfinfo -rawdates @@
+5	pdfinfo/pdfinfo -custom @@
+6	pdfinfo/pdfinfo -f 1 @@
+7	pdfinfo/pdfinfo -l 3 @@
+8	pdfinfo/pdfinfo -enc utf-8 @@
+9	pdfinfo/pdfinfo -cfg xpdfrc @@
+10	pdfinfo/pdfinfo -box -f 1 @@
+11	pdfinfo/pdfinfo -box -l 3 @@
+12	pdfinfo/pdfinfo -box -enc utf-8 @@
+13	pdfinfo/pdfinfo -box -cfg xpdfrc @@
+14	pdfinfo/pdfinfo -meta -f 1 @@
+15	pdfinfo/pdfinfo -meta -l 3 @@
+16	pdfinfo/pdfinfo -meta -enc utf-8 @@
+17	pdfinfo/pdfinfo -meta -cfg xpdfrc @@
+18	pdfinfo/pdfinfo -rawdates -f 1 @@
+19	pdfinfo/pdfinfo -rawdates -l 3 @@
+20	pdfinfo/pdfinfo -rawdates -enc utf-8 @@
+21	pdfinfo/pdfinfo -rawdates -cfg xpdfrc @@
+22	pdfinfo/pdfinfo -custom -f 1 @@
+23	pdfinfo/pdfinfo -custom -l 3 @@
+24	pdfinfo/pdfinfo -custom -enc utf-8 @@
+25	pdfinfo/pdfinfo -custom -cfg xpdfrc @@

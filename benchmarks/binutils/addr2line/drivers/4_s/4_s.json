@@ -1,0 +1,13 @@
+{
+    "id": 4,
+    "name": "4_s",
+    "driver": "addr2line",
+    "args": [
+        "-s",
+        "-e"
+    ],
+    "seed_dir": "seeds",
+    "output": "0x435fb0",
+    "priority": 1.0,
+    "description": "Strip directory components and show only basenames"
+}

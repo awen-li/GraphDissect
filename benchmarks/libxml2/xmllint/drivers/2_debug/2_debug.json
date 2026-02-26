@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_debug",
+    "driver": "xmllint",
+    "args": [
+        "--debug"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Dump a debug tree of the in-memory document"
+}

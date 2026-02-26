@@ -1,0 +1,12 @@
+{
+    "id": 26,
+    "name": "26_level1sep_paperh_792",
+    "driver": "pdftops",
+    "args": [
+        "-level1sep -paperh 792"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level1sep.ps",
+    "priority": 1.0,
+    "description": "Generate Level 1 separable PostScript + Paper height, in points"
+}

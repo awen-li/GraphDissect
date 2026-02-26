@@ -1,0 +1,13 @@
+{
+    "id": 20,
+    "name": "20_decoders",
+    "driver": "ffprobe",
+    "args": [
+        "-decoders",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show available decoders."
+}

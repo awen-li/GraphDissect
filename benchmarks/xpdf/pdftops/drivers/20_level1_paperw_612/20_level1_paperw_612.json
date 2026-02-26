@@ -1,0 +1,12 @@
+{
+    "id": 20,
+    "name": "20_level1_paperw_612",
+    "driver": "pdftops",
+    "args": [
+        "-level1 -paperw 612"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level1.ps",
+    "priority": 1.0,
+    "description": "Generate Level 1 PostScript + Paper width, in points"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 3,
+    "name": "3_k_cdf5",
+    "driver": "ncgen",
+    "args": [
+        "-k cdf5"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Specify kind of netCDF output format"
+}

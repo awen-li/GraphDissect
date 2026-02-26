@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "name": "13_b",
+    "driver": "python",
+    "args": [
+        "-b"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Warn on bytes<->str conversion/comparison (deprecated toggles)"
+}

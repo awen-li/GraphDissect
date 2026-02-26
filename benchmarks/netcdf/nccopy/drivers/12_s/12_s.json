@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "name": "12_s",
+    "driver": "nccopy",
+    "args": [
+        "-s"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Add shuffle option to deflation"
+}

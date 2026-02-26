@@ -1,0 +1,12 @@
+{
+    "id": 10,
+    "name": "10_s",
+    "driver": "jq",
+    "args": [
+        "-s"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Slurp: read all inputs into an array as single input value"
+}

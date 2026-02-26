@@ -1,0 +1,15 @@
+{
+    "id": 16,
+    "name": "16_an",
+    "driver": "ffmpeg",
+    "args": [
+        "-nostdin",
+        "-y",
+        "-an",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Disable audio stream processing (video-only)"
+}

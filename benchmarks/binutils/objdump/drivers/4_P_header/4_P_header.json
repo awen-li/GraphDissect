@@ -1,0 +1,12 @@
+{
+    "id": 4,
+    "name": "4_P_header",
+    "driver": "objdump",
+    "args": [
+        "-P header"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display object-format-specific contents"
+}

@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_e_1_2",
+    "driver": "qjs",
+    "args": [
+        "-e 1+2"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Evaluate an expression instead of running a file"
+}

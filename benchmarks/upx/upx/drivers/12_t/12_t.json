@@ -1,0 +1,13 @@
+{
+    "id": 12,
+    "name": "12_t",
+    "driver": "upx",
+    "args": [
+        "-q",
+        "-t"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Test compressed file integrity."
+}

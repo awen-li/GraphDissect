@@ -1,0 +1,12 @@
+{
+    "id": 23,
+    "name": "23_h_0",
+    "driver": "nccopy",
+    "args": [
+        "-h 0"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Chunk cache size (bytes)"
+}

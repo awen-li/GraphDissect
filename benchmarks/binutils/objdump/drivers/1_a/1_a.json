@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_a",
+    "driver": "objdump",
+    "args": [
+        "-a"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Display archive header information"
+}

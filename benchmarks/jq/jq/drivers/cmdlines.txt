@@ -1,0 +1,23 @@
+# binary_path: jq
+# executable:  jq
+# source:      jq/drivers/driver_list.json
+# format: <id>\t<command line>
+
+1	jq/jq . @@
+2	jq/jq keys @@
+3	jq/jq .[] @@
+4	jq/jq to_entries @@
+5	jq/jq -f filters/basic.jq @@
+6	jq/jq -f filters/alt.jq @@
+7	jq/jq -L modules @@
+8	jq/jq --slurpfile x @@
+9	jq/jq -R @@
+10	jq/jq -s @@
+11	jq/jq --stream @@
+12	jq/jq --seq @@
+13	jq/jq -c @@
+14	jq/jq -r @@
+15	jq/jq -S @@
+16	jq/jq --indent 2 @@
+17	jq/jq --indent 4 @@
+18	jq/jq -e @@

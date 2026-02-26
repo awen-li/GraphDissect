@@ -1,0 +1,12 @@
+{
+    "id": 9,
+    "name": "9_m_magic_mgc",
+    "driver": "file",
+    "args": [
+        "-m magic.mgc"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Use a colon-separated list of magic files (use a prepared magic file in seeds)"
+}

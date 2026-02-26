@@ -1,0 +1,12 @@
+{
+    "id": 46,
+    "name": "46_level3_paperh_792",
+    "driver": "pdftops",
+    "args": [
+        "-level3 -paperh 792"
+    ],
+    "seed_dir": "seeds",
+    "output": "ps-level3.ps",
+    "priority": 1.0,
+    "description": "Generate Level 3 PostScript + Paper height, in points"
+}

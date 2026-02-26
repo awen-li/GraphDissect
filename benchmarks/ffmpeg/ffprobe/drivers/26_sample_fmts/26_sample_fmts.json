@@ -1,0 +1,13 @@
+{
+    "id": 26,
+    "name": "26_sample_fmts",
+    "driver": "ffprobe",
+    "args": [
+        "-sample_fmts",
+        "-i"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Show audio sample formats."
+}

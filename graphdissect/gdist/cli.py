@@ -9,7 +9,6 @@ from gdist.benchs import Suite
 from gdist.analyzers.analyzer import AnalysisContext
 from gdist import analyzers 
 from gdist.analyzers import all_analyzers, select
-from gdist.present import Present
 from gdist.present.rq1_present import RQ1Present
 
 
@@ -75,8 +74,15 @@ def cmd_present(args: argparse.Namespace) -> int:
     suite = Suite(args.suite)
     suite_root = suite.suitPath
 
+    benchs = []
+    for dname, domain in suite.domains.items():
+        for bname, bench in domain.benches.items():
+            for exe in bench.executables:
+                bench_dir = (suite_root / bench.name).resolve()
+                benchs.append(f"{bench_dir}/{exe}")
+
     if "rq1" in getattr(args, "analyzers", []) or getattr(args, "analyzers", None) == None:
-        p = RQ1Present(suite_root)
+        p = RQ1Present(benchs, suite_root)
         print(f"Running presenter: {p.name}")
         p.run()
 

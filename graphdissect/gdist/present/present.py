@@ -27,7 +27,8 @@ class Present:
     name: str = "present"
     required_files: Tuple[str, ...] = ()
 
-    def __init__(self, suite_dir: Path, out_dir: Path | None = None):
+    def __init__(self, benchs, suite_dir: Path, out_dir: Path | None = None):
+        self.benchs = benchs
         self.suite_dir = Path(suite_dir)
         
         # default output dir: <suite_dir>/paper_artifacts/<rq_name>/
@@ -40,23 +41,23 @@ class Present:
         self.fig_dir.mkdir(parents=True, exist_ok=True)
         self.tex_dir.mkdir(parents=True, exist_ok=True)
 
-    # ---------- discovery ----------
     def discover_tables(self) -> Dict[str, BenchTables]:
         """
         Find all tables/ dirs under suite_dir.
         Returns mapping bench_key -> BenchTables
         """
         out: Dict[str, BenchTables] = {}
-        for tdir in self.suite_dir.rglob("tables"):
+
+        for bench in self.benchs:
+            bench_dir = Path(bench)
+            tdir = bench_dir / "tables"
             if not tdir.is_dir():
                 continue
-            rel = tdir.relative_to(self.suite_dir)
-            # e.g., binutils/objdump/tables
-            if len(rel.parts) < 2:
-                continue
-            bench_key = str(Path(*rel.parts[:-1]))
-            exe = rel.parts[-2]
+
+            bench_key = bench_dir.name
+            exe = bench_key   
             out[bench_key] = BenchTables(bench_key=bench_key, exe=exe, tables_dir=tdir)
+
         return out
 
     def validate_tables(self, t: BenchTables) -> bool:

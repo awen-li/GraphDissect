@@ -40,6 +40,7 @@ class RQ1Present(Present):
 
     def run(self) -> None:
         benches = self.discover_tables()
+        print(f"Discovered {len(benches)} with tables for RQ1Present.")
 
         summary_rows: List[dict] = []
         cdf_data: Dict[str, pd.DataFrame] = {}

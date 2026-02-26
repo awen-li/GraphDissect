@@ -118,7 +118,7 @@ class RQ1Contribution(Analyzer):
                 "driver_id": int(drv_id),
                 "driver_name": drv_name,
                 "cg_node_own": len(self.cg_cov.get(int(drv_id), (set(), set()))[0]),
-                "cd_edge_own": len(self.cg_cov.get(int(drv_id), (set(), set()))[1]),
+                "cg_edge_own": len(self.cg_cov.get(int(drv_id), (set(), set()))[1]),
                 "block_own": int(self.block_cov.get(int(drv_id), 0)),
                 "bug_count": int(self.bug_cnt.get(int(drv_id), 0)),
             })
@@ -137,7 +137,7 @@ class RQ1Contribution(Analyzer):
             "exe_dir": str(exe_dir),
             "num_drivers": int(len(df_drivers)),
             "sum_cg_node_own": nodeCov if nodeCov is not None else 0,
-            "sum_cd_edge_own": edgeCov if edgeCov is not None else 0,
+            "sum_cg_edge_own": edgeCov if edgeCov is not None else 0,
             "sum_block_own": int(df_drivers["block_own"].sum()) if not df_drivers.empty else 0,
             "sum_bug_count": int(df_drivers["bug_count"].sum()) if not df_drivers.empty else 0
         }])
@@ -147,7 +147,7 @@ class RQ1Contribution(Analyzer):
             return pd.DataFrame(columns=["metric", "bench", "exe", "driver_id", "driver_name", "value"])
 
         frames: List[pd.DataFrame] = []
-        for metric in ["cg_node_own", "cd_edge_own", "block_own", "bug_count"]:
+        for metric in ["cg_node_own", "cg_edge_own", "block_own", "bug_count"]:
             t = df_drivers.sort_values(metric, ascending=False).head().copy()
             t = t[["bench", "exe", "driver_id", "driver_name", metric]]
             t = t.rename(columns={metric: "value"})

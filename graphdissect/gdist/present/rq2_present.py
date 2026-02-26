@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import List
 
 import numpy as np
 import pandas as pd
@@ -11,253 +11,254 @@ from .present import Present
 
 class RQ2Present(Present):
     """
-    RQ2 (final-only): Do drivers exhibit heterogeneous fuzzing effectiveness under equal time budgets?
+    RQ2 (final-only): Do different drivers exhibit heterogeneous effectiveness under equal time budgets?
 
-    Input per benchmark directory:
+    Effectiveness metrics:
+      - cg_node_own  (function-level activation)
+      - cd_edge_own  (dependence-edge activation)
+
+    IMPORTANT:
+      - Overlap exists, so executable-level totals MUST come from rq1_contrib__summary.csv:
+          sum_cg_node_own, sum_cd_edge_own
+      - We report heterogeneity primarily on normalized per-driver shares:
+          cg_node_share = cg_node_own / sum_cg_node_own
+          cd_edge_share = cd_edge_own / sum_cd_edge_own
+
+    Inputs:
       - tables/rq1_contrib__drivers.csv
+      - tables/rq1_contrib__summary.csv
+      - tables/rq1_contrib__top_by_metric.csv (not used; kept only for pipeline compatibility)
 
-    Required columns:
-      bench, exe, driver_id, driver_name,
-      cg_node_own, cd_edge_own, block_own, bug_count
-
-    Outputs (written to presenter output dir):
-      - rq2_present__summary.csv
-      - rq2_present__topk_curve.csv
-      - rq2_present__cdf.csv
-      - rq2_present__top_by_metric.csv
+    Outputs:
+      - rq2_present__node_summary.csv
+      - rq2_present__edge_summary.csv
+      - rq2_present__top_by_metric.csv (optional examples: best/worst drivers by each metric)
     """
 
     name = "rq2"
     required_files = (
         "rq1_contrib__drivers.csv",
         "rq1_contrib__summary.csv",
-        "rq1_contrib__top_by_metric.csv",
+        "rq1_contrib__top_by_metric.csv",  # not used; safe to remove if your CLI expects it
     )
 
-    REQUIRED_COLS = [
-        "bench",
-        "exe",
-        "driver_id",
-        "driver_name",
-        "cg_node_own",
-        "cd_edge_own",
-        "block_own",
-        "bug_count",
-    ]
-
-    METRICS: List[Tuple[str, str]] = [
-        ("cg_node_own", "cg_node_own"),
-        ("cd_edge_own", "cd_edge_own"),
-        ("block_own", "block_own"),
-        ("bug_count", "bug_count"),
-    ]
-
-    TOPN = 10
-
-    # -----------------------
+    # -----------------------------
     # IO helpers
-    # -----------------------
-    def _get_out_dir(self) -> Path:
-        for attr in ("out_dir", "output_dir", "present_dir", "results_dir"):
-            p = getattr(self, attr, None)
-            if p is not None:
-                return Path(p)
-        return Path.cwd()
+    # -----------------------------
+    def _discover_tables(self, filename: str) -> List[Path]:
+        suite_dir = Path(self.suite_dir)
+        return sorted(suite_dir.glob(f"**/tables/{filename}"))
 
-    def _write_csv(self, fname: str, df: pd.DataFrame) -> None:
-        out_dir = self._get_out_dir()
-        out_dir.mkdir(parents=True, exist_ok=True)
-        df.to_csv(out_dir / fname, index=False)
+    def _load_concat(self, filename: str) -> pd.DataFrame:
+        paths = self._discover_tables(filename)
+        if not paths:
+            raise FileNotFoundError(f"No inputs found for {filename} under {self.suite_dir}")
+        return pd.concat((pd.read_csv(p) for p in paths), ignore_index=True)
 
-    def _load_driver_df(self, bench_dir: str | Path) -> pd.DataFrame:
-        bench_dir = Path(bench_dir)
-        return pd.read_csv(bench_dir / "tables" / "rq1_contrib__drivers.csv")
-
-    def _require_cols(self, df: pd.DataFrame, bench_dir: str | Path) -> None:
-        missing = [c for c in self.REQUIRED_COLS if c not in df.columns]
+    # -----------------------------
+    # Data sanity helpers
+    # -----------------------------
+    @staticmethod
+    def _dedup_summary(summ: pd.DataFrame) -> pd.DataFrame:
+        key = ["bench", "exe"]
+        required = ["sum_cg_node_own", "sum_cd_edge_own", "num_drivers"]
+        missing = [c for c in key + required if c not in summ.columns]
         if missing:
-            raise KeyError(
-                f"RQ2Present: missing required columns {missing} in "
-                f"{Path(bench_dir) / 'tables/rq1_contrib__drivers.csv'}; "
-                f"found columns={list(df.columns)}"
+            raise KeyError(f"rq1_contrib__summary.csv missing columns: {missing}")
+
+        dup_mask = summ.duplicated(subset=key, keep=False)
+        if not dup_mask.any():
+            return summ
+
+        dups = summ.loc[dup_mask].copy()
+        bad = []
+        for (b, e), g in dups.groupby(key, sort=False):
+            uniq = g[required].apply(lambda r: tuple(r.tolist()), axis=1).unique()
+            if len(uniq) != 1:
+                cols_show = key + required + ([c for c in ["exe_dir"] if c in g.columns])
+                bad.append((b, e, g[cols_show]))
+
+        if bad:
+            b, e, gshow = bad[0]
+            raise ValueError(
+                "rq1_contrib__summary.csv has conflicting duplicate rows for the same (bench, exe). "
+                f"First conflict: bench={b}, exe={e}\n"
+                f"{gshow.to_string(index=False)}\n"
+                "Fix the input suite so each executable has exactly one consistent summary row."
             )
 
-    # -----------------------
-    # Curves
-    # -----------------------
-    def _topk_curve(self, arr: np.ndarray) -> pd.DataFrame:
-        x = np.asarray(arr, dtype=np.float64)
-        x = x[~np.isnan(x)]
+        return summ.drop_duplicates(subset=key, keep="first")
+
+    @staticmethod
+    def _safe_stats(x: np.ndarray) -> dict:
+        """
+        Minimal dispersion stats for a 1D array (normalized shares).
+        """
+        x = np.asarray(x, dtype=float)
+        x = x[np.isfinite(x)]
         if x.size == 0:
-            return pd.DataFrame({"x": [0.0], "y": [0.0]})
-
-        x = np.sort(x)[::-1]
-        tot = float(np.sum(x))
-        if tot <= 0:
-            return pd.DataFrame({"x": [0.0], "y": [0.0]})
-
-        cum = np.cumsum(x)
-        xs = np.arange(1, x.size + 1, dtype=np.float64) / float(x.size)
-        ys = cum / tot
-        return pd.DataFrame({"x": xs, "y": ys})
-
-    def _cdf_curve(self, arr: np.ndarray) -> pd.DataFrame:
-        x = np.asarray(arr, dtype=np.float64)
-        x = x[~np.isnan(x)]
-        if x.size == 0:
-            return pd.DataFrame({"x": [0.0], "y": [0.0]})
-        x = np.sort(x)
-        y = np.arange(1, x.size + 1, dtype=np.float64) / float(x.size)
-        return pd.DataFrame({"x": x, "y": y})
-
-    # -----------------------
-    # Stats
-    # -----------------------
-    def _gini(self, arr: np.ndarray) -> float:
-        x = np.asarray(arr, dtype=np.float64)
-        x = x[~np.isnan(x)]
-        if x.size == 0:
-            return float("nan")
-
-        mn = float(np.min(x))
-        if mn < 0:
-            x = x - mn
-
-        s = float(np.sum(x))
-        if s == 0:
-            return 0.0
-
-        x = np.sort(x)
-        n = x.size
-        i = np.arange(1, n + 1, dtype=np.float64)
-        return float((2.0 * np.sum(i * x)) / (n * s) - (n + 1) / n)
-
-    def _summarize_metric(self, v: np.ndarray) -> Dict[str, float]:
-        x = np.asarray(v, dtype=np.float64)
-        x = x[~np.isnan(x)]
-        n = int(x.size)
-
-        if n == 0:
-            return {
-                "n": 0,
-                "mean": np.nan,
-                "std": np.nan,
-                "cv": np.nan,
-                "min": np.nan,
-                "p25": np.nan,
-                "median": np.nan,
-                "p75": np.nan,
-                "max": np.nan,
-                "pct_zero": np.nan,
-                "pct_lt_5pct_of_max": np.nan,
-                "top10_share": np.nan,
-                "top20_share": np.nan,
-                "gini": np.nan,
-            }
+            return dict(mean=0.0, std=0.0, cv=0.0, min=0.0, median=0.0, max=0.0)
 
         mean = float(np.mean(x))
-        std = float(np.std(x, ddof=1)) if n > 1 else 0.0
-        cv = float(std / mean) if mean > 0 else (float("inf") if std > 0 else 0.0)
-
-        xmin = float(np.min(x))
-        xmax = float(np.max(x))
-        p25, med, p75 = np.percentile(x, [25, 50, 75])
-
-        pct_zero = float(np.mean(x <= 0.0) * 100.0)
-        pct_lt_5pct_of_max = float(np.mean(x < 0.05 * xmax) * 100.0) if xmax > 0 else 100.0
-
-        xs = np.sort(x)[::-1]
-        tot = float(np.sum(xs))
-        k10 = max(1, int(np.ceil(0.10 * n)))
-        k20 = max(1, int(np.ceil(0.20 * n)))
-        top10_share = float(np.sum(xs[:k10]) / tot) if tot > 0 else 0.0
-        top20_share = float(np.sum(xs[:k20]) / tot) if tot > 0 else 0.0
-
-        return {
-            "n": n,
-            "mean": mean,
-            "std": std,
-            "cv": cv,
-            "min": xmin,
-            "p25": float(p25),
-            "median": float(med),
-            "p75": float(p75),
-            "max": xmax,
-            "pct_zero": pct_zero,
-            "pct_lt_5pct_of_max": pct_lt_5pct_of_max,
-            "top10_share": top10_share,
-            "top20_share": top20_share,
-            "gini": self._gini(x),
-        }
-
-    # -----------------------
-    # Main
-    # -----------------------
-    def run(self) -> None:
-        print(f"RQ2Present: scanning {len(self.benchs)} benchmark dirs...")
-
-        summary_rows: List[dict] = []
-        topk_frames: List[pd.DataFrame] = []
-        cdf_frames: List[pd.DataFrame] = []
-        top_rows: List[dict] = []
-
-        for bench_dir in self.benchs:
-            df = self._load_driver_df(bench_dir)
-            self._require_cols(df, bench_dir)
-
-            bench_name = str(df["bench"].iloc[0])
-            exe_name = str(df["exe"].iloc[0])
-
-            for metric_name, col in self.METRICS:
-                vals = df[col].to_numpy(dtype=np.float64)
-
-                stats = self._summarize_metric(vals)
-                summary_rows.append(
-                    {
-                        "bench": bench_name,
-                        "exe": exe_name,
-                        "metric": metric_name,
-                        "col": col,
-                        **stats,
-                    }
-                )
-
-                topk = self._topk_curve(vals)
-                topk.insert(0, "metric", metric_name)
-                topk.insert(0, "exe", exe_name)
-                topk.insert(0, "bench", bench_name)
-                topk_frames.append(topk)
-
-                cdf = self._cdf_curve(vals)
-                cdf.insert(0, "metric", metric_name)
-                cdf.insert(0, "exe", exe_name)
-                cdf.insert(0, "bench", bench_name)
-                cdf_frames.append(cdf)
-
-                # Top-N drivers (appendix)
-                sub = df[["driver_id", "driver_name", col]].copy().rename(columns={col: "value"})
-                sub["metric"] = metric_name
-                sub["bench"] = bench_name
-                sub["exe"] = exe_name
-                sub = sub.sort_values(["value", "driver_id"], ascending=[False, True]).head(self.TOPN)
-
-                top_rows.extend(
-                    sub[["metric", "bench", "exe", "driver_id", "driver_name", "value"]]
-                    .to_dict(orient="records")
-                )
-
-        summary_df = pd.DataFrame(summary_rows).sort_values(["bench", "exe", "metric"])
-        topk_df = pd.concat(topk_frames, ignore_index=True) if topk_frames else pd.DataFrame()
-        cdf_df = pd.concat(cdf_frames, ignore_index=True) if cdf_frames else pd.DataFrame()
-        top_df = pd.DataFrame(top_rows)
-
-        self._write_csv("rq2_present__summary.csv", summary_df)
-        self._write_csv("rq2_present__topk_curve.csv", topk_df)
-        self._write_csv("rq2_present__cdf.csv", cdf_df)
-        self._write_csv("rq2_present__top_by_metric.csv", top_df)
-
-        print(
-            f"[RQ2Present] wrote: summary({len(summary_df)} rows), "
-            f"topk({len(topk_df)} rows), cdf({len(cdf_df)} rows), top({len(top_df)} rows) "
-            f"to {self._get_out_dir()}"
+        std = float(np.std(x, ddof=0))
+        cv = float(std / mean) if mean > 0 else 0.0
+        return dict(
+            mean=mean,
+            std=std,
+            cv=cv,
+            min=float(np.min(x)),
+            median=float(np.median(x)),
+            max=float(np.max(x)),
         )
+
+    def _apply_pair_order(self, df: pd.DataFrame, 
+                          pair_order: dict[tuple[str, str], int],
+                          extra_sort: list[str] | None = None) -> pd.DataFrame:
+        df = df.copy()
+        df["_pair_ord"] = df.apply(
+            lambda r: pair_order.get((r["bench"], r["exe"]), 10**9),
+            axis=1,
+        )
+        sort_cols = ["_pair_ord", "bench", "exe"]
+        if extra_sort:
+            sort_cols.extend(extra_sort)
+        # stable sort for deterministic outputs
+        df = df.sort_values(sort_cols, kind="mergesort")
+        return df.drop(columns=["_pair_ord"])
+
+    # -----------------------------
+    # main
+    # -----------------------------
+    def run(self) -> None:
+        out_dir = Path(self.out_dir)
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        drv = self._load_concat("rq1_contrib__drivers.csv")
+        summ = self._load_concat("rq1_contrib__summary.csv")
+
+        need_drv = {"bench", "exe", "driver_id", "driver_name", "cg_node_own", "cd_edge_own"}
+        miss = sorted(need_drv - set(drv.columns))
+        if miss:
+            raise KeyError(f"rq1_contrib__drivers.csv missing columns: {miss}")
+
+        summ = self._dedup_summary(summ)
+
+        key = ["bench", "exe"]
+        cols = key + ["num_drivers", "sum_cg_node_own", "sum_cd_edge_own", "exe_dir"]
+        cols_present = [c for c in cols if c in summ.columns]
+        summ2 = summ[cols_present].copy()
+
+        # many-to-one merge is now safe
+        df = drv.merge(summ2, on=key, how="left", validate="many_to_one")
+
+        # overlap-aware totals from summary
+        df["node_total"] = df["sum_cg_node_own"].astype(float)
+        df["edge_total"] = df["sum_cd_edge_own"].astype(float)
+
+        # normalized effectiveness shares (scale-free, comparable across exes)
+        df["cg_node_share"] = np.where(df["node_total"] > 0, df["cg_node_own"] / df["node_total"], 0.0)
+        df["cd_edge_share"] = np.where(df["edge_total"] > 0, df["cd_edge_own"] / df["edge_total"], 0.0)
+
+        node_rows = []
+        edge_rows = []
+        top_rows = []
+
+        for (bench, exe), g in df.groupby(key, sort=False):
+            exe_dir = g["exe_dir"].iloc[0] if "exe_dir" in g.columns else ""
+            n = (
+                int(g["num_drivers"].iloc[0])
+                if ("num_drivers" in g.columns and pd.notna(g["num_drivers"].iloc[0]))
+                else int(g.shape[0])
+            )
+
+            node_share = g["cg_node_share"].to_numpy(dtype=float)
+            edge_share = g["cd_edge_share"].to_numpy(dtype=float)
+
+            ns = self._safe_stats(node_share)
+            es = self._safe_stats(edge_share)
+
+            node_rows.append(
+                dict(
+                    bench=bench,
+                    exe=exe,
+                    exe_dir=exe_dir,
+                    num_drivers=n,
+                    sum_cg_node_own=float(g["sum_cg_node_own"].iloc[0]),
+                    mean_share=ns["mean"],
+                    std_share=ns["std"],
+                    cv_share=ns["cv"],
+                    min_share=ns["min"],
+                    median_share=ns["median"],
+                    max_share=ns["max"],
+                )
+            )
+
+            edge_rows.append(
+                dict(
+                    bench=bench,
+                    exe=exe,
+                    exe_dir=exe_dir,
+                    num_drivers=n,
+                    sum_cd_edge_own=float(g["sum_cd_edge_own"].iloc[0]),
+                    mean_share=es["mean"],
+                    std_share=es["std"],
+                    cv_share=es["cv"],
+                    min_share=es["min"],
+                    median_share=es["median"],
+                    max_share=es["max"],
+                )
+            )
+
+            # Optional examples (best/worst) for narrative
+            def add_extremes(metric_name: str, share_col: str, raw_col: str) -> None:
+                gg = g[[*key, "driver_id", "driver_name", share_col, raw_col]].copy()
+                gg = gg.replace([np.inf, -np.inf], np.nan).dropna(subset=[share_col])
+                if gg.empty:
+                    return
+
+                best = gg.sort_values(share_col, ascending=False).head(3)
+                worst = gg.sort_values(share_col, ascending=True).head(3)
+
+                for rank, (_, row) in enumerate(best.iterrows(), start=1):
+                    top_rows.append(
+                        dict(
+                            bench=bench,
+                            exe=exe,
+                            metric=metric_name,
+                            side="best",
+                            rank=rank,
+                            driver_id=row["driver_id"],
+                            driver_name=row.get("driver_name", ""),
+                            value_raw=float(row[raw_col]),
+                            value_share=float(row[share_col]),
+                        )
+                    )
+                for rank, (_, row) in enumerate(worst.iterrows(), start=1):
+                    top_rows.append(
+                        dict(
+                            bench=bench,
+                            exe=exe,
+                            metric=metric_name,
+                            side="worst",
+                            rank=rank,
+                            driver_id=row["driver_id"],
+                            driver_name=row.get("driver_name", ""),
+                            value_raw=float(row[raw_col]),
+                            value_share=float(row[share_col]),
+                        )
+                    )
+
+            add_extremes("cg_node_own", "cg_node_share", "cg_node_own")
+            add_extremes("cd_edge_own", "cd_edge_share", "cd_edge_own")
+
+        pair_order = self._build_bench_order()
+
+        out_node = self._apply_pair_order(pd.DataFrame(node_rows), pair_order=pair_order)
+        out_edge = self._apply_pair_order(pd.DataFrame(edge_rows), pair_order=pair_order)
+        out_top = pd.DataFrame(top_rows)
+        if not out_top.empty:
+            out_top = self._apply_pair_order(out_top, pair_order, extra_sort=["metric", "side", "rank"])
+
+        out_node.to_csv(out_dir / "rq2_present__node_summary.csv", index=False)
+        out_edge.to_csv(out_dir / "rq2_present__edge_summary.csv", index=False)
+        out_top.to_csv(out_dir / "rq2_present__top_by_metric.csv", index=False)

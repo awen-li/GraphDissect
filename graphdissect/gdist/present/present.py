@@ -126,6 +126,23 @@ class Present:
         p.write_text(content)
         return p
 
+    def _build_bench_order(self) -> dict[tuple[str, str], int]:
+        """
+        self.benchs is a list of bench directories like:
+        /.../benchmarks/binutils/addr2line
+
+        We map:
+        bench = parent dir name  -> binutils
+        exe   = leaf dir name    -> addr2line
+        """
+        order: dict[tuple[str, str], int] = {}
+        for i, p in enumerate(getattr(self, "benchs", []) or []):
+            bp = Path(p)
+            bench = bp.parent.name
+            exe = bp.name
+            order[(bench, exe)] = i
+        return order
+
     # ---------- API ----------
     def run(self) -> None:
         """

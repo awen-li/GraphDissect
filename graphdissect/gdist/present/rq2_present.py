@@ -93,17 +93,17 @@ class RQ2Present(Present):
     def _safe_stats(x: np.ndarray) -> dict:
         """
         Minimal dispersion stats for a 1D array (normalized shares).
+        NOTE: mean is intentionally omitted (not meaningful under overlap-adjusted totals).
         """
         x = np.asarray(x, dtype=float)
         x = x[np.isfinite(x)]
         if x.size == 0:
-            return dict(mean=0.0, std=0.0, cv=0.0, min=0.0, median=0.0, max=0.0)
+            return dict(std=0.0, cv=0.0, min=0.0, median=0.0, max=0.0)
 
-        mean = float(np.mean(x))
+        mean = float(np.mean(x))  # used only for CV
         std = float(np.std(x, ddof=0))
         cv = float(std / mean) if mean > 0 else 0.0
         return dict(
-            mean=mean,
             std=std,
             cv=cv,
             min=float(np.min(x)),
@@ -111,9 +111,12 @@ class RQ2Present(Present):
             max=float(np.max(x)),
         )
 
-    def _apply_pair_order(self, df: pd.DataFrame, 
-                          pair_order: dict[tuple[str, str], int],
-                          extra_sort: list[str] | None = None) -> pd.DataFrame:
+    def _apply_pair_order(
+        self,
+        df: pd.DataFrame,
+        pair_order: dict[tuple[str, str], int],
+        extra_sort: list[str] | None = None,
+    ) -> pd.DataFrame:
         df = df.copy()
         df["_pair_ord"] = df.apply(
             lambda r: pair_order.get((r["bench"], r["exe"]), 10**9),
@@ -144,9 +147,9 @@ class RQ2Present(Present):
         summ = self._dedup_summary(summ)
 
         key = ["bench", "exe"]
-        cols = key + ["num_drivers", "sum_cg_node_own", "sum_cd_edge_own", "exe_dir"]
-        cols_present = [c for c in cols if c in summ.columns]
-        summ2 = summ[cols_present].copy()
+        # drop exe_dir from presenter outputs (keep logic the same otherwise)
+        cols = key + ["num_drivers", "sum_cg_node_own", "sum_cd_edge_own"]
+        summ2 = summ[cols].copy()
 
         # many-to-one merge is now safe
         df = drv.merge(summ2, on=key, how="left", validate="many_to_one")
@@ -164,7 +167,6 @@ class RQ2Present(Present):
         top_rows = []
 
         for (bench, exe), g in df.groupby(key, sort=False):
-            exe_dir = g["exe_dir"].iloc[0] if "exe_dir" in g.columns else ""
             n = (
                 int(g["num_drivers"].iloc[0])
                 if ("num_drivers" in g.columns and pd.notna(g["num_drivers"].iloc[0]))
@@ -177,39 +179,41 @@ class RQ2Present(Present):
             ns = self._safe_stats(node_share)
             es = self._safe_stats(edge_share)
 
+            # ---- node summary (rename columns as required; no exe_dir; no mean) ----
             node_rows.append(
                 dict(
                     bench=bench,
                     exe=exe,
-                    exe_dir=exe_dir,
-                    num_drivers=n,
-                    sum_cg_node_own=float(g["sum_cg_node_own"].iloc[0]),
-                    mean_share=ns["mean"],
-                    std_share=ns["std"],
-                    cv_share=ns["cv"],
-                    min_share=ns["min"],
-                    median_share=ns["median"],
-                    max_share=ns["max"],
+                    **{
+                        "#Driver": n,
+                        "#SumNode": float(g["sum_cg_node_own"].iloc[0]),
+                        "Std": ns["std"],
+                        "CV": ns["cv"],
+                        "Min": ns["min"],
+                        "Median": ns["median"],
+                        "Max": ns["max"],
+                    },
                 )
             )
 
+            # ---- edge summary (rename columns as required; no exe_dir; no mean) ----
             edge_rows.append(
                 dict(
                     bench=bench,
                     exe=exe,
-                    exe_dir=exe_dir,
-                    num_drivers=n,
-                    sum_cd_edge_own=float(g["sum_cd_edge_own"].iloc[0]),
-                    mean_share=es["mean"],
-                    std_share=es["std"],
-                    cv_share=es["cv"],
-                    min_share=es["min"],
-                    median_share=es["median"],
-                    max_share=es["max"],
+                    **{
+                        "#Driver": n,
+                        "#SumEdge": float(g["sum_cd_edge_own"].iloc[0]),
+                        "Std": es["std"],
+                        "CV": es["cv"],
+                        "Min": es["min"],
+                        "Median": es["median"],
+                        "Max": es["max"],
+                    },
                 )
             )
 
-            # Optional examples (best/worst) for narrative
+            # Optional examples (best/worst) for narrative (unchanged logic)
             def add_extremes(metric_name: str, share_col: str, raw_col: str) -> None:
                 gg = g[[*key, "driver_id", "driver_name", share_col, raw_col]].copy()
                 gg = gg.replace([np.inf, -np.inf], np.nan).dropna(subset=[share_col])

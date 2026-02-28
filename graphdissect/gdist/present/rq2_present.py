@@ -15,14 +15,14 @@ class RQ2Present(Present):
 
     Effectiveness metrics:
       - cg_node_own  (function-level activation)
-      - cd_edge_own  (dependence-edge activation)
+      - cg_edge_own  (dependence-edge activation)
 
     IMPORTANT:
       - Overlap exists, so executable-level totals MUST come from rq1_contrib__summary.csv:
-          sum_cg_node_own, sum_cd_edge_own
+          sum_cg_node_own, sum_cg_edge_own
       - We report heterogeneity primarily on normalized per-driver shares:
           cg_node_share = cg_node_own / sum_cg_node_own
-          cd_edge_share = cd_edge_own / sum_cd_edge_own
+          cg_edge_share = cg_edge_own / sum_cg_edge_own
 
     Inputs:
       - tables/rq1_contrib__drivers.csv
@@ -61,7 +61,7 @@ class RQ2Present(Present):
     @staticmethod
     def _dedup_summary(summ: pd.DataFrame) -> pd.DataFrame:
         key = ["bench", "exe"]
-        required = ["sum_cg_node_own", "sum_cd_edge_own", "num_drivers"]
+        required = ["sum_cg_node_own", "sum_cg_edge_own", "num_drivers"]
         missing = [c for c in key + required if c not in summ.columns]
         if missing:
             raise KeyError(f"rq1_contrib__summary.csv missing columns: {missing}")
@@ -129,6 +129,82 @@ class RQ2Present(Present):
         df = df.sort_values(sort_cols, kind="mergesort")
         return df.drop(columns=["_pair_ord"])
 
+    def _emit_cfg_edge_summary(self, df: pd.DataFrame, out_dir: Path, pair_order: dict[tuple[str, str], int]) -> None:
+        """
+        CFG-edge heterogeneity (baseline-normalized):
+        - Input: merged df that already contains per-driver rows
+        - Uses column: cfg_edge_own
+        - Total CFG edges per executable: sum over all drivers (Σ cfg_edge_own)
+        - Baseline: first driver by smallest driver_id
+        - Stats computed over remaining drivers using ratio:
+                r_i = cfg_edge_own(i) / cfg_edge_own(base)
+        Output:
+        - rq2_present__cfg_edge_summary.csv
+        """
+        if "cfg_edge_own" not in df.columns:
+            # silently skip if pipeline doesn't produce cfg_edge_own
+            return
+
+        need = {"bench", "exe", "driver_id", "cfg_edge_own"}
+        miss = sorted(need - set(df.columns))
+        if miss:
+            raise KeyError(f"CFG-edge summary requires columns: {miss}")
+
+        tmp = df[["bench", "exe", "driver_id", "cfg_edge_own"]].copy()
+        tmp["driver_id"] = pd.to_numeric(tmp["driver_id"], errors="coerce")
+        tmp["cfg_edge_own"] = pd.to_numeric(tmp["cfg_edge_own"], errors="coerce").fillna(0.0)
+
+        rows = []
+        for (bench, exe), g in tmp.groupby(["bench", "exe"], sort=False):
+            g = g.dropna(subset=["driver_id"]).copy()
+            if g.empty:
+                continue
+
+            # deterministic baseline: smallest driver_id
+            g = g.sort_values(["driver_id"], kind="mergesort")
+            n = int(g.shape[0])
+
+            base_id = int(g["driver_id"].iloc[0])
+            base_val = float(g["cfg_edge_own"].iloc[0])
+
+            # total CFG edges per executable (your requested "simple total")
+            sum_cfg = float(g["cfg_edge_own"].sum())
+
+            # compute ratios for remaining drivers (exclude baseline)
+            rest = g[g["driver_id"] != base_id]
+            if rest.empty:
+                st = dict(std=0.0, cv=0.0, min=0.0, median=0.0, max=0.0)
+            else:
+                if base_val > 0:
+                    ratios = rest["cfg_edge_own"].to_numpy(dtype=float) / base_val
+                else:
+                    # baseline has 0 edges; define ratios as 0 to avoid meaningless blow-up
+                    ratios = np.zeros(rest.shape[0], dtype=float)
+                st = self._safe_stats(ratios)
+
+            rows.append(
+                dict(
+                    bench=bench,
+                    exe=exe,
+                    **{
+                        "#Driver": n,
+                        "#SumCFGEdge": sum_cfg,
+                        #"BaseDriver": base_id,
+                        "BaseCFGEdge": base_val,
+                        "Std": st["std"],
+                        "CV": st["cv"],
+                        "Min": st["min"],
+                        "Median": st["median"],
+                        "Max": st["max"],
+                    },
+                )
+            )
+
+        out_cfg = pd.DataFrame(rows)
+        # keep the exact same bench/exe ordering as other outputs
+        out_cfg = self._apply_pair_order(out_cfg, pair_order=pair_order)
+        out_cfg.to_csv(out_dir / "rq2_present__cfg_edge_summary.csv", index=False)
+
     # -----------------------------
     # main
     # -----------------------------
@@ -139,7 +215,7 @@ class RQ2Present(Present):
         drv = self._load_concat("rq1_contrib__drivers.csv")
         summ = self._load_concat("rq1_contrib__summary.csv")
 
-        need_drv = {"bench", "exe", "driver_id", "driver_name", "cg_node_own", "cd_edge_own"}
+        need_drv = {"bench", "exe", "driver_id", "driver_name", "cg_node_own", "cg_edge_own"}
         miss = sorted(need_drv - set(drv.columns))
         if miss:
             raise KeyError(f"rq1_contrib__drivers.csv missing columns: {miss}")
@@ -148,7 +224,7 @@ class RQ2Present(Present):
 
         key = ["bench", "exe"]
         # drop exe_dir from presenter outputs (keep logic the same otherwise)
-        cols = key + ["num_drivers", "sum_cg_node_own", "sum_cd_edge_own"]
+        cols = key + ["num_drivers", "sum_cg_node_own", "sum_cg_edge_own"]
         summ2 = summ[cols].copy()
 
         # many-to-one merge is now safe
@@ -156,11 +232,11 @@ class RQ2Present(Present):
 
         # overlap-aware totals from summary
         df["node_total"] = df["sum_cg_node_own"].astype(float)
-        df["edge_total"] = df["sum_cd_edge_own"].astype(float)
+        df["edge_total"] = df["sum_cg_edge_own"].astype(float)
 
         # normalized effectiveness shares (scale-free, comparable across exes)
         df["cg_node_share"] = np.where(df["node_total"] > 0, df["cg_node_own"] / df["node_total"], 0.0)
-        df["cd_edge_share"] = np.where(df["edge_total"] > 0, df["cd_edge_own"] / df["edge_total"], 0.0)
+        df["cg_edge_share"] = np.where(df["edge_total"] > 0, df["cg_edge_own"] / df["edge_total"], 0.0)
 
         node_rows = []
         edge_rows = []
@@ -174,7 +250,7 @@ class RQ2Present(Present):
             )
 
             node_share = g["cg_node_share"].to_numpy(dtype=float)
-            edge_share = g["cd_edge_share"].to_numpy(dtype=float)
+            edge_share = g["cg_edge_share"].to_numpy(dtype=float)
 
             ns = self._safe_stats(node_share)
             es = self._safe_stats(edge_share)
@@ -203,7 +279,7 @@ class RQ2Present(Present):
                     exe=exe,
                     **{
                         "#Driver": n,
-                        "#SumEdge": float(g["sum_cd_edge_own"].iloc[0]),
+                        "#SumEdge": float(g["sum_cg_edge_own"].iloc[0]),
                         "Std": es["std"],
                         "CV": es["cv"],
                         "Min": es["min"],
@@ -253,7 +329,7 @@ class RQ2Present(Present):
                     )
 
             add_extremes("cg_node_own", "cg_node_share", "cg_node_own")
-            add_extremes("cd_edge_own", "cd_edge_share", "cd_edge_own")
+            add_extremes("cg_edge_own", "cg_edge_share", "cg_edge_own")
 
         pair_order = self._build_bench_order()
 
@@ -266,3 +342,6 @@ class RQ2Present(Present):
         out_node.to_csv(out_dir / "rq2_present__node_summary.csv", index=False)
         out_edge.to_csv(out_dir / "rq2_present__edge_summary.csv", index=False)
         out_top.to_csv(out_dir / "rq2_present__top_by_metric.csv", index=False)
+
+        # for CFG edge coverage
+        self._emit_cfg_edge_summary(df, out_dir, pair_order)

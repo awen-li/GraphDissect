@@ -38,7 +38,7 @@ class RQ1Present(Present):
         "exe",
         "driver_id",
         "driver_name",
-        "block_own",
+        "cfg_edge_own",
         "bug_count",
     ]
 
@@ -71,13 +71,13 @@ class RQ1Present(Present):
             )
 
     # -----------------------
-    # Step 0: top drivers (by block_own)
+    # Step 0: top drivers (by cfg_edge_own)
     # -----------------------
     def _top_drivers_one(self, df: pd.DataFrame) -> pd.DataFrame:
         # top within a single bench_dir file (should be one bench/exe)
-        topk = df.sort_values(["block_own", "driver_id"], ascending=[False, True]).head(self.TOPN)
+        topk = df.sort_values(["cfg_edge_own", "driver_id"], ascending=[False, True]).head(self.TOPN)
         return topk[
-            ["bench", "exe", "driver_id", "driver_name", "block_own", "bug_count"]
+            ["bench", "exe", "driver_id", "driver_name", "cfg_edge_own", "bug_count"]
         ].copy()
 
     # -----------------------

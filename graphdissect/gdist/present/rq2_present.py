@@ -176,7 +176,7 @@ class RQ2Present(Present):
                 st = dict(std=0.0, cv=0.0, min=0.0, median=0.0, max=0.0)
             else:
                 if base_val > 0:
-                    ratios = rest["cfg_edge_own"].to_numpy(dtype=float) / base_val
+                    ratios = rest["cfg_edge_own"].to_numpy(dtype=float) / sum_cfg
                 else:
                     # baseline has 0 edges; define ratios as 0 to avoid meaningless blow-up
                     ratios = np.zeros(rest.shape[0], dtype=float)
@@ -188,9 +188,9 @@ class RQ2Present(Present):
                     exe=exe,
                     **{
                         "#Driver": n,
-                        "#SumCFGEdge": sum_cfg,
+                        "#CFGEdge": sum_cfg,
                         #"BaseDriver": base_id,
-                        "BaseCFGEdge": base_val,
+                        "#Basedge": base_val,
                         "Std": st["std"],
                         "CV": st["cv"],
                         "Min": st["min"],
@@ -262,7 +262,7 @@ class RQ2Present(Present):
                     exe=exe,
                     **{
                         "#Driver": n,
-                        "#SumNode": float(g["sum_cg_node_own"].iloc[0]),
+                        "#CGNode": float(g["sum_cg_node_own"].iloc[0]),
                         "Std": ns["std"],
                         "CV": ns["cv"],
                         "Min": ns["min"],
@@ -279,7 +279,7 @@ class RQ2Present(Present):
                     exe=exe,
                     **{
                         "#Driver": n,
-                        "#SumEdge": float(g["sum_cg_edge_own"].iloc[0]),
+                        "#CGEdge": float(g["sum_cg_edge_own"].iloc[0]),
                         "Std": es["std"],
                         "CV": es["cv"],
                         "Min": es["min"],

@@ -31,6 +31,8 @@ public:
     void getDriverGraph(unsigned driverId, set<CGNode*>& drvNodes);
     void getGraphCov(unsigned& covNodes, unsigned& covEdges);
 
+    void getReachableGraph(set<CGNode*>& drvNodes);
+
 };
 
 #endif

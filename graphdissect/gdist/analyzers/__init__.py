@@ -5,16 +5,16 @@ from .analyzer import Analyzer, AnalysisContext, AnalysisResult
 
 # bring analyzers into registry
 from .rq1_contribution import RQ1Contribution
-from .rq2_modularity import RQ2Modularity
-from .rq3_overlap import RQ3Overlap
+from .rq3_modularity import RQ3Modularity
+from .rq4_overlap import RQ4Overlap
 #from .rq4 import RQ4Correlation
 #from .rq5 import RQ5BlindSpots
 
 __all__ = [
     "Analyzer", "AnalysisContext", "AnalysisResult",
     "RQ1Contribution", 
-    "RQ2Modularity", 
-    "RQ3Overlap", 
+    "RQ3Modularity", 
+    "RQ4Overlap", 
 #    "RQ4Correlation", 
 #    "RQ5BlindSpots",
 ]
@@ -23,8 +23,8 @@ __all__ = [
 # Register analyzer *classes* (not instances)
 _REG: Dict[str, Type[Analyzer]] = {
     "rq1": RQ1Contribution,
-    "rq2": RQ2Modularity,
-    "rq3": RQ3Overlap,
+    "rq3": RQ3Modularity,
+    "rq4": RQ4Overlap,
     # ...
 }
 

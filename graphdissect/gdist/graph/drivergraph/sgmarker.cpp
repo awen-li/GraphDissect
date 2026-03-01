@@ -46,3 +46,34 @@ void SubCgMarker::getGraphCov(unsigned& covNodes, unsigned& covEdges) {
 
     return;
 }
+
+
+void SubCgMarker::getReachableGraph(set<CGNode*>& cgNodes) {
+    queue<CGNode*> worklist;
+
+    CGGraph* cg = cgmk->getWholeCg();
+    CGNode* entry = cg->GetNode("main");
+    assert (entry != NULL);
+
+    worklist.push(entry);
+    while (!worklist.empty()) 
+    {
+        auto node = worklist.front();
+        worklist.pop();
+        cgNodes.insert(node);
+
+        for (auto itr = node->OutEdgeBegin(); itr != node->OutEdgeEnd(); ++itr) 
+        {
+            CGNode* callee = (*itr)->GetDstNode();
+            if (cgNodes.find(callee) != cgNodes.end())
+            {
+                continue;
+            }
+
+            worklist.push(callee);
+            cgNodes.insert(callee);
+        }
+    }
+    
+    return;
+}

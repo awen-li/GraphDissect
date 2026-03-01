@@ -8,9 +8,9 @@ import pandas as pd
 from gdist.analyzers.analyzer import Analyzer, AnalysisContext, AnalysisResult
 
 
-class RQ3Overlap(Analyzer):
-    key = "rq3"
-    description = "RQ3: pairwise overlap (IoU) among driver-induced subgraphs + redundancy vs coverage growth"
+class RQ4Overlap(Analyzer):
+    key = "rq4"
+    description = "RQ4: pairwise overlap (IoU) among driver-induced subgraphs + redundancy vs coverage growth"
 
     def __init__(self, max_pairs: int = 200_000, top_k_pairs: int = 30):
         self.max_pairs = max_pairs

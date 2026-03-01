@@ -92,6 +92,9 @@ class DrvGraph:
     def get_driver_graph(self, drvId: int):
         return sgmarker.getDriverGraph(drvId)
 
+    def get_whole_graph(self):
+        return sgmarker.getWholeGraph()
+
     def get_graph_coverage(self):
         # (nodeCov, edgeCov)
         return sgmarker.getGraphCov()

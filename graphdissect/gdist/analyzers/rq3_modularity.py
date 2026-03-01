@@ -112,12 +112,16 @@ def _build_driver_subgraph(nx, dv: DriverGraphView, backbone: Optional[Any] = No
 
 
 class RQ3Modularity(Analyzer):
-    key = "rq3"
+    key = "rq3_modularity"
     description = "RQ3: structural organization & modularity of driver-induced subgraphs"
 
     def compute(self, ctx: AnalysisContext) -> AnalysisResult:
         nx = _import_nx()
         g  = ctx.ensure_drvgraph()
+
+        exe_dir = ctx.benchDir
+        bench_name = exe_dir.parent.name
+        exe_name   = exe_dir.name
 
         backbone = _build_whole_subgraph(nx, g)
         V = backbone.number_of_nodes() if backbone is not None else 0
@@ -168,6 +172,8 @@ class RQ3Modularity(Analyzer):
 
             records.append(
                 {
+                    "bench": bench_name,
+                    "exe": exe_name,
                     "driver": drv_id,
                     # size
                     "n_nodes": n,

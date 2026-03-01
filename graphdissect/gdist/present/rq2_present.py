@@ -42,19 +42,7 @@ class RQ2Present(Present):
         "rq1_contrib__top_by_metric.csv",  # not used; safe to remove if your CLI expects it
     )
 
-    # -----------------------------
-    # IO helpers
-    # -----------------------------
-    def _discover_tables(self, filename: str) -> List[Path]:
-        suite_dir = Path(self.suite_dir)
-        return sorted(suite_dir.glob(f"**/tables/{filename}"))
-
-    def _load_concat(self, filename: str) -> pd.DataFrame:
-        paths = self._discover_tables(filename)
-        if not paths:
-            raise FileNotFoundError(f"No inputs found for {filename} under {self.suite_dir}")
-        return pd.concat((pd.read_csv(p) for p in paths), ignore_index=True)
-
+    
     # -----------------------------
     # Data sanity helpers
     # -----------------------------

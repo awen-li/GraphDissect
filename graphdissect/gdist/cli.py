@@ -9,7 +9,7 @@ from gdist.benchs import Suite
 from gdist.analyzers.analyzer import AnalysisContext
 from gdist import analyzers 
 from gdist.analyzers import all_analyzers, select
-from gdist.present import RQ1Present, RQ2Present
+from gdist.present import RQ1Present, RQ2Present, RQ3Present
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -85,11 +85,19 @@ def cmd_present(args: argparse.Namespace) -> int:
         p = RQ1Present(benchs, suite_root)
         print(f"Running presenter: {p.name}")
         p.run()
+        p.post_run()
 
     if "rq2" in getattr(args, "analyzers", []) or getattr(args, "analyzers", None) == None:
         p = RQ2Present(benchs, suite_root)
         print(f"Running presenter: {p.name}")
         p.run()
+        p.post_run()
+
+    if "rq3" in getattr(args, "analyzers", []) or getattr(args, "analyzers", None) == None:
+        p = RQ3Present(benchs, suite_root)
+        print(f"Running presenter: {p.name}")
+        p.run()
+        p.post_run()
 
 def main(argv: list[str] | None = None) -> int:
     p = build_parser()

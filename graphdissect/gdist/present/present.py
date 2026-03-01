@@ -67,6 +67,20 @@ class Present:
                 return False
         return True
 
+    # -----------------------------
+    # IO helpers
+    # -----------------------------
+    def _discover_tables(self, filename: str) -> List[Path]:
+        suite_dir = Path(self.suite_dir)
+        return sorted(suite_dir.glob(f"**/tables/{filename}"))
+
+    def _load_concat(self, filename: str) -> pd.DataFrame:
+        paths = self._discover_tables(filename)
+        if not paths:
+            raise FileNotFoundError(f"No inputs found for {filename} under {self.suite_dir}")
+        return pd.concat((pd.read_csv(p) for p in paths), ignore_index=True)
+
+
     # ---------- CSV helpers ----------
     def read_csv(self, t: BenchTables, filename: str) -> pd.DataFrame:
         p = t.tables_dir / filename
@@ -151,3 +165,6 @@ class Present:
         - generate tex + figs
         """
         raise NotImplementedError
+
+    def post_run(self) -> None:
+        pass

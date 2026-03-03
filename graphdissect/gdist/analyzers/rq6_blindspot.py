@@ -56,7 +56,6 @@ def _import_nx():
         raise RuntimeError("RQ6RegionImbalance requires networkx (`pip install networkx`).") from e
     return nx
 
-
 # -----------------------------
 # Adaptive SNDP implementation
 # -----------------------------
@@ -273,7 +272,7 @@ class RQ6RegionImbalance(Analyzer):
     SNDP_MAD_K = 6.0              # robust multiplier for MAD/IQR/hybrid
     SNDP_MIN_PRUNE = 1            # guarantee at least this many hubs (if n>=10)
     SNDP_MAX_PRUNE_FRAC = 0.02    # cap hub pruning fraction
-    MIN_REGION_SIZE = 3           # minimal region size
+    MIN_REGION_SIZE = 5           # minimal region size
 
     # Cold region threshold
     COLD_EPS = 0.05
@@ -376,8 +375,8 @@ class RQ6RegionImbalance(Analyzer):
             "n_pruned_hubs": sndp_stats.pruned,
             "pruned_hub_ratio": sndp_stats.pruned_frac,
             # regions
+            "n_regions": n_regions_kept,
             "n_regions_total": n_regions_total,
-            "n_regions_kept": n_regions_kept,
             "n_regions_filtered_small": n_regions_filtered,
             "region_size_entropy": size_entropy,
             "rc_entropy_proxy": rc_entropy, 

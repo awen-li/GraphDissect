@@ -11,101 +11,107 @@ from .present import Present
 
 class RQ1Present(Present):
     """
-    RQ1: Does combining multiple drivers yield strictly greater union structural coverage than the best
-    single driver under equivalent total fuzzing budgets?
+    RQ1 (executable-level union summary only):
+    Does combining multiple drivers yield strictly greater union structural coverage
+    than the best single driver under equivalent total fuzzing budgets?
 
-    Input per benchmark directory:
-      - tables/rq1_contrib__drivers.csv
-        required columns:
-          bench, exe, driver_id, driver_name, block_own, bug_count
+    Current scope:
+      - This presenter does NOT compare against true single-driver full-budget baselines.
+      - It only reports executable-level union structural coverage aggregated across drivers.
+
+    Input:
+      - tables/rq1_contrib__summary.csv
+
+    Required columns:
+      bench, exe, exe_dir, num_drivers,
+      sum_cg_node_own, sum_cg_edge_own, sum_cfg_edge_own, sum_bug_count
 
     Output:
-      - rq1_present__top_drivers.csv   (generated first)
-      - (others later once union coverage source is provided)
+      - rq1_present__exe_summary.csv
     """
 
     name = "rq1"
     required_files = (
-        "rq1_contrib__drivers.csv",
         "rq1_contrib__summary.csv",
-        "rq1_contrib__top_by_metric.csv",
     )
 
-    TOPN = 10
-
-    REQUIRED_COLS = [
-        "bench",
-        "exe",
-        "driver_id",
-        "driver_name",
-        "cfg_edge_own",
-        "bug_count",
-    ]
-
-    # -----------------------
-    # IO helpers
-    # -----------------------
-    def _get_out_dir(self) -> Path:
-        for attr in ("out_dir", "output_dir", "present_dir", "results_dir"):
-            p = getattr(self, attr, None)
-            if p is not None:
-                return Path(p)
-        return Path.cwd()
-
-    def _write_csv(self, fname: str, df: pd.DataFrame) -> None:
-        out_dir = self._get_out_dir()
-        out_dir.mkdir(parents=True, exist_ok=True)
-        df.to_csv(out_dir / fname, index=False)
-
-    def _load_driver_df(self, bench_dir: str | Path) -> pd.DataFrame:
-        bench_dir = Path(bench_dir)
-        return pd.read_csv(bench_dir / "tables" / "rq1_contrib__drivers.csv")
-
-    def _require_cols(self, df: pd.DataFrame, bench_dir: str | Path) -> None:
-        missing = [c for c in self.REQUIRED_COLS if c not in df.columns]
+    @staticmethod
+    def _dedup_summary(summ: pd.DataFrame) -> pd.DataFrame:
+        key = ["bench", "exe"]
+        required = [
+            "num_drivers",
+            "sum_cg_node_own",
+            "sum_cg_edge_own",
+            "sum_cfg_edge_own",
+            "sum_bug_count",
+        ]
+        missing = [c for c in key + required if c not in summ.columns]
         if missing:
-            raise KeyError(
-                f"RQ1Present: missing required columns {missing} in "
-                f"{Path(bench_dir) / 'tables/rq1_contrib__drivers.csv'}; "
-                f"found columns={list(df.columns)}"
+            raise KeyError(f"rq1_contrib__summary.csv missing columns: {missing}")
+
+        dup_mask = summ.duplicated(subset=key, keep=False)
+        if not dup_mask.any():
+            return summ
+
+        dups = summ.loc[dup_mask].copy()
+        bad = []
+        for (b, e), g in dups.groupby(key, sort=False):
+            uniq = g[required].apply(lambda r: tuple(r.tolist()), axis=1).unique()
+            if len(uniq) != 1:
+                cols_show = key + required + ([c for c in ["exe_dir"] if c in g.columns])
+                bad.append((b, e, g[cols_show]))
+
+        if bad:
+            b, e, gshow = bad[0]
+            raise ValueError(
+                "rq1_contrib__summary.csv has conflicting duplicate rows for the same (bench, exe). "
+                f"First conflict: bench={b}, exe={e}\n"
+                f"{gshow.to_string(index=False)}"
             )
 
-    # -----------------------
-    # Step 0: top drivers (by cfg_edge_own)
-    # -----------------------
-    def _top_drivers_one(self, df: pd.DataFrame) -> pd.DataFrame:
-        # top within a single bench_dir file (should be one bench/exe)
-        topk = df.sort_values(["cfg_edge_own", "driver_id"], ascending=[False, True]).head(self.TOPN)
-        return topk[
-            ["bench", "exe", "driver_id", "driver_name", "cfg_edge_own", "bug_count"]
-        ].copy()
+        return summ.drop_duplicates(subset=key, keep="first")
 
-    # -----------------------
-    # Main
-    # -----------------------
+    def _apply_pair_order(
+        self,
+        df: pd.DataFrame,
+        pair_order: dict[tuple[str, str], int],
+    ) -> pd.DataFrame:
+        df = df.copy()
+        df["_pair_ord"] = df.apply(
+            lambda r: pair_order.get((r["bench"], r["exe"]), 10**9),
+            axis=1,
+        )
+        df = df.sort_values(["_pair_ord", "bench", "exe"], kind="mergesort")
+        return df.drop(columns=["_pair_ord"])
+
     def run(self) -> None:
-        print(f"RQ1Present: scanning {len(self.benchs)} benchmark dirs...")
+        out_dir = Path(self.out_dir)
+        out_dir.mkdir(parents=True, exist_ok=True)
 
-        # 1) FIRST: collect top drivers for each benchmark dir
-        top_frames: List[pd.DataFrame] = []
+        summ = self._load_concat("rq1_contrib__summary.csv")
+        summ = self._dedup_summary(summ)
 
-        for bench_dir in self.benchs:
-            df = self._load_driver_df(bench_dir)
-            self._require_cols(df, bench_dir)
+        cols = [
+            "bench",
+            "exe",
+            "num_drivers",
+            "sum_cg_node_own",
+            "sum_cg_edge_own",
+            "sum_cfg_edge_own",
+            "sum_bug_count",
+        ]
+        out = summ[cols].copy()
 
-            bench_name = str(df["bench"].iloc[0])
-            exe_name = str(df["exe"].iloc[0])
+        out = out.rename(
+            columns={
+                "num_drivers": "#Driver",
+                "sum_cg_node_own": "#CGNode",
+                "sum_cg_edge_own": "#CGEdge",
+                "sum_cfg_edge_own": "#CFGEdge",
+                "sum_bug_count": "#Bug",
+            }
+        )
 
-            top_df = self._top_drivers_one(df)
-            # keep bench_dir as an explicit key in case (bench,exe) repeats
-            top_df.insert(0, "bench_dir", str(bench_dir))
-            top_frames.append(top_df)
-
-        top_all = pd.concat(top_frames, ignore_index=True) if top_frames else pd.DataFrame()
-        self._write_csv("rq1_present__top_drivers.csv", top_all)
-        print(f"[RQ1Present] wrote rq1_present__top_drivers.csv ({len(top_all)} rows) to {self._get_out_dir()}")
-
-        # 2) THEN: compute RQ1 union-vs-best (needs per-driver set-level coverage source)
-        # NOTE: not implemented until you tell me which table contains per-driver covered function/edge IDs.
-        print("[RQ1Present] Step-0 done. Union-vs-best computation pending set-level coverage table.")
-        
+        pair_order = self._build_bench_order()
+        out = self._apply_pair_order(out, pair_order)
+        out.to_csv(out_dir / "rq1_present__exe_summary.csv", index=False)

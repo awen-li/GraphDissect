@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-http-parser,parsertrace,/root/GraphDissect/benchmarks/http-parser/parsertrace,3,14,13,369,0

@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-libxml2,xmllint,<= 10,40,0.0,2.0,0.5
-libxml2,xmllint,11–25,0,,,
-libxml2,xmllint,26–50,0,,,
-libxml2,xmllint,51–100,0,,,
-libxml2,xmllint,101–200,0,,,
-libxml2,xmllint,201–500,0,,,
-libxml2,xmllint,501–1000,0,,,
-libxml2,xmllint,> 1000,0,,,

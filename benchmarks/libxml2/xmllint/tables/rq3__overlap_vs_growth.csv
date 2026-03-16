@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-libxml2,xmllint,avg_iou,edges_total,-0.13031795840329988
-libxml2,xmllint,avg_iou,func_total,0.0
-libxml2,xmllint,max_iou,edges_total,-0.13031795840329988
-libxml2,xmllint,max_iou,func_total,0.0
-libxml2,xmllint,growth_proxy,edges_total,0.0

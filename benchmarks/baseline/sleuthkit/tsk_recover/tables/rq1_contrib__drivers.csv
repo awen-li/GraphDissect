@@ -1,5 +1,0 @@
-bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
-sleuthkit,tsk_recover,1,1_V,66,91,77,0
-sleuthkit,tsk_recover,2,2_i_list,68,92,3,0
-sleuthkit,tsk_recover,3,3_f_list,68,92,5,0
-sleuthkit,tsk_recover,4,4_P_list,69,93,4,0

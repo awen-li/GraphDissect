@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-libtiff,tiffinfo,avg_iou,edges_delta,0.24152294576982403
-libtiff,tiffinfo,avg_iou,func_total,0.0
-libtiff,tiffinfo,max_iou,edges_delta,0.24152294576982403
-libtiff,tiffinfo,max_iou,func_total,0.0
-libtiff,tiffinfo,growth_proxy,edges_delta,0.0

@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-binutils,readelf,<= 10,29,0.0,2.0,0.5
-binutils,readelf,11–25,0,,,
-binutils,readelf,26–50,0,,,
-binutils,readelf,51–100,0,,,
-binutils,readelf,101–200,0,,,
-binutils,readelf,201–500,0,,,
-binutils,readelf,501–1000,0,,,
-binutils,readelf,> 1000,0,,,

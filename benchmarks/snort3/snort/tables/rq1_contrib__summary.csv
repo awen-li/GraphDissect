@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-snort3,snort,/root/GraphDissect/benchmarks/snort3/snort,9,6359,11751,9509,0

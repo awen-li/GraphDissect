@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-wavpack,wavpack,/root/GraphDissect/benchmarks/wavpack/wavpack,32,16,78,128,0

@@ -1,3 +1,0 @@
-bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
-http-parser,url_parser,1,1_connect,4,5,14,0
-http-parser,url_parser,2,2_get,5,5,9,0

@@ -1,3 +1,0 @@
-bench,exe,driver_id,driver_name,func_total,edges_total,edges_delta
-http-parser,url_parser,1,1_connect,2,14,0
-http-parser,url_parser,2,2_get,2,9,0

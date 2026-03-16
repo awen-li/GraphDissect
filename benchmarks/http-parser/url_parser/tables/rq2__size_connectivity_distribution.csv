@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-http-parser,url_parser,<= 10,2,0.0,2.0,0.5
-http-parser,url_parser,11–25,0,,,
-http-parser,url_parser,26–50,0,,,
-http-parser,url_parser,51–100,0,,,
-http-parser,url_parser,101–200,0,,,
-http-parser,url_parser,201–500,0,,,
-http-parser,url_parser,501–1000,0,,,
-http-parser,url_parser,> 1000,0,,,

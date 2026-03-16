@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-xz,xz,<= 10,17,0.0,2.0,0.5
-xz,xz,11–25,0,,,
-xz,xz,26–50,0,,,
-xz,xz,51–100,0,,,
-xz,xz,101–200,0,,,
-xz,xz,201–500,0,,,
-xz,xz,501–1000,0,,,
-xz,xz,> 1000,0,,,

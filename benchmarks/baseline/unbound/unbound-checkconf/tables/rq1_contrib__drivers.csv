@@ -1,8 +1,0 @@
-bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
-unbound,unbound-checkconf,1,1_h,2,3,12,0
-unbound,unbound-checkconf,2,2_q,62,124,315,0
-unbound,unbound-checkconf,3,3_f,62,124,5,0
-unbound,unbound-checkconf,4,4_o_pidfile,62,124,3,0
-unbound,unbound-checkconf,5,5_o_chroot,62,124,1,0
-unbound,unbound-checkconf,6,6_o_directory,62,124,0,0
-unbound,unbound-checkconf,7,7_o_username,62,124,4,0

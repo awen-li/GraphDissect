@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-netcdf,ncgen,avg_iou,edges_delta,-0.4458589371188461
-netcdf,ncgen,avg_iou,func_total,0.0
-netcdf,ncgen,max_iou,edges_delta,-0.4764316240462047
-netcdf,ncgen,max_iou,func_total,0.0
-netcdf,ncgen,growth_proxy,edges_delta,0.0

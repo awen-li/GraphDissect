@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-quickjs,qjs,<= 10,6,0.0,2.0,0.5
-quickjs,qjs,11–25,0,,,
-quickjs,qjs,26–50,0,,,
-quickjs,qjs,51–100,0,,,
-quickjs,qjs,101–200,0,,,
-quickjs,qjs,201–500,0,,,
-quickjs,qjs,501–1000,0,,,
-quickjs,qjs,> 1000,0,,,

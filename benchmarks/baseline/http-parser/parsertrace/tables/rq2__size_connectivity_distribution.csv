@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-http-parser,parsertrace,<= 10,3,0.0,2.0,0.5
-http-parser,parsertrace,11–25,0,,,
-http-parser,parsertrace,26–50,0,,,
-http-parser,parsertrace,51–100,0,,,
-http-parser,parsertrace,101–200,0,,,
-http-parser,parsertrace,201–500,0,,,
-http-parser,parsertrace,501–1000,0,,,
-http-parser,parsertrace,> 1000,0,,,

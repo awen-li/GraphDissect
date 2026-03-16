@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-quickjs,qjsc,/root/GraphDissect/benchmarks/quickjs/qjsc,27,639,3823,6143,0

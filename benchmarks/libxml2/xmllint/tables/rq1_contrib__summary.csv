@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-libxml2,xmllint,/root/GraphDissect/benchmarks/libxml2/xmllint,40,657,5685,5586,0

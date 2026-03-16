@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-hdf5,h5repack,<= 10,37,0.0,2.0,0.5
-hdf5,h5repack,11–25,0,,,
-hdf5,h5repack,26–50,0,,,
-hdf5,h5repack,51–100,0,,,
-hdf5,h5repack,101–200,0,,,
-hdf5,h5repack,201–500,0,,,
-hdf5,h5repack,501–1000,0,,,
-hdf5,h5repack,> 1000,0,,,

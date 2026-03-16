@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-file,file,avg_iou,edges_delta,-0.2954307479660084
-file,file,avg_iou,func_total,0.0
-file,file,max_iou,edges_delta,-0.3313001741804241
-file,file,max_iou,func_total,0.0
-file,file,growth_proxy,edges_delta,0.0

@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-sleuthkit,istat,<= 10,4,0.0,2.0,0.5
-sleuthkit,istat,11–25,0,,,
-sleuthkit,istat,26–50,0,,,
-sleuthkit,istat,51–100,0,,,
-sleuthkit,istat,101–200,0,,,
-sleuthkit,istat,201–500,0,,,
-sleuthkit,istat,501–1000,0,,,
-sleuthkit,istat,> 1000,0,,,

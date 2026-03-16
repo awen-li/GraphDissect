@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-netcdf,ncdump,avg_iou,edges_total,0.0
-netcdf,ncdump,avg_iou,func_total,0.0
-netcdf,ncdump,max_iou,edges_total,0.0
-netcdf,ncdump,max_iou,func_total,0.0
-netcdf,ncdump,growth_proxy,edges_total,0.0

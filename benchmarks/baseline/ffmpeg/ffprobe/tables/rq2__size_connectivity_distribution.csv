@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-ffmpeg,ffprobe,<= 10,28,0.0,2.0,0.5
-ffmpeg,ffprobe,11–25,0,,,
-ffmpeg,ffprobe,26–50,0,,,
-ffmpeg,ffprobe,51–100,0,,,
-ffmpeg,ffprobe,101–200,0,,,
-ffmpeg,ffprobe,201–500,0,,,
-ffmpeg,ffprobe,501–1000,0,,,
-ffmpeg,ffprobe,> 1000,0,,,

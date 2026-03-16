@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-xpdf,pdfinfo,<= 10,25,0.0,2.0,0.5
-xpdf,pdfinfo,11–25,0,,,
-xpdf,pdfinfo,26–50,0,,,
-xpdf,pdfinfo,51–100,0,,,
-xpdf,pdfinfo,101–200,0,,,
-xpdf,pdfinfo,201–500,0,,,
-xpdf,pdfinfo,501–1000,0,,,
-xpdf,pdfinfo,> 1000,0,,,

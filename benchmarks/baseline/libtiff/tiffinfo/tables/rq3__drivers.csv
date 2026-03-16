@@ -1,8 +1,0 @@
-bench,exe,driver_id,driver_name,func_total,edges_total,edges_delta
-libtiff,tiffinfo,1,1_D,2,1699,1
-libtiff,tiffinfo,2,2_c,2,93,1
-libtiff,tiffinfo,3,3_d,2,325,0
-libtiff,tiffinfo,4,4_r,2,102,1
-libtiff,tiffinfo,5,5_s,2,79,0
-libtiff,tiffinfo,6,6_w,2,56,4
-libtiff,tiffinfo,7,7_j,2,62,0

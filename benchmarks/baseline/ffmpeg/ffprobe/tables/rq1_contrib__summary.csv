@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-ffmpeg,ffprobe,/root/GraphDissect/benchmarks/ffmpeg/ffprobe,28,2415,10562,13361,0

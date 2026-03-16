@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,nodes_min,nodes_median,nodes_max,density_median,num_cc_median,lcc_ratio_median
-sqlite3,sqlite3,/root/GraphDissect/benchmarks/sqlite3/sqlite3,48,2,2.0,2,0.0,2.0,0.5

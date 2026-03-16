@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-wavpack,wavpack,avg_iou,edges_total,0.046150091491445264
-wavpack,wavpack,avg_iou,func_total,0.0
-wavpack,wavpack,max_iou,edges_total,-0.06634493664916816
-wavpack,wavpack,max_iou,func_total,0.0
-wavpack,wavpack,growth_proxy,edges_total,0.0

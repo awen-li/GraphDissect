@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-git,git,<= 10,6,0.0,2.0,0.5
-git,git,11–25,0,,,
-git,git,26–50,0,,,
-git,git,51–100,0,,,
-git,git,101–200,0,,,
-git,git,201–500,0,,,
-git,git,501–1000,0,,,
-git,git,> 1000,0,,,

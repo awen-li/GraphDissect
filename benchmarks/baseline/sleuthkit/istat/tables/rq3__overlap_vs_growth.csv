@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-sleuthkit,istat,avg_iou,edges_total,0.0
-sleuthkit,istat,avg_iou,func_total,0.0
-sleuthkit,istat,max_iou,edges_total,0.0
-sleuthkit,istat,max_iou,func_total,0.0
-sleuthkit,istat,growth_proxy,edges_total,0.0

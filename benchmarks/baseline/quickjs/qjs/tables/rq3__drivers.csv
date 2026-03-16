@@ -1,7 +1,0 @@
-bench,exe,driver_id,driver_name,func_total,edges_total,edges_delta
-quickjs,qjs,1,1_e_1_2,2,1159,0
-quickjs,qjs,2,2_m,2,5764,5
-quickjs,qjs,3,3_script,2,831,4
-quickjs,qjs,4,4_strict,2,746,12
-quickjs,qjs,5,5_T,2,669,9
-quickjs,qjs,6,6_d,2,492,9

@@ -1,6 +1,0 @@
-bench,exe,x,y,pearson_r
-binutils,objdump,avg_iou,edges_delta,0.33987189444983584
-binutils,objdump,avg_iou,func_total,0.0
-binutils,objdump,max_iou,edges_delta,0.3398718944498359
-binutils,objdump,max_iou,func_total,0.0
-binutils,objdump,growth_proxy,edges_delta,0.0

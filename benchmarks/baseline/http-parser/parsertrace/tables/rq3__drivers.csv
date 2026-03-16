@@ -1,4 +1,0 @@
-bench,exe,driver_id,driver_name,func_total,edges_total,edges_delta
-http-parser,parsertrace,1,1_r,2,207,0
-http-parser,parsertrace,2,2_q,2,143,0
-http-parser,parsertrace,3,3_b,2,19,0

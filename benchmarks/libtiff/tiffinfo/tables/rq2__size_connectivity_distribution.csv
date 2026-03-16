@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-libtiff,tiffinfo,<= 10,7,0.0,2.0,0.5
-libtiff,tiffinfo,11–25,0,,,
-libtiff,tiffinfo,26–50,0,,,
-libtiff,tiffinfo,51–100,0,,,
-libtiff,tiffinfo,101–200,0,,,
-libtiff,tiffinfo,201–500,0,,,
-libtiff,tiffinfo,501–1000,0,,,
-libtiff,tiffinfo,> 1000,0,,,

@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-binutils,addr2line,/root/GraphDissect/benchmarks/binutils/addr2line,8,368,5508,2265,0

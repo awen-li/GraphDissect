@@ -1,8 +1,0 @@
-bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
-sleuthkit,img_stat,1,1_t,168,280,111,0
-sleuthkit,img_stat,2,2_v,167,280,11,0
-sleuthkit,img_stat,3,3_V,3,16,2,0
-sleuthkit,img_stat,4,4_i_raw,5,17,3,0
-sleuthkit,img_stat,5,5_i_list,5,17,1,0
-sleuthkit,img_stat,6,6_b_512,167,280,1,0
-sleuthkit,img_stat,7,7_b_4096,167,280,0,0

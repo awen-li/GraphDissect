@@ -1,9 +1,0 @@
-metric,bench,exe,driver_id,driver_name,value
-cg_node_own,http-parser,url_parser,2,2_get,5
-cg_node_own,http-parser,url_parser,1,1_connect,4
-cd_edge_own,http-parser,url_parser,1,1_connect,5
-cd_edge_own,http-parser,url_parser,2,2_get,5
-block_own,http-parser,url_parser,1,1_connect,14
-block_own,http-parser,url_parser,2,2_get,9
-bug_count,http-parser,url_parser,1,1_connect,0
-bug_count,http-parser,url_parser,2,2_get,0

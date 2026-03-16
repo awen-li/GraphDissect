@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-file,file,<= 10,12,0.0,2.0,0.5
-file,file,11–25,0,,,
-file,file,26–50,0,,,
-file,file,51–100,0,,,
-file,file,101–200,0,,,
-file,file,201–500,0,,,
-file,file,501–1000,0,,,
-file,file,> 1000,0,,,

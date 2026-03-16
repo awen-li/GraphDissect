@@ -1,2 +1,0 @@
-bench,exe,exe_dir,num_drivers,sum_cg_node_own,sum_cd_edge_own,sum_block_own,sum_bug_count
-libarchive,bsdunzip,/root/GraphDissect/benchmarks/libarchive/bsdunzip,13,240,526,1394,0

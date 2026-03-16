@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-netcdf,ncgen,<= 10,22,0.0,2.0,0.5
-netcdf,ncgen,11–25,0,,,
-netcdf,ncgen,26–50,0,,,
-netcdf,ncgen,51–100,0,,,
-netcdf,ncgen,101–200,0,,,
-netcdf,ncgen,201–500,0,,,
-netcdf,ncgen,501–1000,0,,,
-netcdf,ncgen,> 1000,0,,,

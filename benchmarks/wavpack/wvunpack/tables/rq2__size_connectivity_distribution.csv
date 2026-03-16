@@ -1,9 +1,0 @@
-bench,exe,bucket,count,density_median,num_cc_median,lcc_ratio_median
-wavpack,wvunpack,<= 10,30,0.0,2.0,0.5
-wavpack,wvunpack,11–25,0,,,
-wavpack,wvunpack,26–50,0,,,
-wavpack,wvunpack,51–100,0,,,
-wavpack,wvunpack,101–200,0,,,
-wavpack,wvunpack,201–500,0,,,
-wavpack,wvunpack,501–1000,0,,,
-wavpack,wvunpack,> 1000,0,,,

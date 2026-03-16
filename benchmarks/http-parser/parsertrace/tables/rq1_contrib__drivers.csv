@@ -1,4 +1,0 @@
-bench,exe,driver_id,driver_name,cg_node_own,cd_edge_own,block_own,bug_count
-http-parser,parsertrace,1,1_r,12,13,210,0
-http-parser,parsertrace,2,2_q,14,13,147,0
-http-parser,parsertrace,3,3_b,14,13,12,0

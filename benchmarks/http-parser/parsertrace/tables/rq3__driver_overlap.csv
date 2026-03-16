@@ -1,4 +1,0 @@
-bench,exe,driver_id,driver_name,func_total,edges_total,edges_delta,avg_iou,max_iou,num_pairs
-http-parser,parsertrace,1,1_r,2,207,0,0.3333333333333333,0.3333333333333333,2
-http-parser,parsertrace,2,2_q,2,143,0,0.6666666666666666,1.0,2
-http-parser,parsertrace,3,3_b,2,19,0,0.6666666666666666,1.0,2

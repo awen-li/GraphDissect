@@ -1,7 +1,0 @@
-bench,exe,driver_id,driver_name,n_nodes,n_edges,density,num_cc,lcc_size,lcc_ratio,avg_cc_size
-quickjs,qjs,1,1_e_1_2,2,0,0.0,2,1,0.5,1.0
-quickjs,qjs,2,2_m,2,0,0.0,2,1,0.5,1.0
-quickjs,qjs,3,3_script,2,0,0.0,2,1,0.5,1.0
-quickjs,qjs,4,4_strict,2,0,0.0,2,1,0.5,1.0
-quickjs,qjs,5,5_T,2,0,0.0,2,1,0.5,1.0
-quickjs,qjs,6,6_d,2,0,0.0,2,1,0.5,1.0

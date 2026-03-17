@@ -7,16 +7,14 @@ from .analyzer import Analyzer, AnalysisContext, AnalysisResult
 from .rq1_contribution import RQ1Contribution
 from .rq3_modularity import RQ3Modularity
 from .rq4_overlap import RQ4Overlap
-from .rq5_structural_gains import RQ5StructuralGains
-from .rq6_blindspot import RQ6RegionImbalance
+from .rq5_blindspot import RQ5RegionImbalance
 
 __all__ = [
     "Analyzer", "AnalysisContext", "AnalysisResult",
     "RQ1Contribution", 
     "RQ3Modularity", 
     "RQ4Overlap", 
-    "RQ5StructuralGains",
-    "RQ6RegionImbalance"
+    "RQ5RegionImbalance"
 ]
 
 
@@ -25,8 +23,7 @@ _REG: Dict[str, Type[Analyzer]] = {
     "rq1": RQ1Contribution,
     "rq3": RQ3Modularity,
     "rq4": RQ4Overlap,
-    "rq5": RQ5StructuralGains,
-    "rq6": RQ6RegionImbalance,
+    "rq5": RQ5RegionImbalance,
 }
 
 def all_analyzers() -> List[Type["Analyzer"]]:

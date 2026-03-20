@@ -77,3 +77,13 @@ void SubCgMarker::getReachableGraph(set<CGNode*>& cgNodes) {
     
     return;
 }
+
+
+string SubCgMarker::getNodeName(unsigned nodeId) {
+    CGGraph* cg = cgmk->getWholeCg();
+    CGNode* nd  = cg->GetNode(nodeId);
+    if (nd == NULL) {
+        return "";
+    }
+    return nd->GetFName();
+}

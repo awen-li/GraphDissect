@@ -98,3 +98,6 @@ class DrvGraph:
     def get_graph_coverage(self):
         # (nodeCov, edgeCov)
         return sgmarker.getGraphCov()
+
+    def get_node_name(self, nodeId):
+        return sgmarker.getNodeName(nodeId)

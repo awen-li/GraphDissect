@@ -1,4 +1,5 @@
 #include <Python.h>
+#include <cxxabi.h>
 #include "sgmarker.h"
 
 static SubCgMarker* subCgMarker = NULL;
@@ -119,11 +120,51 @@ PyObject* getWholeGraph(PyObject *self, PyObject *args) {
     return result;
 }
 
+static string getClassFunctionName(const string &name) {
+    int status = 0;
+    std::unique_ptr<char, void (*)(void *)> demangled(
+        abi::__cxa_demangle(name.c_str(), nullptr, nullptr, &status),
+        std::free
+    );
+
+    string s = (status == 0 && demangled) ? string(demangled.get()) : name;
+
+    // Remove parameter list
+    size_t lparen = s.find('(');
+    if (lparen != string::npos) {
+        s = s.substr(0, lparen);
+    }
+
+    // Keep only "Class::func" or just "func"
+    size_t last = s.rfind("::");
+    if (last != string::npos) {
+        size_t prev = s.rfind("::", last - 1);
+        string cls = (prev != string::npos) ? s.substr(prev + 2, last - (prev + 2))
+                                            : s.substr(0, last);
+        string func = s.substr(last + 2);
+        return cls + "_" + func;
+    }
+
+    return s;
+}
+
+PyObject* getNodeName(PyObject *self, PyObject *args) {
+    int nodeId;
+    if (!PyArg_ParseTuple(args, "i", &nodeId)) {
+        Py_RETURN_NONE;
+    }
+    
+    string rawName = subCgMarker->getNodeName(nodeId);
+    string outName = getClassFunctionName(rawName);
+    return PyUnicode_FromString(outName.c_str());
+}
+
 static PyMethodDef markMethods[] = {
     {"init",          initMaker, METH_VARARGS, "Init graph marker module"},
     {"getDriverGraph",getDriverGraph, METH_VARARGS, "Get driver graph for a given driver ID"},
     {"getWholeGraph", getWholeGraph,  METH_VARARGS, "Get whole graph"},
     {"getGraphCov",   getGraphCov, METH_VARARGS, "Get overall graph coverage"},
+    {"getNodeName",   getNodeName, METH_VARARGS, "Get node name by id"},
     {NULL, NULL, 0, NULL}
 };
 

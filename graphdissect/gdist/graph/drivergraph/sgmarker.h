@@ -33,6 +33,8 @@ public:
 
     void getReachableGraph(set<CGNode*>& drvNodes);
 
+    string getNodeName(unsigned nodeId);
+
 };
 
 #endif

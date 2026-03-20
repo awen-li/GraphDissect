@@ -216,6 +216,19 @@ public:
         }
     }
 
+    inline CGNode* GetNode (unsigned id)
+    {
+        auto itr = m_IDToNodeMap.find(id);
+        if (itr == m_IDToNodeMap.end())
+        {
+            return NULL;
+        }
+        else
+        {
+            return itr->second;
+        }
+    }
+
     inline bool AddEdge (CGEdge *Edge)
     {
         return GenericGraph::AddEdge (Edge);

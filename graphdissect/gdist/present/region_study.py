@@ -664,384 +664,7 @@ class RegionStudyGenerator:
             ascending=[False, True, True],
         ).to_csv(out_path, index=False)
 
-    # ------------------------------------------------------------------
-    # Figure
-    # ------------------------------------------------------------------
-    def _draw_figure(
-        self,
-        out_pdf: Path,
-        out_png: Path,
-        region_graph: nx.DiGraph,
-        region_info: Dict[int, RegionInfo],
-        region_ids: Iterable[int],
-        selected_gap_ids: Iterable[int],
-        rep_map: Dict[int, Dict[str, List[str]]],
-        df_annot: pd.DataFrame,
-    ) -> None:
-        import textwrap
-        import matplotlib.patheffects as pe
-
-        def _clip_text(s: object, max_len: int = 90) -> str:
-            t = str(s or "").strip()
-            if len(t) <= max_len:
-                return t
-            return t[: max_len - 3].rstrip() + "..."
-
-        def _wrap_text(s: object, width: int = 52, max_len: int = 150) -> str:
-            t = _clip_text(s, max_len=max_len)
-            if not t:
-                return ""
-            return "\n".join(textwrap.wrap(t, width=width))
-
-        def _leader_anchor(x: float, y: float, cx: float, cy: float, node_size: float) -> Tuple[float, float]:
-            dx = x - cx
-            dy = y - cy
-            norm = math.hypot(dx, dy)
-            if norm < 1e-9:
-                dx, dy, norm = 1.0, 0.0, 1.0
-
-            # outward label offset; slightly larger for bigger nodes
-            offset = 0.10 + 0.018 * math.sqrt(max(1.0, node_size / 1000.0))
-            return (x + offset * dx / norm, y + offset * dy / norm)
-
-        rset = set(int(r) for r in region_ids)
-        selected_set = set(int(r) for r in selected_gap_ids)
-
-        sub = region_graph.subgraph(rset).copy()
-        if sub.number_of_nodes() == 0:
-            raise ValueError("No regions left to draw")
-
-        annot_map = {int(r["region_id"]): r for _, r in df_annot.iterrows()}
-
-        # -------------------------
-        # Layout
-        # -------------------------
-        pos = nx.spring_layout(
-            sub,
-            seed=self.layout_seed,
-            k=2.35 / max(1, math.sqrt(sub.number_of_nodes())),
-        )
-
-        # spread out a bit more
-        for rid in pos:
-            x, y = pos[rid]
-            pos[rid] = (1.15 * x, 1.15 * y)
-
-        fig = plt.figure(figsize=(self.fig_width, self.fig_height + 1.8))
-        gs = fig.add_gridspec(
-            nrows=2,
-            ncols=1,
-            height_ratios=[3.2, 1.55],
-            hspace=0.05,
-        )
-        ax = fig.add_subplot(gs[0])
-        ax_note = fig.add_subplot(gs[1])
-
-        ax.set_facecolor("white")
-        ax_note.set_facecolor("white")
-        ax_note.set_xlim(0, 1)
-        ax_note.set_ylim(0, 1)
-        ax_note.axis("off")
-
-        color_map = {
-            "uncovered": "#c93c37",
-            "severely_underexplored": "#f39c34",
-            "weakly_explored": "#d8c44c",
-            "well_explored": "#5ca96b",
-        }
-
-        # -------------------------
-        # Edges
-        # -------------------------
-        edges = list(sub.edges(data=True))
-        widths = [
-            0.7 + 0.45 * math.log2(int(d.get("weight", 1)) + 1)
-            for _, _, d in edges
-        ]
-
-        nx.draw_networkx_edges(
-            sub,
-            pos,
-            ax=ax,
-            arrows=True,
-            width=widths,
-            alpha=0.16,
-            edge_color="#7a7a7a",
-            arrowsize=14,
-            connectionstyle="arc3,rad=0.05",
-        )
-
-        # -------------------------
-        # Nodes
-        # -------------------------
-        node_sizes: Dict[int, float] = {}
-        draw_sizes: List[float] = []
-        colors: List[str] = []
-        borders: List[str] = []
-
-        for rid in sub.nodes():
-            info = region_info[int(rid)]
-            size = 1050 + 125 * math.sqrt(max(1, int(info.region_size)))
-            node_sizes[int(rid)] = size
-            draw_sizes.append(size)
-            colors.append(color_map[self._coverage_class(info.region_coverage)])
-            borders.append("#000000" if int(rid) in selected_set else "#6f6f6f")
-
-        nx.draw_networkx_nodes(
-            sub,
-            pos,
-            ax=ax,
-            node_size=draw_sizes,
-            node_color=colors,
-            edgecolors=borders,
-            linewidths=2.0,
-            alpha=0.68,
-        )
-
-        # -------------------------
-        # Outside labels with leader lines
-        # -------------------------
-        xs = [xy[0] for xy in pos.values()]
-        ys = [xy[1] for xy in pos.values()]
-        cx = sum(xs) / len(xs)
-        cy = sum(ys) / len(ys)
-
-        node_ids = [int(r) for r in sub.nodes()]
-        label_anchor: Dict[int, List[float]] = {}
-        label_pos: Dict[int, List[float]] = {}
-
-        for rid in node_ids:
-            x, y = pos[rid]
-            lx, ly = _leader_anchor(x, y, cx, cy, node_sizes[rid])
-            label_anchor[rid] = [lx, ly]
-            label_pos[rid] = [lx, ly]
-
-        # repel label boxes
-        min_dx = 0.13
-        min_dy = 0.08
-
-        for _ in range(160):
-            moved = False
-
-            for i in range(len(node_ids)):
-                u = node_ids[i]
-                for j in range(i + 1, len(node_ids)):
-                    v = node_ids[j]
-
-                    xu, yu = label_pos[u]
-                    xv, yv = label_pos[v]
-
-                    dx = xu - xv
-                    dy = yu - yv
-
-                    overlap_x = min_dx - abs(dx)
-                    overlap_y = min_dy - abs(dy)
-
-                    if overlap_x > 0 and overlap_y > 0:
-                        sx = 1.0 if dx >= 0 else -1.0
-                        sy = 1.0 if dy >= 0 else -1.0
-
-                        push_x = 0.52 * overlap_x * sx
-                        push_y = 0.52 * overlap_y * sy
-
-                        label_pos[u][0] += push_x
-                        label_pos[v][0] -= push_x
-                        label_pos[u][1] += push_y
-                        label_pos[v][1] -= push_y
-                        moved = True
-
-            # gently pull toward anchor
-            for rid in node_ids:
-                ax0, ay0 = label_anchor[rid]
-                lx, ly = label_pos[rid]
-                label_pos[rid][0] = 0.92 * lx + 0.08 * ax0
-                label_pos[rid][1] = 0.92 * ly + 0.08 * ay0
-
-            if not moved:
-                break
-
-        for rid in node_ids:
-            x, y = pos[rid]
-            lx, ly = label_pos[rid]
-
-            ax.plot(
-                [x, lx],
-                [y, ly],
-                color="#555555",
-                linewidth=0.9,
-                alpha=0.82,
-                zorder=6,
-            )
-
-            ax.text(
-                lx,
-                ly,
-                f"R{rid}",
-                ha="center",
-                va="center",
-                fontsize=10.5,
-                fontweight="bold",
-                color="black",
-                zorder=7,
-                bbox=dict(
-                    boxstyle="round,pad=0.18",
-                    facecolor="white",
-                    edgecolor="#888888",
-                    linewidth=0.7,
-                    alpha=0.96,
-                ),
-                path_effects=[pe.withStroke(linewidth=1.6, foreground="white")],
-            )
-
-        # -------------------------
-        # Legend
-        # -------------------------
-        legend_items = [
-            ("uncovered", "rc = 0"),
-            ("severely_underexplored", "0 < rc ≤ 0.2"),
-            ("weakly_explored", "0.2 < rc ≤ 0.5"),
-            ("well_explored", "rc > 0.5"),
-        ]
-
-        lx, ly = 0.02, 0.98
-        ax.text(
-            lx,
-            ly,
-            "Coverage class",
-            transform=ax.transAxes,
-            ha="left",
-            va="top",
-            fontsize=10,
-            fontweight="bold",
-        )
-        for i, (cls, label) in enumerate(legend_items, start=1):
-            ax.text(
-                lx,
-                ly - 0.055 * i,
-                f"■ {label}",
-                color=color_map[cls],
-                transform=ax.transAxes,
-                ha="left",
-                va="top",
-                fontsize=9,
-            )
-
-        ax.set_title(f"RQ5 region study: {self.bench} / {self.exe}", fontsize=13)
-        ax.axis("off")
-
-        # -------------------------
-        # Bottom annotation block
-        # purpose: help explain WHY a region is hard
-        # -------------------------
-        ordered = sorted(
-            [int(r) for r in sub.nodes()],
-            key=lambda rid: (
-                0 if rid in selected_set else 1,
-                region_info[rid].region_coverage,
-                rid,
-            ),
-        )
-
-        note_rows: List[Tuple[int, str, str, str]] = []
-        for rid in ordered:
-            info = region_info[rid]
-            ann = annot_map.get(rid, {})
-            reps = rep_map.get(rid, {})
-
-            semantic_label = str(ann.get("semantic_label", "") or "").strip()
-            why_hard = str(ann.get("why_hard", "") or "").strip()
-            manual_notes = str(ann.get("manual_notes", "") or "").strip()
-            cand_uncov = str(ann.get("candidate_uncovered_functions", "") or "").strip()
-            cand_cov = str(ann.get("candidate_covered_functions", "") or "").strip()
-
-            if not cand_uncov:
-                cand_uncov = "; ".join(reps.get("uncovered", []))
-            if not cand_cov:
-                cand_cov = "; ".join(reps.get("covered", []))
-
-            uncov = cand_uncov
-            cov = cand_cov
-
-            header = f"R{rid}"
-            if semantic_label:
-                header += f": {semantic_label}"
-
-            stats = f"rc={info.region_coverage:.2f}, u={info.uncovered_nodes}/{info.region_size}"
-
-            detail_parts: List[str] = []
-            if why_hard:
-                detail_parts.append(f"Why: {why_hard}")
-            if manual_notes:
-                detail_parts.append(f"Notes: {manual_notes}")
-            if uncov:
-                detail_parts.append(f"U: {_clip_text(uncov, 52)}")
-            if cov:
-                detail_parts.append(f"C: {_clip_text(cov, 36)}")
-
-            details = " | ".join(detail_parts)
-            details = _wrap_text(details, width=54, max_len=180)
-
-            note_rows.append((rid, header, stats, details))
-
-        split = (len(note_rows) + 1) // 2
-        left_rows = note_rows[:split]
-        right_rows = note_rows[split:]
-
-        max_rows = max(len(left_rows), len(right_rows), 1)
-        row_gap = min(0.175, 0.90 / max_rows)
-
-        def _draw_note_column(items: List[Tuple[int, str, str, str]], x0: float) -> None:
-            y = 0.98
-            for rid, header, stats, details in items:
-                cls = self._coverage_class(region_info[rid].region_coverage)
-
-                ax_note.text(
-                    x0,
-                    y,
-                    "■",
-                    color=color_map[cls],
-                    fontsize=10,
-                    ha="left",
-                    va="top",
-                )
-                ax_note.text(
-                    x0 + 0.03,
-                    y,
-                    header,
-                    fontsize=9.2,
-                    fontweight="bold",
-                    ha="left",
-                    va="top",
-                    color="black",
-                )
-                ax_note.text(
-                    x0 + 0.03,
-                    y - 0.055,
-                    stats,
-                    fontsize=8.4,
-                    ha="left",
-                    va="top",
-                    color="#222222",
-                )
-                if details:
-                    ax_note.text(
-                        x0 + 0.03,
-                        y - 0.108,
-                        details,
-                        fontsize=8.1,
-                        ha="left",
-                        va="top",
-                        color="#333333",
-                    )
-                y -= row_gap
-
-        _draw_note_column(left_rows, 0.02)
-        _draw_note_column(right_rows, 0.52)
-
-        fig.savefig(out_pdf, bbox_inches="tight")
-        fig.savefig(out_png, dpi=240, bbox_inches="tight")
-        plt.close(fig)
-
+    
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
@@ -1096,11 +719,481 @@ class RegionStudyGenerator:
         return score
 
 
-def runCaseStudy(suite_root, bench, exe, top_regions=5):
-    gen = RegionStudyGenerator(
-        benchdir=suite_root,
-        bench=bench,
-        exe=exe,
-        top_k_gap_regions=top_regions,
-    )
-    gen.run()
+    # ------------------------------------------------------------------
+    # Figure
+    # ------------------------------------------------------------------
+    def _draw_figure(
+        self,
+        out_pdf: Path,
+        out_png: Path,
+        region_graph: nx.DiGraph,
+        region_info: Dict[int, RegionInfo],
+        region_ids: Iterable[int],
+        selected_gap_ids: Iterable[int],
+        rep_map: Dict[int, Dict[str, List[str]]],
+        df_annot: pd.DataFrame,
+    ) -> None:
+        import matplotlib.patheffects as pe
+        from matplotlib.patches import Patch
+
+        def _clean_text(v: object) -> str:
+            if v is None:
+                return ""
+            if isinstance(v, float) and pd.isna(v):
+                return ""
+            return str(v).strip()
+
+        def _clip_text(s: object, max_len: int = 70) -> str:
+            t = _clean_text(s)
+            if len(t) <= max_len:
+                return t
+            return t[: max_len - 3].rstrip() + "..."
+
+        def _leader_anchor(
+            x: float,
+            y: float,
+            cx: float,
+            cy: float,
+            node_size: float,
+        ) -> Tuple[float, float]:
+            dx = x - cx
+            dy = y - cy
+            norm = math.hypot(dx, dy)
+            if norm < 1e-9:
+                dx, dy, norm = 1.0, 0.0, 1.0
+
+            offset = 0.08 + 0.015 * math.sqrt(max(1.0, node_size / 1000.0))
+            return (x + offset * dx / norm, y + offset * dy / norm)
+
+        rset = {int(r) for r in region_ids}
+        selected_set = {int(r) for r in selected_gap_ids}
+
+        sub = region_graph.subgraph(rset).copy()
+        if sub.number_of_nodes() == 0:
+            raise ValueError("No regions left to draw")
+
+        annot_map = {int(r["region_id"]): r for _, r in df_annot.iterrows()}
+
+        # -------------------------
+        # Layout
+        # -------------------------
+        pos = self._compact_region_layout(
+            sub,
+            k_scale=1.10,
+            outer_shrink=0.40,
+            global_scale=0.88,
+        )
+
+        fig = plt.figure(figsize=(8.6, 6.8))
+        gs = fig.add_gridspec(
+            nrows=2,
+            ncols=1,
+            height_ratios=[4.3, 1.0],
+            hspace=0.03,
+        )
+        ax = fig.add_subplot(gs[0])
+        ax_note = fig.add_subplot(gs[1])
+
+        fig.patch.set_facecolor("white")
+        ax.set_facecolor("white")
+        ax_note.set_facecolor("white")
+        ax_note.set_xlim(0, 1)
+        ax_note.set_ylim(0, 1)
+        ax_note.axis("off")
+
+        color_map = {
+            "uncovered": "#c93c37",
+            "severely_underexplored": "#f39c34",
+            "weakly_explored": "#d8c44c",
+            "well_explored": "#5ca96b",
+        }
+
+        # -------------------------
+        # Edges
+        # -------------------------
+        edges = list(sub.edges(data=True))
+        widths = [
+            0.6 + 0.35 * math.log2(int(d.get("weight", 1)) + 1)
+            for _, _, d in edges
+        ]
+
+        nx.draw_networkx_edges(
+            sub,
+            pos,
+            ax=ax,
+            arrows=True,
+            width=widths,
+            alpha=0.14,
+            edge_color="#9a9a9a",
+            arrowsize=12,
+            connectionstyle="arc3,rad=0.04",
+        )
+
+        # -------------------------
+        # Nodes
+        # -------------------------
+        node_sizes: Dict[int, float] = {}
+        draw_sizes: List[float] = []
+        node_colors: List[str] = []
+        node_borders: List[str] = []
+
+        for rid in sub.nodes():
+            info = region_info[int(rid)]
+            size = 900 + 105 * math.sqrt(max(1, int(info.region_size)))
+            node_sizes[int(rid)] = size
+            draw_sizes.append(size)
+
+            cls = self._coverage_class(info.region_coverage)
+            node_colors.append(color_map[cls])
+            node_borders.append("#000000" if int(rid) in selected_set else "#7a7a7a")
+
+        nx.draw_networkx_nodes(
+            sub,
+            pos,
+            ax=ax,
+            node_size=draw_sizes,
+            node_color=node_colors,
+            edgecolors=node_borders,
+            linewidths=1.8,
+            alpha=0.72,
+        )
+
+        # -------------------------
+        # Outside labels with leader lines
+        # -------------------------
+        xs = [xy[0] for xy in pos.values()]
+        ys = [xy[1] for xy in pos.values()]
+        cx = sum(xs) / len(xs)
+        cy = sum(ys) / len(ys)
+
+        node_ids = [int(r) for r in sub.nodes()]
+        label_anchor: Dict[int, List[float]] = {}
+        label_pos: Dict[int, List[float]] = {}
+
+        for rid in node_ids:
+            x, y = pos[rid]
+            lx, ly = _leader_anchor(x, y, cx, cy, node_sizes[rid])
+            label_anchor[rid] = [lx, ly]
+            label_pos[rid] = [lx, ly]
+
+        min_dx = 0.10
+        min_dy = 0.06
+
+        for _ in range(120):
+            moved = False
+            for i in range(len(node_ids)):
+                u = node_ids[i]
+                for j in range(i + 1, len(node_ids)):
+                    v = node_ids[j]
+
+                    xu, yu = label_pos[u]
+                    xv, yv = label_pos[v]
+
+                    dx = xu - xv
+                    dy = yu - yv
+
+                    overlap_x = min_dx - abs(dx)
+                    overlap_y = min_dy - abs(dy)
+
+                    if overlap_x > 0 and overlap_y > 0:
+                        sx = 1.0 if dx >= 0 else -1.0
+                        sy = 1.0 if dy >= 0 else -1.0
+
+                        label_pos[u][0] += 0.5 * overlap_x * sx
+                        label_pos[v][0] -= 0.5 * overlap_x * sx
+                        label_pos[u][1] += 0.5 * overlap_y * sy
+                        label_pos[v][1] -= 0.5 * overlap_y * sy
+                        moved = True
+
+            for rid in node_ids:
+                ax0, ay0 = label_anchor[rid]
+                lx, ly = label_pos[rid]
+                label_pos[rid][0] = 0.93 * lx + 0.07 * ax0
+                label_pos[rid][1] = 0.93 * ly + 0.07 * ay0
+
+            if not moved:
+                break
+
+        for rid in node_ids:
+            x, y = pos[rid]
+            lx, ly = label_pos[rid]
+
+            ax.plot(
+                [x, lx],
+                [y, ly],
+                color="#5f5f5f",
+                linewidth=0.8,
+                alpha=0.80,
+                zorder=6,
+            )
+
+            ax.text(
+                lx,
+                ly,
+                f"R{rid}",
+                ha="center",
+                va="center",
+                fontsize=10,
+                fontweight="bold",
+                color="black",
+                zorder=7,
+                bbox=dict(
+                    boxstyle="round,pad=0.14",
+                    facecolor="white",
+                    edgecolor="#8a8a8a",
+                    linewidth=0.6,
+                    alpha=0.96,
+                ),
+                path_effects=[pe.withStroke(linewidth=1.2, foreground="white")],
+            )
+
+        # -------------------------
+        # Legend
+        # -------------------------
+        self._draw_top_header(
+            fig,
+            color_map=color_map,
+            title="",
+        )
+        ax.axis("off")
+
+        # -------------------------
+        # Compact bottom notes
+        # Only show selected gaps + a few most important low-coverage regions
+        # -------------------------
+        ordered = sorted(
+            [int(r) for r in sub.nodes()],
+            key=lambda rid: (
+                0 if rid in selected_set else 1,
+                region_info[rid].region_coverage,
+                rid,
+            ),
+        )
+
+        compact_note_ids: List[int] = []
+        for rid in ordered:
+            if rid in selected_set:
+                compact_note_ids.append(rid)
+
+        for rid in ordered:
+            if rid not in compact_note_ids:
+                compact_note_ids.append(rid)
+            if len(compact_note_ids) >= min(8, len(ordered)):
+                break
+
+        note_rows: List[Tuple[int, str]] = []
+        for rid in compact_note_ids:
+            info = region_info[rid]
+            ann = annot_map.get(rid, {})
+            reps = rep_map.get(rid, {})
+
+            semantic_label = _clean_text(ann.get("semantic_label", ""))
+            why_hard = _clean_text(ann.get("why_hard", ""))
+            cand_uncov = _clean_text(ann.get("candidate_uncovered_functions", ""))
+            cand_cov = _clean_text(ann.get("candidate_covered_functions", ""))
+
+            if not cand_uncov:
+                cand_uncov = "; ".join(reps.get("uncovered", []))
+            if not cand_cov:
+                cand_cov = "; ".join(reps.get("covered", []))
+
+            line = f"R{rid}: rc={info.region_coverage:.2f}, uncovered={info.uncovered_nodes}/{info.region_size}"
+            if semantic_label:
+                line += f", {semantic_label}"
+            elif why_hard:
+                line += f", {_clip_text(why_hard, 28)}"
+            elif cand_uncov:
+                line += f", U={_clip_text(cand_uncov, 22)}"
+            elif cand_cov:
+                line += f", C={_clip_text(cand_cov, 22)}"
+
+            note_rows.append((rid, _clip_text(line, 95)))
+
+        split = (len(note_rows) + 1) // 2
+        left_rows = note_rows[:split]
+        right_rows = note_rows[split:]
+
+        max_rows = max(len(left_rows), len(right_rows), 1)
+        row_gap = min(0.24, 0.88 / max_rows)
+
+        def _draw_note_column(items: List[Tuple[int, str]], x0: float) -> None:
+            y = 0.94
+            for rid, line in items:
+                cls = self._coverage_class(region_info[rid].region_coverage)
+                ax_note.text(
+                    x0,
+                    y,
+                    "■",
+                    color=color_map[cls],
+                    fontsize=10,
+                    ha="left",
+                    va="top",
+                )
+                ax_note.text(
+                    x0 + 0.03,
+                    y,
+                    line,
+                    fontsize=10,
+                    ha="left",
+                    va="top",
+                    color="#222222",
+                )
+                y -= row_gap
+
+        _draw_note_column(left_rows, 0.02)
+        _draw_note_column(right_rows, 0.52)
+
+        fig.savefig(out_pdf, bbox_inches="tight")
+        fig.savefig(out_png, dpi=240, bbox_inches="tight")
+        plt.close(fig)
+
+
+    def _compact_region_layout(
+        self,
+        sub: nx.Graph,
+        *,
+        k_scale: float = 1.25,
+        iterations: int = 300,
+        outer_quantile: float = 0.70,
+        outer_shrink: float = 0.52,
+        global_scale: float = 0.92,
+    ) -> Dict[int, Tuple[float, float]]:
+        """
+        Build a compact spring layout and pull far-out nodes
+        (such as R11 / R12) closer to the main cluster.
+
+        Parameters
+        ----------
+        sub : nx.Graph
+            Region subgraph to draw.
+        k_scale : float
+            Base spring-layout spacing. Smaller => tighter packing.
+        iterations : int
+            Number of spring iterations.
+        outer_quantile : float
+            Only nodes beyond this radius quantile are compressed.
+        outer_shrink : float
+            Compression strength for outliers. Smaller => stronger pull inward.
+        global_scale : float
+            Final overall scale. Smaller => more compact figure.
+        """
+        pos = nx.spring_layout(
+            sub,
+            seed=self.layout_seed,
+            k=k_scale / max(1, math.sqrt(sub.number_of_nodes())),
+            iterations=iterations,
+            weight="weight",
+        )
+
+        if not pos:
+            return pos
+
+        xs = [xy[0] for xy in pos.values()]
+        ys = [xy[1] for xy in pos.values()]
+        cx = sum(xs) / len(xs)
+        cy = sum(ys) / len(ys)
+
+        radii = {
+            rid: math.hypot(pos[rid][0] - cx, pos[rid][1] - cy)
+            for rid in pos
+        }
+
+        if radii:
+            rvals = sorted(radii.values())
+            idx = int(outer_quantile * (len(rvals) - 1))
+            r_thr = rvals[idx]
+
+            for rid in pos:
+                x, y = pos[rid]
+                dx = x - cx
+                dy = y - cy
+                r = math.hypot(dx, dy)
+
+                if r > 1e-9 and r > r_thr:
+                    new_r = r_thr + outer_shrink * (r - r_thr)
+                    scale = new_r / r
+                    pos[rid] = (cx + dx * scale, cy + dy * scale)
+
+        for rid in pos:
+            x, y = pos[rid]
+            pos[rid] = (global_scale * x, global_scale * y)
+
+        return pos
+
+    def _draw_top_header(
+        self,
+        fig: plt.Figure,
+        *,
+        color_map: Dict[str, str],
+        title: str,
+        top: float = 0.92,
+        title_y: float = 0.975,
+        label_x: float = 0.06,
+        label_y: float = 0.935,
+        legend_x: float = 0.19,
+        legend_y: float = 0.943,
+    ) -> None:
+        """
+        Draw a compact figure-level header:
+        - centered title at the very top
+        - one-line coverage legend below it
+        """
+        from matplotlib.patches import Patch
+
+        fig.subplots_adjust(top=top)
+
+        fig.suptitle(
+            title,
+            fontsize=10,
+            fontweight="bold",
+            y=title_y,
+        )
+
+        legend_handles = [
+            Patch(
+                facecolor=color_map["uncovered"],
+                edgecolor=color_map["uncovered"],
+                label="rc = 0",
+            ),
+            Patch(
+                facecolor=color_map["severely_underexplored"],
+                edgecolor=color_map["severely_underexplored"],
+                label="0 < rc ≤ 0.2",
+            ),
+            Patch(
+                facecolor=color_map["weakly_explored"],
+                edgecolor=color_map["weakly_explored"],
+                label="0.2 < rc ≤ 0.5",
+            ),
+            Patch(
+                facecolor=color_map["well_explored"],
+                edgecolor=color_map["well_explored"],
+                label="rc > 0.5",
+            ),
+        ]
+
+        legend = ""#"Coverage class"
+        fig.text(
+            label_x,
+            label_y,
+            legend,
+            ha="left",
+            va="center",
+            fontsize=10,
+            fontweight="bold",
+            color="black",
+        )
+
+        fig.legend(
+            handles=legend_handles,
+            loc="upper left",
+            bbox_to_anchor=(legend_x, legend_y),
+            ncol=4,
+            frameon=False,
+            fontsize=10.0,
+            handlelength=0.8,
+            handleheight=0.8,
+            handletextpad=0.35,
+            columnspacing=1.2,
+            borderaxespad=0.0,
+        )

@@ -3,9 +3,18 @@ from .rq2_present import RQ2Present
 from .rq3_present import RQ3Present
 from .rq4_present import RQ4Present
 from .rq5_present import RQ5Present
-from .region_study import runCaseStudy
+from .region_study import RegionStudyGenerator
 
 __all__ = ["runPresent"]
+
+def runCaseStudy(suite_root, bench, exe, top_regions=5):
+    gen = RegionStudyGenerator(
+        benchdir=suite_root,
+        bench=bench,
+        exe=exe,
+        top_k_gap_regions=top_regions,
+    )
+    gen.run()
 
 
 def runPresent (rqs, benchs, suite_root):
@@ -41,3 +50,5 @@ def runPresent (rqs, benchs, suite_root):
 
     if "case" in rqs or len(rqs) == 0:
         runCaseStudy(suite_root, "ffmpeg", "ffmpeg")
+        runCaseStudy(suite_root, "libxml2", "xmllint")
+        runCaseStudy(suite_root, "lua", "lua")

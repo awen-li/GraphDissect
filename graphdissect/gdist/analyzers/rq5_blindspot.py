@@ -382,13 +382,17 @@ class RQ5UnderExploredRegions(Analyzer):
         One row per region, suitable for CSV export.
 
         Columns:
-          - region_id
-          - region_size
-          - region_coverage
-          - covered_nodes
-          - uncovered_nodes
-          - function_ids   (semicolon-separated)
-          - function_names (semicolon-separated)
+        - region_id
+        - region_size
+        - region_coverage
+        - covered_nodes
+        - uncovered_nodes
+        - function_ids                (semicolon-separated)
+        - function_names              (semicolon-separated)
+        - covered_function_ids        (semicolon-separated)
+        - covered_function_names      (semicolon-separated)
+        - uncovered_function_ids      (semicolon-separated)
+        - uncovered_function_names    (semicolon-separated)
         """
         if df_regions.empty:
             return pd.DataFrame(
@@ -402,6 +406,12 @@ class RQ5UnderExploredRegions(Analyzer):
                     "uncovered_nodes",
                     "function_ids",
                     "function_names",
+                    "covered_function_count",
+                    "uncovered_function_count",
+                    "covered_function_ids",
+                    "covered_function_names",
+                    "uncovered_function_ids",
+                    "uncovered_function_names",
                 ]
             )
 
@@ -413,8 +423,14 @@ class RQ5UnderExploredRegions(Analyzer):
 
         for ridx, region_nodes in enumerate(regions, start=1):
             sorted_nodes = sorted(int(n) for n in region_nodes)
-            names = [self._get_node_name(g, n) for n in sorted_nodes]
             m = metrics_by_region[int(ridx)]
+
+            covered_ids = [n for n in sorted_nodes if n in self.union_cov]
+            uncovered_ids = [n for n in sorted_nodes if n not in self.union_cov]
+
+            all_names = [self._get_node_name(g, n) for n in sorted_nodes]
+            covered_names = [self._get_node_name(g, n) for n in covered_ids]
+            uncovered_names = [self._get_node_name(g, n) for n in uncovered_ids]
 
             rows.append(
                 {
@@ -425,8 +441,18 @@ class RQ5UnderExploredRegions(Analyzer):
                     "region_coverage": float(m["region_coverage"]),
                     "covered_nodes": int(m["covered_nodes"]),
                     "uncovered_nodes": int(m["uncovered_nodes"]),
+
                     "function_ids": ";".join(str(n) for n in sorted_nodes),
-                    "function_names": ";".join(names),
+                    "function_names": ";".join(all_names),
+
+                    "covered_function_count": int(len(covered_ids)),
+                    "uncovered_function_count": int(len(uncovered_ids)),
+
+                    "covered_function_ids": ";".join(str(n) for n in covered_ids),
+                    "covered_function_names": ";".join(covered_names),
+
+                    "uncovered_function_ids": ";".join(str(n) for n in uncovered_ids),
+                    "uncovered_function_names": ";".join(uncovered_names),
                 }
             )
 

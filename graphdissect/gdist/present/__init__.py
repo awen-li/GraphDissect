@@ -3,6 +3,7 @@ from .rq2_present import RQ2Present
 from .rq3_present import RQ3Present
 from .rq4_present import RQ4Present
 from .rq5_present import RQ5Present
+from .region_study import runCaseStudy
 
 __all__ = ["runPresent"]
 
@@ -37,4 +38,6 @@ def runPresent (rqs, benchs, suite_root):
         print(f"Running presenter: {p.name}")
         p.run()
         p.post_run()
-    
+
+    if "case" in rqs or len(rqs) == 0:
+        runCaseStudy(suite_root, "ffmpeg", "ffmpeg")

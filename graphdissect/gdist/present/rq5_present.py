@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Callable, Dict, Iterable, List, Optional, Set, Tuple
 
+import math
 import pandas as pd
 
 from .present import Present
@@ -172,6 +174,8 @@ class RQ5Present(Present):
             "share_rc_le_0_1",
             "share_rc_le_0_2",
             "share_rc_le_0_5",
+            "covered_function_count",
+            "uncovered_function_count",
         ]
         for c in numeric_cols:
             if c in out.columns:
@@ -282,21 +286,53 @@ class RQ5Present(Present):
                     "covered_nodes",
                     "uncovered_nodes",
                     "region_coverage",
-                    "function_preview",
+                    "uncovered_function_preview",
+                    "covered_function_preview",
                 ]
             )
 
         gaps = self._select_top_k_per_exe(df_gaps, top_k_per_exe)
 
         if df_funcs is not None and not df_funcs.empty:
-            func_keep = [c for c in ["bench", "exe", "region_id", "function_names"] if c in df_funcs.columns]
+            func_keep = [
+                c for c in [
+                    "bench",
+                    "exe",
+                    "region_id",
+                    "function_names",
+                    "covered_function_count",
+                    "uncovered_function_count",
+                    "covered_function_names",
+                    "uncovered_function_names",
+                ] if c in df_funcs.columns
+            ]
             funcs = df_funcs[func_keep].copy()
             gaps = gaps.merge(funcs, on=["bench", "exe", "region_id"], how="left")
-            gaps["function_preview"] = gaps["function_names"].map(
-                lambda s: self._preview_function_names(s, n=preview_n)
-            )
+
+            if "uncovered_function_names" in gaps.columns:
+                gaps["uncovered_function_preview"] = gaps["uncovered_function_names"].map(
+                    lambda s: self._preview_function_names(s, n=preview_n)
+                )
+            else:
+                gaps["uncovered_function_preview"] = ""
+
+            if "covered_function_names" in gaps.columns:
+                gaps["covered_function_preview"] = gaps["covered_function_names"].map(
+                    lambda s: self._preview_function_names(s, n=preview_n)
+                )
+            else:
+                gaps["covered_function_preview"] = ""
+
+            # Backward-compatible fallback if new columns are missing
+            if "function_names" in gaps.columns:
+                fallback = gaps["function_names"].map(
+                    lambda s: self._preview_function_names(s, n=preview_n)
+                )
+                gaps["uncovered_function_preview"] = gaps["uncovered_function_preview"].replace("", pd.NA)
+                gaps["uncovered_function_preview"] = gaps["uncovered_function_preview"].fillna(fallback)
         else:
-            gaps["function_preview"] = ""
+            gaps["uncovered_function_preview"] = ""
+            gaps["covered_function_preview"] = ""
 
         keep = [
             c for c in [
@@ -311,7 +347,10 @@ class RQ5Present(Present):
                 "internal_cg_edges",
                 "boundary_out_edges",
                 "boundary_in_edges",
-                "function_preview",
+                "covered_function_count",
+                "uncovered_function_count",
+                "uncovered_function_preview",
+                "covered_function_preview",
             ] if c in gaps.columns
         ]
         out = gaps[keep].copy()
@@ -341,12 +380,30 @@ class RQ5Present(Present):
                     "region_coverage",
                     "function_ids",
                     "function_names",
+                    "covered_function_ids",
+                    "covered_function_names",
+                    "uncovered_function_ids",
+                    "uncovered_function_names",
                 ]
             )
 
         gaps = self._select_top_k_per_exe(df_gaps, top_k_per_exe)
 
-        func_keep = [c for c in ["bench", "exe", "region_id", "function_ids", "function_names"] if c in df_funcs.columns]
+        func_keep = [
+            c for c in [
+                "bench",
+                "exe",
+                "region_id",
+                "function_ids",
+                "function_names",
+                "covered_function_count",
+                "uncovered_function_count",
+                "covered_function_ids",
+                "covered_function_names",
+                "uncovered_function_ids",
+                "uncovered_function_names",
+            ] if c in df_funcs.columns
+        ]
         funcs = df_funcs[func_keep].copy()
 
         out = gaps.merge(funcs, on=["bench", "exe", "region_id"], how="left")
@@ -363,6 +420,12 @@ class RQ5Present(Present):
                 "region_coverage",
                 "function_ids",
                 "function_names",
+                "covered_function_count",
+                "uncovered_function_count",
+                "covered_function_ids",
+                "covered_function_names",
+                "uncovered_function_ids",
+                "uncovered_function_names",
             ] if c in out.columns
         ]
         out = out[keep].copy()
@@ -371,3 +434,5 @@ class RQ5Present(Present):
             out["region_coverage"] = pd.to_numeric(out["region_coverage"], errors="coerce").round(3)
 
         return out
+
+

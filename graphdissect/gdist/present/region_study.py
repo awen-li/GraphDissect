@@ -75,7 +75,14 @@ class RegionStudyGenerator:
     fig_width: float = 11.0
     fig_height: float = 8.0
 
+    len_config:dict = {}
+    len_config["ffmpeg"]  = 26
+    len_config["xmllint"] = 22
+    len_config["lua"]     = 14
+
     def run(self) -> None:
+        self.sep_len = self.len_config.get(self.exe, 24)
+
         out_dir = Path(self.out_dir)
         out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -743,11 +750,15 @@ class RegionStudyGenerator:
                 return ""
             return str(v).strip()
 
-        def _clip_text(s: object, max_len: int = 70) -> str:
+        def _clip_text(s: object, max_len: int = 72) -> str:
             t = _clean_text(s)
             if len(t) <= max_len:
                 return t
-            return t[: max_len - 3].rstrip() + "..."
+
+            clipped = t[:max_len].rstrip()
+            if " " in clipped and max_len < len(t):
+                clipped = clipped.rsplit(" ", 1)[0].rstrip()
+            return clipped
 
         def _leader_anchor(
             x: float,
@@ -969,17 +980,30 @@ class RegionStudyGenerator:
                 rid,
             ),
         )
+        compact_note_ids = ordered
 
-        compact_note_ids: List[int] = []
-        for rid in ordered:
-            if rid in selected_set:
-                compact_note_ids.append(rid)
+        def _first_item_text(s: str) -> str:
+            s = _clean_text(s)
+            if not s:
+                return ""
+            return s.split(";")[0].strip()
 
-        for rid in ordered:
-            if rid not in compact_note_ids:
-                compact_note_ids.append(rid)
-            if len(compact_note_ids) >= min(8, len(ordered)):
-                break
+        def _fmt_rc(x: float) -> str:
+            s = f"{x:.2f}"
+            if s.startswith("0."):
+                s = s[1:]   # 0.03 ->:]   # 0.03 -> .03
+            return s
+
+        def _fmt_note_line(rid: int, info, u: str, c: str, sep_len: int = 28) -> str:
+            u_txt = _clip_text(u if u else "—", sep_len)
+            c_txt = _clip_text(c if c else "—", sep_len)
+            return (
+                f"R{rid:<3} "
+                f"RC={_fmt_rc(info.region_coverage):>4} "
+                f"S={info.region_size:>4} "
+                f"U={u_txt:<{sep_len}} "
+                f"C={c_txt:<{sep_len}}"
+            )
 
         note_rows: List[Tuple[int, str]] = []
         for rid in compact_note_ids:
@@ -987,8 +1011,6 @@ class RegionStudyGenerator:
             ann = annot_map.get(rid, {})
             reps = rep_map.get(rid, {})
 
-            semantic_label = _clean_text(ann.get("semantic_label", ""))
-            why_hard = _clean_text(ann.get("why_hard", ""))
             cand_uncov = _clean_text(ann.get("candidate_uncovered_functions", ""))
             cand_cov = _clean_text(ann.get("candidate_covered_functions", ""))
 
@@ -997,29 +1019,21 @@ class RegionStudyGenerator:
             if not cand_cov:
                 cand_cov = "; ".join(reps.get("covered", []))
 
-            line = f"R{rid}: rc={info.region_coverage:.2f}, uncovered={info.uncovered_nodes}/{info.region_size}"
-            if semantic_label:
-                line += f", {semantic_label}"
-            elif why_hard:
-                line += f", {_clip_text(why_hard, 28)}"
-            elif cand_uncov:
-                line += f", U={_clip_text(cand_uncov, 22)}"
-            elif cand_cov:
-                line += f", C={_clip_text(cand_cov, 22)}"
+            # keep only one representative for figure readability
+            u = _first_item_text(cand_uncov)
+            c = _first_item_text(cand_cov)
 
-            note_rows.append((rid, _clip_text(line, 95)))
+            line = _fmt_note_line(rid, info, u, c, self.sep_len)
+            note_rows.append((rid, line))
 
-        split = (len(note_rows) + 1) // 2
-        left_rows = note_rows[:split]
-        right_rows = note_rows[split:]
-
-        max_rows = max(len(left_rows), len(right_rows), 1)
-        row_gap = min(0.24, 0.88 / max_rows)
+        max_rows = max(len(note_rows), 1)
+        row_gap  = 0.17
 
         def _draw_note_column(items: List[Tuple[int, str]], x0: float) -> None:
-            y = 0.94
+            y = 0.95
             for rid, line in items:
                 cls = self._coverage_class(region_info[rid].region_coverage)
+
                 ax_note.text(
                     x0,
                     y,
@@ -1030,18 +1044,18 @@ class RegionStudyGenerator:
                     va="top",
                 )
                 ax_note.text(
-                    x0 + 0.03,
+                    x0 + 0.028,
                     y,
                     line,
                     fontsize=10,
                     ha="left",
                     va="top",
                     color="#222222",
+                    family="DejaVu Sans Mono",
                 )
                 y -= row_gap
 
-        _draw_note_column(left_rows, 0.02)
-        _draw_note_column(right_rows, 0.52)
+        _draw_note_column(note_rows, 0.02)
 
         fig.savefig(out_pdf, bbox_inches="tight")
         fig.savefig(out_png, dpi=240, bbox_inches="tight")

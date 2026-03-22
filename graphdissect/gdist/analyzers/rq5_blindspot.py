@@ -369,6 +369,25 @@ class RQ5UnderExploredRegions(Analyzer):
         name = str(name)
         self._name_cache[node_id] = name
         return name
+    
+    def _clean_csv_text(self, s: object) -> str:
+        if s is None:
+            return ""
+        s = str(s)
+        s = s.replace("\r\n", " ").replace("\n", " ").replace("\r", " ").replace("\t", " ")
+        s = " ".join(s.split())
+        return s
+
+
+    def _join_limited(self, values, sep: str = ";", limit: int = 500) -> str:
+        out = []
+        for v in values[:limit]:
+            s = self._clean_csv_text(v)
+            if sep in s:
+                s = s.replace(sep, "/")
+            out.append(s)
+        return sep.join(out)
+
 
     def _build_region_functions_table(
         self,
@@ -381,45 +400,40 @@ class RQ5UnderExploredRegions(Analyzer):
         """
         One row per region, suitable for CSV export.
 
-        Columns:
-        - region_id
-        - region_size
-        - region_coverage
-        - covered_nodes
-        - uncovered_nodes
-        - function_ids                (semicolon-separated)
-        - function_names              (semicolon-separated)
-        - covered_function_ids        (semicolon-separated)
-        - covered_function_names      (semicolon-separated)
-        - uncovered_function_ids      (semicolon-separated)
-        - uncovered_function_names    (semicolon-separated)
+        Keep full counts, but only store up to 500 IDs/names in packed columns.
+        Packed columns still use ';'.
         """
+        columns = [
+            "bench",
+            "exe",
+            "region_id",
+            "region_size",
+            "region_coverage",
+            "covered_nodes",
+            "uncovered_nodes",
+            "function_count",
+            "covered_function_count",
+            "uncovered_function_count",
+            "stored_function_count",
+            "stored_covered_function_count",
+            "stored_uncovered_function_count",
+            "function_ids",
+            "function_names",
+            "covered_function_ids",
+            "covered_function_names",
+            "uncovered_function_ids",
+            "uncovered_function_names",
+        ]
+
         if df_regions.empty:
-            return pd.DataFrame(
-                columns=[
-                    "bench",
-                    "exe",
-                    "region_id",
-                    "region_size",
-                    "region_coverage",
-                    "covered_nodes",
-                    "uncovered_nodes",
-                    "function_ids",
-                    "function_names",
-                    "covered_function_count",
-                    "uncovered_function_count",
-                    "covered_function_ids",
-                    "covered_function_names",
-                    "uncovered_function_ids",
-                    "uncovered_function_names",
-                ]
-            )
+            return pd.DataFrame(columns=columns)
 
         metrics_by_region = {
             int(row["region_id"]): row for _, row in df_regions.iterrows()
         }
 
         rows: List[Dict[str, object]] = []
+        STORE_LIMIT = 1500
 
         for ridx, region_nodes in enumerate(regions, start=1):
             sorted_nodes = sorted(int(n) for n in region_nodes)
@@ -428,9 +442,11 @@ class RQ5UnderExploredRegions(Analyzer):
             covered_ids = [n for n in sorted_nodes if n in self.union_cov]
             uncovered_ids = [n for n in sorted_nodes if n not in self.union_cov]
 
-            all_names = [self._get_node_name(g, n) for n in sorted_nodes]
-            covered_names = [self._get_node_name(g, n) for n in covered_ids]
-            uncovered_names = [self._get_node_name(g, n) for n in uncovered_ids]
+            name_by_id = {n: self._get_node_name(g, n) for n in sorted_nodes}
+
+            all_names = [name_by_id[n] for n in sorted_nodes]
+            covered_names = [name_by_id[n] for n in covered_ids]
+            uncovered_names = [name_by_id[n] for n in uncovered_ids]
 
             rows.append(
                 {
@@ -442,21 +458,31 @@ class RQ5UnderExploredRegions(Analyzer):
                     "covered_nodes": int(m["covered_nodes"]),
                     "uncovered_nodes": int(m["uncovered_nodes"]),
 
-                    "function_ids": ";".join(str(n) for n in sorted_nodes),
-                    "function_names": ";".join(all_names),
-
+                    "function_count": int(len(sorted_nodes)),
                     "covered_function_count": int(len(covered_ids)),
                     "uncovered_function_count": int(len(uncovered_ids)),
 
-                    "covered_function_ids": ";".join(str(n) for n in covered_ids),
-                    "covered_function_names": ";".join(covered_names),
+                    "stored_function_count": int(len(sorted_nodes)),
+                    "stored_covered_function_count": int(len(covered_ids)),
+                    "stored_uncovered_function_count": int(len(uncovered_ids)),
 
-                    "uncovered_function_ids": ";".join(str(n) for n in uncovered_ids),
-                    "uncovered_function_names": ";".join(uncovered_names),
+                    "function_ids": self._join_limited(sorted_nodes, sep=";", limit=10000),
+                    "function_names": self._join_limited(all_names, sep=";", limit=STORE_LIMIT),
+
+                    "covered_function_ids": self._join_limited(covered_ids, sep=";", limit=10000),
+                    "covered_function_names": self._join_limited(covered_names, sep=";", limit=STORE_LIMIT),
+
+                    "uncovered_function_ids": self._join_limited(uncovered_ids, sep=";", limit=10000),
+                    "uncovered_function_names": self._join_limited(uncovered_names, sep=";", limit=STORE_LIMIT),
                 }
             )
 
-        return pd.DataFrame(rows).sort_values(
-            by=["region_coverage", "uncovered_nodes", "region_size"],
-            ascending=[True, False, False],
-        ).reset_index(drop=True)
+        return (
+            pd.DataFrame(rows, columns=columns)
+            .sort_values(
+                by=["region_coverage", "uncovered_nodes", "region_size"],
+                ascending=[True, False, False],
+            )
+            .reset_index(drop=True)
+        )
+        

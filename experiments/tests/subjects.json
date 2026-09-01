@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "subjects": [
+    {"domain": "network_and_protocols", "benchmark": "snort3", "executable": "snort", "function_count": 50881, "driver_count": 9, "path": "benchmarks/snort3/snort", "best_driver_id": 1}
+  ]
+}

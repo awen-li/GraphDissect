@@ -3,6 +3,17 @@
 This directory defines the outcome-independent eight-executable validation
 set and the campaign matrix for the TOSEM revision.
 
+The normal workflow uses only two entry scripts:
+
+```sh
+python3 experiments/run_experiments.py
+python3 experiments/collect_data.py
+```
+
+The first validates and runs all experiments with one worker for each of the
+eight executables. Re-running it resumes interrupted campaigns. The second
+refuses incomplete datasets by default and produces all analysis-ready CSVs.
+
 ## Selection
 
 The subject in each domain is the eligible executable with the largest static

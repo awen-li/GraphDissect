@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "selection_rule": "one largest eligible executable by static function count per domain; driver count breaks ties",
+  "subjects": [
+    {"domain": "network_and_protocols", "benchmark": "snort3", "executable": "snort", "function_count": 50881, "driver_count": 9, "path": "benchmarks/snort3/snort", "best_driver_id": null},
+    {"domain": "media_processing", "benchmark": "ffmpeg", "executable": "ffmpeg", "function_count": 29709, "driver_count": 19, "path": "benchmarks/ffmpeg/ffmpeg", "best_driver_id": null},
+    {"domain": "metadata_and_system_utilities", "benchmark": "git", "executable": "git", "function_count": 12714, "driver_count": 6, "path": "benchmarks/git/git", "best_driver_id": null},
+    {"domain": "parsing_and_document_processing", "benchmark": "xpdf", "executable": "pdftops", "function_count": 3001, "driver_count": 66, "path": "benchmarks/xpdf/pdftops", "best_driver_id": null},
+    {"domain": "toolchain_and_binary_utilities", "benchmark": "cppcheck", "executable": "cppcheck", "function_count": 37281, "driver_count": 48, "path": "benchmarks/cppcheck/cppcheck", "best_driver_id": null},
+    {"domain": "language_runtimes_and_interpreters", "benchmark": "cpython3", "executable": "python", "function_count": 13953, "driver_count": 23, "path": "benchmarks/cpython3/python", "best_driver_id": null},
+    {"domain": "archive_and_compression", "benchmark": "upx", "executable": "upx", "function_count": 5824, "driver_count": 22, "path": "benchmarks/upx/upx", "best_driver_id": null},
+    {"domain": "database_and_storage", "benchmark": "hdf5", "executable": "h5dump", "function_count": 5643, "driver_count": 12, "path": "benchmarks/hdf5/h5dump", "best_driver_id": null}
+  ]
+}

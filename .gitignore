@@ -28,6 +28,8 @@ benchmarks/**/*.zip
 benchmarks/**/*.xz
 
 # ---------- local tooling caches ----------
+**/__pycache__/
+**/*.py[cod]
 tools/bench_repos/
 tools/crawbench/build/
 tools/crawbench/dist/
@@ -41,3 +43,6 @@ honggfuzz/**/libhfnetdriver.a
 honggfuzz/**/libhfuzz.a
 honggfuzz/**/libhfuzz.so
 
+# ---------- experiment outputs ----------
+experiment-results/
+experiment-inputs/

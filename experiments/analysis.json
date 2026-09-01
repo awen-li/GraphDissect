@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "backbone_sensitivity": {
+    "subjects": "subjects.json",
+    "variants": [
+      {"name": "static_full", "description": "original conservative static call graph"},
+      {"name": "entry_reachable", "description": "static graph restricted to nodes reachable from validated driver entry points"},
+      {"name": "direct_only", "description": "static graph with uncertain indirect-call targets removed"},
+      {"name": "dynamic_union", "description": "union of call relationships observed in the retained trials"}
+    ],
+    "outputs": ["region_coverage", "frac_rc_eq_0", "frac_rc_le_0_2", "frac_rc_le_0_5", "category_assignment", "rank_correlation"]
+  },
+  "community_sensitivity": {
+    "algorithms": ["louvain", "leiden", "label_propagation"],
+    "resolutions": [0.5, 1.0, 1.5, 2.0],
+    "random_seeds": [20260416, 20260417, 20260418, 20260419, 20260420],
+    "outputs": ["modularity", "community_count", "adjusted_rand_index", "normalized_mutual_information", "rq5_classification"]
+  },
+  "statistical_unit": "executable",
+  "trial_aggregation": "compute metrics per trial; never union trials before uncertainty analysis"
+}

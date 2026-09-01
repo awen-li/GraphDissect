@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "trials": 3,
+  "base_seed": 20260416,
+  "segment_seconds": 3600,
+  "experiments": {
+    "temporal": {
+      "duration_seconds": 259200,
+      "checkpoint_seconds": 3600,
+      "conditions": [
+        {"name": "mfuzz", "schedule": "fixed_round_robin", "queue": "shared"},
+        {"name": "single", "schedule": "single", "queue": "shared", "requires_best_driver": true}
+      ]
+    },
+    "queue": {
+      "duration_seconds": 86400,
+      "checkpoint_seconds": 3600,
+      "conditions": [
+        {"name": "shared", "schedule": "fixed_round_robin", "queue": "shared"},
+        {"name": "independent", "schedule": "fixed_round_robin", "queue": "independent"}
+      ]
+    },
+    "scheduling": {
+      "duration_seconds": 86400,
+      "checkpoint_seconds": 3600,
+      "window_seconds": 900,
+      "window_sensitivity_seconds": [300, 900, 1800],
+      "conditions": [
+        {"name": "fixed", "schedule": "fixed_round_robin", "queue": "shared"},
+        {"name": "random", "schedule": "random_round", "queue": "shared"},
+        {"name": "progress", "schedule": "coverage_progress", "queue": "shared"}
+      ]
+    }
+  }
+}

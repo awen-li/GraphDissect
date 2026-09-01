@@ -6,13 +6,22 @@ set and the campaign matrix for the TOSEM revision.
 The normal workflow uses only two entry scripts:
 
 ```sh
-python3 experiments/run_experiments.py
-python3 experiments/collect_data.py
+python3 tools/experiments/run_experiments.py
+python3 tools/experiments/collect_data.py
 ```
 
 The first validates and runs all experiments with one worker for each of the
 eight executables. Re-running it resumes interrupted campaigns. The second
 refuses incomplete datasets by default and produces all analysis-ready CSVs.
+
+Regenerate only the drivers for the eight selected subjects with:
+
+```sh
+tools/regenerate_drivers.sh --selected
+```
+
+Use `tools/regenerate_drivers.sh --all` for every non-baseline executable.
+The script does not rebuild targets or run fuzzing experiments.
 
 Every campaign has a separate output directory:
 
@@ -69,7 +78,7 @@ normal build procedure. Before any long campaign, confirm for every subject:
 Run the integration test for checkpoint recovery:
 
 ```sh
-python3 experiments/tests/test_resume.py
+python3 tools/experiments/tests/test_resume.py
 ```
 
 ### 2. Verify the single-driver baselines
@@ -81,8 +90,8 @@ are the established single-driver configurations from the original study.
 ### 3. Generate and inspect the plan
 
 ```sh
-python3 experiments/run_campaigns.py plan
-python3 experiments/run_campaigns.py validate
+python3 tools/experiments/run_campaigns.py plan
+python3 tools/experiments/run_campaigns.py validate
 ```
 
 The commands create `experiment-results/plan.csv`. Validation checks the
@@ -99,7 +108,7 @@ independent trials. At eight concurrent jobs, the unreduced matrix represents
 Run one campaign before submitting the complete matrix:
 
 ```sh
-python3 experiments/run_campaigns.py run \
+python3 tools/experiments/run_campaigns.py run \
   --run-id temporal__snort3__snort__mfuzz__t01
 ```
 
@@ -113,7 +122,7 @@ artifacts, and the MFuzz/honggfuzz logs before starting the full array.
 For a cluster, generate a bounded Slurm array after reviewing `plan.csv`:
 
 ```sh
-python3 experiments/emit_slurm_array.py \
+python3 tools/experiments/emit_slurm_array.py \
   --plan experiment-results/plan.csv \
   --results experiment-results \
   --output experiment-results/run-array.sh --max-concurrent 8
@@ -185,7 +194,7 @@ that the other job is dead, pass `--recover-foreign-lock` once.
 After campaigns complete, summarize each trial separately:
 
 ```sh
-python3 experiments/summarize_coverage.py \
+python3 tools/experiments/summarize_coverage.py \
   --results experiment-results --experiment temporal
 ```
 
@@ -197,10 +206,10 @@ fixed.
 Run the summarizer separately for all campaign families:
 
 ```sh
-python3 experiments/summarize_coverage.py --results experiment-results --experiment temporal
-python3 experiments/summarize_coverage.py --results experiment-results --experiment queue \
+python3 tools/experiments/summarize_coverage.py --results experiment-results --experiment temporal
+python3 tools/experiments/summarize_coverage.py --results experiment-results --experiment queue \
   --checkpoints 21600 43200 64800 86400
-python3 experiments/summarize_coverage.py --results experiment-results --experiment scheduling \
+python3 tools/experiments/summarize_coverage.py --results experiment-results --experiment scheduling \
   --checkpoints 21600 43200 64800 86400
 ```
 
@@ -220,7 +229,7 @@ Deterministic seed-size samples can be prepared without modifying source
 corpora:
 
 ```sh
-python3 experiments/prepare_seed_samples.py \
+python3 tools/experiments/prepare_seed_samples.py \
   --source PATH/TO/OSS_FUZZ_CORPUS --output experiment-inputs/SUBJECT \
   --sizes 10 50 100 --replicates 3
 ```
@@ -232,7 +241,7 @@ inspecting available corpus counts but before observing fuzzing outcomes.
 Driver-count portfolios are generated independently of coverage outcomes:
 
 ```sh
-python3 experiments/prepare_driver_portfolios.py \
+python3 tools/experiments/prepare_driver_portfolios.py \
   --driver-list benchmarks/snort3/snort/drivers/driver_list.json \
   --output experiment-inputs/snort-portfolios.json \
   --sizes 1 2 4 8 9 --replicates 3

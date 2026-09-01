@@ -1,8 +1,0 @@
-# binary_path: parsertrace
-# executable:  parsertrace
-# source:      parsertrace/drivers/driver_list.json
-# format: <id>\t<command line>
-
-1	parsertrace/parsertrace -r @@
-2	parsertrace/parsertrace -q @@
-3	parsertrace/parsertrace -b @@

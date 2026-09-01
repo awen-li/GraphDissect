@@ -1,7 +1,0 @@
-# binary_path: url_parser
-# executable:  url_parser
-# source:      url_parser/drivers/driver_list.json
-# format: <id>\t<command line>
-
-1	url_parser/url_parser connect @@
-2	url_parser/url_parser get @@

@@ -1,9 +1,0 @@
-# binary_path: blkstat
-# executable:  blkstat
-# source:      blkstat/drivers/driver_list.json
-# format: <id>\t<command line>
-
-1	blkstat/blkstat -V @@
-2	blkstat/blkstat -i list @@
-3	blkstat/blkstat -f list @@
-4	blkstat/blkstat -P list @@

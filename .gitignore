@@ -26,6 +26,7 @@ benchmarks/**/zydis/
 benchmarks/**/*.tar.*
 benchmarks/**/*.zip
 benchmarks/**/*.xz
+benchmarks/**/drivers/
 
 # ---------- local tooling caches ----------
 **/__pycache__/

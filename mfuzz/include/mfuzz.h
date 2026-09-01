@@ -9,6 +9,7 @@
 #include <thread>
 #include <utility>
 #include <vector>
+#include <random>
 #include <unistd.h> 
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -20,10 +21,16 @@ namespace fs = std::filesystem;
 class MFuzz 
 {
 public:
-    MFuzz(std::string bench, const std::string& fuzzer)
+    MFuzz(std::string bench, const std::string& fuzzer,
+          std::string schedule = "fixed", std::string queue_policy = "shared",
+          unsigned window_seconds = 0, unsigned random_seed = 1)
         : bench_path(bench),
           fuzzer(fuzzer),
-          stopped(false)
+          stopped(false),
+          schedule_policy(std::move(schedule)),
+          queue_policy(std::move(queue_policy)),
+          window_seconds(window_seconds),
+          random_engine(random_seed)
     {
         bench_path = UTIL::abs_path(bench_path);
         std::cout << "[MFuzz] benchmark path: " << bench_path << "\n";
@@ -50,6 +57,7 @@ private:
     double fuzz_one_unit(const std::vector<unsigned>& driver_list, double time_budget);
     double fuzz_by_average(double max_time_budget, unsigned fuzzing_units = 12);
     void run_schedule_average(double max_time_budget);
+    double run_schedule_policy(double max_time_budget);
 
     inline void init_session() 
     {
@@ -101,6 +109,10 @@ private:
 
     std::string mfuzz_drv_switch_logfile;
     unsigned drv_switch_count = 0;
+    std::string schedule_policy;
+    std::string queue_policy;
+    unsigned window_seconds = 0;
+    std::mt19937 random_engine;
 
 private:
     inline void logCoverage(const std::set<unsigned>& covered_funcs)

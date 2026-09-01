@@ -577,6 +577,9 @@ bool cmdlineParse(int argc, char* argv[], honggfuzz_t* hfuzz) {
     int           opt_index = 0;
     
     hfuzz->drv_table.session_path = NULL;
+    const char* mfuzz_queue_policy = getenv("MFUZZ_QUEUE_POLICY");
+    hfuzz->drv_table.independentQueue =
+        mfuzz_queue_policy && strcmp(mfuzz_queue_policy, "independent") == 0;
     for (;;) {
         int c = getopt_long(
             argc, argv, "-?!hQvVsuUPxf:i:o:dqe:W:r:c:F:t:R:n:N:l:p:g:E:w:B:zMTSb:X:", opts, &opt_index);

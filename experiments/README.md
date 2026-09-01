@@ -28,25 +28,24 @@ experiment-results/runs/queue/snort3/snort/shared/trial-01/
 experiment-results/runs/scheduling/snort3/snort/progress/trial-01/
 ```
 
-MFuzz receives the corresponding directory through `--output-dir`, so corpora,
-checkpoints, crashes, logs, and coverage from different experiments or trials
-cannot overwrite one another.
+MFuzz keeps its existing benchmark-local output behavior. After each one-hour
+segment, the runner copies mutable runtime artifacts into the corresponding
+campaign directory before another condition can use that executable.
 
 Only mutable fuzzing and runtime results are isolated. The following benchmark
 artifacts remain shared, read-only inputs across all experiments and trials:
 
 - executable binaries and instrumentation metadata;
 - `cmdspec.yaml`;
-- `drivers/driver_list.json` and per-driver JSON definitions;
+- per-driver JSON definitions and the canonical `drivers/driver_list.json`;
 - original driver seed metadata and auxiliary configuration files;
 - the whole-program static call-graph backbone and function-address map.
 
-The runner passes the shared benchmark directory through `--benchmark` and a
-unique mutable directory through `--output-dir`. MFuzz must never update files
-under the shared benchmark directory during a campaign. Driver-indexed dynamic
-profiles, marked graphs, evolving corpora, crashes, checkpoints, and logs are
-runtime results and must therefore be written under the unique output
-directory.
+For the single-driver condition, the runner uses the existing one-driver
+subject under `benchmarks/baseline/<benchmark>/<executable>/`; it does not edit
+the multi-driver subject. Runtime snapshots include `driver_runtimes/`,
+`fuzz/`, the final marked graph, and MFuzz/honggfuzz logs; driver definitions
+are not duplicated.
 
 ## Selection
 
@@ -73,12 +72,11 @@ Run the integration test for checkpoint recovery:
 python3 experiments/tests/test_resume.py
 ```
 
-### 2. Fix the single-driver baselines
+### 2. Verify the single-driver baselines
 
-Set `best_driver_id` for every subject in `subjects.json`. Select these IDs
-using independent pilot data, or document that they are oracle upper-bound
-baselines derived from the original study. Do not select them using outcomes
-from the new temporal campaigns.
+Each selected subject must have a one-entry configuration at
+`benchmarks/baseline/<benchmark>/<executable>/drivers/driver_list.json`. These
+are the established single-driver configurations from the original study.
 
 ### 3. Generate and inspect the plan
 
@@ -87,10 +85,9 @@ python3 experiments/run_campaigns.py plan
 python3 experiments/run_campaigns.py validate
 ```
 
-The commands create `experiment-results/plan.csv`. Validation intentionally
-fails until every selected target is built and each `best_driver_id` in
-`subjects.json` is filled from an independent pilot or explicitly documented
-oracle-baseline rule.
+The commands create `experiment-results/plan.csv`. Validation checks the
+multi-driver directory for MFuzz conditions and the corresponding baseline
+directory for the single-driver condition.
 
 The configured matrix contains 168 campaigns: 48 temporal campaigns, 48
 queue-policy campaigns, and 72 scheduling campaigns. Each condition has three
@@ -108,8 +105,8 @@ python3 experiments/run_campaigns.py run \
 
 For the first smoke test, temporarily use a short-duration copy of
 `experiments.json`; do not edit the registered production matrix after
-collecting outcomes. Check `coverage.csv`, `driver_windows.csv`, final graph
-artifacts, and `checkpoint.json` before starting the full array.
+collecting outcomes. Check `coverage.csv`, `checkpoints/`, final graph
+artifacts, and the MFuzz/honggfuzz logs before starting the full array.
 
 ### 5. Launch with eight concurrent jobs
 
@@ -135,17 +132,14 @@ restart, resubmit the same array. Never delete a run directory to recover it.
 Use `--force` only when intentionally discarding the logical completion state
 and starting a scientifically new campaign.
 
-## Required MFuzz revision CLI
+## Minimal MFuzz options
 
-The legacy MFuzz binary is not sufficient for these experiments. The runner
-uses the following explicit contract:
+Output isolation and segment bookkeeping stay in the experiment runner. MFuzz
+uses its original `-b` and `-t` arguments plus four small policy options:
 
 ```text
-mfuzz --benchmark DIR --duration SECONDS --output-dir DIR \
-  --schedule fixed_round_robin|random_round|coverage_progress|single \
-  --queue-policy shared|independent --window SECONDS \
-  --checkpoint SECONDS --random-seed INTEGER --elapsed-offset SECONDS \
-  [--drivers ID[,ID...]] [--resume]
+mfuzz -b DIR -t SECONDS -s fixed|random|progress \
+  -q shared|independent -w WINDOW_SECONDS -r RANDOM_SEED
 ```
 
 Each run directory must retain, rather than delete:
@@ -162,31 +156,27 @@ be referenced from run provenance rather than copied into every trial. Record
 their paths and content hashes so every runtime result can be tied to the exact
 shared inputs used.
 
-Campaign output must be isolated under `--output-dir`; benchmark-local shared
-`fuzz/` directories are unsafe for repeated or concurrent trials.
+Only one campaign per executable runs at a time, so two campaigns never write
+the same benchmark-local `fuzz/` directory. Different executables may run
+concurrently.
 
 ## Shutdown recovery
 
 Long campaigns are executed as one-hour segments. After each successful
-segment, `progress.json` is atomically replaced with the completed elapsed
-time and full segment record. Restarting the same run command:
+segment, runtime artifacts are copied and `progress.json` is atomically
+replaced with the completed elapsed time and full segment record. Restarting
+the same run command:
 
 - skips campaigns whose `status.json` is `complete`;
 - reclaims a stale lock left by a dead process or host shutdown;
 - reads `progress.json` and starts at the last completed hour;
-- passes `--resume` and `--elapsed-offset` to MFuzz;
-- reruns only the interrupted segment, losing at most one hour of work.
+- reuses MFuzz's benchmark-local corpus and runs only the remaining segments;
+- reruns the interrupted segment, losing at most one hour of accounted time.
 
-MFuzz must atomically persist its corpus, coverage maps, scheduler state,
-driver queues, and PRNG state at the end of each segment. `--resume` must load
-that state from `--output-dir`; otherwise the campaign runner refuses to claim
-scientific continuity across segments.
-
-The final operation of a successful MFuzz segment must atomically replace
-`checkpoint.json` with at least `{"elapsed_seconds": N}`. On restart, the
-runner reconciles this committed checkpoint with `progress.json`. This covers
-shutdown after MFuzz commits a segment but before the runner records its
-successful return.
+This is segment-level continuation, not an exact in-process scheduler
+checkpoint. The corpus persists, but MFuzz reconstructs its scheduler when a
+new segment starts. Provenance and segment records make that boundary explicit;
+exact scheduler-state resume would require a substantially larger MFuzz change.
 
 Locks from another hostname are not reclaimed automatically because the run
 may still be active on a shared filesystem. After independently confirming

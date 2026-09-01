@@ -1,4 +1,5 @@
 #include "mfuzz.h"
+#include <algorithm>
 
 
 // Utility: check if a process matching name exists (like pgrep -f)
@@ -8,8 +9,9 @@ inline bool process_exists(const std::string& name = "honggfuzz")
     return std::system(cmd.c_str()) == 0;
 }
 
-void MFuzz::start_fuzzer(double max_time_budget) 
+void MFuzz::start_fuzzer(double max_time_budget)
 {
+    setenv("MFUZZ_QUEUE_POLICY", queue_policy.c_str(), 1);
     // Change directory to benchmark
     fs::path absPath = fs::absolute(bench_path);
     if (!fs::exists(absPath) || !fs::is_directory(absPath)) {
@@ -25,7 +27,12 @@ void MFuzz::start_fuzzer(double max_time_budget)
 
     // Init scheduler and set default driver
     scheduler = std::make_unique<Scheduler>(bench_path, session_path.string());
-    unsigned default_driver = 1;
+    auto configured_drivers = scheduler->getAllDrvIds();
+    if (configured_drivers.empty()) {
+        std::cerr << "[MFuzz] No configured drivers\n";
+        return;
+    }
+    unsigned default_driver = configured_drivers.front();
     scheduler->setActiveDriver(default_driver, true);
 
     // Fuzz in/out directories
@@ -116,9 +123,63 @@ void MFuzz::start_fuzzer(double max_time_budget)
             std::cout << "[MFuzz] [session - " << session_id
                     << "] fuzzer started for fuzzing on "
                     << bench_path << "\n";
-            run_schedule_average(max_time_budget);
+            run_schedule_policy(max_time_budget);
         }
     }
+}
+
+double MFuzz::run_schedule_policy(double max_time_budget)
+{
+    if (!scheduler) return 0.0;
+    auto drivers = scheduler->getAllDrvIds();
+    if (drivers.empty()) return 0.0;
+
+    unsigned window = window_seconds;
+    if (window == 0) {
+        window = static_cast<unsigned>(max_time_budget / (12.0 * drivers.size()));
+        if (window == 0) window = 1;
+    }
+
+    size_t index = 0;
+    double elapsed = 0.0;
+    while (!stopped && elapsed < max_time_budget) {
+        unsigned slice = static_cast<unsigned>(std::min<double>(window, max_time_budget - elapsed));
+        if (slice == 0) break;
+        std::this_thread::sleep_for(std::chrono::seconds(slice));
+        elapsed += slice;
+        if (stopped) break;
+
+        unsigned current = drivers[index];
+        unsigned next = current;
+        SyncStats stats;
+
+        if (schedule_policy == "progress") {
+            /* Synchronize the outgoing driver's contribution first. */
+            stats = scheduler->setActiveDriver(current);
+            if (stats.newEdges == 0) {
+                index = (index + 1) % drivers.size();
+                next = drivers[index];
+            }
+        } else {
+            index = (index + 1) % drivers.size();
+            if (schedule_policy == "random" && index == 0) {
+                std::shuffle(drivers.begin(), drivers.end(), random_engine);
+            }
+            next = drivers[index];
+        }
+
+        if (schedule_policy != "progress" || next != current) {
+            double start = UTIL::getCurrentTimeSec();
+            stats = scheduler->setActiveDriver(next);
+            logDriverSwitchCost(UTIL::getCurrentTimeSec() - start);
+        }
+
+        std::set<unsigned> covered = scheduler->getCoveredFuncs();
+        logCoverage(covered);
+    }
+
+    stop_fuzzer();
+    return elapsed;
 }
 
 void MFuzz::stop_fuzzer() 

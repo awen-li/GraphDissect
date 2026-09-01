@@ -12,42 +12,31 @@ from pathlib import Path
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--benchmark", required=True)
-    parser.add_argument("--duration", type=int, required=True)
-    parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--schedule", required=True)
-    parser.add_argument("--queue-policy", required=True)
-    parser.add_argument("--window", type=int, required=True)
-    parser.add_argument("--checkpoint", type=int, required=True)
-    parser.add_argument("--random-seed", type=int, required=True)
-    parser.add_argument("--elapsed-offset", type=int, required=True)
-    parser.add_argument("--drivers")
-    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("-b", required=True)
+    parser.add_argument("-t", type=int, required=True)
+    parser.add_argument("-s", required=True)
+    parser.add_argument("-q", required=True)
+    parser.add_argument("-w", type=int, required=True)
+    parser.add_argument("-r", type=int, required=True)
     args = parser.parse_args()
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-    state_path = args.output_dir / "checkpoint.json"
-    if args.resume:
-        if not state_path.is_file():
-            raise SystemExit("--resume requested without persisted state")
-        state = json.loads(state_path.read_text())
-        if int(state["elapsed_seconds"]) != args.elapsed_offset:
-            raise SystemExit("elapsed offset does not match persisted state")
-    elif args.elapsed_offset != 0:
-        raise SystemExit("nonzero elapsed offset requires --resume")
+    output_dir = Path(os.environ["GRAPHDISSECT_RUN_DIR"])
+    output_dir.mkdir(parents=True, exist_ok=True)
+    state_path = output_dir / "checkpoint.json"
+    elapsed_offset = int(os.environ.get("GRAPHDISSECT_ELAPSED_OFFSET", "0"))
     fail_offset = os.environ.get("FAKE_MFUZZ_FAIL_OFFSET")
-    if fail_offset is not None and int(fail_offset) == args.elapsed_offset:
+    if fail_offset is not None and int(fail_offset) == elapsed_offset:
         return 75
-    elapsed = args.elapsed_offset + args.duration
+    elapsed = elapsed_offset + args.t
     temporary = state_path.with_suffix(".tmp")
-    temporary.write_text(json.dumps({"elapsed_seconds": elapsed, "random_seed": args.random_seed}) + "\n")
+    temporary.write_text(json.dumps({"elapsed_seconds": elapsed, "random_seed": args.r}) + "\n")
     temporary.replace(state_path)
-    coverage_path = args.output_dir / "coverage.csv"
+    coverage_path = output_dir / "coverage.csv"
     new_file = not coverage_path.exists()
     with coverage_path.open("a", newline="") as handle:
         writer = csv.writer(handle)
         if new_file:
             writer.writerow(["elapsed_seconds", "cg_nodes", "cfg_edges"])
-        writer.writerow([elapsed, elapsed // max(1, args.checkpoint), 2 * elapsed // max(1, args.checkpoint)])
+        writer.writerow([elapsed, elapsed // max(1, args.w), 2 * elapsed // max(1, args.w)])
     return 0
 
 

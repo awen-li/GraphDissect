@@ -74,6 +74,7 @@ typedef struct fuzz_driver_table
 
     int current_phase; // 0: pilot phase, 1: dynsch phase, 2: fallback phase
     int inPlaceEdit;   // 0: disable, 1: enable
+    int independentQueue; // 0: shared corpus, 1: active-driver corpus only
 } fuzz_driver_table_t;
 
 bool drive_loadDriver(fuzz_driver_table_t *drv_table);

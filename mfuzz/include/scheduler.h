@@ -13,6 +13,11 @@
 
 namespace fs = std::filesystem;
 
+struct SyncStats {
+    unsigned newNodes = 0;
+    unsigned newEdges = 0;
+    unsigned totalNodes = 0;
+};
 
 class Scheduler
 {
@@ -42,8 +47,8 @@ public:
         delete driverManger;
     }
 
-    void setActiveDriver(unsigned driverId, bool init=false);
-    void synchronizeGraphs();
+    SyncStats setActiveDriver(unsigned driverId, bool init=false);
+    SyncStats synchronizeGraphs();
     set<unsigned> getCoveredFuncs();
     vector<unsigned> getAllDrvIds();
 

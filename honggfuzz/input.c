@@ -539,6 +539,7 @@ bool input_prepareDynamicInput(run_t* run, bool needs_mangle) {
         LOG_F("The dynamic file corpus is empty. This shouldn't happen");
     }
 
+    size_t independentScans = 0;
     for (;;) {
         MX_SCOPED_RWLOCK_WRITE(&run->global->mutex.dynfileq);
 
@@ -553,6 +554,17 @@ bool input_prepareDynamicInput(run_t* run, bool needs_mangle) {
 
         run->current                    = run->global->io.dynfileqCurrent;
         run->global->io.dynfileqCurrent = TAILQ_NEXT(run->global->io.dynfileqCurrent, pointers);
+
+        if (run->global->drv_table.independentQueue &&
+            run->global->drv_table.active_driver != NULL &&
+            run->current->driver_id !=
+                (uint32_t)run->global->drv_table.active_driver->drv_prof.id) {
+            if (++independentScans >= ATOMIC_GET(run->global->io.dynfileqCnt)) {
+                LOG_F("Independent queue has no input for active driver %d",
+                    run->global->drv_table.active_driver->drv_prof.id);
+            }
+            continue;
+        }
 
         /* Do not count skip_factor on unmeasured (imported) inputs */
         if (run->current->imported) {

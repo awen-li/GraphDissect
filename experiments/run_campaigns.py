@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Plan, validate, and run reproducible GraphDissect revision campaigns.
 
-The runner intentionally refuses to use the legacy MFuzz CLI for real runs:
-that CLI cannot isolate outputs or select queue/scheduling policies.  A real
-run requires the revision CLI contract documented in README.md.
+MFuzz continues to write into its benchmark directory. This runner copies
+those mutable runtime artifacts after every segment; single-driver campaigns
+use the existing benchmark configurations under ``benchmarks/baseline``.
 """
 
 from __future__ import annotations
@@ -25,6 +25,14 @@ from typing import Any, Iterable
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SUBJECTS = ROOT / "experiments" / "subjects.json"
 DEFAULT_MATRIX = ROOT / "experiments" / "experiments.json"
+RUNTIME_ARTIFACTS = (
+    "driver_runtimes", "final_marked_callgraph.dot", "fuzz",
+    "honggfuzz_profiling.txt", "mfuzz_drv_switch_cost.log", "mfuzz_f_coverage.log",
+)
+SCHEDULE_OPTIONS = {
+    "fixed_round_robin": "fixed", "single": "fixed",
+    "random_round": "random", "coverage_progress": "progress",
+}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -100,22 +108,28 @@ def driver_ids(subject_dir: Path) -> list[int]:
     return sorted(int(next(iter(entry))) for entry in data["drivers"])
 
 
+def benchmark_directory(run: dict[str, Any]) -> Path:
+    if run["condition"].get("requires_best_driver"):
+        configured = run["subject"].get("baseline_path")
+        if configured:
+            return (ROOT / configured).resolve()
+        relative = Path(run["subject"]["path"])
+        return (ROOT / relative.parent.parent / "baseline" / relative.parent.name / relative.name).resolve()
+    return (ROOT / run["subject"]["path"]).resolve()
+
+
 def validate_run(run: dict[str, Any], mfuzz: Path, require_binary: bool) -> list[str]:
     errors: list[str] = []
     subject = run["subject"]
-    subject_dir = ROOT / subject["path"]
+    subject_dir = benchmark_directory(run)
     for relative in ("cmdspec.yaml", "drivers/driver_list.json"):
         if not (subject_dir / relative).is_file():
             errors.append(f"missing {subject_dir / relative}")
     if (subject_dir / "drivers" / "driver_list.json").is_file():
         ids = driver_ids(subject_dir)
-        if len(ids) != int(subject["driver_count"]):
-            errors.append(f"driver count mismatch: manifest={subject['driver_count']} actual={len(ids)}")
-        best = subject.get("best_driver_id")
-        if run["condition"].get("requires_best_driver") and best is None:
-            errors.append("best_driver_id is required for the single-driver condition")
-        if best is not None and int(best) not in ids:
-            errors.append(f"best_driver_id {best} is not present in driver_list.json")
+        expected_drivers = 1 if run["condition"].get("requires_best_driver") else int(subject["driver_count"])
+        if len(ids) != expected_drivers:
+            errors.append(f"driver count mismatch: expected={expected_drivers} actual={len(ids)}")
     if require_binary:
         resolved = shutil.which(str(mfuzz)) if not mfuzz.is_absolute() else str(mfuzz)
         if not resolved or not Path(resolved).is_file():
@@ -124,15 +138,14 @@ def validate_run(run: dict[str, Any], mfuzz: Path, require_binary: bool) -> list
 
 
 def validate_mfuzz_contract(mfuzz: Path) -> list[str]:
-    required = ("--benchmark", "--duration", "--output-dir", "--schedule", "--queue-policy",
-                "--window", "--checkpoint", "--random-seed", "--elapsed-offset", "--resume")
+    required = ("-b", "-t", "-s", "-q", "-w", "-r")
     try:
-        result = subprocess.run([str(mfuzz), "--help"], check=False, capture_output=True, text=True, timeout=10)
+        result = subprocess.run([str(mfuzz), "-h"], check=False, capture_output=True, text=True, timeout=10)
     except (OSError, subprocess.TimeoutExpired) as exc:
         return [f"unable to inspect MFuzz CLI: {exc}"]
     help_text = result.stdout + result.stderr
     missing = [option for option in required if option not in help_text]
-    return [f"MFuzz revision CLI is missing: {', '.join(missing)}"] if missing else []
+    return [f"MFuzz CLI is missing required options: {', '.join(missing)}"] if missing else []
 
 
 def command_for(run: dict[str, Any], mfuzz: Path, run_dir: Path, duration: int | None = None,
@@ -140,22 +153,52 @@ def command_for(run: dict[str, Any], mfuzz: Path, run_dir: Path, duration: int |
     condition = run["condition"]
     command = [
         str(mfuzz),
-        "--benchmark", str((ROOT / run["subject"]["path"]).resolve()),
-        "--duration", str(duration if duration is not None else run["duration_seconds"]),
-        "--output-dir", str(run_dir.resolve()),
-        "--schedule", condition["schedule"],
-        "--queue-policy", condition["queue"],
-        "--window", str(run["window_seconds"]),
-        "--checkpoint", str(run["checkpoint_seconds"]),
-        "--random-seed", str(run["random_seed"]),
-        "--elapsed-offset", str(elapsed_offset),
+        "-b", str(benchmark_directory(run)),
+        "-t", str(duration if duration is not None else run["duration_seconds"]),
+        "-s", SCHEDULE_OPTIONS[condition["schedule"]],
+        "-q", condition["queue"],
+        "-w", str(run["window_seconds"]),
+        "-r", str(run["random_seed"]),
     ]
-    if condition.get("requires_best_driver"):
-        best_driver = run["subject"].get("best_driver_id")
-        command.extend(["--drivers", str(best_driver) if best_driver is not None else "<REQUIRED>"])
-    if resume:
-        command.append("--resume")
     return command
+
+
+def snapshot_runtime(subject_dir: Path, destination: Path) -> None:
+    destination.mkdir(parents=True, exist_ok=True)
+    for name in RUNTIME_ARTIFACTS:
+        source = subject_dir / name
+        target = destination / name
+        if source.is_dir():
+            if target.exists():
+                shutil.rmtree(target)
+            shutil.copytree(source, target)
+        elif source.is_file():
+            shutil.copy2(source, target)
+
+
+def append_coverage(run_dir: Path, snapshot: Path, elapsed_seconds: int) -> None:
+    log = snapshot / "mfuzz_f_coverage.log"
+    if not log.is_file():
+        return
+    values = [line.strip().split(",") for line in log.read_text(encoding="utf-8").splitlines() if line.strip()]
+    if not values:
+        return
+    edges = 0
+    overview = snapshot / "driver_runtimes" / "overview.stat"
+    if overview.is_file():
+        fields = dict(
+            field.strip().split(":", 1)
+            for field in overview.read_text(encoding="utf-8").strip().split(",")
+            if ":" in field
+        )
+        edges = int(fields.get("edges", 0))
+    coverage = run_dir / "coverage.csv"
+    new_file = not coverage.exists()
+    with coverage.open("a", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        if new_file:
+            writer.writerow(["elapsed_seconds", "cg_nodes", "cfg_edges"])
+        writer.writerow([elapsed_seconds, int(values[-1][1]), edges])
 
 
 def run_directory(output: Path, run: dict[str, Any]) -> Path:
@@ -246,7 +289,7 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
         if status == "complete":
             return "skipped"
     run_dir.mkdir(parents=True, exist_ok=True)
-    subject_dir = (ROOT / run["subject"]["path"]).resolve()
+    subject_dir = benchmark_directory(run)
     if run_dir.resolve().is_relative_to(subject_dir):
         raise RuntimeError("runtime output directory must not be inside the shared benchmark directory")
     lock_path = run_dir / ".lock"
@@ -286,16 +329,25 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
             }
             atomic_json(run_dir / "current_segment.json", segment_record)
             with (run_dir / "stdout.log").open("ab") as stdout, (run_dir / "stderr.log").open("ab") as stderr:
-                completed = subprocess.run(command, cwd=ROOT, stdout=stdout, stderr=stderr, check=False)
+                environment = os.environ.copy()
+                environment["GRAPHDISSECT_RUN_DIR"] = str(run_dir.resolve())
+                environment["GRAPHDISSECT_ELAPSED_OFFSET"] = str(completed_seconds)
+                completed = subprocess.run(
+                    command, cwd=ROOT, env=environment, stdout=stdout, stderr=stderr, check=False
+                )
             segment_record["returncode"] = completed.returncode
             segment_record["finished_unix"] = int(time.time())
             if completed.returncode != 0:
+                snapshot_runtime(subject_dir, run_dir / "failed-runtime")
                 atomic_json(run_dir / "last_failed_segment.json", segment_record)
                 final = {"status": "failed", "returncode": completed.returncode,
                          "completed_seconds": completed_seconds, "finished_unix": int(time.time())}
                 atomic_json(status_path, final)
                 return "failed"
             completed_seconds += segment_duration
+            snapshot = run_dir / "checkpoints" / f"elapsed-{completed_seconds:09d}"
+            snapshot_runtime(subject_dir, snapshot)
+            append_coverage(run_dir, snapshot, completed_seconds)
             progress["completed_seconds"] = completed_seconds
             progress["completed_segments"].append(segment_record)
             atomic_json(progress_path, progress)

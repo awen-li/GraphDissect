@@ -3,10 +3,11 @@
 #include "driver.h"
 
 
-void Scheduler::synchronizeGraphs()
+SyncStats Scheduler::synchronizeGraphs()
 {
+    SyncStats stats;
     if (activeDriver == 0 ) {
-        return;
+        return stats;
     }
     
     // 1. sync node hit num to graph
@@ -16,11 +17,15 @@ void Scheduler::synchronizeGraphs()
 
     // 2. sync edge hit num to graph
     unsigned newHitEdges = synchronizeEdges(updatedNodes, activeDriver);
+    stats.newNodes = newHitNodes;
+    stats.newEdges = newHitEdges;
+    stats.totalNodes = totalHitNodes;
 
     std::cout << "[Scheduler] Switched to driver " << activeDriver
               << "[" <<totalHitNodes<<" / "<<getGraphSize()<<"]"
               << " (updated " << updatedNodes.size() 
               << " nodes with newly discovered "<<newHitNodes<<" nodes and "<<newHitEdges<<" edges)\n";
+    return stats;
 }
 
 
@@ -56,20 +61,20 @@ bool Scheduler::getFAddrIdMap()
     return (status != -1) && WIFEXITED(status) && (WEXITSTATUS(status) == 0);
 }
 
-void Scheduler::setActiveDriver(unsigned driverId, bool init)
+SyncStats Scheduler::setActiveDriver(unsigned driverId, bool init)
 {
     string activeDrvPath = sessionPath + "/active_driver.drv";
 
     if (init == true) {
         driverManger->setActiveDriver(activeDrvPath, driverId);
         activeDriver = driverId;
-        return;
+        return {};
     }
 
     setCovBlock();
 
     /* syn graph */
-    synchronizeGraphs();
+    SyncStats stats = synchronizeGraphs();
 
     /* switch driver */
     activeDriver = driverId;
@@ -78,7 +83,7 @@ void Scheduler::setActiveDriver(unsigned driverId, bool init)
     setCovNonBlock();
 
     std::cout << "[Scheduler::setActiveDriver] SUCCESS @[" << driverId << "]\n";
-    return;
+    return stats;
 }
 
 

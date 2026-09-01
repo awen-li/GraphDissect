@@ -46,6 +46,29 @@ def stable_seed(base: int, *parts: object) -> int:
     return (base + int.from_bytes(digest[:4], "big")) % 2147483647
 
 
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def shared_input_manifest(subject_dir: Path) -> list[dict[str, Any]]:
+    candidates = [subject_dir / "cmdspec.yaml", subject_dir / "drivers" / "driver_list.json"]
+    candidates.extend(sorted((subject_dir / "drivers").glob("*/*.json")))
+    for name in ("callgraph.dot", "marked_callgraph.dot", "faddr_id.map"):
+        candidates.append(subject_dir / name)
+    manifest = []
+    for path in candidates:
+        if path.is_file():
+            manifest.append({
+                "path": str(path.resolve()), "relative_path": str(path.relative_to(subject_dir)),
+                "size_bytes": path.stat().st_size, "sha256": file_sha256(path),
+            })
+    return manifest
+
+
 def expand(subjects: dict[str, Any], matrix: dict[str, Any], names: Iterable[str]) -> list[dict[str, Any]]:
     runs: list[dict[str, Any]] = []
     base_seed = int(matrix["base_seed"])
@@ -223,6 +246,9 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
         if status == "complete":
             return "skipped"
     run_dir.mkdir(parents=True, exist_ok=True)
+    subject_dir = (ROOT / run["subject"]["path"]).resolve()
+    if run_dir.resolve().is_relative_to(subject_dir):
+        raise RuntimeError("runtime output directory must not be inside the shared benchmark directory")
     lock_path = run_dir / ".lock"
     acquire_lock(lock_path, recover_foreign=recover_foreign_lock)
     progress_path = run_dir / "progress.json"
@@ -241,6 +267,8 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
         "subject": dict(run["subject"]),
         "command_template": command,
         "repository": str(ROOT),
+        "shared_benchmark_directory": str(subject_dir),
+        "shared_inputs": shared_input_manifest(subject_dir),
         "started_unix": int(time.time()),
     }
     atomic_json(run_dir / "provenance.json", provenance)

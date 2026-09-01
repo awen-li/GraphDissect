@@ -32,6 +32,22 @@ MFuzz receives the corresponding directory through `--output-dir`, so corpora,
 checkpoints, crashes, logs, and coverage from different experiments or trials
 cannot overwrite one another.
 
+Only mutable fuzzing and runtime results are isolated. The following benchmark
+artifacts remain shared, read-only inputs across all experiments and trials:
+
+- executable binaries and instrumentation metadata;
+- `cmdspec.yaml`;
+- `drivers/driver_list.json` and per-driver JSON definitions;
+- original driver seed metadata and auxiliary configuration files;
+- the whole-program static call-graph backbone and function-address map.
+
+The runner passes the shared benchmark directory through `--benchmark` and a
+unique mutable directory through `--output-dir`. MFuzz must never update files
+under the shared benchmark directory during a campaign. Driver-indexed dynamic
+profiles, marked graphs, evolving corpora, crashes, checkpoints, and logs are
+runtime results and must therefore be written under the unique output
+directory.
+
 ## Selection
 
 The subject in each domain is the eligible executable with the largest static
@@ -140,6 +156,11 @@ Each run directory must retain, rather than delete:
 - final driver-indexed graph/profile artifacts;
 - crashes and replay metadata;
 - the resolved configuration and tool versions.
+
+Shared driver definitions and the unmodified static call-graph backbone should
+be referenced from run provenance rather than copied into every trial. Record
+their paths and content hashes so every runtime result can be tied to the exact
+shared inputs used.
 
 Campaign output must be isolated under `--output-dir`; benchmark-local shared
 `fuzz/` directories are unsafe for repeated or concurrent trials.

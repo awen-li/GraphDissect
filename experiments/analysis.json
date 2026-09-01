@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "input_policy": "driver definitions and the original static call-graph backbone are shared read-only; only derived analysis outputs are isolated",
   "backbone_sensitivity": {
     "subjects": "subjects.json",
     "variants": [

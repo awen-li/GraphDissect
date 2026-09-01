@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_D",
+    "driver": "tiffinfo",
+    "args": [
+        "-D"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Read image data (forces input data read rather than header-only)"
+}

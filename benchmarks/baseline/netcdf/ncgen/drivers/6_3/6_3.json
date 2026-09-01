@@ -1,0 +1,12 @@
+{
+    "id": 6,
+    "name": "6_3",
+    "driver": "ncgen",
+    "args": [
+        "-3"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Classic netCDF output (shortcut kind)"
+}

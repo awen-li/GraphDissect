@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_c",
+    "driver": "ncdump",
+    "args": [
+        "-c"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Coordinate variable data and header information"
+}

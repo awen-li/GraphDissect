@@ -1,0 +1,12 @@
+{
+    "id": 2,
+    "name": "2_e_local_1",
+    "driver": "lua",
+    "args": [
+        "-e local _=1"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Execute a statement before running the script"
+}

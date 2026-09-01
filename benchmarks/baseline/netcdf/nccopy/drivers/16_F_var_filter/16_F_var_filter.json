@@ -1,0 +1,12 @@
+{
+    "id": 16,
+    "name": "16_F_var_filter",
+    "driver": "nccopy",
+    "args": [
+        "-F var:filter"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "Specify compression algorithm for an output variable (repeatable; treated as single use here)"
+}

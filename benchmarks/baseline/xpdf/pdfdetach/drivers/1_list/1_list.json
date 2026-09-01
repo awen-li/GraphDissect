@@ -1,0 +1,12 @@
+{
+    "id": 1,
+    "name": "1_list",
+    "driver": "pdfdetach",
+    "args": [
+        "-list"
+    ],
+    "seed_dir": "seeds",
+    "output": "",
+    "priority": 1.0,
+    "description": "List all embedded files in the PDF"
+}

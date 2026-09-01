@@ -27,6 +27,12 @@ benchmarks/**/*.tar.*
 benchmarks/**/*.zip
 benchmarks/**/*.xz
 benchmarks/**/drivers/
+!benchmarks/baseline/**/drivers/
+!benchmarks/baseline/**/drivers/**
+!benchmarks/baseline/hdf5/
+!benchmarks/baseline/hdf5/h5dump/
+!benchmarks/baseline/hdf5/h5dump/drivers/
+!benchmarks/baseline/hdf5/h5dump/drivers/**
 
 # ---------- local tooling caches ----------
 **/__pycache__/

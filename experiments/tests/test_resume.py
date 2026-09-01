@@ -32,7 +32,7 @@ def main() -> int:
         environment["FAKE_MFUZZ_FAIL_OFFSET"] = "7200"
         first = invoke(output, environment)
         assert first.returncode == 1, first.stderr
-        run_dir = output / "runs" / "queue__snort3__snort__shared__t01"
+        run_dir = output / "runs" / "queue" / "snort3" / "snort" / "shared" / "trial-01"
         progress = json.loads((run_dir / "progress.json").read_text())
         assert progress["completed_seconds"] == 7200, progress
         # Simulate shutdown after MFuzz atomically committed hour two but before

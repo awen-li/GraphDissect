@@ -14,6 +14,24 @@ The first validates and runs all experiments with one worker for each of the
 eight executables. Re-running it resumes interrupted campaigns. The second
 refuses incomplete datasets by default and produces all analysis-ready CSVs.
 
+Every campaign has a separate output directory:
+
+```text
+experiment-results/runs/<experiment>/<benchmark>/<executable>/<condition>/trial-<NN>/
+```
+
+For example:
+
+```text
+experiment-results/runs/temporal/snort3/snort/mfuzz/trial-01/
+experiment-results/runs/queue/snort3/snort/shared/trial-01/
+experiment-results/runs/scheduling/snort3/snort/progress/trial-01/
+```
+
+MFuzz receives the corresponding directory through `--output-dir`, so corpora,
+checkpoints, crashes, logs, and coverage from different experiments or trials
+cannot overwrite one another.
+
 ## Selection
 
 The subject in each domain is the eligible executable with the largest static

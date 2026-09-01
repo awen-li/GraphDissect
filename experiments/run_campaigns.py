@@ -135,6 +135,15 @@ def command_for(run: dict[str, Any], mfuzz: Path, run_dir: Path, duration: int |
     return command
 
 
+def run_directory(output: Path, run: dict[str, Any]) -> Path:
+    """Return a collision-free directory scoped by experiment and trial."""
+    return (
+        output / "runs" / run["experiment"] / run["subject"]["benchmark"] /
+        run["subject"]["executable"] / run["condition"]["name"] /
+        f"trial-{int(run['trial']):02d}"
+    )
+
+
 def write_plan(runs: list[dict[str, Any]], output: Path, mfuzz: Path) -> Path:
     output.mkdir(parents=True, exist_ok=True)
     plan_path = output / "plan.csv"
@@ -142,7 +151,7 @@ def write_plan(runs: list[dict[str, Any]], output: Path, mfuzz: Path) -> Path:
         writer = csv.writer(handle)
         writer.writerow(["run_id", "experiment", "benchmark", "executable", "condition", "trial", "seed", "duration_seconds", "command"])
         for run in runs:
-            run_dir = output / "runs" / run["run_id"]
+            run_dir = run_directory(output, run)
             writer.writerow([
                 run["run_id"], run["experiment"], run["subject"]["benchmark"], run["subject"]["executable"],
                 run["condition"]["name"], run["trial"], run["random_seed"], run["duration_seconds"],
@@ -207,7 +216,7 @@ def reconcile_checkpoint(run_dir: Path, progress: dict[str, Any], total_seconds:
 
 def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
             recover_foreign_lock: bool) -> str:
-    run_dir = output / "runs" / run["run_id"]
+    run_dir = run_directory(output, run)
     status_path = run_dir / "status.json"
     if status_path.is_file() and not force:
         status = load_json(status_path).get("status")

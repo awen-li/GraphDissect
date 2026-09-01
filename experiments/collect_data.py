@@ -11,7 +11,7 @@ import subprocess
 import sys
 import time
 
-from run_campaigns import DEFAULT_MATRIX, DEFAULT_SUBJECTS, ROOT, expand, load_json
+from run_campaigns import DEFAULT_MATRIX, DEFAULT_SUBJECTS, ROOT, expand, load_json, run_directory
 
 
 CHECKPOINTS = {
@@ -41,7 +41,7 @@ def main() -> int:
     rows = []
     incomplete = []
     for run in expected:
-        run_dir = args.results / "runs" / run["run_id"]
+        run_dir = run_directory(args.results, run)
         status_path = run_dir / "status.json"
         progress_path = run_dir / "progress.json"
         status = load_json(status_path) if status_path.is_file() else {"status": "missing"}

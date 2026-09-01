@@ -54,9 +54,10 @@ def bootstrap_median_ci(values: list[float], seed: int, iterations: int = 10000)
 
 
 def completed_runs(results: Path, experiment: str) -> Iterable[tuple[dict, Path]]:
-    for run_dir in sorted((results / "runs").glob(f"{experiment}__*")):
+    experiment_root = results / "runs" / experiment
+    for provenance_path in sorted(experiment_root.glob("*/*/*/trial-*/provenance.json")):
+        run_dir = provenance_path.parent
         status_path = run_dir / "status.json"
-        provenance_path = run_dir / "provenance.json"
         coverage_path = run_dir / "coverage.csv"
         if not (status_path.is_file() and provenance_path.is_file() and coverage_path.is_file()):
             continue

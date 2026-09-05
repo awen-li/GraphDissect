@@ -19,6 +19,7 @@ from run_campaigns import (
     expand,
     load_json,
     run_one,
+    terminate_active_processes,
     validate_mfuzz_contract,
     validate_run,
     write_plan,
@@ -77,7 +78,8 @@ def main() -> int:
     total: dict[str, int] = {}
     failed = False
     workers = max(1, min(args.workers, len(by_subject)))
-    with ThreadPoolExecutor(max_workers=workers) as executor:
+    executor = ThreadPoolExecutor(max_workers=workers)
+    try:
         futures = {executor.submit(run_subject, key, value): key for key, value in by_subject.items()}
         for future in as_completed(futures):
             key = futures[future]
@@ -90,6 +92,13 @@ def main() -> int:
             for status, count in counts.items():
                 total[status] = total.get(status, 0) + count
             failed = failed or counts.get("failed", 0) > 0
+    except KeyboardInterrupt:
+        print("Interrupted; terminating active campaign processes. Re-run to resume.", file=sys.stderr)
+        terminate_active_processes()
+        executor.shutdown(wait=False, cancel_futures=True)
+        return 130
+    else:
+        executor.shutdown(wait=True)
     print("Campaign summary: " + ", ".join(f"{key}={value}" for key, value in sorted(total.items())))
     return 1 if failed else 0
 

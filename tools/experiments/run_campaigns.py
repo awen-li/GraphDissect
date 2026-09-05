@@ -16,8 +16,10 @@ import os
 from pathlib import Path
 import socket
 import shutil
+import signal
 import subprocess
 import sys
+import threading
 import time
 from typing import Any, Iterable
 
@@ -33,6 +35,18 @@ SCHEDULE_OPTIONS = {
     "fixed_round_robin": "fixed", "single": "fixed",
     "random_round": "random", "coverage_progress": "progress",
 }
+_ACTIVE_PIDS: set[int] = set()
+_ACTIVE_PIDS_LOCK = threading.Lock()
+
+
+def terminate_active_processes() -> None:
+    with _ACTIVE_PIDS_LOCK:
+        pids = list(_ACTIVE_PIDS)
+    for pid in pids:
+        try:
+            os.killpg(pid, signal.SIGTERM)
+        except (ProcessLookupError, PermissionError):
+            pass
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -332,9 +346,25 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
                 environment = os.environ.copy()
                 environment["GRAPHDISSECT_RUN_DIR"] = str(run_dir.resolve())
                 environment["GRAPHDISSECT_ELAPSED_OFFSET"] = str(completed_seconds)
-                completed = subprocess.run(
-                    command, cwd=ROOT, env=environment, stdout=stdout, stderr=stderr, check=False
+                completed_process = subprocess.Popen(
+                    command, cwd=ROOT, env=environment, stdout=stdout, stderr=stderr,
+                    start_new_session=True,
                 )
+                with _ACTIVE_PIDS_LOCK:
+                    _ACTIVE_PIDS.add(completed_process.pid)
+                try:
+                    returncode = completed_process.wait()
+                except KeyboardInterrupt:
+                    try:
+                        os.killpg(completed_process.pid, signal.SIGTERM)
+                    except (ProcessLookupError, PermissionError):
+                        pass
+                    completed_process.wait()
+                    raise
+                finally:
+                    with _ACTIVE_PIDS_LOCK:
+                        _ACTIVE_PIDS.discard(completed_process.pid)
+                completed = subprocess.CompletedProcess(command, returncode)
             segment_record["returncode"] = completed.returncode
             segment_record["finished_unix"] = int(time.time())
             if completed.returncode != 0:

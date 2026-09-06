@@ -71,6 +71,15 @@ if (( preflight_failed )); then
 fi
 
 for target in "${resolved_targets[@]}"; do
+  executable_name="$(basename "$target")"
+  executable="$target/$executable_name"
+  driver_list="$target/drivers/driver_list.json"
+  if [[ ! -f "$driver_list" ]] || ! find "$target/drivers" -mindepth 2 -maxdepth 2 -type f -name '*.json' -print -quit | grep -q .; then
+    rm -rf "$target/drivers"
+  fi
   echo "Generating drivers: ${target#"$REPO_ROOT/"}"
   python3 -m gdriver "$target"
+  while IFS= read -r driver_dir; do
+    ln -sfn "../../$executable_name" "$driver_dir/$executable_name"
+  done < <(find "$target/drivers" -mindepth 1 -maxdepth 1 -type d -print)
 done

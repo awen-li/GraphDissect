@@ -195,9 +195,22 @@ def clean_runtime(subject_dir: Path) -> None:
     for name in RUNTIME_ARTIFACTS:
         path = subject_dir / name
         if path.is_dir():
-            shutil.rmtree(path)
+            try:
+                shutil.rmtree(path)
+            except OSError:
+                # A stale fuzzer may still have an open writer. Rename first so
+                # the new campaign gets a clean path, then remove what is safe.
+                stale = path.with_name(f"{path.name}.stale-{os.getpid()}")
+                try:
+                    path.rename(stale)
+                    shutil.rmtree(stale, ignore_errors=True)
+                except FileNotFoundError:
+                    pass
         elif path.exists():
-            path.unlink()
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                pass
 
 
 def append_coverage(run_dir: Path, snapshot: Path, elapsed_seconds: int) -> None:

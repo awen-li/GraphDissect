@@ -190,6 +190,16 @@ def snapshot_runtime(subject_dir: Path, destination: Path) -> None:
             shutil.copy2(source, target)
 
 
+def clean_runtime(subject_dir: Path) -> None:
+    """Remove only mutable campaign outputs; preserve binaries, graphs, seeds, and drivers."""
+    for name in RUNTIME_ARTIFACTS:
+        path = subject_dir / name
+        if path.is_dir():
+            shutil.rmtree(path)
+        elif path.exists():
+            path.unlink()
+
+
 def append_coverage(run_dir: Path, snapshot: Path, elapsed_seconds: int) -> None:
     log = snapshot / "mfuzz_f_coverage.log"
     if not log.is_file():
@@ -316,6 +326,8 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
     if completed_seconds < 0 or completed_seconds > run["duration_seconds"]:
         lock_path.unlink(missing_ok=True)
         raise RuntimeError(f"invalid completed_seconds in {progress_path}")
+    if completed_seconds == 0 and not progress.get("completed_segments"):
+        clean_runtime(subject_dir)
     first_duration = min(run["segment_seconds"], run["duration_seconds"] - completed_seconds)
     command = command_for(run, mfuzz, run_dir, duration=first_duration,
                           elapsed_offset=completed_seconds, resume=completed_seconds > 0)

@@ -46,9 +46,9 @@ experiment-results/runs/scheduling/snort3/snort/progress/trial-01/
 ```
 
 MFuzz keeps its existing benchmark-local output behavior. After each one-hour
-segment, the runner records small checkpoint logs and metrics. The cumulative
-`fuzz/` and `driver_runtimes/` trees are copied only once under
-`final-runtime/` when a trial completes, avoiding terabytes of repeated data.
+segment, the runner records paper-facing coverage metrics and progress
+metadata. Benchmark-local `fuzz/` and `driver_runtimes/` trees are never
+copied into the results directory.
 
 Only mutable fuzzing and runtime results are isolated. The following benchmark
 artifacts remain shared, read-only inputs across all experiments and trials:
@@ -61,9 +61,8 @@ artifacts remain shared, read-only inputs across all experiments and trials:
 
 For the single-driver condition, the runner uses the existing one-driver
 subject under `benchmarks/baseline/<benchmark>/<executable>/`; it does not edit
-the multi-driver subject. Runtime snapshots include `driver_runtimes/`,
-`fuzz/`, the final marked graph, and MFuzz/honggfuzz logs; driver definitions
-are not duplicated.
+the multi-driver subject. Runtime trees remain benchmark-local and are not
+duplicated; only paper-facing metrics, progress, and logs are retained.
 
 ## Selection
 

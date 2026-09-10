@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Plan, validate, and run reproducible GraphDissect revision campaigns.
 
-MFuzz continues to write into its benchmark directory. Checkpoints retain
-only small logs and metrics; cumulative runtime trees are copied once into
-``final-runtime``. Single-driver campaigns use the existing benchmark
-configurations under ``benchmarks/baseline``.
+MFuzz continues to write into its benchmark directory. The runner records
+only paper-facing metrics and metadata; benchmark-local runtime trees are
+never copied into the results directory.
 """
 
 from __future__ import annotations
@@ -176,27 +175,6 @@ def command_for(run: dict[str, Any], mfuzz: Path, run_dir: Path, duration: int |
         "-r", str(run["random_seed"]),
     ]
     return command
-
-
-def snapshot_runtime(subject_dir: Path, destination: Path, include_large: bool = False) -> None:
-    """Save runtime evidence without duplicating cumulative fuzz corpora.
-
-    Checkpoint snapshots contain only logs and the small final graph.  The
-    cumulative ``fuzz`` and ``driver_runtimes`` trees are copied once, at the
-    end of a completed trial (or when explicitly requested for a failure).
-    """
-    destination.mkdir(parents=True, exist_ok=True)
-    for name in RUNTIME_ARTIFACTS:
-        if not include_large and name in {"fuzz", "driver_runtimes"}:
-            continue
-        source = subject_dir / name
-        target = destination / name
-        if source.is_dir():
-            if target.exists():
-                shutil.rmtree(target)
-            shutil.copytree(source, target)
-        elif source.is_file():
-            shutil.copy2(source, target)
 
 
 def clean_runtime(subject_dir: Path) -> None:
@@ -402,21 +380,17 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
             segment_record["returncode"] = completed.returncode
             segment_record["finished_unix"] = int(time.time())
             if completed.returncode != 0:
-                snapshot_runtime(subject_dir, run_dir / "failed-runtime", include_large=False)
                 atomic_json(run_dir / "last_failed_segment.json", segment_record)
                 final = {"status": "failed", "returncode": completed.returncode,
                          "completed_seconds": completed_seconds, "finished_unix": int(time.time())}
                 atomic_json(status_path, final)
                 return "failed"
             completed_seconds += segment_duration
-            snapshot = run_dir / "checkpoints" / f"elapsed-{completed_seconds:09d}"
-            snapshot_runtime(subject_dir, snapshot, include_large=False)
             append_coverage(run_dir, subject_dir, completed_seconds)
             progress["completed_seconds"] = completed_seconds
             progress["completed_segments"].append(segment_record)
             atomic_json(progress_path, progress)
             (run_dir / "current_segment.json").unlink(missing_ok=True)
-        snapshot_runtime(subject_dir, run_dir / "final-runtime", include_large=True)
         final = {"status": "complete", "returncode": 0, "completed_seconds": completed_seconds,
                  "finished_unix": int(time.time())}
         atomic_json(status_path, final)

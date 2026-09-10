@@ -10,6 +10,14 @@ python3 tools/experiments/run_experiments.py
 python3 tools/experiments/collect_data.py
 ```
 
+To reclaim space from runs produced by older versions, first stop all
+campaigns, review the dry run, then apply it:
+
+```sh
+python3 tools/experiments/cleanup_results.py --results experiment-results
+python3 tools/experiments/cleanup_results.py --results experiment-results --apply
+```
+
 The first validates and runs all experiments with one worker for each of the
 eight executables. Re-running it resumes interrupted campaigns. The second
 refuses incomplete datasets by default and produces all analysis-ready CSVs.
@@ -38,8 +46,9 @@ experiment-results/runs/scheduling/snort3/snort/progress/trial-01/
 ```
 
 MFuzz keeps its existing benchmark-local output behavior. After each one-hour
-segment, the runner copies mutable runtime artifacts into the corresponding
-campaign directory before another condition can use that executable.
+segment, the runner records small checkpoint logs and metrics. The cumulative
+`fuzz/` and `driver_runtimes/` trees are copied only once under
+`final-runtime/` when a trial completes, avoiding terabytes of repeated data.
 
 Only mutable fuzzing and runtime results are isolated. The following benchmark
 artifacts remain shared, read-only inputs across all experiments and trials:

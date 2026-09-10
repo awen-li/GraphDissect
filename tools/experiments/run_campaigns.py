@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from collections import deque
 import hashlib
 import json
 import os
@@ -37,6 +38,7 @@ SCHEDULE_OPTIONS = {
 }
 _ACTIVE_PIDS: set[int] = set()
 _ACTIVE_PIDS_LOCK = threading.Lock()
+MAX_LOG_BYTES = 8 * 1024 * 1024
 
 
 def terminate_active_processes() -> None:
@@ -47,6 +49,31 @@ def terminate_active_processes() -> None:
             os.killpg(pid, signal.SIGTERM)
         except (ProcessLookupError, PermissionError):
             pass
+
+
+def capture_tail(pipe: Any, path: Path, limit: int = MAX_LOG_BYTES) -> None:
+    """Drain a child pipe while retaining only its final bounded tail."""
+    chunks: deque[bytes] = deque()
+    size = 0
+    while True:
+        chunk = pipe.read(64 * 1024)
+        if not chunk:
+            break
+        chunks.append(chunk)
+        size += len(chunk)
+        while size > limit and chunks:
+            excess = size - limit
+            first = chunks[0]
+            if len(first) <= excess:
+                chunks.popleft()
+                size -= len(first)
+            else:
+                chunks[0] = first[excess:]
+                size -= excess
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("wb") as handle:
+        handle.write(b"--- retaining final output tail for this segment ---\n")
+        handle.write(b"".join(chunks))
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -354,14 +381,20 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
                 "started_unix": int(time.time()),
             }
             atomic_json(run_dir / "current_segment.json", segment_record)
-            with (run_dir / "stdout.log").open("ab") as stdout, (run_dir / "stderr.log").open("ab") as stderr:
-                environment = os.environ.copy()
-                environment["GRAPHDISSECT_RUN_DIR"] = str(run_dir.resolve())
-                environment["GRAPHDISSECT_ELAPSED_OFFSET"] = str(completed_seconds)
-                completed_process = subprocess.Popen(
-                    command, cwd=ROOT, env=environment, stdout=stdout, stderr=stderr,
-                    start_new_session=True,
-                )
+            environment = os.environ.copy()
+            environment["GRAPHDISSECT_RUN_DIR"] = str(run_dir.resolve())
+            environment["GRAPHDISSECT_ELAPSED_OFFSET"] = str(completed_seconds)
+            completed_process = subprocess.Popen(
+                command, cwd=ROOT, env=environment, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, bufsize=0, start_new_session=True,
+            )
+            output_threads = [
+                threading.Thread(target=capture_tail, args=(completed_process.stdout, run_dir / "stdout.log"), daemon=True),
+                threading.Thread(target=capture_tail, args=(completed_process.stderr, run_dir / "stderr.log"), daemon=True),
+            ]
+            for output_thread in output_threads:
+                output_thread.start()
+            try:
                 with _ACTIVE_PIDS_LOCK:
                     _ACTIVE_PIDS.add(completed_process.pid)
                 try:
@@ -377,6 +410,9 @@ def run_one(run: dict[str, Any], output: Path, mfuzz: Path, force: bool,
                     with _ACTIVE_PIDS_LOCK:
                         _ACTIVE_PIDS.discard(completed_process.pid)
                 completed = subprocess.CompletedProcess(command, returncode)
+            finally:
+                for output_thread in output_threads:
+                    output_thread.join()
             segment_record["returncode"] = completed.returncode
             segment_record["finished_unix"] = int(time.time())
             if completed.returncode != 0:

@@ -48,7 +48,8 @@ experiment-results/runs/scheduling/snort3/snort/progress/trial-01/
 MFuzz keeps its existing benchmark-local output behavior. After each one-hour
 segment, the runner records paper-facing coverage metrics and progress
 metadata. Benchmark-local `fuzz/` and `driver_runtimes/` trees are never
-copied into the results directory.
+copied into the results directory. Each campaign log is capped at 8 MiB and
+retains the most recent segment output.
 
 Only mutable fuzzing and runtime results are isolated. The following benchmark
 artifacts remain shared, read-only inputs across all experiments and trials:
